@@ -1,5 +1,9 @@
 <div id="player" *ngIf = "this.optionsService.optionsBool.showPlayer.value == true" >
     <p>audio-player works!</p>
-    <audio id="audioPlayer" class="button" autoplay controls>The Audio Element is not supported on this device!</audio>
-</div>
+    
+    <mat-advanced-audio-player [playlist]="msaapPlaylist" [displayTitle]="msaapDisplayTitle" [autoPlay]="false" 
+    muted="muted" [displayPlaylist]="msaapDisplayPlayList" [pageSizeOptions]="pageSizeOptions" 
+        [displayVolumeControls]="msaapDisplayVolumeControls" [expanded]="true"></mat-advanced-audio-player>
+    
+    </div>
  

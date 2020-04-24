@@ -7,11 +7,10 @@ import { OptionsService } from '../options.service';
   styleUrls: ['./console.component.css']
 })
 export class ConsoleComponent implements OnInit {
-  // @Input('consoleData') consoleData: Object;
 
   objectKeys = Object.keys;
 
-  constructor(private optionsService: OptionsService) { }
+  constructor(public optionsService: OptionsService) { }
 
   ngOnInit() {
   }

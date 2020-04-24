@@ -9,7 +9,7 @@ import { OptionsService } from '../options.service';
 export class TitleComponent implements OnInit {
   @Input('title') title: string;
 
-  constructor(private optionsService: OptionsService) { }
+  constructor(public optionsService: OptionsService) { }
 
   ngOnInit() {
   }

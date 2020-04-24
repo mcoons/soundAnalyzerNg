@@ -12,7 +12,7 @@ export class OptionsPanelComponent implements OnInit {
 
   objectKeys = Object.keys;
 
-  constructor(private optionsService: OptionsService) { }
+  constructor(public optionsService: OptionsService) { }
 
   ngOnInit() {
   }
