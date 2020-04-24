@@ -1,0 +1,25 @@
+import { Component, OnInit } from '@angular/core';
+import { OptionsService } from '../options.service';
+// import { MatSliderModule } from '@angular/material/slider';
+
+
+@Component({
+  selector: 'app-options-panel',
+  templateUrl: './options-panel.component.html',
+  styleUrls: ['./options-panel.component.css']
+})
+export class OptionsPanelComponent implements OnInit {
+
+  objectKeys = Object.keys;
+
+  constructor(private optionsService: OptionsService) { }
+
+  ngOnInit() {
+  }
+
+  toggleItem(e){
+    console.log(e.target.name);
+    this.optionsService.optionsBool[e.target.name].value = !this.optionsService.optionsBool[e.target.name].value;
+  }
+  
+}

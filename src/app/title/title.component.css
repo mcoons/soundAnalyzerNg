@@ -1,0 +1,16 @@
+#title {
+    top: 10px;
+    position: absolute;
+    color: white;
+    text-align: center;
+    z-index: 30;
+    width: 90%;
+    left: 50%;
+    margin-left: -45%;
+    /* border: 1px solid orange; */
+}
+
+p {
+    padding: 0;
+    margin: 0;
+}
