@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { OptionsService } from '../options.service';
+import { AudioService } from '../Audio.service';
 import { Track } from 'ngx-audio-player';   
 
 @Component({
@@ -9,21 +10,23 @@ import { Track } from 'ngx-audio-player';
 })
 export class AudioPlayerComponent implements OnInit {
   @Input() playlist: Track[];
-  @Input() autoPlay: false;
+  @Input() autoPlay: true;
   @Input() displayTitle: true;
   @Input() displayPlaylist: true;
   @Input() pageSizeOptions = [2, 4, 6];
-  @Input() expanded = true;
+  @Input() expanded = false;
   @Input() displayVolumeControls = true;
 
-  msaapDisplayTitle = true;
+  msaapDisplayTitle = false;
   msaapDisplayPlayList = true;
   msaapPageSizeOptions = [2,4,6];
   msaapDisplayVolumeControls = true;
 
   msaapPlaylist: Track[];
 
-  constructor(public optionsService: OptionsService) { }
+  audio: HTMLAudioElement;
+
+  constructor(public optionsService: OptionsService, public audioService: AudioService) { }
 
   ngOnInit() {
 // Material Style Advance Audio Player Playlist
@@ -41,9 +44,22 @@ this.msaapPlaylist = [
     link: './assets/tracks/Arpent.mp3'
   },
 ];
+
+
   }
 
+  ngAfterViewInit(): void {
 
+    this.audio = <HTMLAudioElement> document.getElementsByTagName('audio')[0];
+    console.log("playercomponent-Audio =  "+this.audio);
+    console.log(this.audio);
+    console.log("playercomponent-Audio Source =  "+this.audio.src);
+
+    this.audioService.setAudio(this.audio);
+
+    // setInterval(this.audioService.logAudioInfo,1000);
+    
+  }
    
 
 

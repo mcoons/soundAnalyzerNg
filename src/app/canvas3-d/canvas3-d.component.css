@@ -1,6 +1,6 @@
 
-canvas {
-    /* border: 5px solid purple; */
+#canvas3D {
+    border: 5px solid purple;
     position: absolute;
     top: 0px;
     left: 0px;

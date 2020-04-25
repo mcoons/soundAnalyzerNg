@@ -1,9 +1,7 @@
-<div id="player" *ngIf = "this.optionsService.optionsBool.showPlayer.value == true" >
-    <p>audio-player works!</p>
-    
+<div id="player" *ngIf = "this.optionsService.optionsBool.showPlayer.value == true" >    
     <mat-advanced-audio-player [playlist]="msaapPlaylist" [displayTitle]="msaapDisplayTitle" [autoPlay]="false" 
     muted="muted" [displayPlaylist]="msaapDisplayPlayList" [pageSizeOptions]="pageSizeOptions" 
-        [displayVolumeControls]="msaapDisplayVolumeControls" [expanded]="true"></mat-advanced-audio-player>
+        [displayVolumeControls]="msaapDisplayVolumeControls" [expanded]="false"></mat-advanced-audio-player>
     
     </div>
  
