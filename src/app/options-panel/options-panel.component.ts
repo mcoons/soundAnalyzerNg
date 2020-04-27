@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { OptionsService } from '../options.service';
-// import { MatSliderModule } from '@angular/material/slider';
+
+import { MessageService }     from '../message.service';
+import { Subscription }   from 'rxjs';
 
 
 @Component({
@@ -12,7 +14,16 @@ export class OptionsPanelComponent implements OnInit {
 
   objectKeys = Object.keys;
 
-  constructor(public optionsService: OptionsService) { }
+  subscription: Subscription;
+
+  constructor(public optionsService: OptionsService, 
+              public messageService: MessageService) { 
+
+    messageService.messageAnnounced$.subscribe(
+      message => {
+        console.log("Options Panel: Message received from service is :  " + message );
+      });
+  }
 
   ngOnInit() {
     setTimeout(() => {
@@ -25,10 +36,17 @@ export class OptionsPanelComponent implements OnInit {
   }
 
   toggleItem(e){
-    console.log(e.target.name);
-    this.optionsService.options[e.target.name].value = !this.optionsService.options[e.target.name].value;
+    // console.log(e.target.name);
+    this.optionsService.toggle(e.target.name);
+    this.announceChange("Item was changed: " + e.target.name + " to " + this.optionsService.options[e.target.name].value);
   }
 
-
+  announceChange(message: string) {
+    this.messageService.announceMessage(message);
+  }
   
+  ngOnDestroy() {
+    // prevent memory leak when component destroyed
+    this.subscription.unsubscribe();
+  }
 }

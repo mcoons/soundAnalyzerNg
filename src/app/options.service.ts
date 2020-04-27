@@ -31,4 +31,8 @@ export class OptionsService {
   constructor() { 
   }
 
+  toggle(itemName: string){
+    this.options[itemName].value = !this.options[itemName].value;
+  }
+
 }

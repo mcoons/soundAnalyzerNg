@@ -264,15 +264,11 @@ export class AudioService {
     this.fr8192Analyser.getByteFrequencyData(this.fr8192DataArray);
     this.fr16384Analyser.getByteFrequencyData(this.fr16384DataArray);
 
-
-
     // normalize the data   0..1
     this.frDataArrayNormalized = this.normalizeData(this.frDataArray);
     this.frDataArrayNormalizedAll = this.normalizeData(this.frDataArrayAll);
 
-
-
-    // log sample
+    // combine sample set
 
     for (let index = 0; index < 64; index++) { //  64*9 = 576
 
