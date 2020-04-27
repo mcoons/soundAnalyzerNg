@@ -11,28 +11,30 @@ import { Subscription } from 'rxjs';
   templateUrl: './canvas3-d.component.html',
   styleUrls: ['./canvas3-d.component.css']
 })
-export class Canvas3DComponent implements OnInit {
+export class Canvas3DComponent implements OnInit, OnDestroy {
 
   @ViewChild('canvas3D') canvas3D: ElementRef;
-  
-
-  ngOnInit(): void {
-
-  }
 
   subscription: Subscription;
 
-  constructor(public optionsService: OptionsService, 
-              public audioService:   AudioService, 
-              public messageService: MessageService) {
+  options;
 
-      messageService.messageAnnounced$.subscribe(
-        message => {
-          console.log("Canvas3D: Message received from service is :  " + message);
-        });
-   }
+  constructor(public optionsService: OptionsService,
+    public audioService: AudioService,
+    public messageService: MessageService) {
 
-   ngOnDestroy() {
+    messageService.messageAnnounced$.subscribe(
+      message => {
+        console.log("Canvas3D: Message received from service is :  " + message);
+        this.options = this.optionsService.getOptions();
+      });
+  }
+
+  ngOnInit(): void {
+    this.options = this.optionsService.getOptions();
+  }
+
+  ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
   }

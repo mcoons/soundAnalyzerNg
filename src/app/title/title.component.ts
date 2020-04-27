@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { OptionsService } from '../options.service';
 import { AudioService } from '../Audio.service';
 
@@ -10,10 +10,12 @@ import { Subscription } from 'rxjs';
   templateUrl: './title.component.html',
   styleUrls: ['./title.component.css']
 })
-export class TitleComponent implements OnInit {
+export class TitleComponent implements OnInit, OnDestroy {
   @Input('title') title: string;
 
   subscription: Subscription;
+
+  options;
 
   constructor(public optionsService: OptionsService,              
               public audioService:   AudioService, 
@@ -22,10 +24,12 @@ export class TitleComponent implements OnInit {
     messageService.messageAnnounced$.subscribe(
       message => {
         console.log("Title: Message received from service is :  " + message);
+        this.options = this.optionsService.getOptions();
       });
     }
 
   ngOnInit() {
+    this.options = this.optionsService.getOptions();
   }
 
 

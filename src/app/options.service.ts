@@ -31,8 +31,16 @@ export class OptionsService {
   constructor() { 
   }
 
-  toggle(itemName: string){
+  toggleOption(itemName: string){
     this.options[itemName].value = !this.options[itemName].value;
+  }
+
+  setOption(itemName: string, value){
+    this.options[itemName].value = value;
+  }
+
+  getOptions(){
+    return this.options;
   }
 
 }

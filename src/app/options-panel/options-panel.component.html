@@ -1,4 +1,4 @@
-<div id="options">
+<!-- <div id="options">
     <p class="optionHeader" >General Options</p>
 
     <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.options)">      
@@ -27,6 +27,44 @@
         
             <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.options)">
                 {{this.optionsService.options[option].label + ': ' + this.optionsService.options[option].value}}
+            </div>
+        
+        </div>
+
+    </div>
+
+
+</div> -->
+
+<div id="options">
+    <p class="optionHeader" >General Options</p>
+
+    <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
+        <div *ngIf="this.options[option].group=='General'" >
+            <div *ngIf="this.options[option].type=='checkbox'" >
+                <input type="checkbox" [name]="option" (click)="toggleItem($event)" checked> 
+                {{this.options[option].label}}
+            </div>
+        </div>  
+    </div>
+
+    <div *ngIf="this.optionsService.env == 'dev'">
+        <p class="optionHeader" >Developer Options</p>
+    
+        <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
+            <div *ngIf="this.options[option].group=='Developer'" >
+                <div *ngIf="this.options[option].type=='checkbox'" >
+                    <input type="checkbox" [name]="option" (click)="toggleItem($event)" checked> 
+                    {{this.options[option].label}}
+                </div>
+            </div>  
+        </div>
+
+        <div id="console" *ngIf="this.options.showConsole.value == true">
+            <p class="optionHeader" >Console</p>
+        
+            <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">
+                {{this.options[option].label + ': ' + this.options[option].value}}
             </div>
         
         </div>

@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './audio-player.component.html',
   styleUrls: ['./audio-player.component.css']
 })
-export class AudioPlayerComponent implements OnInit {
+export class AudioPlayerComponent implements OnInit, OnDestroy {
   @Input() playlist: Track[];
   @Input() autoPlay: true;
   @Input() displayTitle: true;
@@ -32,6 +32,7 @@ export class AudioPlayerComponent implements OnInit {
 
   subscription: Subscription;
 
+  options;
 
   constructor(public optionsService: OptionsService, 
               public audioService:   AudioService, 
@@ -40,6 +41,7 @@ export class AudioPlayerComponent implements OnInit {
     messageService.messageAnnounced$.subscribe(
       message => {
         console.log("Audio Player: Message received from service is :  " + message);
+        this.options = this.optionsService.getOptions();
       });
   }
 
@@ -98,7 +100,7 @@ export class AudioPlayerComponent implements OnInit {
 
     ];
 
-
+    this.options = this.optionsService.getOptions();
   }
 
   ngAfterViewInit(): void {

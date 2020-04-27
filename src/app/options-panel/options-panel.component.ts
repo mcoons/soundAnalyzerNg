@@ -10,11 +10,13 @@ import { Subscription }   from 'rxjs';
   templateUrl: './options-panel.component.html',
   styleUrls: ['./options-panel.component.css']
 })
-export class OptionsPanelComponent implements OnInit {
+export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   objectKeys = Object.keys;
 
   subscription: Subscription;
+
+  options;
 
   constructor(public optionsService: OptionsService, 
               public messageService: MessageService) { 
@@ -22,6 +24,7 @@ export class OptionsPanelComponent implements OnInit {
     messageService.messageAnnounced$.subscribe(
       message => {
         console.log("Options Panel: Message received from service is :  " + message );
+        this.options = this.optionsService.getOptions();
       });
   }
 
@@ -33,12 +36,15 @@ export class OptionsPanelComponent implements OnInit {
       this.optionsService.options["showPlayer"].value = true;
     }, 11);
 
+    this.options = this.optionsService.getOptions();
   }
 
   toggleItem(e){
     // console.log(e.target.name);
-    this.optionsService.toggle(e.target.name);
-    this.announceChange("Item was changed: " + e.target.name + " to " + this.optionsService.options[e.target.name].value);
+    this.optionsService.toggleOption(e.target.name);
+    this.options = this.optionsService.getOptions();
+
+    this.announceChange("Item was changed: " + e.target.name + " to " + this.options[e.target.name].value);
   }
 
   announceChange(message: string) {
