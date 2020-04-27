@@ -5,16 +5,24 @@ import { Injectable } from '@angular/core';
 })
 export class OptionsService {
 
-  optionsBool = {
+  env: string = "dev"; // dev or prod
+
+  options = {
     showTitle:  {
+      group: "General",
+      type: "checkbox",
       label: "Show Title",
       value: true
     },
     showConsole: {
+      group: "Developer",
+      type: "checkbox",
       label: "Show Console",
       value: true
     },
     showPlayer: {
+      group: "Developer",
+      type: "checkbox",
       label: "Show Player",
       value: true
     }

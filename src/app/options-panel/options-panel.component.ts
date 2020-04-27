@@ -16,17 +16,17 @@ export class OptionsPanelComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => {
-      this.optionsService.optionsBool["showPlayer"].value = false;
+      this.optionsService.options["showPlayer"].value = false;
     }, 10);
     setTimeout(() => {
-      this.optionsService.optionsBool["showPlayer"].value = true;
+      this.optionsService.options["showPlayer"].value = true;
     }, 11);
 
   }
 
   toggleItem(e){
     console.log(e.target.name);
-    this.optionsService.optionsBool[e.target.name].value = !this.optionsService.optionsBool[e.target.name].value;
+    this.optionsService.options[e.target.name].value = !this.optionsService.options[e.target.name].value;
   }
 
 

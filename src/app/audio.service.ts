@@ -247,95 +247,95 @@ export class AudioService {
 
   }
 
-//   analyzeData() {
-//     ////////////////////////////////////
-//     // get FREQUENCY data for this frame
+  analyzeData() {
+    ////////////////////////////////////
+    // get FREQUENCY data for this frame
 
-//     this.frAnalyser.getByteFrequencyData(this.frDataArray);
-//     this.frAnalyserAll.getByteFrequencyData(this.frDataArrayAll);
+    this.frAnalyser.getByteFrequencyData(this.frDataArray);
+    this.frAnalyserAll.getByteFrequencyData(this.frDataArrayAll);
 
-//     this.fr64Analyser.getByteFrequencyData(this.fr64DataArray);
-//     this.fr128Analyser.getByteFrequencyData(this.fr128DataArray);
-//     this.fr256Analyser.getByteFrequencyData(this.fr256DataArray);
-//     this.fr512Analyser.getByteFrequencyData(this.fr512DataArray);
-//     this.fr1024Analyser.getByteFrequencyData(this.fr1024DataArray);
-//     this.fr2048Analyser.getByteFrequencyData(this.fr2048DataArray);
-//     this.fr4096Analyser.getByteFrequencyData(this.fr4096DataArray);
-//     this.fr8192Analyser.getByteFrequencyData(this.fr8192DataArray);
-//     this.fr16384Analyser.getByteFrequencyData(this.fr16384DataArray);
-
-
-
-//     // normalize the data   0..1
-//     this.frDataArrayNormalized = this.normalizeData(this.frDataArray);
-//     this.frDataArrayNormalizedAll = this.normalizeData(this.frDataArrayAll);
+    this.fr64Analyser.getByteFrequencyData(this.fr64DataArray);
+    this.fr128Analyser.getByteFrequencyData(this.fr128DataArray);
+    this.fr256Analyser.getByteFrequencyData(this.fr256DataArray);
+    this.fr512Analyser.getByteFrequencyData(this.fr512DataArray);
+    this.fr1024Analyser.getByteFrequencyData(this.fr1024DataArray);
+    this.fr2048Analyser.getByteFrequencyData(this.fr2048DataArray);
+    this.fr4096Analyser.getByteFrequencyData(this.fr4096DataArray);
+    this.fr8192Analyser.getByteFrequencyData(this.fr8192DataArray);
+    this.fr16384Analyser.getByteFrequencyData(this.fr16384DataArray);
 
 
 
-//     // log sample
-
-//     for (let index = 0; index < 64; index++) { //  64*9 = 576
-
-//         this.sample1[index] = (this.soundArrays[8])[index];
-//         this.sample1[index + 64] = (this.soundArrays[8])[index + 64];
-//         this.sample1[index + 128] = (this.soundArrays[7])[index + 64];
-//         this.sample1[index + 192] = (this.soundArrays[6])[index + 64];
-//         this.sample1[index + 256] = (this.soundArrays[5])[index + 64];
-//         this.sample1[index + 320] = (this.soundArrays[4])[index + 64];
-//         this.sample1[index + 384] = (this.soundArrays[3])[index + 64];
-//         this.sample1[index + 448] = (this.soundArrays[2])[index + 64];
-//         this.sample1[index + 512] = (this.soundArrays[1])[index + 64];
-
-//     }
-
-//     // get highest,lowest and average FREQUENCIES for this frame
-//     let frCurrentHigh = 0;
-//     let frCurrentLow = 255;
-
-//     this.sample1.forEach((f, i) => {
-//         if (f > frCurrentHigh) frCurrentHigh = f;
-//         if (f < frCurrentLow) frCurrentLow = f;
-
-//         this.sample1Totals[i].values.push(f / 10); //  /255
-//         if (this.sample1Totals[i].values.length > this.maxAverages) {
-//             this.sample1Totals[i].values.shift()
-//         };
-
-//         let total = 0;
-//         this.sample1Totals[i].values.forEach(v => {
-//             total += v;
-//         })
-//         this.sample1Averages[i].value = total / this.sample1Totals[i].values.length;
-//     });
-
-//     this.sample1Normalized = this.normalizeData(this.sample1);
+    // normalize the data   0..1
+    this.frDataArrayNormalized = this.normalizeData(this.frDataArray);
+    this.frDataArrayNormalizedAll = this.normalizeData(this.frDataArrayAll);
 
 
-//     //////////////////////////////////////
-//     // get TIME DOMAIN data for this frame
 
-//     this.tdAnalyser.getByteTimeDomainData(this.tdDataArray);
+    // log sample
 
-//     // get the highest for this frame
-//     let highest = 0;
-//     this.tdDataArray.forEach(d => {
-//         if (d > highest) highest = d;
-//     });
+    for (let index = 0; index < 64; index++) { //  64*9 = 576
 
-//     // normalize the data   0..1
-//     this.tdDataArrayNormalized = this.normalizeData(this.tdDataArray);
+        this.sample1[index] = (this.soundArrays[8])[index];
+        this.sample1[index + 64] = (this.soundArrays[8])[index + 64];
+        this.sample1[index + 128] = (this.soundArrays[7])[index + 64];
+        this.sample1[index + 192] = (this.soundArrays[6])[index + 64];
+        this.sample1[index + 256] = (this.soundArrays[5])[index + 64];
+        this.sample1[index + 320] = (this.soundArrays[4])[index + 64];
+        this.sample1[index + 384] = (this.soundArrays[3])[index + 64];
+        this.sample1[index + 448] = (this.soundArrays[2])[index + 64];
+        this.sample1[index + 512] = (this.soundArrays[1])[index + 64];
 
-//     // TODO: historical data for wave form       TODO:    TODO:
-//     this.tdHistory.push(highest);
-//     if (this.tdHistory.length > this.tdHistoryArraySize) {
-//         this.tdHistory.shift();
-//     }
-// }
+    }
 
-// normalizeData(sourceData) {
-//   const multiplier = Math.pow(Math.max(...sourceData), -1) || 0;
-//   return sourceData.map(n => n * multiplier * 255);
-// }
+    // get highest,lowest and average FREQUENCIES for this frame
+    let frCurrentHigh = 0;
+    let frCurrentLow = 255;
+
+    this.sample1.forEach((f, i) => {
+        if (f > frCurrentHigh) frCurrentHigh = f;
+        if (f < frCurrentLow) frCurrentLow = f;
+
+        this.sample1Totals[i].values.push(f / 10); //  /255
+        if (this.sample1Totals[i].values.length > this.maxAverages) {
+            this.sample1Totals[i].values.shift()
+        };
+
+        let total = 0;
+        this.sample1Totals[i].values.forEach(v => {
+            total += v;
+        })
+        this.sample1Averages[i].value = total / this.sample1Totals[i].values.length;
+    });
+
+    this.sample1Normalized = this.normalizeData(this.sample1);
+
+
+    //////////////////////////////////////
+    // get TIME DOMAIN data for this frame
+
+    this.tdAnalyser.getByteTimeDomainData(this.tdDataArray);
+
+    // get the highest for this frame
+    let highest = 0;
+    this.tdDataArray.forEach(d => {
+        if (d > highest) highest = d;
+    });
+
+    // normalize the data   0..1
+    this.tdDataArrayNormalized = this.normalizeData(this.tdDataArray);
+
+    // TODO: historical data for wave form       TODO:    TODO:
+    this.tdHistory.push(highest);
+    if (this.tdHistory.length > this.tdHistoryArraySize) {
+        this.tdHistory.shift();
+    }
+}
+
+normalizeData(sourceData) {
+  const multiplier = Math.pow(Math.max(...sourceData), -1) || 0;
+  return sourceData.map(n => n * multiplier * 255);
+}
 
   public logAudioInfo = () => {
     // console.log("service-Audio =  "+this.audio);

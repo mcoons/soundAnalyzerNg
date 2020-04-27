@@ -1,4 +1,15 @@
 #options {
     /* border: 1px solid blue; */
-    padding: 5px;
+margin-top: 10px;
+margin-left: 15px;
+color: white;
+}
+
+.optionHeader {
+    text-decoration: underline;
+    margin-top: 15px;
+}
+
+.optionsContainer {
+    margin-left: 15px;
 }
