@@ -13,3 +13,7 @@ color: white;
 .optionsContainer {
     margin-left: 15px;
 }
+
+label  {
+    margin-left: 5px;
+}

@@ -1,16 +1,17 @@
 #player {
-    /* margin-top: -60px;  why ?? */
     bottom: 10px;
     position: absolute;
     color: white;
     text-align: center;
-    z-index: 30;
     width: 50%;
     left: 50%;
     margin-left: -25%;
     /* border: 1px solid orange; */
 }
 
+#player:hover {
+    opacity: 1;
+}
 
 p {
     padding: 0;

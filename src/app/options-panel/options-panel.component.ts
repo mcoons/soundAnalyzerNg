@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy  } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { OptionsService } from '../options.service';
 
-import { MessageService }     from '../message.service';
-import { Subscription }   from 'rxjs';
+import { MessageService } from '../message.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -18,12 +18,13 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   options;
 
-  constructor(public optionsService: OptionsService, 
-              public messageService: MessageService) { 
+  constructor(
+    public optionsService: OptionsService,
+    public messageService: MessageService) {
 
     messageService.messageAnnounced$.subscribe(
       message => {
-        console.log("Options Panel: Message received from service is :  " + message );
+        console.log("Options Panel: Message received from service is :  " + message);
         this.options = this.optionsService.getOptions();
       });
   }
@@ -39,9 +40,17 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     this.options = this.optionsService.getOptions();
   }
 
-  toggleItem(e){
+  toggleItem(e) {
     // console.log(e.target.name);
     this.optionsService.toggleOption(e.target.name);
+    this.options = this.optionsService.getOptions();
+
+    this.announceChange("Item was changed: " + e.target.name + " to " + this.options[e.target.name].value);
+  }
+  updateItem(e) {
+    // console.log(e.target);
+    // console.log(e.target.value);
+    this.optionsService.updateOption(e.target.name, e.target.value);
     this.options = this.optionsService.getOptions();
 
     this.announceChange("Item was changed: " + e.target.name + " to " + this.options[e.target.name].value);
@@ -50,7 +59,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   announceChange(message: string) {
     this.messageService.announceMessage(message);
   }
-  
+
   ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.subscription.unsubscribe();

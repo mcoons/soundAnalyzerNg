@@ -14,6 +14,18 @@ export class OptionsService {
       label: "Show Title",
       value: true
     },
+    renderPlayer: {
+      group: "General",
+      type: "checkbox",
+      label: "Render Player",
+      value: true
+    },
+    volume: {
+      group: "General",
+      type: "slider",
+      label: "Volume",
+      value: 7
+    },
     showConsole: {
       group: "Developer",
       type: "checkbox",
@@ -35,7 +47,7 @@ export class OptionsService {
     this.options[itemName].value = !this.options[itemName].value;
   }
 
-  setOption(itemName: string, value){
+  updateOption(itemName: string, value){
     this.options[itemName].value = value;
   }
 

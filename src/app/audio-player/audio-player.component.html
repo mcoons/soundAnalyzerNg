@@ -1,7 +1,8 @@
-<div id="player" *ngIf = "this.options.showPlayer.value == true" >    
+<div id="player" *ngIf = "this.options.showPlayer.value == true" [style.z-index]="this.options.renderPlayer.value == true ? '30' : '-30'">  
+    
     <mat-advanced-audio-player [playlist]="msaapPlaylist" [displayTitle]="msaapDisplayTitle" [autoPlay]="false" 
     muted="muted" [displayPlaylist]="msaapDisplayPlayList" [pageSizeOptions]="pageSizeOptions" 
-        [displayVolumeControls]="msaapDisplayVolumeControls" [expanded]="false"></mat-advanced-audio-player>
+    [displayVolumeControls]="msaapDisplayVolumeControls" [expanded]="false"></mat-advanced-audio-player>
     
-    </div>
+</div>
  

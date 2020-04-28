@@ -17,16 +17,17 @@ export class TitleComponent implements OnInit, OnDestroy {
 
   options;
 
-  constructor(public optionsService: OptionsService,              
-              public audioService:   AudioService, 
-              public messageService: MessageService) { 
+  constructor(
+    public optionsService: OptionsService,
+    public audioService: AudioService,
+    public messageService: MessageService) {
 
     messageService.messageAnnounced$.subscribe(
       message => {
         console.log("Title: Message received from service is :  " + message);
         this.options = this.optionsService.getOptions();
       });
-    }
+  }
 
   ngOnInit() {
     this.options = this.optionsService.getOptions();

@@ -20,7 +20,8 @@ export class Canvas2DComponent implements OnInit, OnDestroy {
 
   options;
 
-  constructor(public optionsService: OptionsService,
+  constructor(
+    public optionsService: OptionsService,
     public audioService: AudioService,
     public messageService: MessageService) {
 
@@ -39,7 +40,12 @@ export class Canvas2DComponent implements OnInit, OnDestroy {
     this.canvas = <HTMLCanvasElement>document.getElementById('canvas2d');
     this.ctx = this.canvas.getContext('2d');
 
-    console.log("ctx: " + this.ctx);
+    console.log('2D canvas');
+    console.log(this.canvas);
+
+    console.log("2D ctx: ");
+    console.log(this.ctx);
+
     this.ctx.fillStyle = "blue";
     this.ctx.fillRect(this.canvas.width / 2 - 50, 0, 100, this.canvas.height);
   }

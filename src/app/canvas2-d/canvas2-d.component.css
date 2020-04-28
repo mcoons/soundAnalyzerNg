@@ -7,5 +7,5 @@ canvas {
     height: 100%;
     -ms-touch-action: none;
         touch-action: none;
-        z-index: 20;
+    z-index: 20;
 }

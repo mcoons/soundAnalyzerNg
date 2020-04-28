@@ -42,9 +42,18 @@
     <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
         <div *ngIf="this.options[option].group=='General'" >
             <div *ngIf="this.options[option].type=='checkbox'" >
-                <input type="checkbox" [name]="option" (click)="toggleItem($event)" checked> 
-                {{this.options[option].label}}
+                <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)" checked> 
+                <!-- {{this.options[option].label}} -->
+                <label [for]="option"> {{this.options[option].label}}</label>
             </div>
+
+            <div *ngIf="this.options[option].type=='slider'" >
+                <input type="range" [id]="option" name="volume" (input)="updateItem($event)" (change)="updateItem($event)" 
+                min="0" max="10" value="7" step="1"> 
+                <label [for]="option">{{this.options[option].label}}</label>
+            </div>
+
+
         </div>  
     </div>
 

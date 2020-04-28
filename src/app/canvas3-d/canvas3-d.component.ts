@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { OptionsService } from '../options.service';
 import { AudioService } from '../Audio.service';
@@ -13,13 +13,13 @@ import { Subscription } from 'rxjs';
 })
 export class Canvas3DComponent implements OnInit, OnDestroy {
 
-  @ViewChild('canvas3D') canvas3D: ElementRef;
-
+  private canvas: HTMLCanvasElement;
   subscription: Subscription;
 
   options;
 
-  constructor(public optionsService: OptionsService,
+  constructor(
+    public optionsService: OptionsService,
     public audioService: AudioService,
     public messageService: MessageService) {
 
@@ -32,6 +32,12 @@ export class Canvas3DComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.options = this.optionsService.getOptions();
+  }
+
+  ngAfterViewInit(): void {
+    this.canvas = <HTMLCanvasElement>document.getElementById('canvas3d');
+    console.log('3D canvas');
+    console.log(this.canvas);
   }
 
   ngOnDestroy() {

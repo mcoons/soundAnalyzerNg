@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 
+import { OptionsService } from './options.service';
+import { MessageService } from './message.service';
+import { Subscription } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -82,8 +86,17 @@ export class AudioService {
   soundArrays: any;
   analyzerArrays: any;
 
-  constructor() {
+  options;
 
+  constructor(
+    public optionsService: OptionsService,
+    public messageService: MessageService) {
+      
+    messageService.messageAnnounced$.subscribe(
+      message => {
+        console.log("Audio Service: Message received from service is :  " + message);
+        this.options = this.optionsService.getOptions();
+      });
   }
 
   public setAudio = (audio: HTMLAudioElement) => {
@@ -272,15 +285,15 @@ export class AudioService {
 
     for (let index = 0; index < 64; index++) { //  64*9 = 576
 
-        this.sample1[index] = (this.soundArrays[8])[index];
-        this.sample1[index + 64] = (this.soundArrays[8])[index + 64];
-        this.sample1[index + 128] = (this.soundArrays[7])[index + 64];
-        this.sample1[index + 192] = (this.soundArrays[6])[index + 64];
-        this.sample1[index + 256] = (this.soundArrays[5])[index + 64];
-        this.sample1[index + 320] = (this.soundArrays[4])[index + 64];
-        this.sample1[index + 384] = (this.soundArrays[3])[index + 64];
-        this.sample1[index + 448] = (this.soundArrays[2])[index + 64];
-        this.sample1[index + 512] = (this.soundArrays[1])[index + 64];
+      this.sample1[index] = (this.soundArrays[8])[index];
+      this.sample1[index + 64] = (this.soundArrays[8])[index + 64];
+      this.sample1[index + 128] = (this.soundArrays[7])[index + 64];
+      this.sample1[index + 192] = (this.soundArrays[6])[index + 64];
+      this.sample1[index + 256] = (this.soundArrays[5])[index + 64];
+      this.sample1[index + 320] = (this.soundArrays[4])[index + 64];
+      this.sample1[index + 384] = (this.soundArrays[3])[index + 64];
+      this.sample1[index + 448] = (this.soundArrays[2])[index + 64];
+      this.sample1[index + 512] = (this.soundArrays[1])[index + 64];
 
     }
 
@@ -289,19 +302,19 @@ export class AudioService {
     let frCurrentLow = 255;
 
     this.sample1.forEach((f, i) => {
-        if (f > frCurrentHigh) frCurrentHigh = f;
-        if (f < frCurrentLow) frCurrentLow = f;
+      if (f > frCurrentHigh) frCurrentHigh = f;
+      if (f < frCurrentLow) frCurrentLow = f;
 
-        this.sample1Totals[i].values.push(f / 10); //  /255
-        if (this.sample1Totals[i].values.length > this.maxAverages) {
-            this.sample1Totals[i].values.shift()
-        };
+      this.sample1Totals[i].values.push(f / 10); //  /255
+      if (this.sample1Totals[i].values.length > this.maxAverages) {
+        this.sample1Totals[i].values.shift()
+      };
 
-        let total = 0;
-        this.sample1Totals[i].values.forEach(v => {
-            total += v;
-        })
-        this.sample1Averages[i].value = total / this.sample1Totals[i].values.length;
+      let total = 0;
+      this.sample1Totals[i].values.forEach(v => {
+        total += v;
+      })
+      this.sample1Averages[i].value = total / this.sample1Totals[i].values.length;
     });
 
     this.sample1Normalized = this.normalizeData(this.sample1);
@@ -315,7 +328,7 @@ export class AudioService {
     // get the highest for this frame
     let highest = 0;
     this.tdDataArray.forEach(d => {
-        if (d > highest) highest = d;
+      if (d > highest) highest = d;
     });
 
     // normalize the data   0..1
@@ -324,14 +337,14 @@ export class AudioService {
     // TODO: historical data for wave form       TODO:    TODO:
     this.tdHistory.push(highest);
     if (this.tdHistory.length > this.tdHistoryArraySize) {
-        this.tdHistory.shift();
+      this.tdHistory.shift();
     }
-}
+  }
 
-normalizeData(sourceData) {
-  const multiplier = Math.pow(Math.max(...sourceData), -1) || 0;
-  return sourceData.map(n => n * multiplier * 255);
-}
+  normalizeData(sourceData) {
+    const multiplier = Math.pow(Math.max(...sourceData), -1) || 0;
+    return sourceData.map(n => n * multiplier * 255);
+  }
 
   public logAudioInfo = () => {
     // console.log("service-Audio =  "+this.audio);
