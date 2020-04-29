@@ -24,7 +24,7 @@ export class TitleComponent implements OnInit, OnDestroy {
 
     messageService.messageAnnounced$.subscribe(
       message => {
-        console.log("Title: Message received from service is :  " + message);
+        console.log('Title: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
       });
   }

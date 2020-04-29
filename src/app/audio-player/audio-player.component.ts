@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { OptionsService } from '../options.service';
 import { AudioService } from '../Audio.service';
 import { Track } from 'ngx-audio-player';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './audio-player.component.html',
   styleUrls: ['./audio-player.component.css']
 })
-export class AudioPlayerComponent implements OnInit, OnDestroy {
+export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() playlist: Track[];
   @Input() autoPlay: true;
   @Input() displayTitle: true;
@@ -41,13 +41,8 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
 
     messageService.messageAnnounced$.subscribe(
       message => {
-        console.log("Audio Player: Message received from service is :  " + message);
+        console.log('Audio Player: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
-        // console.log("xx"+this.options["volume"].value);
-        // console.log("xv"+this.audio.volume);
-        this.audio = <HTMLAudioElement>document.getElementsByTagName('audio')[0];
-        this.audio.volume = (this.options["volume"].value)/10;
-        // console.log(this.audio.volume);
       });
   }
 
@@ -111,18 +106,15 @@ export class AudioPlayerComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit(): void {
 
-    this.audio = <HTMLAudioElement>document.getElementsByTagName('audio')[0];
-    this.audio.volume = (this.options["volume"].value)/10;
+    setTimeout( () => {
+      this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
+      this.audioService.setAudio(this.audio);
+    } , 50 );
 
     // console.log("playercomponent-Audio:");
     // console.log(this.audio);
     // console.log("playercomponent-Audio Source:");
     // console.log(this.audio.src);
-
-    this.audioService.setAudio(this.audio);
-    // console.log(this.audio.volume);
-
-    // setInterval(this.audioService.logAudioInfo,1000);
 
   }
 

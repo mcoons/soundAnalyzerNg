@@ -12,13 +12,14 @@
     <app-title [title]="title"></app-title>
 
     <app-audio-player></app-audio-player>
+    <button (click)="this.togglePanel()">{{ this.optionsService.options.showPanel.value == true ? "<" : ">" }}</button>
   </div>
-  <div id="options" class="fixed">
+  <!-- <div id="options" class="fixed"[style.z-index]="this.options.renderPlayer.value == true ? '30' : '-30'"> -->
+  <div id="options" class="fixed" [style.margin-left]="this.optionsService.options.showPanel.value == true ? '0px' : '-200px'">
     
     <app-options-panel></app-options-panel>
 
   </div>
-  
   
   
 </div>

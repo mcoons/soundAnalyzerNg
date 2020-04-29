@@ -8,4 +8,5 @@ canvas {
     -ms-touch-action: none;
         touch-action: none;
     z-index: 20;
+    border-right: 3px solid white;
 }

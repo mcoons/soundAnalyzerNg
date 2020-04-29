@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 
 import { OptionsService } from '../options.service';
 import { AudioService } from '../Audio.service';
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './canvas3-d.component.html',
   styleUrls: ['./canvas3-d.component.css']
 })
-export class Canvas3DComponent implements OnInit, OnDestroy {
+export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private canvas: HTMLCanvasElement;
   subscription: Subscription;
@@ -25,7 +25,7 @@ export class Canvas3DComponent implements OnInit, OnDestroy {
 
     messageService.messageAnnounced$.subscribe(
       message => {
-        console.log("Canvas3D: Message received from service is :  " + message);
+        console.log('Canvas3D: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
       });
   }
@@ -35,7 +35,7 @@ export class Canvas3DComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.canvas = <HTMLCanvasElement>document.getElementById('canvas3d');
+    this.canvas = document.getElementById('canvas3d') as HTMLCanvasElement;
     console.log('3D canvas');
     console.log(this.canvas);
   }

@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 })
 export class AudioService {
 
-  audio: HTMLAudioElement;
+  audio: HTMLAudioElement = null;
   audioSrc: any;
   audioCtx: any;
 
@@ -17,7 +17,6 @@ export class AudioService {
   maxDecibels: number = 0;
   smoothingConstant: number = .9;
   maxAverages: number = 50;
-
 
   fr64Analyser: any;
   fr64DataArray: Uint8Array = new Uint8Array(64);
@@ -55,6 +54,9 @@ export class AudioService {
   fr16384DataArray: Uint8Array = new Uint8Array(16384);
   fr16384DataArrayNormalized: Uint8Array = new Uint8Array(16384);
 
+  gainNode: any;
+  splitter: any;
+
   frAnalyser: any;
   frBufferLength: any;
   frDataLength: any;
@@ -73,15 +75,16 @@ export class AudioService {
   tdDataArray;
   tdDataArrayNormalized: any;
 
+  highTD: number = 0;
 
   tdHistory: any;
 
   tdHistoryArraySize: number = 64;
 
-  sample1: any;
-  sample1Normalized: any;
-  sample1Totals: any;
-  sample1Averages: any;
+  sample1: Uint8Array = new Uint8Array(576);
+  sample1Normalized: Uint8Array = new Uint8Array(576);
+  // sample1Totals: any;
+  // sample1Averages: any;
 
   soundArrays: any;
   analyzerArrays: any;
@@ -91,18 +94,30 @@ export class AudioService {
   constructor(
     public optionsService: OptionsService,
     public messageService: MessageService) {
-      
+
+    this.options = this.optionsService.getOptions();
+
     messageService.messageAnnounced$.subscribe(
       message => {
         console.log("Audio Service: Message received from service is :  " + message);
         this.options = this.optionsService.getOptions();
+        if (this.audio != null){
+          this.audio.volume = (this.options["volume"].value)/10;
+          this.setGain();
+        }
       });
+
+      this.clearSampleArrays();
   }
 
   public setAudio = (audio: HTMLAudioElement) => {
+
+    if (audio == null) return;
     this.audio = audio;
 
-    this.audio.volume = .7;
+    // this.audio.volume = .7;
+    this.audio.volume = (this.options["volume"].value)/10;
+
     // this.smoothingConstant = .9;
     // // this.maxAverages = 50;
     // this.minDecibels = -100;  // -100
@@ -112,6 +127,10 @@ export class AudioService {
     this.audioCtx = new AudioContext();
 
     this.audioSrc = this.audioCtx.createMediaElementSource(this.audio); /* <<<<<<<<<<<<<<<<<<< */
+
+
+    this.gainNode = this.audioCtx.createGain();
+    this.splitter = this.audioCtx.createChannelSplitter(2);
 
     this.fr64Analyser = this.audioCtx.createAnalyser();
     this.fr64Analyser.fftSize = 128;
@@ -199,7 +218,7 @@ export class AudioService {
 
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
-    this.tdAnalyser.fftSize = 4096;
+    this.tdAnalyser.fftSize = 8192;
     this.tdAnalyser.minDecibels = this.minDecibels;
     this.tdAnalyser.maxDecibels = this.maxDecibels;
     this.tdAnalyser.smoothingTimeConstant = this.smoothingConstant;
@@ -211,10 +230,10 @@ export class AudioService {
     // this.tdHistory = [];
     this.tdHistory = Array(this.tdHistoryArraySize).fill(0);
 
-    this.sample1 = [];
-    this.sample1Normalized = [];
-    this.sample1Totals = [];
-    this.sample1Averages = [];
+    // this.sample1 = [];
+    // this.sample1Normalized = [];
+    // this.sample1Totals = [];
+    // this.sample1Averages = [];
 
     this.clearSampleArrays();
 
@@ -244,7 +263,13 @@ export class AudioService {
       this.frAnalyserAll
     ];
 
-    this.audioSrc.connect(this.fr16384Analyser);
+    this.audioSrc.connect(this.tdAnalyser);
+    this.tdAnalyser.connect(this.splitter);
+
+    this.splitter.connect(this.gainNode,0);
+    this.splitter.connect(this.audioCtx.destination,1);
+
+    this.gainNode.connect(this.fr16384Analyser)
     this.fr16384Analyser.connect(this.fr8192Analyser);
     this.fr8192Analyser.connect(this.fr4096Analyser);
     this.fr4096Analyser.connect(this.fr2048Analyser);
@@ -255,14 +280,19 @@ export class AudioService {
     this.fr128Analyser.connect(this.fr64Analyser);
     this.fr64Analyser.connect(this.frAnalyserAll);
     this.frAnalyserAll.connect(this.frAnalyser);
-    this.frAnalyser.connect(this.tdAnalyser);
-    this.tdAnalyser.connect(this.audioCtx.destination);
+    // this.frAnalyser.connect(this.tdAnalyser);
+    // this.tdAnalyser.connect(this.audioCtx.destination);
+
+
+
+    setInterval(this.analyzeData, 60);
 
   }
 
-  analyzeData() {
+  analyzeData = () => {
     ////////////////////////////////////
     // get FREQUENCY data for this frame
+
 
     this.frAnalyser.getByteFrequencyData(this.frDataArray);
     this.frAnalyserAll.getByteFrequencyData(this.frDataArrayAll);
@@ -298,23 +328,23 @@ export class AudioService {
     }
 
     // get highest,lowest and average FREQUENCIES for this frame
-    let frCurrentHigh = 0;
-    let frCurrentLow = 255;
+    let frCurrentHigh: number = 0;
+    let frCurrentLow: number = 255;
 
     this.sample1.forEach((f, i) => {
       if (f > frCurrentHigh) frCurrentHigh = f;
       if (f < frCurrentLow) frCurrentLow = f;
 
-      this.sample1Totals[i].values.push(f / 10); //  /255
-      if (this.sample1Totals[i].values.length > this.maxAverages) {
-        this.sample1Totals[i].values.shift()
-      };
+      // this.sample1Totals[i].values.push(f / 10); //  /255
+      // if (this.sample1Totals[i].values.length > this.maxAverages) {
+      //   this.sample1Totals[i].values.shift()
+      // };
 
-      let total = 0;
-      this.sample1Totals[i].values.forEach(v => {
-        total += v;
-      })
-      this.sample1Averages[i].value = total / this.sample1Totals[i].values.length;
+      // let total = 0;
+      // this.sample1Totals[i].values.forEach(v => {
+      //   total += v;
+      // })
+      // this.sample1Averages[i].value = total / this.sample1Totals[i].values.length;
     });
 
     this.sample1Normalized = this.normalizeData(this.sample1);
@@ -326,19 +356,24 @@ export class AudioService {
     this.tdAnalyser.getByteTimeDomainData(this.tdDataArray);
 
     // get the highest for this frame
-    let highest = 0;
+    this.highTD = 0;
     this.tdDataArray.forEach(d => {
-      if (d > highest) highest = d;
+      if (d > this.highTD) this.highTD = d;
     });
 
     // normalize the data   0..1
     this.tdDataArrayNormalized = this.normalizeData(this.tdDataArray);
 
     // TODO: historical data for wave form       TODO:    TODO:
-    this.tdHistory.push(highest);
+    this.tdHistory.push(this.highTD);
     if (this.tdHistory.length > this.tdHistoryArraySize) {
       this.tdHistory.shift();
     }
+
+    // if (this.sample1[300] != 0){
+    // console.log("data analyzed!!");
+    // console.log(this.sample1[300]);
+    // }
   }
 
   normalizeData(sourceData) {
@@ -360,15 +395,46 @@ export class AudioService {
     for (let index = 0; index < 576; index++) {
       this.sample1[index] = 0;
       this.sample1Normalized[index] = 0;
-      this.sample1Totals[index] = {
-        index: index,
-        values: []
-      };
-      this.sample1Averages[index] = {
-        index: index,
-        values: []
-      };
+      // this.sample1Totals[index] = {
+      //   index: index,
+      //   values: []
+      // };
+      // this.sample1Averages[index] = {
+      //   index: index,
+      //   values: []
+      // };
     }
   }
 
+  buildSampleArrays(){
+    this.sample1.fill(0,0,575);
+    // for (let index = 0; index < 576; index++) {
+    //   this.sample1[index] = 0;
+    //   this.sample1Normalized[index] = 0;
+    //   this.sample1Totals[index] = {
+    //     index: index,
+    //     values: []
+    //   };
+    //   this.sample1Averages[index] = {
+    //     index: index,
+    //     values: []
+    //   };
+    // }
+  }
+
+  getSample(){
+    return this.sample1;
+  }
+
+  getTDData(){
+    return this.tdDataArrayNormalized;
+  }
+
+  getNormalizedSample(){
+    return this.sample1Normalized;
+  }
+
+  setGain(){
+    this.gainNode.gain.setValueAtTime(this.optionsService.options.sampleGain.value, this.audioCtx.currentTime)
+  }
 }

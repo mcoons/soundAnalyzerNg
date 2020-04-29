@@ -22,7 +22,7 @@ import { AudioPlayerComponent } from './audio-player/audio-player.component';
     Canvas3DComponent,
     OptionsPanelComponent,
     TitleComponent,
-    AudioPlayerComponent  
+    AudioPlayerComponent
   ],
   imports: [
     BrowserModule,

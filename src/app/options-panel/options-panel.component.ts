@@ -24,36 +24,35 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
     messageService.messageAnnounced$.subscribe(
       message => {
-        console.log("Options Panel: Message received from service is :  " + message);
+        console.log('Options Panel: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
       });
   }
 
   ngOnInit() {
+    // setTimeout(() => {
+    //   this.optionsService.options['showPlayer'].value = false;
+    // }, 10);
     setTimeout(() => {
-      this.optionsService.options["showPlayer"].value = false;
-    }, 10);
-    setTimeout(() => {
-      this.optionsService.options["showPlayer"].value = true;
+      this.optionsService.options.showPlayer.value = true;
     }, 11);
+
 
     this.options = this.optionsService.getOptions();
   }
 
   toggleItem(e) {
-    // console.log(e.target.name);
     this.optionsService.toggleOption(e.target.name);
     this.options = this.optionsService.getOptions();
 
-    this.announceChange("Item was changed: " + e.target.name + " to " + this.options[e.target.name].value);
+    this.announceChange('Item was changed: ' + e.target.name + ' to ' + this.options[e.target.name].value);
   }
   updateItem(e) {
-    // console.log(e.target);
-    // console.log(e.target.value);
+
     this.optionsService.updateOption(e.target.name, e.target.value);
     this.options = this.optionsService.getOptions();
 
-    this.announceChange("Item was changed: " + e.target.name + " to " + this.options[e.target.name].value);
+    this.announceChange('Item was changed: ' + e.target.name + ' to ' + this.options[e.target.name].value);
   }
 
   announceChange(message: string) {
