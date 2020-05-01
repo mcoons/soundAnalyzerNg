@@ -1,0 +1,30 @@
+#splashScreen {
+    /* bottom: 10px; */
+    position: fixed;
+    color: white;
+    /* text-align: center; */
+    
+      display: flex;
+  justify-content: center;
+  align-items: center;
+    
+    width: 20%;
+    height: 20%;
+    left: 50%;
+    top: 50%;
+    margin-left: -10%;
+    margin-top: -10%;
+    border: 1px solid blue;
+    box-shadow:
+        0 0 8px 5px blue, 
+        inset 0 0 8px 5px blue;
+    z-index: 100;
+}
+
+button {
+    width: 90px;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    margin-left: -45px;
+}

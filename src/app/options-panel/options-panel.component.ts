@@ -34,9 +34,9 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     // setTimeout(() => {
     //   this.optionsService.options['showPlayer'].value = false;
     // }, 10);
-    setTimeout(() => {
-      this.optionsService.options.showPlayer.value = true;
-    }, 11);
+    // setTimeout(() => {
+    //   this.optionsService.options.showPlayer.value = true;
+    // }, 11);
 
 
     this.options = this.optionsService.getOptions();

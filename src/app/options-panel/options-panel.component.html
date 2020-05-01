@@ -6,7 +6,7 @@
         <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
             <div *ngIf="this.options[option].group=='General'" >
                 <div *ngIf="this.options[option].type=='checkbox'" >
-                    <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)" checked> 
+                    <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)" [checked]="this.options[option].value"> 
                     <!-- {{this.options[option].label}} -->
                     <label [for]="option"> {{this.options[option].label}}</label>
                 </div>
@@ -24,7 +24,7 @@
             <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
                 <div *ngIf="this.options[option].group=='Developer'" >
                     <div *ngIf="this.options[option].type=='checkbox'" >
-                        <input type="checkbox" [name]="option" (click)="toggleItem($event)" checked> 
+                        <input type="checkbox" [name]="option" (click)="toggleItem($event)" [checked]="this.options[option].value"> 
                         {{this.options[option].label}}
                     </div>
                 </div>  

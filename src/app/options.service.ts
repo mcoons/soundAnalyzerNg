@@ -24,13 +24,13 @@ export class OptionsService {
       group: 'General',
       type: 'checkbox',
       label: 'Show Bars',
-      value: true
+      value: false
     },
     showWaveform: {
       group: 'General',
       type: 'checkbox',
       label: 'Show Waveform',
-      value: true
+      value: false
     },
     volume: {
       group: 'General',
@@ -58,13 +58,19 @@ export class OptionsService {
       group: 'Developer',
       type: 'checkbox',
       label: 'Show Panel',
-      value: true
+      value: false
     },
     showPlayer: {
       group: 'Developer',
       type: 'checkbox',
       label: 'Show Player',
       value: false
+    },
+    showSplash: {
+      group: 'Developer',
+      type: 'checkbox',
+      label: 'Show Splash',
+      value: true
     }
   };
 

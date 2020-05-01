@@ -3,7 +3,7 @@
 
 
 TODO
-Fix audio playing lock issue
+Fix audio player lock issue
 
 Determine relation between pixels on all layers 
 i.e. where top of player div relates to 2d canvas

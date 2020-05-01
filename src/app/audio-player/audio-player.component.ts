@@ -129,13 +129,13 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
 
     setTimeout( () => {
       // this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
       this.audioService.setAudio(this.audio);
     } , 50 );
 
-    this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
     console.log('playercomponent-Audio:');
     console.log(this.audio);
 

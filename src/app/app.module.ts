@@ -11,29 +11,32 @@ import { Canvas3DComponent } from './canvas3-d/canvas3-d.component';
 import { OptionsPanelComponent } from './options-panel/options-panel.component';
 import { TitleComponent } from './title/title.component';
 import { AudioPlayerComponent } from './audio-player/audio-player.component';
+import { SplashScreenComponent } from './splash-screen/splash-screen.component';
 
 
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    Canvas2DComponent,
-    Canvas3DComponent,
-    OptionsPanelComponent,
-    TitleComponent,
-    AudioPlayerComponent
-  ],
-  imports: [
-    BrowserModule,
-    NgbModule,
-    BrowserAnimationsModule,
-    NgxAudioPlayerModule,
-    FormsModule
-  ],
-  providers: [
-  ],
-  bootstrap: [AppComponent]
+   declarations: [
+      AppComponent,
+      Canvas2DComponent,
+      Canvas3DComponent,
+      OptionsPanelComponent,
+      TitleComponent,
+      AudioPlayerComponent,
+      SplashScreenComponent
+   ],
+   imports: [
+      BrowserModule,
+      NgbModule,
+      BrowserAnimationsModule,
+      NgxAudioPlayerModule,
+      FormsModule
+   ],
+   providers: [],
+   bootstrap: [
+      AppComponent
+   ]
 })
 export class AppModule { }
 

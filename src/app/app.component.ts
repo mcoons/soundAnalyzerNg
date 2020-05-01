@@ -30,6 +30,21 @@ import {
       transition('panelClosed => panelOpen', [
         animate('.2s')
       ]),
+    ]),
+
+    trigger('splashOpenClose', [
+      state('splashOpen', style({
+        opacity: 1
+      })),
+      state('splashClosed', style({
+        opacity: 0
+      })),
+      transition('splashOpen => splashClosed', [
+        animate('1s')
+      ]),
+      transition('splashClosed => splashOpen', [
+        animate('1s')
+      ]),
     ])
 
   ]
