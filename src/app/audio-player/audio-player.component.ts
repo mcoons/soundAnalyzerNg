@@ -6,11 +6,35 @@ import { Track } from 'ngx-audio-player';
 import { MessageService } from '../message.service';
 import { Subscription } from 'rxjs';
 
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-audio-player',
   templateUrl: './audio-player.component.html',
-  styleUrls: ['./audio-player.component.css']
+  styleUrls: ['./audio-player.component.css'],
+  animations: [
+    trigger('playerOpenClose', [
+      state('playerOpen', style({
+        bottom: '10px'
+      })),
+      state('playerClosed', style({
+        bottom: '-100px'
+      })),
+      transition('playerOpen => playerClosed', [
+        animate('.2s')
+      ]),
+      transition('playerClosed => playerOpen', [
+        animate('.2s')
+      ]),
+    ]),
+  ]
+
 })
 export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() playlist: Track[];
@@ -39,7 +63,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     public audioService: AudioService,
     public messageService: MessageService) {
 
-    messageService.messageAnnounced$.subscribe(
+    this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         console.log('Audio Player: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
@@ -107,12 +131,33 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
 
     setTimeout( () => {
-      this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
+      // this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
       this.audioService.setAudio(this.audio);
     } , 50 );
 
-    // console.log("playercomponent-Audio:");
-    // console.log(this.audio);
+    this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
+    console.log('playercomponent-Audio:');
+    console.log(this.audio);
+
+    const playerDiv = document.getElementById('player') as HTMLElement;
+    console.log('playerDiv client height = ' + playerDiv.clientHeight);
+    console.log('playerDiv offset height = ' + playerDiv.offsetHeight);
+    console.log('playerDiv scroll height = ' + playerDiv.scrollHeight);
+
+    const canvas = document.getElementById('canvas2d') as HTMLCanvasElement;
+    console.log('canvas2D = ');
+    console.log(canvas);
+
+    console.log('window = ');
+    console.log(window);
+
+    console.log('window.devicePixelRatio = ' + window.devicePixelRatio);
+    console.log('window.innerHeight = ' + window.innerHeight );
+    console.log('window.outerHeight = ' + window.outerHeight );
+    // console.log('window.visualViewport.height = ' + window.visualViewport.height );
+
+
+
     // console.log("playercomponent-Audio Source:");
     // console.log(this.audio.src);
 

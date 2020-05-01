@@ -25,7 +25,7 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     public audioService: AudioService,
     public messageService: MessageService) {
 
-    messageService.messageAnnounced$.subscribe(
+    this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         console.log('Canvas2D: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
@@ -83,7 +83,8 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     // create a style object that returns width and height
     const dpi = window.devicePixelRatio;
 
-    // console.log("dpi = " + dpi);
+
+
     // console.log(window.getComputedStyle(this.canvas));
 
     const styles = window.getComputedStyle(this.canvas);

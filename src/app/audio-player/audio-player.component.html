@@ -1,4 +1,5 @@
-<div id="player" *ngIf = "this.options.showPlayer.value == true" [style.z-index]="this.options.renderPlayer.value == true ? '30' : '-30'">  
+<!-- <div id="player"[style.z-index]="this.options.renderPlayer.value == true ? '30' : '-30'">   -->
+<div id="player" [@playerOpenClose]="this.optionsService.options.renderPlayer.value == true ? 'playerOpen' : 'playerClosed'">  
     
     <mat-advanced-audio-player [playlist]="msaapPlaylist" [displayTitle]="msaapDisplayTitle" [autoPlay]="false" 
     muted="muted" [displayPlaylist]="msaapDisplayPlayList" [pageSizeOptions]="pageSizeOptions" 

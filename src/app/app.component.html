@@ -11,11 +11,15 @@
     <app-canvas2-d></app-canvas2-d>
     <app-title [title]="title"></app-title>
 
-    <app-audio-player></app-audio-player>
+    <app-audio-player  *ngIf = "this.options.showPlayer.value == true" ></app-audio-player>
+    <!-- <div [@playerOpenClose]="this.optionsService.options.renderPlayer.value == true ? 'playerOpen' : 'playerClosed'">
+      <app-audio-player *ngIf = "this.options.showPlayer.value == true" ></app-audio-player>
+    </div> -->
     <button (click)="this.togglePanel()">{{ this.optionsService.options.showPanel.value == true ? "<" : ">" }}</button>
   </div>
-  <!-- <div id="options" class="fixed"[style.z-index]="this.options.renderPlayer.value == true ? '30' : '-30'"> -->
-  <div id="options" class="fixed" [style.margin-left]="this.optionsService.options.showPanel.value == true ? '0px' : '-200px'">
+  <!-- <div id="options" class="fixed" [style.margin-left]="this.optionsService.options.showPanel.value == true ? '0px' : '-200px'"> -->
+  <div id="options" class="fixed" [@panelOpenClose]="this.optionsService.options.showPanel.value == true ? 'panelOpen' : 'panelClosed'">
+
     
     <app-options-panel></app-options-panel>
 

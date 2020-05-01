@@ -8,7 +8,8 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-options-panel',
   templateUrl: './options-panel.component.html',
-  styleUrls: ['./options-panel.component.css']
+  styleUrls: ['./options-panel.component.css'],
+
 })
 export class OptionsPanelComponent implements OnInit, OnDestroy {
 
@@ -22,7 +23,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     public optionsService: OptionsService,
     public messageService: MessageService) {
 
-    messageService.messageAnnounced$.subscribe(
+    this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         console.log('Options Panel: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
