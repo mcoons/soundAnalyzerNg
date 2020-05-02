@@ -9,39 +9,57 @@ export class OptionsService {
 
   options = {
     showTitle: {
+      showInConsole: false,
       group: 'General',
       type: 'checkbox',
       label: 'Show Title',
       value: true
     },
+
+
     renderPlayer: {
-      group: 'General',
+      showInConsole: false,
+      group: 'Player',
       type: 'checkbox',
       label: 'Show Player',
       value: true
     },
-    showBars: {
-      group: 'General',
+    showTrackTitle: {
+      showInConsole: false,
+      group: 'Player',
       type: 'checkbox',
-      label: 'Show Bars',
-      value: false
-    },
-    showWaveform: {
-      group: 'General',
-      type: 'checkbox',
-      label: 'Show Waveform',
+      label: 'Show Track Title',
       value: false
     },
     volume: {
-      group: 'General',
+      showInConsole: false,
+      group: 'Player',
       type: 'slider',
       label: 'Volume',
       value: 7,
       min: 0,
       max: 10
     },
+
+
+    showBars: {
+      showInConsole: false,
+      group: 'Visual',
+      type: 'checkbox',
+      label: 'Show Bars',
+      value: false
+    },
+    showWaveform: {
+      showInConsole: false,
+      group: 'Visual',
+      type: 'checkbox',
+      label: 'Show Waveform',
+      value: false
+    },
+
     sampleGain: {
-      group: 'General',
+      showInConsole: false,
+      group: 'Visual',
       type: 'slider',
       label: 'Sample Gain',
       value: 1,
@@ -49,29 +67,66 @@ export class OptionsService {
       max: 20
     },
     showConsole: {
+      showInConsole: false,
       group: 'Developer',
       type: 'checkbox',
       label: 'Show Console',
       value: true
     },
     showPanel: {
+      showInConsole: false,
       group: 'Developer',
       type: 'checkbox',
       label: 'Show Panel',
       value: false
     },
     showPlayer: {
+      showInConsole: false,
       group: 'Developer',
       type: 'checkbox',
       label: 'Show Player',
       value: false
     },
     showSplash: {
+      showInConsole: false,
       group: 'Developer',
       type: 'checkbox',
       label: 'Show Splash',
       value: true
-    }
+    },
+
+    windowHeight: {
+      showInConsole: true,
+      group: 'Console',
+      type: 'numeric',
+      label: 'Window Height',
+      value: 0
+    },
+    playerHeight: {
+      showInConsole: true,
+      group: 'Console',
+      type: 'numeric',
+      label: 'Player Height',
+      value: 0
+    },
+    pixelRatio: {
+      showInConsole: true,
+      group: 'Console',
+      type: 'numeric',
+      label: 'Pixel Ratio',
+      value: 0
+    },
+    playerTop: {
+      showInConsole: true,
+      group: 'Console',
+      type: 'numeric',
+      label: 'Player Top',
+      value: 0
+    },
+
+
+
+
   };
 
   constructor() {

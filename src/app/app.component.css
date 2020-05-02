@@ -1,11 +1,12 @@
 #main, #options  {
     /* border: 5px solid red; */
-    padding:0;
+    padding:0px;
     height: 100vh;
+    margin: 0;
 }
 
 .fixed{
-    width: 200px;
+    width: 260px;
 }
 
 button {
@@ -24,4 +25,10 @@ button {
 
 button:hover {
     opacity: .9;
+}
+
+#optionsContainer {
+    /* display:absolute; */
+    height: 99vh;
+    /* border: 1px solid green; */
 }

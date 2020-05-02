@@ -7,7 +7,6 @@
             <div *ngIf="this.options[option].group=='General'" >
                 <div *ngIf="this.options[option].type=='checkbox'" >
                     <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)" [checked]="this.options[option].value"> 
-                    <!-- {{this.options[option].label}} -->
                     <label [for]="option"> {{this.options[option].label}}</label>
                 </div>
                 <div *ngIf="this.options[option].type=='slider'" >
@@ -17,6 +16,40 @@
                 </div>
             </div>  
         </div>
+
+        <p class="optionHeader" >Player Options</p>
+
+        <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
+            <div *ngIf="this.options[option].group=='Player'" >
+                <div *ngIf="this.options[option].type=='checkbox'" >
+                    <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)" [checked]="this.options[option].value"> 
+                    <label [for]="option"> {{this.options[option].label}}</label>
+                </div>
+                <div *ngIf="this.options[option].type=='slider'" >
+                    <input type="range" [id]="option" [name]="option" (input)="updateItem($event)" (change)="updateItem($event)" 
+                    [min]="this.options[option].min" [max]="this.options[option].max" [value]="this.options[option].value" step="1"> 
+                    <br><label [for]="option">{{this.options[option].label}} ({{this.options[option].value}})</label>
+                </div>
+            </div>  
+        </div>
+
+        <p class="optionHeader" >Visual Options</p>
+
+        <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
+            <div *ngIf="this.options[option].group=='Visual'" >
+                <div *ngIf="this.options[option].type=='checkbox'" >
+                    <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)" [checked]="this.options[option].value"> 
+                    <label [for]="option"> {{this.options[option].label}}</label>
+                </div>
+                <div *ngIf="this.options[option].type=='slider'" >
+                    <input type="range" [id]="option" [name]="option" (input)="updateItem($event)" (change)="updateItem($event)" 
+                    [min]="this.options[option].min" [max]="this.options[option].max" [value]="this.options[option].value" step="1"> 
+                    <br><label [for]="option">{{this.options[option].label}} ({{this.options[option].value}})</label>
+                </div>
+            </div>  
+        </div>
+
+
 
         <div *ngIf="this.optionsService.env == 'dev'">
             <p class="optionHeader" >Developer Options</p>
@@ -34,7 +67,9 @@
                 <p class="optionHeader" >Console</p>
             
                 <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">
-                    {{this.options[option].label + ': ' + this.options[option].value}}
+                    <div *ngIf = "this.options[option].showInConsole">
+                        {{this.options[option].label + ': ' + this.options[option].value}}
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,34 +1,32 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<!-- <div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-</div> -->
 
 <app-title [title]="title"></app-title>
+
+
 <div [@splashOpenClose]="this.optionsService.options.showSplash.value == true ? 'splashOpen' : 'splashClosed'">
   <app-splash-screen [title]="title"></app-splash-screen>
 </div>
+
+
 <div id="mainContainer"  class="d-flex">
+
   <div id="main" class="col">
+
     <app-canvas3-d></app-canvas3-d>
     <app-canvas2-d></app-canvas2-d>
 
+    <app-audio-player id="ngPlayerDIV" *ngIf = "this.options.showPlayer.value == true" ></app-audio-player>
 
-    <app-audio-player  *ngIf = "this.options.showPlayer.value == true" ></app-audio-player>
-    <!-- <div [@playerOpenClose]="this.optionsService.options.renderPlayer.value == true ? 'playerOpen' : 'playerClosed'">
-      <app-audio-player *ngIf = "this.options.showPlayer.value == true" ></app-audio-player>
-    </div> -->
-    <button (click)="this.togglePanel()">{{ this.optionsService.options.showPanel.value == true ? "<" : ">" }}</button>
-  </div>
-
-  <!-- <div id="options" class="fixed" [style.margin-left]="this.optionsService.options.showPanel.value == true ? '0px' : '-200px'"> -->
+    <button *ngIf = "this.options.showSplash.value == false" (click)="this.togglePanel()">{{ this.optionsService.options.showPanel.value == true ? ">" : "<" }}</button>
   
-  <div id="options" class="fixed" [@panelOpenClose]="this.optionsService.options.showPanel.value == true ? 'panelOpen' : 'panelClosed'">
+  </div>
+  
+  <div id="optionsContainer" class="fixed" [@panelOpenClose]="this.optionsService.options.showPanel.value == true ? 'panelOpen' : 'panelClosed'">
+    
     <app-options-panel></app-options-panel>
+
   </div>
-  
   
 </div>
+  
 
 

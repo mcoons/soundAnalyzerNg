@@ -1,26 +1,27 @@
 #options {
-    /* border: 1px solid blue; */
-    margin: 8px;
-    margin-left: 0;
-    padding-left: 8px;
+    border: 1px solid blue;
+    margin: 10px;
+    padding: 10px;
     color: white;
+    box-shadow:
+        0 0 8px 5px blue, 
+        inset 0 0 8px 5px blue;
+    height: 99%;
 
 }
 
 #glowContainer {
-    padding: 10px;
-    border: 1px solid blue;
-    box-shadow:
-    /* 0 0 2px 2px #fff,  inner blue */
-    0 0 8px 5px blue, /* middle magenta */
-    /* 0 0 10px 4px #0ff,  */
-    inset 0 0 8px 5px blue;
-    /* inset 0 0 10px 4px #0ff;  */
+    height: 100%;
+    overflow: auto;
 }
+
 
 .optionHeader {
     text-decoration: underline;
-    margin-top: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    background-color: darkblue;
 }
 
 .optionsContainer {

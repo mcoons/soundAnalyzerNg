@@ -1,4 +1,4 @@
-#player {
+#playerDIV {
     /* bottom: 10px; */
     position: absolute;
     color: white;
@@ -8,10 +8,10 @@
     margin-left: -25%;
     /* border: 1px solid orange; */
     z-index: 30;
-    opacity: .5;
+    opacity: .2;
 }
 
-#player:hover {
+#playerDIV:hover {
     opacity: 1;
 }
 

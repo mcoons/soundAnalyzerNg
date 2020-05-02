@@ -16,10 +16,9 @@ export class SplashScreenComponent implements OnInit {
     public messageService: MessageService
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  splashScreenOK(){
+  splashScreenOK() {
     this.optionsService.toggleOption('showPlayer');
     this.optionsService.toggleOption('showBars');
     this.optionsService.toggleOption('showWaveform');

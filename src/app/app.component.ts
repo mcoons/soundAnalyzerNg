@@ -22,14 +22,14 @@ import {
         marginRight: '0px'
       })),
       state('panelClosed', style({
-        marginRight: '-200px'
+        marginRight: '-260px'
       })),
       transition('panelOpen => panelClosed', [
         animate('.2s')
       ]),
       transition('panelClosed => panelOpen', [
         animate('.2s')
-      ]),
+      ])
     ]),
 
     trigger('splashOpenClose', [
@@ -44,7 +44,7 @@ import {
       ]),
       transition('splashClosed => splashOpen', [
         animate('1s')
-      ]),
+      ])
     ])
 
   ]
@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
 
     messageService.messageAnnounced$.subscribe(
       message => {
-        console.log('Audio Player: Message received from service is :  ' + message);
+        // console.log('Audio Player: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
       });
 
