@@ -23,9 +23,9 @@ export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
     public audioService: AudioService,
     public messageService: MessageService) {
 
-    messageService.messageAnnounced$.subscribe(
+    this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
-        console.log('Canvas3D: Message received from service is :  ' + message);
+        // console.log('Canvas3D: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
       });
   }

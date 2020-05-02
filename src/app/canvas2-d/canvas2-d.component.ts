@@ -25,9 +25,9 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     public audioService: AudioService,
     public messageService: MessageService) {
 
-    messageService.messageAnnounced$.subscribe(
+    this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
-        console.log('Canvas2D: Message received from service is :  ' + message);
+        // console.log('Canvas2D: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
       });
   }
@@ -65,6 +65,10 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   render2DFrame = () => {
+    if (this.audioService.audio != null) {
+      this.audioService.analyzeData();
+    }
+
     this.fixDpi();
 
     if (this.optionsService.options.showBars.value === true) {
@@ -83,7 +87,8 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     // create a style object that returns width and height
     const dpi = window.devicePixelRatio;
 
-    // console.log("dpi = " + dpi);
+
+
     // console.log(window.getComputedStyle(this.canvas));
 
     const styles = window.getComputedStyle(this.canvas);
@@ -129,7 +134,8 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
       this.ctx.fillRect(x + 25,
-        HEIGHT - barHeight - (this.optionsService.options.renderPlayer.value === true ? 200 : 10), barWidth, barHeight);
+        // HEIGHT - barHeight - (this.optionsService.options.renderPlayer.value === true ? 200 : 10), barWidth, barHeight);
+        this.getTopOfPlayer() - barHeight, barWidth, barHeight);
 
       x += barWidth + 1;
     }
@@ -142,19 +148,33 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    const drawHeight = height / 2;
     const width = this.canvas.width - 50;
 
     this.ctx.lineWidth = 3;
-    this.ctx.moveTo(25, this.audioService.highTD - 200);
+    // this.ctx.moveTo(25, this.audioService.highTD - 200);
+    this.ctx.moveTo(25, 90);
     this.ctx.beginPath();
     for (let i = 0; i < width; i++) {
-      const minPixel = dataSource[i];
-      this.ctx.lineTo(i + 25, minPixel + this.audioService.highTD - 200);
+      const y = (dataSource[i] - 128);
+      // this.ctx.lineTo(i + 25, y + this.audioService.highTD - 200);
+      // this.ctx.lineTo(i + 25, y + this.audioService.highTD - this.audioService.lowTD);
+      this.ctx.lineTo(i + 25, y + 90);
     }
 
     this.ctx.strokeStyle = 'white';
     this.ctx.stroke();
+  }
+
+  getTopOfPlayer(): number {
+
+    const playerDiv = document.getElementById('playerDIV') as HTMLElement;
+
+    // console.log('playerDiv client height = ' + playerDiv.clientHeight);
+    // console.log('playerDiv offsetTop = ' + playerDiv.offsetTop);
+
+    // console.log('window.devicePixelRatio = ' + window.devicePixelRatio);
+
+    return playerDiv.offsetTop * window.devicePixelRatio;
   }
 
 }

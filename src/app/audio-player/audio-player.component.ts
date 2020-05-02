@@ -6,11 +6,39 @@ import { Track } from 'ngx-audio-player';
 import { MessageService } from '../message.service';
 import { Subscription } from 'rxjs';
 
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
+
+declare var $: any;
 
 @Component({
   selector: 'app-audio-player',
   templateUrl: './audio-player.component.html',
-  styleUrls: ['./audio-player.component.css']
+  styleUrls: ['./audio-player.component.css'],
+
+  animations: [
+    trigger('playerOpenClose', [
+      state('playerOpen', style({
+        bottom: '10px'
+      })),
+      state('playerClosed', style({
+        bottom: '-98px'
+        // bottom: '-' + getTopOfPlayer() + 'px'
+      })),
+      transition('playerOpen => playerClosed', [
+        animate('.2s')
+      ]),
+      transition('playerClosed => playerOpen', [
+        animate('.2s')
+      ]),
+    ]),
+  ]
+
 })
 export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() playlist: Track[];
@@ -21,10 +49,12 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() expanded = false;
   @Input() displayVolumeControls = true;
 
-  msaapDisplayTitle = false;
-  msaapDisplayPlayList = true;
-  msaapPageSizeOptions = [2, 4, 6];
-  msaapDisplayVolumeControls = true;
+  msaapDisplayTitle;
+  msaapDisplayPlayList;
+  msaapPageSizeOptions;
+  msaapDisplayVolumeControls;
+
+  myTop: number;
 
   msaapPlaylist: Track[];
 
@@ -39,10 +69,12 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     public audioService: AudioService,
     public messageService: MessageService) {
 
-    messageService.messageAnnounced$.subscribe(
+    this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
-        console.log('Audio Player: Message received from service is :  ' + message);
+        // console.log('Audio Player: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
+        this.msaapDisplayTitle = this.options.showTrackTitle.value;
+
       });
   }
 
@@ -78,43 +110,48 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         link: './assets/tracks/City Sunshine.mp3'
       },
       {
-        title: 'Arpent',
-        link: './assets/tracks/Arpent.mp3'
+        title: 'Creepy Hallow',
+        link: './assets/tracks/Creepy Hallow.mp3'
       },
       {
-        title: 'Arpent',
-        link: './assets/tracks/Arpent.mp3'
+        title: 'Foam Rubber',
+        link: './assets/tracks/Foam Rubber.mp3'
       },
       {
-        title: 'Arpent',
-        link: './assets/tracks/Arpent.mp3'
+        title: 'Funkeriffic',
+        link: './assets/tracks/Funkeriffic.mp3'
       },
       {
-        title: 'Arpent',
-        link: './assets/tracks/Arpent.mp3'
+        title: 'Hippety Hop',
+        link: './assets/tracks/Hippety Hop.mp3'
       },
       {
-        title: 'Arpent',
-        link: './assets/tracks/Arpent.mp3'
+        title: 'Monsters in Hotel',
+        link: './assets/tracks/Monsters in Hotel.mp3'
       },
-
+      {
+        title: 'Ukulele Song',
+        link: './assets/tracks/Ukulele Song.mp3'
+      }
 
     ];
 
     this.options = this.optionsService.getOptions();
+
+    this.msaapDisplayTitle = this.options.showTrackTitle.value;
+    this.msaapDisplayPlayList = true;
+    this.msaapPageSizeOptions = [2, 4, 6];
+    this.msaapDisplayVolumeControls = true;
   }
 
   ngAfterViewInit(): void {
+    this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
 
-    setTimeout( () => {
-      this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
+    setTimeout(() => {
+      // this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
       this.audioService.setAudio(this.audio);
-    } , 50 );
 
-    // console.log("playercomponent-Audio:");
-    // console.log(this.audio);
-    // console.log("playercomponent-Audio Source:");
-    // console.log(this.audio.src);
+    }, 50);
 
   }
 
@@ -123,4 +160,28 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.unsubscribe();
   }
 
+  // getTopOfPlayer(): number {
+
+  //   const playerDiv = document.getElementById('playerDIV') as HTMLElement;
+
+  //   // console.log('playerDiv client height = ' + playerDiv.clientHeight);
+  //   // console.log('playerDiv offsetTop = ' + playerDiv.offsetTop);
+
+  //   // console.log('window.devicePixelRatio = ' + window.devicePixelRatio);
+
+  //   return playerDiv.offsetTop * window.devicePixelRatio || 0;
+  // }
+
 }
+
+// function getTopOfPlayer(): number {
+
+//   const playerDiv = document.getElementById('playerDIV') as HTMLElement;
+
+//   // console.log('playerDiv client height = ' + playerDiv.clientHeight);
+//   // console.log('playerDiv offsetTop = ' + playerDiv.offsetTop);
+
+//   // console.log('window.devicePixelRatio = ' + window.devicePixelRatio);
+
+//   return playerDiv.offsetTop * window.devicePixelRatio || 0;
+// }

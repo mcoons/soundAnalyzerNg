@@ -1,5 +1,5 @@
-#player {
-    bottom: 10px;
+#playerDIV {
+    /* bottom: 10px; */
     position: absolute;
     color: white;
     text-align: center;
@@ -7,9 +7,11 @@
     left: 50%;
     margin-left: -25%;
     /* border: 1px solid orange; */
+    z-index: 30;
+    opacity: .2;
 }
 
-#player:hover {
+#playerDIV:hover {
     opacity: 1;
 }
 

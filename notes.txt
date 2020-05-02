@@ -1,0 +1,14 @@
+1920x1200, 1680x1050, 1280x800, and 1024x640
+
+
+
+TODO
+Fix audio player lock issue
+
+Determine relation between pixels on all layers 
+i.e. where top of player div relates to 2d canvas
+
+
+
+
+

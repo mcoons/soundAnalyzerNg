@@ -1,5 +1,6 @@
 canvas {
-    border: 2px solid green;
+    /* border: 2px solid green; */
+    /* border-right: 3px solid white; */
     pointer-events: none;
     position: absolute;
     top: 0;
@@ -8,5 +9,4 @@ canvas {
     -ms-touch-action: none;
         touch-action: none;
     z-index: 20;
-    border-right: 3px solid white;
 }

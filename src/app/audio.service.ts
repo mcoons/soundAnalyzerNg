@@ -13,10 +13,10 @@ export class AudioService {
   audioSrc: any;
   audioCtx: any;
 
-  minDecibels: number = -100;
-  maxDecibels: number = 0;
-  smoothingConstant: number = .9;
-  maxAverages: number = 50;
+  minDecibels = -100;
+  maxDecibels = 0;
+  smoothingConstant = .9;
+  maxAverages = 50;
 
   fr64Analyser: any;
   fr64DataArray: Uint8Array = new Uint8Array(64);
@@ -75,11 +75,12 @@ export class AudioService {
   tdDataArray;
   tdDataArrayNormalized: any;
 
-  highTD: number = 0;
+  highTD = 0;
+  lowTD = 256;
 
   tdHistory: any;
 
-  tdHistoryArraySize: number = 64;
+  tdHistoryArraySize = 64;
 
   sample1: Uint8Array = new Uint8Array(576);
   sample1Normalized: Uint8Array = new Uint8Array(576);
@@ -99,29 +100,32 @@ export class AudioService {
 
     messageService.messageAnnounced$.subscribe(
       message => {
-        console.log("Audio Service: Message received from service is :  " + message);
+        // console.log("Audio Service: Message received from service is :  " + message);
         this.options = this.optionsService.getOptions();
-        if (this.audio != null){
-          this.audio.volume = (this.options["volume"].value)/10;
+        if (this.audio != null) {
+          this.audio.volume = (this.options.volume.value) / 10;
           this.setGain();
         }
       });
 
-      this.clearSampleArrays();
+    this.clearSampleArrays();
   }
 
   public setAudio = (audio: HTMLAudioElement) => {
 
-    if (audio == null) return;
+    if (audio == null) {
+      return;
+    }
+
     this.audio = audio;
 
     // this.audio.volume = .7;
-    this.audio.volume = (this.options["volume"].value)/10;
+    this.audio.volume = (this.options.volume.value) / 10;
 
     // this.smoothingConstant = .9;
     // // this.maxAverages = 50;
     // this.minDecibels = -100;  // -100
-    // this.maxDecibels = 0;   // -30 
+    // this.maxDecibels = 0;   // -30
     // this.tdHistoryArraySize = 64;  // 4096
 
     this.audioCtx = new AudioContext();
@@ -219,6 +223,7 @@ export class AudioService {
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
     this.tdAnalyser.fftSize = 8192;
+    // this.tdAnalyser.fftSize = 2048;
     this.tdAnalyser.minDecibels = this.minDecibels;
     this.tdAnalyser.maxDecibels = this.maxDecibels;
     this.tdAnalyser.smoothingTimeConstant = this.smoothingConstant;
@@ -266,10 +271,10 @@ export class AudioService {
     this.audioSrc.connect(this.tdAnalyser);
     this.tdAnalyser.connect(this.splitter);
 
-    this.splitter.connect(this.gainNode,0);
-    this.splitter.connect(this.audioCtx.destination,1);
+    this.splitter.connect(this.gainNode, 0);
+    this.splitter.connect(this.audioCtx.destination, 1);
 
-    this.gainNode.connect(this.fr16384Analyser)
+    this.gainNode.connect(this.fr16384Analyser);
     this.fr16384Analyser.connect(this.fr8192Analyser);
     this.fr8192Analyser.connect(this.fr4096Analyser);
     this.fr4096Analyser.connect(this.fr2048Analyser);
@@ -285,7 +290,7 @@ export class AudioService {
 
 
 
-    setInterval(this.analyzeData, 60);
+    // setInterval(this.analyzeData, 120);
 
   }
 
@@ -328,12 +333,17 @@ export class AudioService {
     }
 
     // get highest,lowest and average FREQUENCIES for this frame
-    let frCurrentHigh: number = 0;
-    let frCurrentLow: number = 255;
+    let frCurrentHigh = 0;
+    let frCurrentLow = 255;
 
     this.sample1.forEach((f, i) => {
-      if (f > frCurrentHigh) frCurrentHigh = f;
-      if (f < frCurrentLow) frCurrentLow = f;
+      if (f > frCurrentHigh) {
+        frCurrentHigh = f;
+      }
+
+      if (f < frCurrentLow) {
+        frCurrentLow = f;
+      }
 
       // this.sample1Totals[i].values.push(f / 10); //  /255
       // if (this.sample1Totals[i].values.length > this.maxAverages) {
@@ -347,7 +357,7 @@ export class AudioService {
       // this.sample1Averages[i].value = total / this.sample1Totals[i].values.length;
     });
 
-    this.sample1Normalized = this.normalizeData(this.sample1);
+    // this.sample1Normalized = this.normalizeData(this.sample1);
 
 
     //////////////////////////////////////
@@ -356,10 +366,16 @@ export class AudioService {
     this.tdAnalyser.getByteTimeDomainData(this.tdDataArray);
 
     // get the highest for this frame
-    this.highTD = 0;
-    this.tdDataArray.forEach(d => {
-      if (d > this.highTD) this.highTD = d;
-    });
+    // this.highTD = 0;
+    // this.lowTD = 256;
+    // this.tdDataArray.forEach(d => {
+    //   if (d > this.highTD) {
+    //     this.highTD = d;
+    //   }
+    //   if (d < this.lowTD) {
+    //     this.lowTD = d;
+    //   }
+    // });
 
     // normalize the data   0..1
     this.tdDataArrayNormalized = this.normalizeData(this.tdDataArray);
@@ -369,11 +385,6 @@ export class AudioService {
     if (this.tdHistory.length > this.tdHistoryArraySize) {
       this.tdHistory.shift();
     }
-
-    // if (this.sample1[300] != 0){
-    // console.log("data analyzed!!");
-    // console.log(this.sample1[300]);
-    // }
   }
 
   normalizeData(sourceData) {
@@ -381,16 +392,7 @@ export class AudioService {
     return sourceData.map(n => n * multiplier * 255);
   }
 
-  public logAudioInfo = () => {
-    // console.log("service-Audio =  "+this.audio);
-    console.log(this.audio);
-    // console.log("service-Audio Source =  "+this.audio.src);
-    console.log(this.audio.src);
-  }
-
-
   clearSampleArrays() {
-    // this.sampleCount = 0;
 
     for (let index = 0; index < 576; index++) {
       this.sample1[index] = 0;
@@ -406,10 +408,9 @@ export class AudioService {
     }
   }
 
-  buildSampleArrays(){
-    this.sample1.fill(0,0,575);
+  buildSampleArrays() {
+    this.sample1.fill(0, 0, 575);
     // for (let index = 0; index < 576; index++) {
-    //   this.sample1[index] = 0;
     //   this.sample1Normalized[index] = 0;
     //   this.sample1Totals[index] = {
     //     index: index,
@@ -422,19 +423,19 @@ export class AudioService {
     // }
   }
 
-  getSample(){
+  getSample() {
     return this.sample1;
   }
 
-  getTDData(){
-    return this.tdDataArrayNormalized;
+  getTDData() {
+    return this.tdDataArray;
   }
 
-  getNormalizedSample(){
-    return this.sample1Normalized;
-  }
+  // getNormalizedSample() {
+  //   return this.sample1Normalized;
+  // }
 
-  setGain(){
-    this.gainNode.gain.setValueAtTime(this.optionsService.options.sampleGain.value, this.audioCtx.currentTime)
+  setGain() {
+    this.gainNode.gain.setValueAtTime(this.optionsService.options.sampleGain.value, this.audioCtx.currentTime);
   }
 }
