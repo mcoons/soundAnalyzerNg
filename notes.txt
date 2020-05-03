@@ -1,3 +1,25 @@
+angular is wrapper by an express server for prod deployment
+
+    to build prod for express server
+    ng build --aot --prod
+
+    to run prod express server on localhost:8080
+    node server.js       
+
+    to run local ng dev server on localhost:4200
+    ng serve
+
+
+    
+
+https://dashboard.heroku.com/apps/soundanalyzerng
+
+https://soundanalyzerng.herokuapp.com/
+
+https://github.com/mcoons/soundAnalyzerNg
+
+
+
 1920x1200, 1680x1050, 1280x800, and 1024x640
 
 

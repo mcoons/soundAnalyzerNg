@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,9 +13,6 @@ import { OptionsPanelComponent } from './options-panel/options-panel.component';
 import { TitleComponent } from './title/title.component';
 import { AudioPlayerComponent } from './audio-player/audio-player.component';
 import { SplashScreenComponent } from './splash-screen/splash-screen.component';
-
-
-
 
 @NgModule({
    declarations: [
@@ -38,6 +36,5 @@ import { SplashScreenComponent } from './splash-screen/splash-screen.component';
       AppComponent
    ]
 })
+
 export class AppModule { }
-
-

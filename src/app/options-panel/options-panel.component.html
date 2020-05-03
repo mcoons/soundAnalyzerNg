@@ -67,11 +67,27 @@
                 <p class="optionHeader" >Console</p>
             
                 <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">
-                    <div *ngIf = "this.options[option].showInConsole">
-                        {{this.options[option].label + ': ' + this.options[option].value}}
+                    <div *ngIf = "this.options[option].showInConsole && this.options[option].type =='numeric'">
+                        {{this.options[option].label + ': ' + (this.options[option].value | number:'0.2')}}
                     </div>
+                    <div *ngIf = "this.options[option].showInConsole && this.options[option].type !='numeric'">
+                        {{this.options[option].label + ': ' + (this.options[option].value )}}
+                    </div>
+
+                </div>
+
+                <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.state)">
+                    <div *ngIf = "this.optionsService.state[option].showInConsole && this.optionsService.state[option].type =='numeric'">
+                        {{this.optionsService.state[option].label + ': ' + (this.optionsService.state[option].value | number:'0.2')}}
+                    </div>
+                    <div *ngIf = "this.optionsService.state[option].showInConsole && this.optionsService.state[option].type !='numeric'">
+                        {{this.optionsService.state[option].label + ': ' + (this.optionsService.state[option].value )}}
+                    </div>
+
                 </div>
             </div>
+
         </div>
+
     </div>
 </div>

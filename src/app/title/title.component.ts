@@ -1,15 +1,17 @@
+
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { OptionsService } from '../options.service';
 import { AudioService } from '../audio.service';
-
 import { MessageService } from '../message.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-title',
   templateUrl: './title.component.html',
   styleUrls: ['./title.component.css']
 })
+
 export class TitleComponent implements OnInit, OnDestroy {
   @Input('title') title: string;
 
@@ -33,10 +35,8 @@ export class TitleComponent implements OnInit, OnDestroy {
     this.options = this.optionsService.getOptions();
   }
 
-
   ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
   }
 }
-
