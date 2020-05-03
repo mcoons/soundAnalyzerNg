@@ -20,9 +20,9 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
 
   options;
 
-  waveformDelay = 6;
+  waveformDelay = 3;
   waveformDelayCounter = 0;
-  waveFormDataSource; 
+  waveFormDataSource;
 
   constructor(
     public optionsService: OptionsService,
@@ -44,18 +44,15 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     this.canvas = document.getElementById('canvas2d') as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d');
 
-    console.log('2D canvas');
-    console.log(this.canvas);
+    // console.log('2D canvas');
+    // console.log(this.canvas);
 
-    console.log('2D ctx: ');
-    console.log(this.ctx);
-
-    this.ctx.fillStyle = 'blue';
-    this.ctx.fillRect(this.canvas.width / 2 - 50, 0, 100, this.canvas.height);
+    // console.log('2D ctx: ');
+    // console.log(this.ctx);
 
     this.canvas.style.width = this.canvas.width.toString();
     this.canvas.style.height = this.canvas.height.toString();
-    this.ctx.globalAlpha = .5;
+    // this.ctx.globalAlpha = .5;
 
     window.requestAnimationFrame(this.render2DFrame);
 
@@ -74,6 +71,8 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.fixDpi();
+    this.optionsService.windowResize();
+
 
     if (this.optionsService.options.showBars.value === true) {
       this.draw2DBars();
@@ -166,7 +165,11 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     // console.log('playerDiv offsetTop = ' + playerDiv.offsetTop);
     // console.log('window.devicePixelRatio = ' + window.devicePixelRatio);
 
-    return playerDiv.offsetTop * window.devicePixelRatio;
+    if (playerDiv.offsetTop * window.devicePixelRatio <= this.canvas.height){
+      return playerDiv.offsetTop * window.devicePixelRatio;
+    } else {
+      return this.canvas.height;
+    }
   }
 
 }

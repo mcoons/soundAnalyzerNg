@@ -37,8 +37,8 @@ export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.canvas = document.getElementById('canvas3d') as HTMLCanvasElement;
-    console.log('3D canvas');
-    console.log(this.canvas);
+    // console.log('3D canvas');
+    // console.log(this.canvas);
   }
 
   ngOnDestroy() {

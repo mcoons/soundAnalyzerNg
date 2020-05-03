@@ -47,13 +47,6 @@ export class OptionsService {
       max: 10
     },
 
-    showBars: {
-      showInConsole: false,
-      group: 'Visual',
-      type: 'checkbox',
-      label: 'Show Bars',
-      value: false
-    },
     showWaveform: {
       showInConsole: false,
       group: 'Visual',
@@ -61,7 +54,13 @@ export class OptionsService {
       label: 'Show Waveform',
       value: false
     },
-
+    showBars: {
+      showInConsole: false,
+      group: 'Visual',
+      type: 'checkbox',
+      label: 'Show Bars',
+      value: false
+    },
     sampleGain: {
       showInConsole: false,
       group: 'Visual',
@@ -71,6 +70,7 @@ export class OptionsService {
       min: 1,
       max: 20
     },
+
     showConsole: {
       showInConsole: true,
       group: 'Developer',

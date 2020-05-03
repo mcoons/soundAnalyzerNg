@@ -28,34 +28,33 @@ declare var $: any;
         bottom: '10px'
       })),
       state('playerClosed', style({
-        bottom: '-98px'
-        // bottom: '-' + getTopOfPlayer() + 'px'
+        bottom: '-700px'
       })),
       transition('playerOpen => playerClosed', [
-        animate('.2s')
+        animate('.5s')
       ]),
       transition('playerClosed => playerOpen', [
-        animate('.2s')
+        animate('.5s')
       ]),
     ]),
   ]
-
 })
+
 export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() playlist: Track[];
   @Input() autoPlay: true;
   @Input() displayTitle: true;
   @Input() displayPlaylist: true;
   @Input() pageSizeOptions = [2, 4, 6];
-  @Input() expanded = false;
+  @Input() expanded = true;
   @Input() displayVolumeControls = true;
 
   msaapDisplayTitle;
   msaapDisplayPlayList;
   msaapPageSizeOptions;
   msaapDisplayVolumeControls;
-
-  // myTop: number;
+  msaapExpanded;
+  msaapAutoPlay;
 
   msaapPlaylist: Track[];
 
@@ -142,6 +141,8 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.msaapDisplayPlayList = true;
     this.msaapPageSizeOptions = [2, 4, 6];
     this.msaapDisplayVolumeControls = true;
+    this.msaapExpanded = true;
+    this.msaapAutoPlay = true;
   }
 
   ngAfterViewInit(): void {
@@ -161,3 +162,4 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 }
+
