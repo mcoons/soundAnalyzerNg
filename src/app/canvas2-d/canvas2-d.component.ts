@@ -20,6 +20,10 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
 
   options;
 
+  waveformDelay = 6;
+  waveformDelayCounter = 0;
+  waveFormDataSource; 
+
   constructor(
     public optionsService: OptionsService,
     public audioService: AudioService,
@@ -75,21 +79,22 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
       this.draw2DBars();
     }
 
-    if (this.optionsService.options.showWaveform.value === true) {
-      this.drawWaveform(0);
+    this.waveformDelayCounter++;
+    if (this.waveformDelayCounter >= this.waveformDelay) {
+      this.waveformDelayCounter = 0;
+      this.waveFormDataSource = this.audioService.getTDData();
     }
 
-    // console.log("animation frame loop")
+    if (this.optionsService.options.showWaveform.value === true) {
+      this.drawWaveform();
+    }
+
     window.requestAnimationFrame(this.render2DFrame);
   }
 
   fixDpi = () => {
     // create a style object that returns width and height
     const dpi = window.devicePixelRatio;
-
-
-
-    // console.log(window.getComputedStyle(this.canvas));
 
     const styles = window.getComputedStyle(this.canvas);
 
@@ -101,14 +106,12 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
         return +styles.width.slice(0, -2);
       }
     };
-    // set the correct attributes for a crystal clear image!
+    // set the correct canvas attributes for device dpi
     this.canvas.setAttribute('width', (style.width() * dpi).toString());
     this.canvas.setAttribute('height', (style.height() * dpi).toString());
   }
 
-
   draw2DBars() {
-
     const dataSource = this.audioService.getSample();
     if (dataSource == null) {
       return;
@@ -116,48 +119,38 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const WIDTH = this.canvas.width - 50;
     const HEIGHT = this.canvas.height;
-    // const barWidth = (WIDTH / 576)-1; // -80
     const barWidth = (WIDTH / 550) - 1; // -80
 
     this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
     let x = 0;
 
-    // for (var i = 0; i < 576; i++) { // -80
     for (let i = 0; i < 550; i++) { // -80
       const barHeight = dataSource[i] * .5 + 1;
 
       const r = barHeight * 2 - 1;
       const g = 255 * i / 576;
-      // const b = 255 - 128 * i / 576;
       const b = 255 - 128 * i / 550;
 
       this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
-      this.ctx.fillRect(x + 25,
-        // HEIGHT - barHeight - (this.optionsService.options.renderPlayer.value === true ? 200 : 10), barWidth, barHeight);
-        this.getTopOfPlayer() - barHeight, barWidth, barHeight);
+      this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight, barWidth, barHeight);
 
       x += barWidth + 1;
     }
-
   }
 
-  drawWaveform(height) {
-    const dataSource = this.audioService.getTDData();
-    if (dataSource == null) {
+  drawWaveform() {
+    if (this.waveFormDataSource == null) {
       return;
     }
 
     const width = this.canvas.width - 50;
 
     this.ctx.lineWidth = 3;
-    // this.ctx.moveTo(25, this.audioService.highTD - 200);
     this.ctx.moveTo(25, 90);
     this.ctx.beginPath();
     for (let i = 0; i < width; i++) {
-      const y = (dataSource[i] - 128);
-      // this.ctx.lineTo(i + 25, y + this.audioService.highTD - 200);
-      // this.ctx.lineTo(i + 25, y + this.audioService.highTD - this.audioService.lowTD);
+      const y = (this.waveFormDataSource[i] - 128);
       this.ctx.lineTo(i + 25, y + 90);
     }
 
@@ -171,7 +164,6 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // console.log('playerDiv client height = ' + playerDiv.clientHeight);
     // console.log('playerDiv offsetTop = ' + playerDiv.offsetTop);
-
     // console.log('window.devicePixelRatio = ' + window.devicePixelRatio);
 
     return playerDiv.offsetTop * window.devicePixelRatio;

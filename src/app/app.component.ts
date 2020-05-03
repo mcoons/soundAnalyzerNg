@@ -1,9 +1,5 @@
+
 import { Component, OnInit } from '@angular/core';
-
-import { OptionsService } from './options.service';
-import { MessageService } from './message.service';
-
-
 import {
   trigger,
   state,
@@ -11,6 +7,9 @@ import {
   animate,
   transition,
 } from '@angular/animations';
+
+import { OptionsService } from './options.service';
+import { MessageService } from './message.service';
 
 @Component({
   selector: 'app-root',
@@ -63,16 +62,13 @@ export class AppComponent implements OnInit {
         // console.log('Audio Player: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
       });
-
   }
 
   ngOnInit() {
   }
 
   togglePanel() {
-
     this.optionsService.toggleOption('showPanel');
-
   }
 
 }

@@ -1,16 +1,17 @@
+
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { OptionsService } from '../options.service';
 import { AudioService } from '../audio.service';
-
 import { MessageService } from '../message.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-canvas3-d',
   templateUrl: './canvas3-d.component.html',
   styleUrls: ['./canvas3-d.component.css']
 })
+
 export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private canvas: HTMLCanvasElement;

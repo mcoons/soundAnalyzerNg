@@ -1,10 +1,7 @@
-import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
-import { OptionsService } from '../options.service';
-import { AudioService } from '../audio.service';
-import { Track } from 'ngx-audio-player';
 
-import { MessageService } from '../message.service';
+import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Track } from 'ngx-audio-player';
 
 import {
   trigger,
@@ -13,6 +10,10 @@ import {
   animate,
   transition,
 } from '@angular/animations';
+
+import { OptionsService } from '../options.service';
+import { AudioService } from '../audio.service';
+import { MessageService } from '../message.service';
 
 declare var $: any;
 
@@ -54,7 +55,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   msaapPageSizeOptions;
   msaapDisplayVolumeControls;
 
-  myTop: number;
+  // myTop: number;
 
   msaapPlaylist: Track[];
 
@@ -74,7 +75,6 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         // console.log('Audio Player: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
         this.msaapDisplayTitle = this.options.showTrackTitle.value;
-
       });
   }
 
@@ -150,7 +150,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     setTimeout(() => {
       // this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
       this.audioService.setAudio(this.audio);
-
+      this.optionsService.windowResize();
     }, 50);
 
   }
@@ -160,28 +160,4 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.unsubscribe();
   }
 
-  // getTopOfPlayer(): number {
-
-  //   const playerDiv = document.getElementById('playerDIV') as HTMLElement;
-
-  //   // console.log('playerDiv client height = ' + playerDiv.clientHeight);
-  //   // console.log('playerDiv offsetTop = ' + playerDiv.offsetTop);
-
-  //   // console.log('window.devicePixelRatio = ' + window.devicePixelRatio);
-
-  //   return playerDiv.offsetTop * window.devicePixelRatio || 0;
-  // }
-
 }
-
-// function getTopOfPlayer(): number {
-
-//   const playerDiv = document.getElementById('playerDIV') as HTMLElement;
-
-//   // console.log('playerDiv client height = ' + playerDiv.clientHeight);
-//   // console.log('playerDiv offsetTop = ' + playerDiv.offsetTop);
-
-//   // console.log('window.devicePixelRatio = ' + window.devicePixelRatio);
-
-//   return playerDiv.offsetTop * window.devicePixelRatio || 0;
-// }

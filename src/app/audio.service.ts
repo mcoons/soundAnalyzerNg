@@ -1,12 +1,14 @@
+
 import { Injectable } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { OptionsService } from './options.service';
 import { MessageService } from './message.service';
-import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AudioService {
 
   audio: HTMLAudioElement = null;
@@ -285,10 +287,6 @@ export class AudioService {
     this.fr128Analyser.connect(this.fr64Analyser);
     this.fr64Analyser.connect(this.frAnalyserAll);
     this.frAnalyserAll.connect(this.frAnalyser);
-    // this.frAnalyser.connect(this.tdAnalyser);
-    // this.tdAnalyser.connect(this.audioCtx.destination);
-
-
 
     // setInterval(this.analyzeData, 120);
 
@@ -297,7 +295,6 @@ export class AudioService {
   analyzeData = () => {
     ////////////////////////////////////
     // get FREQUENCY data for this frame
-
 
     this.frAnalyser.getByteFrequencyData(this.frDataArray);
     this.frAnalyserAll.getByteFrequencyData(this.frDataArrayAll);
@@ -317,7 +314,6 @@ export class AudioService {
     this.frDataArrayNormalizedAll = this.normalizeData(this.frDataArrayAll);
 
     // combine sample set
-
     for (let index = 0; index < 64; index++) { //  64*9 = 576
 
       this.sample1[index] = (this.soundArrays[8])[index];
@@ -423,17 +419,26 @@ export class AudioService {
     // }
   }
 
-  getSample() {
-    return this.sample1;
-  }
-
-  getTDData() {
-    return this.tdDataArray;
-  }
-
   // getNormalizedSample() {
   //   return this.sample1Normalized;
   // }
+
+  getSample() {
+    // return this.sample1;
+    if (this.sample1) {
+      return [...this.sample1];
+    } else {
+      return null;
+    }
+  }
+
+  getTDData() {
+    if (this.tdDataArray) {
+      return [...this.tdDataArray];
+    } else {
+      return null;
+    }
+  }
 
   setGain() {
     this.gainNode.gain.setValueAtTime(this.optionsService.options.sampleGain.value, this.audioCtx.currentTime);
