@@ -32,10 +32,10 @@ export class OptionsService {
     },
     showTrackTitle: {
       showInConsole: false,
-      group: 'Player',
+      group: 'Hidden',
       type: 'checkbox',
       label: 'Show Track Title',
-      value: false
+      value: true
     },
     volume: {
       showInConsole: false,
@@ -45,6 +45,18 @@ export class OptionsService {
       value: 7,
       min: 0,
       max: 10
+    },
+    selectSiteMusic: {
+      showInConsole: false,
+      group: 'Player',
+      type: 'button',
+      label: 'Select Site Music'
+    },
+    selectUserMusic: {
+      showInConsole: false,
+      group: 'Player',
+      type: 'button',
+      label: 'Select User Music'
     },
 
     showWaveform: {

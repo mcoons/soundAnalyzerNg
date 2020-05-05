@@ -1,14 +1,13 @@
 #splashScreen {
-  /* bottom: 10px; */
   position: fixed;
   color: white;
-  /* text-align: center; */
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px;
+  padding: 8px;
+  text-align: center;
 
   width: 30%;
   height: 30%;
@@ -25,13 +24,13 @@
 
 button {
   width: 90px;
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  margin-left: -45px;
+  /* position: absolute; */
+  /* bottom: 20px; */
+  /* left: 50%; */
+  /* margin-left: -45px; */
   border-radius: 5px;
 }
 
 p {
-    text-align: center;
+  text-align: center;
 }

@@ -13,6 +13,8 @@ import { OptionsPanelComponent } from './options-panel/options-panel.component';
 import { TitleComponent } from './title/title.component';
 import { AudioPlayerComponent } from './audio-player/audio-player.component';
 import { SplashScreenComponent } from './splash-screen/splash-screen.component';
+import { MaterialModule } from './material.module';
+import { PlayerComponent } from './player/player.component';
 
 @NgModule({
    declarations: [
@@ -22,14 +24,16 @@ import { SplashScreenComponent } from './splash-screen/splash-screen.component';
       OptionsPanelComponent,
       TitleComponent,
       AudioPlayerComponent,
-      SplashScreenComponent
+      SplashScreenComponent,
+      PlayerComponent
    ],
    imports: [
       BrowserModule,
       NgbModule,
       BrowserAnimationsModule,
       NgxAudioPlayerModule,
-      FormsModule
+      FormsModule,
+      MaterialModule
    ],
    providers: [],
    bootstrap: [

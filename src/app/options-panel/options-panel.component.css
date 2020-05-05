@@ -25,9 +25,15 @@
 }
 
 .optionsContainer {
-    margin-left: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 label  {
     margin-left: 5px;
+}
+
+button {
+    width: 100%;
+    margin-bottom: 5px;
 }

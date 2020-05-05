@@ -10,7 +10,7 @@ angular is wrapper by an express server for prod deployment
     ng serve
 
 
-    
+https://itnext.io/how-to-deploy-angular-application-to-heroku-1d56e09c5147
 
 https://dashboard.heroku.com/apps/soundanalyzerng
 
@@ -23,14 +23,15 @@ https://github.com/mcoons/soundAnalyzerNg
 1920x1200, 1680x1050, 1280x800, and 1024x640
 
 
-
 TODO
-Fix audio player lock issue
 
 Determine relation between pixels on all layers 
 i.e. where top of player div relates to 2d canvas
 
 
+
+creating new player to have absolute control from
+https://auth0.com/blog/building-an-audio-player-app-with-angular-and-rxjs/
 
 
 

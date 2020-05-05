@@ -115,24 +115,21 @@ export class AudioService {
 
   public setAudio = (audio: HTMLAudioElement) => {
 
+    console.log(audio);
+
     if (audio == null) {
       return;
     }
 
     this.audio = audio;
 
-    // this.audio.volume = .7;
     this.audio.volume = (this.options.volume.value) / 10;
-
-    // this.smoothingConstant = .9;
-    // // this.maxAverages = 50;
-    // this.minDecibels = -100;  // -100
-    // this.maxDecibels = 0;   // -30
-    // this.tdHistoryArraySize = 64;  // 4096
 
     this.audioCtx = new AudioContext();
 
     this.audioSrc = this.audioCtx.createMediaElementSource(this.audio); /* <<<<<<<<<<<<<<<<<<< */
+
+    // this.audioSrc.connect(this.audioCtx.destination);
 
 
     this.gainNode = this.audioCtx.createGain();
@@ -225,7 +222,6 @@ export class AudioService {
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
     this.tdAnalyser.fftSize = 8192;
-    // this.tdAnalyser.fftSize = 2048;
     this.tdAnalyser.minDecibels = this.minDecibels;
     this.tdAnalyser.maxDecibels = this.maxDecibels;
     this.tdAnalyser.smoothingTimeConstant = this.smoothingConstant;
@@ -234,15 +230,9 @@ export class AudioService {
     this.tdDataArray = new Uint8Array(this.tdBufferLength);
     this.tdDataArrayNormalized = new Uint8Array(this.frBufferLength);
 
-    // this.tdHistory = [];
     this.tdHistory = Array(this.tdHistoryArraySize).fill(0);
 
-    // this.sample1 = [];
-    // this.sample1Normalized = [];
-    // this.sample1Totals = [];
-    // this.sample1Averages = [];
-
-    this.clearSampleArrays();
+    // this.clearSampleArrays();
 
     this.soundArrays = [
       this.fr64DataArray,
@@ -287,8 +277,6 @@ export class AudioService {
     this.fr128Analyser.connect(this.fr64Analyser);
     this.fr64Analyser.connect(this.frAnalyserAll);
     this.frAnalyserAll.connect(this.frAnalyser);
-
-    // setInterval(this.analyzeData, 120);
 
   }
 
@@ -362,16 +350,16 @@ export class AudioService {
     this.tdAnalyser.getByteTimeDomainData(this.tdDataArray);
 
     // get the highest for this frame
-    // this.highTD = 0;
-    // this.lowTD = 256;
-    // this.tdDataArray.forEach(d => {
-    //   if (d > this.highTD) {
-    //     this.highTD = d;
-    //   }
-    //   if (d < this.lowTD) {
-    //     this.lowTD = d;
-    //   }
-    // });
+    this.highTD = 0;
+    this.lowTD = 256;
+    this.tdDataArray.forEach(d => {
+      if (d > this.highTD) {
+        this.highTD = d;
+      }
+      if (d < this.lowTD) {
+        this.lowTD = d;
+      }
+    });
 
     // normalize the data   0..1
     this.tdDataArrayNormalized = this.normalizeData(this.tdDataArray);

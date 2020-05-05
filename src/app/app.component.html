@@ -14,8 +14,8 @@
     <app-canvas3-d></app-canvas3-d>
     <app-canvas2-d></app-canvas2-d>
 
-    <app-audio-player id="ngPlayerDIV" *ngIf = "this.options.showPlayer.value == true" ></app-audio-player>
-
+    <!-- <app-audio-player id="ngPlayerDIV" *ngIf = "this.options.showPlayer.value == true" ></app-audio-player> -->
+    <app-player id="ngPlayerDIV" *ngIf = "this.options.showPlayer.value == true" ></app-player>
     <button *ngIf = "this.options.showSplash.value == false" (click)="this.togglePanel()">{{ this.optionsService.options.showPanel.value == true ? ">" : "<" }}</button>
   
   </div>

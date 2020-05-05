@@ -43,8 +43,35 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     this.optionsService.updateOption(e.target.name, e.target.value);
   }
 
+  pressItem(e) {
+    console.log(e.target.name + ' button pressed');
+    switch (e.target.name) {
+      case 'selectSiteMusic':
+        this.messageService.announceMessage('selectSiteMusic');
+        break;
+
+      case 'selectUserMusic':
+        this.messageService.announceMessage('selectUserMusic');
+        break;
+
+      default:
+        break;
+    }
+  }
+
   ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
   }
+
+
+
+  selectSiteMusic() {
+
+  }
+
+  selectUserMusic() {
+
+  }
+
 }

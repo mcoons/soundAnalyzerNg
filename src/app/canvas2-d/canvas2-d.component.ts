@@ -112,13 +112,14 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
 
   draw2DBars() {
     const dataSource = this.audioService.getSample();
+
     if (dataSource == null) {
       return;
     }
 
     const WIDTH = this.canvas.width - 50;
     const HEIGHT = this.canvas.height;
-    const barWidth = (WIDTH / 550) - 1; // -80
+    const barWidth = (WIDTH / 550);  // - (this.canvas.width > 1000 ? 1 : 0); // -80
 
     this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
@@ -134,7 +135,7 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
       this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
       this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight, barWidth, barHeight);
 
-      x += barWidth + 1;
+      x += barWidth;  // +  (this.canvas.width < 1000 ? 0 : 1);
     }
   }
 
@@ -168,7 +169,7 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     if (playerDiv.offsetTop * window.devicePixelRatio <= this.canvas.height){
       return playerDiv.offsetTop * window.devicePixelRatio;
     } else {
-      return this.canvas.height;
+      return this.canvas.height - 20;
     }
   }
 
