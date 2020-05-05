@@ -1,8 +1,8 @@
 
 import { Component, OnInit, Input } from '@angular/core';
 
-import { OptionsService } from '../options.service';
-import { MessageService } from '../message.service';
+import { OptionsService } from '../../services/options/options.service';
+import { MessageService } from '../../services/message/message.service';
 
 @Component({
   selector: 'app-splash-screen',

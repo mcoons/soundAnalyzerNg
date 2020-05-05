@@ -1,10 +1,13 @@
 
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { OptionsService } from '../options.service';
-import { AudioService } from '../audio.service';
-import { MessageService } from '../message.service';
+import { OptionsService } from '../../services/options/options.service';
+import { AudioService } from '../../services/audio/audio.service';
+import { MessageService } from '../../services/message/message.service';
+
+import { EngineService } from '../../services/engine/engine.service';
+
 
 @Component({
   selector: 'app-canvas3-d',
@@ -13,8 +16,9 @@ import { MessageService } from '../message.service';
 })
 
 export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('rendererCanvas', { static: true })
+  public rendererCanvas: ElementRef<HTMLCanvasElement>;
 
-  private canvas: HTMLCanvasElement;
   subscription: Subscription;
 
   options;
@@ -22,21 +26,25 @@ export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     public optionsService: OptionsService,
     public audioService: AudioService,
-    public messageService: MessageService) {
+    public messageService: MessageService,
+    private engServ: EngineService) {
 
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
-        // console.log('Canvas3D: Message received from service is :  ' + message);
+        console.log('Canvas3D: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
       });
   }
 
   ngOnInit(): void {
     this.options = this.optionsService.getOptions();
+
+    this.engServ.createScene(this.rendererCanvas);
+    this.engServ.animate();
   }
 
   ngAfterViewInit(): void {
-    this.canvas = document.getElementById('canvas3d') as HTMLCanvasElement;
+    // this.canvas = document.getElementById('canvas3d') as HTMLCanvasElement;
     // console.log('3D canvas');
     // console.log(this.canvas);
   }
@@ -45,5 +53,4 @@ export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
     // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
   }
-
 }
