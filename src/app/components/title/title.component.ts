@@ -2,9 +2,9 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { OptionsService } from '../options.service';
-import { AudioService } from '../audio.service';
-import { MessageService } from '../message.service';
+import { OptionsService } from '../../services/options/options.service';
+import { AudioService } from '../../services/audio/audio.service';
+import { MessageService } from '../../services/message/message.service';
 
 @Component({
   selector: 'app-title',

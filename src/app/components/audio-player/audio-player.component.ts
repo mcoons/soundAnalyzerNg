@@ -11,9 +11,9 @@ import {
   transition,
 } from '@angular/animations';
 
-import { OptionsService } from '../options.service';
-import { AudioService } from '../audio.service';
-import { MessageService } from '../message.service';
+import { OptionsService } from '../../services/options/options.service';
+import { AudioService } from '../../services/audio/audio.service';
+import { MessageService } from '../../services/message/message.service';
 
 declare var $: any;
 
@@ -149,7 +149,6 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
 
     setTimeout(() => {
-      // this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
       this.audioService.setAudio(this.audio);
       this.optionsService.windowResize();
     }, 50);

@@ -1,8 +1,8 @@
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { OptionsService } from '../options.service';
-import { MessageService } from '../message.service';
+import { OptionsService } from '../../services/options/options.service';
+import { MessageService } from '../../services/message/message.service';
 import { Subscription } from 'rxjs';
 
 @Component({

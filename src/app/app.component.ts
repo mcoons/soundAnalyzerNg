@@ -8,8 +8,8 @@ import {
   transition,
 } from '@angular/animations';
 
-import { OptionsService } from './options.service';
-import { MessageService } from './message.service';
+import { OptionsService } from './services/options/options.service';
+import { MessageService } from './services/message/message.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +21,7 @@ import { MessageService } from './message.service';
         marginRight: '0px'
       })),
       state('panelClosed', style({
-        marginRight: '-260px'
+        marginRight: '-260px',
       })),
       transition('panelOpen => panelClosed', [
         animate('.2s')
@@ -33,10 +33,12 @@ import { MessageService } from './message.service';
 
     trigger('splashOpenClose', [
       state('splashOpen', style({
-        opacity: 1
+        opacity: 1,
+        zIndex: 500
       })),
       state('splashClosed', style({
-        opacity: 0
+        opacity: 0,
+        zIndex: -500
       })),
       transition('splashOpen => splashClosed', [
         animate('.5s')

@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 
-import { OptionsService } from '../options.service';
-import { AudioService } from '../audio.service';
+import { OptionsService } from '../../services/options/options.service';
+import { AudioService } from '../../services/audio/audio.service';
 
-import { MessageService } from '../message.service';
+import { MessageService } from '../../services/message/message.service';
 import { Subscription } from 'rxjs';
 
 @Component({

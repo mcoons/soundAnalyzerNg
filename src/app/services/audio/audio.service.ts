@@ -2,8 +2,8 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { OptionsService } from './options.service';
-import { MessageService } from './message.service';
+import { OptionsService } from '../options/options.service';
+import { MessageService } from '../message/message.service';
 
 @Injectable({
   providedIn: 'root'
