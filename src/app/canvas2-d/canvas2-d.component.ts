@@ -20,7 +20,7 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
 
   options;
 
-  waveformDelay = 3;
+  // waveformDelay = 3;
   waveformDelayCounter = 0;
   waveFormDataSource;
 
@@ -79,7 +79,7 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.waveformDelayCounter++;
-    if (this.waveformDelayCounter >= this.waveformDelay) {
+    if (this.waveformDelayCounter >= this.options.waveformDelay.value) {
       this.waveformDelayCounter = 0;
       this.waveFormDataSource = this.audioService.getTDData();
     }
@@ -165,10 +165,10 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     // console.log('playerDiv offsetTop = ' + playerDiv.offsetTop);
     // console.log('window.devicePixelRatio = ' + window.devicePixelRatio);
 
-    if (playerDiv.offsetTop * window.devicePixelRatio <= this.canvas.height){
+    if (playerDiv.offsetTop * window.devicePixelRatio <= this.canvas.height) {
       return playerDiv.offsetTop * window.devicePixelRatio;
     } else {
-      return this.canvas.height;
+      return this.canvas.height - 25;
     }
   }
 

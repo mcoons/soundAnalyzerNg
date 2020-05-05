@@ -9,6 +9,23 @@
     width: 260px;
 }
 
+#mainContainer {
+    display:flex;
+    justify-content: center;
+    align-items: center;    
+}
+
+#splashContainer {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+    z-index: 500;
+    text-align: center;
+
+}
+
 button {
     border: none;
     border-radius: 15px 0 0 15px;

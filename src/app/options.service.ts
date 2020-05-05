@@ -70,9 +70,18 @@ export class OptionsService {
       min: 1,
       max: 20
     },
+    waveformDelay: {
+      showInConsole: false,
+      group: 'Visual',
+      type: 'slider',
+      label: 'Waveform Delay',
+      value: 3,
+      min: 1,
+      max: 10
+    },
 
     showConsole: {
-      showInConsole: true,
+      showInConsole: false,
       group: 'Developer',
       type: 'checkbox',
       label: 'Show Console',
