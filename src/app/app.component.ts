@@ -39,10 +39,10 @@ import { MessageService } from './message.service';
         opacity: 0
       })),
       transition('splashOpen => splashClosed', [
-        animate('1s')
+        animate('.5s')
       ]),
       transition('splashClosed => splashOpen', [
-        animate('1s')
+        animate('.5s')
       ])
     ])
 

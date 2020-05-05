@@ -2,13 +2,14 @@
 <app-title [title]="title"></app-title>
 
 
-<div [@splashOpenClose]="this.optionsService.options.showSplash.value == true ? 'splashOpen' : 'splashClosed'">
-  <app-splash-screen [title]="title"></app-splash-screen>
-</div>
 
 
-<div id="mainContainer"  class="d-flex">
-
+<!-- <div id="mainContainer"  class="d-flex"> -->
+<div id="mainContainer" >
+  
+  <div id="splashContainer" [@splashOpenClose]="this.optionsService.options.showSplash.value == true ? 'splashOpen' : 'splashClosed'">
+    <app-splash-screen [title]="title"></app-splash-screen>
+  </div>
   <div id="main" class="col">
 
     <app-canvas3-d></app-canvas3-d>
