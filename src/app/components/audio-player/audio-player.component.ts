@@ -45,9 +45,9 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() autoPlay: true;
   @Input() displayTitle: true;
   @Input() displayPlaylist: true;
-  @Input() pageSizeOptions = [2, 4, 6];
+  @Input() pageSizeOptions = [2, 4];
   @Input() expanded = true;
-  @Input() displayVolumeControls = true;
+  @Input() displayVolumeControls = false;
 
   msaapDisplayTitle;
   msaapDisplayPlayList;
@@ -139,8 +139,8 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.msaapDisplayTitle = this.options.showTrackTitle.value;
     this.msaapDisplayPlayList = true;
-    this.msaapPageSizeOptions = [2, 4, 6];
-    this.msaapDisplayVolumeControls = true;
+    this.msaapPageSizeOptions = [2, 4];
+    this.msaapDisplayVolumeControls = false;
     this.msaapExpanded = true;
     this.msaapAutoPlay = true;
   }
@@ -148,11 +148,10 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
 
-    setTimeout(() => {
+    // setTimeout(() => {
       this.audioService.setAudio(this.audio);
       this.optionsService.windowResize();
-    }, 50);
-
+    // }, 50);
   }
 
   ngOnDestroy() {

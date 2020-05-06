@@ -5,6 +5,10 @@ import { OptionsService } from '../../services/options/options.service';
 import { MessageService } from '../../services/message/message.service';
 import { Subscription } from 'rxjs';
 
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {TooltipPosition} from '@angular/material/tooltip';
+
+
 @Component({
   selector: 'app-options-panel',
   templateUrl: './options-panel.component.html',
