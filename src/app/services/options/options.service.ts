@@ -20,7 +20,8 @@ export class OptionsService {
       group: 'General',
       type: 'checkbox',
       label: 'Show Title',
-      value: true
+      value: true,
+      tooltip: 'Show or hide the Analyzer title'
     },
 
     renderPlayer: {
@@ -35,7 +36,7 @@ export class OptionsService {
       group: 'Player',
       type: 'checkbox',
       label: 'Show Track Title',
-      value: false
+      value: true
     },
     volume: {
       showInConsole: false,

@@ -6,7 +6,7 @@
     box-shadow:
         0 0 8px 5px blue, 
         inset 0 0 8px 5px blue;
-    height: 99%;
+    height: 100%;
 
 }
 
@@ -29,5 +29,6 @@
 }
 
 label  {
-    margin-left: 5px;
+    margin: 5px;
+    /* margin-left: 5px; */
 }

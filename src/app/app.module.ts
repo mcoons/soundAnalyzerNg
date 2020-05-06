@@ -6,6 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxAudioPlayerModule } from 'ngx-audio-player';
 import { FormsModule } from '@angular/forms';
 
+import { TooltipModule } from 'ng2-tooltip-directive';
+
+
 import { WindowRefService } from './services/window-ref/window-ref.service';
 
 
@@ -32,7 +35,8 @@ import { SplashScreenComponent } from './components/splash-screen/splash-screen.
       NgbModule,
       BrowserAnimationsModule,
       NgxAudioPlayerModule,
-      FormsModule
+      FormsModule,
+      TooltipModule
    ],
    providers: [
       WindowRefService

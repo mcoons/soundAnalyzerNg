@@ -1,4 +1,4 @@
-#main, #options  {
+#main, #optionsContainer  {
     /* border: 5px solid red; */
     padding:0px;
     height: 100vh;
@@ -45,7 +45,5 @@ button:hover {
 }
 
 #optionsContainer {
-    /* display:absolute; */
-    height: 99vh;
-    /* border: 1px solid green; */
+    padding-bottom: 20px;
 }

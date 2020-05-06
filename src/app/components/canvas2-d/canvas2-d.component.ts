@@ -20,7 +20,6 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
 
   options;
 
-  // waveformDelay = 3;
   waveformDelayCounter = 0;
   waveFormDataSource;
 
@@ -52,13 +51,11 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.canvas.style.width = this.canvas.width.toString();
     this.canvas.style.height = this.canvas.height.toString();
-    // this.ctx.globalAlpha = .5;
+    this.ctx.globalAlpha = .5;
 
     window.requestAnimationFrame(this.render2DFrame);
 
   }
-
-
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
@@ -118,7 +115,7 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const WIDTH = this.canvas.width - 50;
     const HEIGHT = this.canvas.height;
-    const barWidth = (WIDTH / 550) - 1; // -80
+    const barWidth = (WIDTH / 550); // - 1; // -80
 
     this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
@@ -134,7 +131,7 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
       this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
       this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight, barWidth, barHeight);
 
-      x += barWidth + 1;
+      x += barWidth; // + 1;
     }
   }
 

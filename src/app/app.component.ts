@@ -41,10 +41,10 @@ import { MessageService } from './services/message/message.service';
         zIndex: -500
       })),
       transition('splashOpen => splashClosed', [
-        animate('.5s')
+        animate('1s')
       ]),
       transition('splashClosed => splashOpen', [
-        animate('.5s')
+        animate('1s')
       ])
     ])
 
