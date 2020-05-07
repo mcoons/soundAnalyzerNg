@@ -29,7 +29,7 @@ export class OptionsService {
       group: 'Player',
       type: 'checkbox',
       label: 'Show Player',
-      value: true
+      value: false
     },
     showTrackTitle: {
       showInConsole: false,
@@ -66,7 +66,7 @@ export class OptionsService {
       showInConsole: false,
       group: 'Visual',
       type: 'slider',
-      label: 'Sample Gain',
+      label: 'Visual Effect Strength',
       value: 1,
       min: 1,
       max: 20
@@ -78,7 +78,7 @@ export class OptionsService {
       label: 'Waveform Delay',
       value: 3,
       min: 1,
-      max: 10
+      max: 5
     },
 
     showConsole: {
@@ -86,7 +86,7 @@ export class OptionsService {
       group: 'Developer',
       type: 'checkbox',
       label: 'Show Console',
-      value: true
+      value: false
     },
     showPanel: {
       showInConsole: false,

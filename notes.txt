@@ -43,6 +43,7 @@ Node Mapping
 
 
 TODO
+_______________________________________________________________________
 
 Add testing (Karma, Jasmine)
 
@@ -63,13 +64,13 @@ Add microphone support
 Add 3D visuals
     BlockPlane - DONE
 
-
+Add sin() to camera movement
 
 Add sound generation - Shepards Tone - http://jsfiddle.net/captbaritone/x893Lqk5
 
 Volume: <input type='range' min='0' max='100' value='0' oninput=" setVolume(this.value)" ontouchstart="start();" onmousedown="start();">
 
--------------------------------
+_______________________________________________________________________
 
 var min_freq = 10;
 var max_freq = 40000;
@@ -114,6 +115,3 @@ function start() {
 function setVolume(volume) {
     gainNode.gain.value = volume / 100 / 12;
 }
-
-
-

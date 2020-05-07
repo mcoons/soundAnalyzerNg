@@ -26,5 +26,7 @@ export class SplashScreenComponent implements OnInit {
     this.optionsService.toggleOption('showWaveform');
     this.optionsService.toggleOption('showPanel');
     this.optionsService.toggleOption('showSplash');
+    setTimeout(() => {this.optionsService.toggleOption('renderPlayer')}, 5);
+    // this.optionsService.toggleOption('renderPlayer');
   }
 }
