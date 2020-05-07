@@ -8,9 +8,9 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display title', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to soundamalyzerNg!');
+    expect(page.getTitleText()).toEqual('Music Visualyzer Ng');
   });
 
   afterEach(async () => {
