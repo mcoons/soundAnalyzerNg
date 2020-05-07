@@ -29,6 +29,9 @@
 }
 
 label  {
-    margin: 5px;
-    /* margin-left: 5px; */
+    margin-left: 5px !important;
+}
+
+input {
+    margin-left: 5px !important;
 }

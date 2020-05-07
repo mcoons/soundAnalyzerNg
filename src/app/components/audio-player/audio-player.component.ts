@@ -2,6 +2,8 @@
 import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Track } from 'ngx-audio-player';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 import {
   trigger,
@@ -131,6 +133,10 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       {
         title: 'Ukulele Song',
         link: './assets/tracks/Ukulele Song.mp3'
+      },
+      {
+        title: 'Shepard Tone',
+        link: './assets/tracks/Shepard-tone.mp3'
       }
 
     ];
@@ -149,8 +155,8 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
 
     // setTimeout(() => {
-      this.audioService.setAudio(this.audio);
-      this.optionsService.windowResize();
+    this.audioService.setAudio(this.audio);
+    this.optionsService.windowResize();
     // }, 50);
   }
 

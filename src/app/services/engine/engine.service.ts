@@ -3,32 +3,23 @@ import { ElementRef, Injectable, NgZone } from '@angular/core';
 import { Subscription, Observable, fromEvent } from 'rxjs';
 
 import { MessageService } from '../message/message.service';
+import { AudioService } from '../audio/audio.service';
 
-import {
-  Engine,
-  FreeCamera,
-  Scene,
-  Light,
-  Mesh,
-  Color3,
-  Color4,
-  Vector3,
-  HemisphericLight,
-  StandardMaterial,
-  Texture,
-  DynamicTexture
-} from 'babylonjs';
+import * as BABYLON from 'babylonjs';
 import 'babylonjs-materials';
+
+import { BlockPlaneManager } from '../../visualization-classes/BlockPlaneManager';
 
 @Injectable({ providedIn: 'root' })
 export class EngineService {
   private canvas: HTMLCanvasElement;
-  private engine: Engine;
-  private camera: FreeCamera;
-  private scene: Scene;
-  private light: Light;
+  private engine: BABYLON.Engine;
+  private camera: BABYLON.ArcRotateCamera;
+  private scene: BABYLON.Scene;
+  private light: BABYLON.Light;
+  private objects = [];
 
-  private sphere: Mesh;
+  bpm;
 
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
@@ -36,12 +27,14 @@ export class EngineService {
   public constructor(
     private ngZone: NgZone,
     private windowRef: WindowRefService,
-    public messageService: MessageService
+    public messageService: MessageService,
+    public audioService: AudioService,
   ) {
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
       this.engine.resize();
     });
+
   }
 
   public createScene(canvas: ElementRef<HTMLCanvasElement>): void {
@@ -49,43 +42,78 @@ export class EngineService {
     this.canvas = canvas.nativeElement;
 
     // Then, load the Babylon 3D engine:
-    this.engine = new Engine(this.canvas, true);
+    this.engine = new BABYLON.Engine(this.canvas, true);
 
     // create a basic BJS Scene object
-    this.scene = new Scene(this.engine);
-    this.scene.clearColor = new Color4(0, 0, 0, 0);
+    this.scene = new BABYLON.Scene(this.engine);
+    this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
-    // create a FreeCamera, and set its position to (x:5, y:10, z:-20 )
-    this.camera = new FreeCamera('camera1', new Vector3(5, 10, -20), this.scene);
-
-    // target the camera to scene origin
-    this.camera.setTarget(Vector3.Zero());
-
-    // attach the camera to the canvas
-    this.camera.attachControl(this.canvas, false);
+    this.camera = new BABYLON.ArcRotateCamera('camera1', 4.7, 1.1, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
+    this.camera.upperRadiusLimit = 9400;
+    this.camera.lowerRadiusLimit = 10;
+    this.camera.attachControl(this.canvas, true);
 
     // create a basic light, aiming 0,1,0 - meaning, to the sky
-    this.light = new HemisphericLight('light1', new Vector3(0, 1, 0), this.scene);
+    const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(-1, -1, 0), this.scene);
+    light.intensity = 1.5;
 
-    // create a built-in "sphere" shape; its constructor takes 4 params: name, subdivisions, radius, scene
-    this.sphere = Mesh.CreateSphere('sphere1', 16, 2, this.scene);
+    const pointLight1 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(500, 500, -600), this.scene);
+    pointLight1.intensity = .8;
 
-    // create the material with its texture for the sphere and assign it to the sphere
-    const spherMaterial = new StandardMaterial('sun_surface', this.scene);
-    spherMaterial.diffuseTexture = new Texture('assets/textures/sun.jpg', this.scene);
-    this.sphere.material = spherMaterial;
+    const pointLight2 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(-500, -500, 600), this.scene);
+    // pointLight2.intensity = 1.3;
 
-    // move the sphere upward 1/2 of its height
-    this.sphere.position.y = 1;
+    const pointLight3 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(0, 500, 0), this.scene);
+    // pointLight3.intensity = 1.8;
 
-    // simple rotation along the y axis
-    this.scene.registerAfterRender(() => {
-      this.sphere.rotate(
-        new Vector3(0, 1, 0),
-        0.02,
-        BABYLON.Space.LOCAL
-      );
-    });
+    const pointLight4 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(500, 480, -280), this.scene);
+    pointLight4.intensity = .5;
+
+    this.bpm = new BlockPlaneManager(this.scene, this.audioService);
+    this.bpm.create();
+
+    // const width = 30;
+    // const depth = 60;
+
+    // for (let z = 8; z >= 0; z--) {
+    //   for (let x = 0; x < 64; x++) { // 9 * 64 = 576
+
+    //     const thing = BABYLON.MeshBuilder.CreateBox(('box'), {
+    //       width: width,
+    //       depth: depth
+    //     }, this.scene);
+
+    //     // let thing = master.clone("clone");
+
+    //     thing.position.x = (x - 31.5) * 30;
+    //     thing.position.z = (z - 5) * 60;
+    //     thing.position.y = 0;
+
+    //     thing.doNotSyncBoundingInfo = true;
+    //     thing.convertToUnIndexedMesh();
+
+    //     // thing.parent = this.master;
+
+    //     const r = 0;
+    //     const g = 0.1;
+    //     const b = 0.0;
+
+    //     const color = new BABYLON.Color3(r, g, b);
+
+    //     const mat = new BABYLON.StandardMaterial("mat", this.scene);
+    //     mat.diffuseColor = color;
+    //     mat.specularColor = new BABYLON.Color3(r * .1, g * .1, b * .1);
+    //     mat.ambientColor = new BABYLON.Color3(r * .25, g * .25, b * .25);
+    //     mat.backFaceCulling = true;
+    //     mat.alpha = 1;
+
+    //     thing.material = mat;
+
+    //     this.objects.push(thing);
+    //   }
+    // }
+
+    // master.dispose();
 
   }
 
@@ -98,7 +126,7 @@ export class EngineService {
 
         // fix for canvas stretching
         this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
-
+        this.bpm.update();
         this.scene.render();
       };
 
@@ -109,14 +137,27 @@ export class EngineService {
           this.engine.runRenderLoop(rendererLoopCallback);
         });
       }
-
-      // this.windowRef.window.addEventListener('resize', () => {
-      //   this.engine.resize();
-      // });
     });
   }
 
+  // update() {
+  //   this.objects.forEach((o, i) => {
+  //     let yy = this.audioService.sample1[i];
+  //     yy = (yy / 200 * yy / 200) * 255;
+  //     o.scaling.y = yy * .5 + .01;
 
+  //     const r = yy; // * .8;
+  //     const b = 200 - yy * 2;
+  //     const g = 128 - yy / 2;
+
+  //     o.position.y = o.scaling.y / 2;
+
+  //     o.material.diffuseColor.r = r / 255;
+  //     o.material.diffuseColor.g = g / 255;
+  //     o.material.diffuseColor.b = b / 255;
+
+  //   });
+  // }
 
   resizeCanvas = () => {
     this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);

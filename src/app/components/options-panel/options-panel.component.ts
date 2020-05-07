@@ -1,5 +1,5 @@
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 
 import { OptionsService } from '../../services/options/options.service';
 import { MessageService } from '../../services/message/message.service';
@@ -12,7 +12,8 @@ import {TooltipPosition} from '@angular/material/tooltip';
 @Component({
   selector: 'app-options-panel',
   templateUrl: './options-panel.component.html',
-  styleUrls: ['./options-panel.component.css']
+  styleUrls: ['./options-panel.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class OptionsPanelComponent implements OnInit, OnDestroy {
