@@ -4,6 +4,7 @@ import { Subscription, Observable, fromEvent } from 'rxjs';
 
 import { MessageService } from '../message/message.service';
 import { AudioService } from '../audio/audio.service';
+import { OptionsService } from '../options/options.service';
 
 import * as BABYLON from 'babylonjs';
 import 'babylonjs-materials';
@@ -33,18 +34,34 @@ export class EngineService {
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
 
+  options;
+  subscription;
+
   public constructor(
     private ngZone: NgZone,
     private windowRef: WindowRefService,
     public messageService: MessageService,
     public audioService: AudioService,
+    public optionsService: OptionsService
   ) {
+
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
       this.engine.resize();
     });
 
-    this.managerClassIndex = 1;
+    this.subscription = messageService.messageAnnounced$.subscribe(
+      message => {
+        // console.log('Engine: Message received from service is :  ' + message);
+        this.options = this.optionsService.getOptions();
+        // this.managerClassIndex = this.options.currentScene.value;
+
+        this.selectScene(this.options.currentScene.value);
+      });
+
+    this.options = this.optionsService.getOptions();
+
+    this.managerClassIndex = this.options.currentScene.value;
     this.managerClasses = [
         BlockPlaneManager,
         BlockSpiralManager,
@@ -53,6 +70,8 @@ export class EngineService {
         EquationManager,
         // StarManager
     ];
+
+
   }
 
   public createScene(canvas: ElementRef<HTMLCanvasElement>): void {
@@ -87,8 +106,11 @@ export class EngineService {
     const pointLight4 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(500, 480, -280), this.scene);
     pointLight4.intensity = .5;
 
-    this.bpm = new BlockPlaneManager(this.scene, this.audioService);
-    this.bpm.create();
+    this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService);
+    this.currentManager.create();
+
+    // this.bpm = new BlockPlaneManager(this.scene, this.audioService);
+    // this.bpm.create();
 
     // this.eqm = new EquationManager(this.scene, this.audioService);
     // this.eqm.create();
@@ -110,7 +132,9 @@ export class EngineService {
         // fix for canvas stretching
         this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
 
-        this.bpm.update();
+        this.currentManager.update();
+
+        // this.bpm.update();
         // this.eqm.update();
         // this.cbm.update();
         // this.bsm.update();
@@ -140,11 +164,16 @@ export class EngineService {
   // }
 
 
-  nextScene() {
-    this.selectScene(this.managerClassIndex >= this.managerClasses.length - 1 ? 0 : this.managerClassIndex + 1);
-  }
+
+  // nextScene() {
+  //   this.selectScene(this.managerClassIndex >= this.managerClasses.length - 1 ? 0 : this.managerClassIndex + 1);
+  // }
 
   selectScene(index) {
+    if (this.managerClassIndex === index) {
+      return;
+    }
+
     // $("#cameraTarget").addClass("hidden");
 
     // this.scene.freezeActiveMeshes();
@@ -161,7 +190,7 @@ export class EngineService {
     this.managerClassIndex = index;
     this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService);
     this.currentManager.create();
-    this.scene.freezeActiveMeshes();
+    // this.scene.freezeActiveMeshes();
 
   }
 

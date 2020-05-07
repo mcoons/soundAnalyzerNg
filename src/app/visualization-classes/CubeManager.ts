@@ -45,7 +45,7 @@ export class CubeManager {
         for (let y = 0; y <= 6; y++) { // 9 * 64 = 576
             for (let x = 0; x <= 9; x++) { // 9 * 64 = 576
                 for (let z = 0; z <= 7; z++) {
-                    console.log('creating');
+                    // console.log('creating');
 
                     // let thing = BABYLON.MeshBuilder.CreateBox(('box'), {
                     //     width: width,

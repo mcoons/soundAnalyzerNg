@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Subscription, Observable, fromEvent } from 'rxjs';
 
 import { MessageService } from '../message/message.service';
+import { EngineService } from '../engine/engine.service';
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +82,48 @@ export class OptionsService {
       max: 5
     },
 
+
+    blockPlaneManager: {
+      showInConsole: true,
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Block Plane',
+      value: 0,
+      checked: false
+    },
+    blockSpiralManager: {
+      showInConsole: true,
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Block Spiral',
+      value: 1,
+      checked: false
+    },
+    cubeManager: {
+      showInConsole: true,
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Cube',
+      value: 2,
+      checked: false
+    },
+    equationManager: {
+      showInConsole: true,
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Equation',
+      value: 3,
+      checked: true
+    },
+
+
+
+
+
+
+
+
+
     showConsole: {
       showInConsole: false,
       group: 'Developer',
@@ -109,6 +152,13 @@ export class OptionsService {
       label: 'Show Splash',
       value: true
     },
+    currentScene: {
+      showInConsole: false,
+      group: 'Hidden',
+      type: 'numeric',
+      label: 'Current Scene',
+      value: 3
+    }
 
   };
 
@@ -163,6 +213,16 @@ export class OptionsService {
     this.options[itemName].value = !this.options[itemName].value;
     this.windowResize();
     this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
+  }
+
+  toggleVisualRadio(itemName: string, index: number) {
+    this.options.blockPlaneManager.checked = (itemName === 'blockPlaneManager');
+    this.options.blockSpiralManager.checked = (itemName === 'blockSpiralManager');
+    this.options.cubeManager.checked = (itemName === 'cubeManager');
+    this.options.equationManager.checked = (itemName === 'equationManager');
+
+    this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
+    // this.engServ.selectScene(index);
   }
 
   updateOption(itemName: string, value) {
