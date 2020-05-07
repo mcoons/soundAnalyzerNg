@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { Track } from 'ngx-audio-player';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
 import {
   trigger,
   state,
@@ -33,10 +32,10 @@ declare var $: any;
         bottom: '-700px'
       })),
       transition('playerOpen => playerClosed', [
-        animate('.5s')
+        animate('1s')
       ]),
       transition('playerClosed => playerOpen', [
-        animate('.5s')
+        animate('1s')
       ]),
     ]),
   ]

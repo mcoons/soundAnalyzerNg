@@ -1,25 +1,33 @@
+import { AudioService } from '../services/audio/audio.service';
+import * as BABYLON from 'babylonjs';
+
 export class BlockPlaneManager {
 
     private objects;
-    private scene;
-    private audioService;
+    private scene: BABYLON.Scene;
+    private audioService: AudioService;
 
     constructor(scene, audioService) {
         this.scene = scene;
         this.audioService = audioService;
         this.objects = [];
+
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1500;
     }
 
     create() {
-        const width = 30;
-        const depth = 60;
+        // const width = 30;
+        // const depth = 60;
 
         for (let z = 8; z >= 0; z--) {
             for (let x = 0; x < 64; x++) { // 9 * 64 = 576
 
                 const thing = BABYLON.MeshBuilder.CreateBox(('box'), {
-                    width: width,
-                    depth: depth
+                    width: 30,
+                    depth: 60
                 }, this.scene);
 
                 thing.position.x = (x - 31.5) * 30;

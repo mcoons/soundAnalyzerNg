@@ -24,10 +24,10 @@ import { MessageService } from './services/message/message.service';
         marginRight: '-260px',
       })),
       transition('panelOpen => panelClosed', [
-        animate('.2s')
+        animate('.5s')
       ]),
       transition('panelClosed => panelOpen', [
-        animate('.2s')
+        animate('.5s')
       ])
     ]),
 

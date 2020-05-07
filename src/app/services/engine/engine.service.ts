@@ -4,11 +4,16 @@ import { Subscription, Observable, fromEvent } from 'rxjs';
 
 import { MessageService } from '../message/message.service';
 import { AudioService } from '../audio/audio.service';
+import { OptionsService } from '../options/options.service';
 
 import * as BABYLON from 'babylonjs';
 import 'babylonjs-materials';
 
 import { BlockPlaneManager } from '../../visualization-classes/BlockPlaneManager';
+import { EquationManager } from '../../visualization-classes/EquationManager';
+import { CubeManager } from '../../visualization-classes/CubeManager';
+import { BlockSpiralManager } from '../../visualization-classes/BlockSpiralManager';
+
 
 @Injectable({ providedIn: 'root' })
 export class EngineService {
@@ -16,24 +21,56 @@ export class EngineService {
   private engine: BABYLON.Engine;
   private camera: BABYLON.ArcRotateCamera;
   private scene: BABYLON.Scene;
-  private light: BABYLON.Light;
-  private objects = [];
 
-  bpm;
+  private bpm: BlockPlaneManager;
+  private eqm: EquationManager;
+  private cbm: CubeManager;
+  private bsm: BlockSpiralManager;
+
+  private managerClasses;
+  private managerClassIndex;
+  private currentManager;
 
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
+
+  options;
+  subscription;
 
   public constructor(
     private ngZone: NgZone,
     private windowRef: WindowRefService,
     public messageService: MessageService,
     public audioService: AudioService,
+    public optionsService: OptionsService
   ) {
+
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
       this.engine.resize();
     });
+
+    this.subscription = messageService.messageAnnounced$.subscribe(
+      message => {
+        // console.log('Engine: Message received from service is :  ' + message);
+        this.options = this.optionsService.getOptions();
+        // this.managerClassIndex = this.options.currentScene.value;
+
+        this.selectScene(this.options.currentScene.value);
+      });
+
+    this.options = this.optionsService.getOptions();
+
+    this.managerClassIndex = this.options.currentScene.value;
+    this.managerClasses = [
+        BlockPlaneManager,
+        BlockSpiralManager,
+        //            RippleManager,
+        CubeManager,
+        EquationManager,
+        // StarManager
+    ];
+
 
   }
 
@@ -69,54 +106,22 @@ export class EngineService {
     const pointLight4 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(500, 480, -280), this.scene);
     pointLight4.intensity = .5;
 
-    this.bpm = new BlockPlaneManager(this.scene, this.audioService);
-    this.bpm.create();
+    this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService);
+    this.currentManager.create();
 
-    // const width = 30;
-    // const depth = 60;
+    // this.bpm = new BlockPlaneManager(this.scene, this.audioService);
+    // this.bpm.create();
 
-    // for (let z = 8; z >= 0; z--) {
-    //   for (let x = 0; x < 64; x++) { // 9 * 64 = 576
+    // this.eqm = new EquationManager(this.scene, this.audioService);
+    // this.eqm.create();
 
-    //     const thing = BABYLON.MeshBuilder.CreateBox(('box'), {
-    //       width: width,
-    //       depth: depth
-    //     }, this.scene);
+    // this.cbm = new CubeManager(this.scene, this.audioService);
+    // this.cbm.create();
 
-    //     // let thing = master.clone("clone");
-
-    //     thing.position.x = (x - 31.5) * 30;
-    //     thing.position.z = (z - 5) * 60;
-    //     thing.position.y = 0;
-
-    //     thing.doNotSyncBoundingInfo = true;
-    //     thing.convertToUnIndexedMesh();
-
-    //     // thing.parent = this.master;
-
-    //     const r = 0;
-    //     const g = 0.1;
-    //     const b = 0.0;
-
-    //     const color = new BABYLON.Color3(r, g, b);
-
-    //     const mat = new BABYLON.StandardMaterial("mat", this.scene);
-    //     mat.diffuseColor = color;
-    //     mat.specularColor = new BABYLON.Color3(r * .1, g * .1, b * .1);
-    //     mat.ambientColor = new BABYLON.Color3(r * .25, g * .25, b * .25);
-    //     mat.backFaceCulling = true;
-    //     mat.alpha = 1;
-
-    //     thing.material = mat;
-
-    //     this.objects.push(thing);
-    //   }
-    // }
-
-    // master.dispose();
+    // this.bsm = new BlockSpiralManager(this.scene, this.audioService);
+    // this.bsm.create();
 
   }
-
 
   public animate(): void {
     // We have to run this outside angular zones,
@@ -126,7 +131,14 @@ export class EngineService {
 
         // fix for canvas stretching
         this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
-        this.bpm.update();
+
+        this.currentManager.update();
+
+        // this.bpm.update();
+        // this.eqm.update();
+        // this.cbm.update();
+        // this.bsm.update();
+
         this.scene.render();
       };
 
@@ -140,33 +152,47 @@ export class EngineService {
     });
   }
 
-  // update() {
-  //   this.objects.forEach((o, i) => {
-  //     let yy = this.audioService.sample1[i];
-  //     yy = (yy / 200 * yy / 200) * 255;
-  //     o.scaling.y = yy * .5 + .01;
-
-  //     const r = yy; // * .8;
-  //     const b = 200 - yy * 2;
-  //     const g = 128 - yy / 2;
-
-  //     o.position.y = o.scaling.y / 2;
-
-  //     o.material.diffuseColor.r = r / 255;
-  //     o.material.diffuseColor.g = g / 255;
-  //     o.material.diffuseColor.b = b / 255;
-
-  //   });
-  // }
-
   resizeCanvas = () => {
     this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
   }
 
-  public setupCamera = (camera) => {
-    camera.orthoBottom = this.scene.getEngine().getRenderHeight();
-    camera.orthoTop = 0;
-    camera.orthoLeft = 0;
-    camera.orthoRight = this.scene.getEngine().getRenderWidth();
+  // public setupCamera = (camera) => {
+  //   camera.orthoBottom = this.scene.getEngine().getRenderHeight();
+  //   camera.orthoTop = 0;
+  //   camera.orthoLeft = 0;
+  //   camera.orthoRight = this.scene.getEngine().getRenderWidth();
+  // }
+
+
+
+  // nextScene() {
+  //   this.selectScene(this.managerClassIndex >= this.managerClasses.length - 1 ? 0 : this.managerClassIndex + 1);
+  // }
+
+  selectScene(index) {
+    if (this.managerClassIndex === index) {
+      return;
+    }
+
+    // $("#cameraTarget").addClass("hidden");
+
+    // this.scene.freezeActiveMeshes();
+
+    if (this.currentManager) {
+      this.currentManager.remove();
+    }
+
+    this.currentManager = null;
+    this.scene.materials.forEach(m => {
+      m.dispose(true, true, true);
+    });
+
+    this.managerClassIndex = index;
+    this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService);
+    this.currentManager.create();
+    // this.scene.freezeActiveMeshes();
+
   }
+
+
 }

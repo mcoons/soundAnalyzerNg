@@ -48,6 +48,13 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     this.optionsService.updateOption(e.target.name, e.target.value);
   }
 
+  radioChange(e){
+    // console.log(e.target);
+    // console.log(this.options);
+    this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
+    this.optionsService.updateOption('currentScene',e.target.value);
+  }
+
   ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.subscription.unsubscribe();

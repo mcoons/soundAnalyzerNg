@@ -9,7 +9,7 @@
     /* border: 1px solid orange; */
     z-index: 30;
     /* opacity: .2; */
-
+    bottom: "-500px";
 }
 
 /* #playerDIV:hover {

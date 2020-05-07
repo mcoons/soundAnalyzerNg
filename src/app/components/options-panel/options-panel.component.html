@@ -35,7 +35,7 @@
             </ng-container>  
         </div>
 
-        <p class="optionHeader" >Visual Options</p>
+        <p class="optionHeader" >General Visual Options</p>
 
         <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
             <ng-container *ngIf="this.options[option].group=='Visual'" >
@@ -48,6 +48,33 @@
                     [min]="this.options[option].min" [max]="this.options[option].max" [value]="this.options[option].value" step="1"> 
                     <br><label class="rangeLabel" [for]="option">{{this.options[option].label}} ({{this.options[option].value}})</label>
                 </ng-container>
+            </ng-container>  
+        </div>
+
+        <p class="optionHeader" >3D Visuals</p>
+
+        <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
+            <ng-container *ngIf="this.options[option].group=='3DVisual'" >
+                <ng-container *ngIf="this.options[option].type=='checkbox'" >
+                    <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)" [checked]="this.options[option].value"> 
+                    <label [for]="option"> {{this.options[option].label}}</label>
+                </ng-container>
+                <ng-container *ngIf="this.options[option].type=='slider'" >
+                    <input class="range"  type="range" [id]="option" [name]="option" (input)="updateItem($event)" (change)="updateItem($event)" 
+                    [min]="this.options[option].min" [max]="this.options[option].max" [value]="this.options[option].value" step="1"> 
+                    <br><label class="rangeLabel" [for]="option">{{this.options[option].label}} ({{this.options[option].value}})</label>
+                </ng-container>
+                <ng-container *ngIf="this.options[option].type=='radio'" >
+                    <!-- <input class="range"  type="range" [id]="option" [name]="option" (input)="updateItem($event)" (change)="updateItem($event)" 
+                    [min]="this.options[option].min" [max]="this.options[option].max" [value]="this.options[option].value" step="1"> 
+                    <br><label class="rangeLabel" [for]="option">{{this.options[option].label}} ({{this.options[option].value}})</label> -->
+                    <input type="radio" [id]="option" name="3DVisuals" [value]="this.options[option].value"  (click)="radioChange($event)" [checked]="this.options[option].checked">
+                    <label [for]="option"> {{this.options[option].label}}</label>
+                
+                </ng-container>
+
+
+                
             </ng-container>  
         </div>
 
@@ -72,8 +99,11 @@
                     <ng-container *ngIf = "this.options[option].showInConsole && this.options[option].type =='numeric'">
                         {{this.options[option].label + ': ' + (this.options[option].value | number:'0.2')}}
                     </ng-container>
-                    <ng-container *ngIf = "this.options[option].showInConsole && this.options[option].type !='numeric'">
+                    <ng-container *ngIf = "this.options[option].showInConsole && this.options[option].type =='checkbox'">
                         {{this.options[option].label + ': ' + (this.options[option].value )}}
+                    </ng-container>
+                    <ng-container *ngIf = "this.options[option].showInConsole && this.options[option].type =='radio'">
+                        {{this.options[option].label + ': ' + (this.options[option].checked )}}
                     </ng-container>
                 </div>
 
