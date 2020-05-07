@@ -10,7 +10,7 @@ import { EngineService } from '../engine/engine.service';
 })
 export class OptionsService {
 
-  env = 'dev'; // dev or prod
+  env = 'prod'; // dev or prod
 
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
