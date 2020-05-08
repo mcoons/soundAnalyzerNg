@@ -68,7 +68,7 @@ export class OptionsService {
       group: 'Visual',
       type: 'slider',
       label: 'Visual Effect Strength',
-      value: 1,
+      value: 7,
       min: 1,
       max: 20
     },
