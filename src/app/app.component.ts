@@ -21,7 +21,7 @@ import { MessageService } from './services/message/message.service';
         marginRight: '0px'
       })),
       state('panelClosed', style({
-        marginRight: '-260px',
+        marginRight: '-220px',
       })),
       transition('panelOpen => panelClosed', [
         animate('.5s')

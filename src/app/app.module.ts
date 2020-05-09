@@ -19,6 +19,7 @@ import { OptionsPanelComponent } from './components/options-panel/options-panel.
 import { TitleComponent } from './components/title/title.component';
 import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
+import { MyPlayerComponent } from './components/my-player/my-player.component';
 
 @NgModule({
    declarations: [
@@ -28,7 +29,8 @@ import { SplashScreenComponent } from './components/splash-screen/splash-screen.
       OptionsPanelComponent,
       TitleComponent,
       AudioPlayerComponent,
-      SplashScreenComponent
+      SplashScreenComponent,
+      MyPlayerComponent
    ],
    imports: [
       BrowserModule,

@@ -1,0 +1,40 @@
+<p>my-player works!</p>
+
+<div id="playerDIV"
+  [@playerOpenClose]="this.optionsService.options.renderPlayer.value == true ? 'playerOpen' : 'playerClosed'">
+
+  <div>
+    <button (click)="this.previousTrack()"><i class="material-icons">skip_previous</i></button>
+    <button (click)="this.playPause()"><i
+        class="material-icons">{{ this.playing === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i></button>
+    <button (click)="this.nextTrack()"><i class="material-icons">skip_next</i></button>
+  </div>
+
+  <div>
+    <input type="range" class="volume-slider" min="0" [max]="10" step="1" [value]="this.optionsService.options.volume.value"
+      (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
+  </div>
+
+  <div *ngIf="this.options.showTrackTitle.value">{{this.playList[this.currentTrack]?.title || ""}}</div>
+
+  <div>
+    <div>
+      {{ this.formatTime(this.currentTime) }}
+    </div>
+    <input type="range" class="time-slider" min="0" [max]="this.duration" step="1" value="{{this.currentTime}}"
+      (input)="onSliderChangeTime($event)">
+    <div>
+      {{ this.formatTime(this.duration) }}
+    </div>
+  </div>
+
+  <div id="originalFileInputWrapper">
+    <input id="fileInput" type="file" (change)="fileChangeEvent($event)" placeholder="Upload file..." accept="audio/*"
+      multiple />
+  </div>
+
+  <div id="originalAudioWrapper">
+    <audio id="audio" class="button" autoplay controls>The Audio Element is not supported on this device!</audio>
+  </div>
+
+</div>

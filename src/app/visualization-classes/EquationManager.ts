@@ -46,7 +46,7 @@ export class EquationManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1050;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1350;
     }
 
     create() {

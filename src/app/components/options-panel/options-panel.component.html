@@ -19,7 +19,7 @@
             </ng-container>  
         </div>
 
-        <p class="optionHeader" >Player Options</p>
+        <!-- <p class="optionHeader" >Player Options</p>
 
         <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
             <ng-container *ngIf="this.options[option].group=='Player'" >
@@ -33,9 +33,9 @@
                     <br><label class="rangeLabel">{{this.options[option].label}} ({{this.options[option].value}})</label>
                 </ng-container>
             </ng-container>  
-        </div>
+        </div> -->
 
-        <p class="optionHeader" >General Visual Options</p>
+        <!-- <p class="optionHeader" >General Visual Options</p>
 
         <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
             <ng-container *ngIf="this.options[option].group=='Visual'" >
@@ -49,9 +49,9 @@
                     <br><label class="rangeLabel" [for]="option">{{this.options[option].label}} ({{this.options[option].value}})</label>
                 </ng-container>
             </ng-container>  
-        </div>
+        </div> -->
 
-        <p class="optionHeader" >3D Visuals</p>
+        <p class="optionHeader">3D Visuals</p>
 
         <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
             <ng-container *ngIf="this.options[option].group=='3DVisual'" >
@@ -65,19 +65,30 @@
                     <br><label class="rangeLabel" [for]="option">{{this.options[option].label}} ({{this.options[option].value}})</label>
                 </ng-container>
                 <ng-container *ngIf="this.options[option].type=='radio'" >
-                    <!-- <input class="range"  type="range" [id]="option" [name]="option" (input)="updateItem($event)" (change)="updateItem($event)" 
-                    [min]="this.options[option].min" [max]="this.options[option].max" [value]="this.options[option].value" step="1"> 
-                    <br><label class="rangeLabel" [for]="option">{{this.options[option].label}} ({{this.options[option].value}})</label> -->
                     <input type="radio" [id]="option" name="3DVisuals" [value]="this.options[option].value"  (click)="radioChange($event)" [checked]="this.options[option].checked">
                     <label [for]="option"> {{this.options[option].label}}</label>
-                
                 </ng-container>
-
-
-                
             </ng-container>  
         </div>
 
+        <p class="optionHeader">Playlist</p>
+
+        <button class="playlistButton" (click)="siteListSelection()">Site Playlist</button>
+        <button class="playlistButton" (click)="localListSelection()">Local Playlist</button>
+
+        <ng-container *ngFor="let track of this.optionsService.state.playlist.value; index as i">
+            <!-- <div >{{i}} - {{track.title}}</div> -->
+            <div class="track">
+                <input type="radio" [id]="'track'+i" name="tracks" [value]="i"  (click)="trackChange($event)" [checked]="this.optionsService.state.currentTrack.value === i">
+                <label [for]="'track'+i">{{i}} - {{track.title}}</label>
+            </div>
+        </ng-container>
+
+
+
+
+
+ 
         <ng-container *ngIf="this.optionsService.env == 'dev'">
 
             <p class="optionHeader" >Developer Options</p>
@@ -122,19 +133,3 @@
 
     </div>
 </div>
-
-
-<ng-template #optionsTemplate
-let-options="options"
-let-option="option"
->
-    <div *ngIf="options[option].type=='checkbox'" >
-        <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)" [checked]="options[option].value" > 
-        <label [for]="option"> {{options[option].label}}</label>
-    </div>
-    <div *ngIf="options[option].type=='slider'" >
-        <input type="range" [id]="option" [name]="option" (input)="updateItem($event)" (change)="updateItem($event)" 
-        [min]="options[option].min" [max]="options[option].max" [value]="options[option].value" step="1"> 
-        <br><label class="rangeLabel" [for]="option">{{options[option].label}} ({{options[option].value}})</label>
-    </div> 
-</ng-template>

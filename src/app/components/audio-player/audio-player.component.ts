@@ -171,6 +171,15 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public fileChangeEvent(fileInput: any) {
+
+
+
+  // (document.querySelector('#playerDIV > mat-advanced-audio-player > mat-card.mat-card.mat-focus-indicator.d-flex.justify-content-center.ngx-advanced-audio-player.z-depth-1.mat-elevation-z2 > button.mat-focus-indicator.p-1.play-pause.mat-button.mat-button-base')  ).click();
+
+
+
+
+
     console.log(fileInput.target.files.length);
 
     console.log(fileInput.target.files);
