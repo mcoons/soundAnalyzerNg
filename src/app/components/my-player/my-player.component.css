@@ -22,3 +22,11 @@ button {
     outline:none;   
     color: white;
 }
+
+#upicon {
+    margin-left: 3px;
+}
+
+#downicon {
+    margin-right: -5px;
+}

@@ -5,14 +5,16 @@
 
   <div>
     <button (click)="this.previousTrack()"><i class="material-icons">skip_previous</i></button>
-    <button (click)="this.playPause()"><i
-        class="material-icons">{{ this.playing === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i></button>
+    <button (click)="this.playPause()"><i class="material-icons">{{ this.playing === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i></button>
     <button (click)="this.nextTrack()"><i class="material-icons">skip_next</i></button>
   </div>
 
   <div>
+      <i id="downicon" class="material-icons">volume_mute</i>
     <input type="range" class="volume-slider" min="0" [max]="10" step="1" [value]="this.optionsService.options.volume.value"
       (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
+      <i id="upicon" class="material-icons">volume_up</i>
+
   </div>
 
   <div *ngIf="this.options.showTrackTitle.value">{{this.playList[this.currentTrack]?.title || ""}}</div>
