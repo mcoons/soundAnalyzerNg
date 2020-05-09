@@ -117,6 +117,15 @@ export class OptionsService {
       checked: true
     },
 
+    starManager: {
+      showInConsole: true,
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Stars',
+      value: 4,
+      checked: false
+    },
+
 
 
 

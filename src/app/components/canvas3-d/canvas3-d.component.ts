@@ -18,6 +18,8 @@ import { EngineService } from '../../services/engine/engine.service';
 export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('rendererCanvas', { static: true })
   public rendererCanvas: ElementRef<HTMLCanvasElement>;
+  
+  canvas;
 
   subscription: Subscription;
 
@@ -38,8 +40,10 @@ export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.options = this.optionsService.getOptions();
+    this.canvas = document.getElementById('rendererCanvas') as HTMLCanvasElement;
 
     this.engServ.createScene(this.rendererCanvas);
+    this.fixDpi();
     this.engServ.animate();
   }
 
@@ -52,5 +56,25 @@ export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
+  }
+
+
+  fixDpi = () => {
+    // create a style object that returns width and height
+    const dpi = window.devicePixelRatio;
+
+    const styles = window.getComputedStyle(this.canvas);
+
+    const style = {
+      height() {
+        return +styles.height.slice(0, -2);
+      },
+      width() {
+        return +styles.width.slice(0, -2);
+      }
+    };
+    // set the correct canvas attributes for device dpi
+    this.canvas.setAttribute('width', (style.width() * dpi).toString());
+    this.canvas.setAttribute('height', (style.height() * dpi).toString());
   }
 }
