@@ -15,7 +15,7 @@ export class BlockPlaneManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1500;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 2600;
     }
 
     create() {

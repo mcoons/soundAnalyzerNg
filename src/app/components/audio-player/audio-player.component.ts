@@ -3,6 +3,7 @@ import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/cor
 import { Subscription } from 'rxjs';
 import { Track } from 'ngx-audio-player';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 
 import {
   trigger,
@@ -63,12 +64,16 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   subscription: Subscription;
 
+  siteTracks;
+  userTracks;
+
   options;
 
   constructor(
     public optionsService: OptionsService,
     public audioService: AudioService,
-    public messageService: MessageService) {
+    public messageService: MessageService,
+    private sanitizer: DomSanitizer) {
 
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
@@ -80,7 +85,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit() {
     // Material Style Advance Audio Player Playlist
-    this.msaapPlaylist = [
+    this.siteTracks = [
       {
         title: 'A Good Bass for Gambling',
         link: './assets/tracks/A Good Bass for Gambling.mp3'
@@ -140,6 +145,7 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ];
 
+    this.msaapPlaylist = this.siteTracks;
     this.options = this.optionsService.getOptions();
 
     this.msaapDisplayTitle = this.options.showTrackTitle.value;
@@ -164,5 +170,35 @@ export class AudioPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.unsubscribe();
   }
 
+  public fileChangeEvent(fileInput: any) {
+
+
+
+  // (document.querySelector('#playerDIV > mat-advanced-audio-player > mat-card.mat-card.mat-focus-indicator.d-flex.justify-content-center.ngx-advanced-audio-player.z-depth-1.mat-elevation-z2 > button.mat-focus-indicator.p-1.play-pause.mat-button.mat-button-base')  ).click();
+
+
+
+
+
+    console.log(fileInput.target.files.length);
+
+    console.log(fileInput.target.files);
+
+    this.userTracks = [];
+
+    for (let index = 0; index < fileInput.target.files.length; index++) {
+      const element = fileInput.target.files[index];
+      console.log(element.name);
+      console.log(URL.createObjectURL(fileInput.target.files[index]));
+      this.userTracks.push(
+        {
+          title: element.name,
+          link: this.sanitizer.bypassSecurityTrustResourceUrl( URL.createObjectURL(fileInput.target.files[index]))
+        }
+      );
+    }
+console.log(this.userTracks);
+    this.msaapPlaylist = this.userTracks;
+  }
 }
 

@@ -35,3 +35,15 @@ label  {
 input {
     margin-left: 5px !important;
 }
+
+.playlistButton {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    border-radius: 5px;;
+}
+
+.track {
+    white-space: nowrap;
+    overflow: hidden;
+}

@@ -45,6 +45,10 @@ Node Mapping
 TODO
 _______________________________________________________________________
 
+Add accordian functionality to options
+
+Add multiple scenes, one for each visual, then render the current selected scene
+
 Add testing (Karma, Jasmine)
 
 Fix audio player lock issue - DONE

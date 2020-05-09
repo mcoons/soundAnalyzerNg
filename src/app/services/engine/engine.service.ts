@@ -48,6 +48,12 @@ export class EngineService {
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
       this.engine.resize();
+
+      // if (this.scene.getEngine().getRenderHeight() > this.scene.getEngine().getRenderWidth()) {
+      //   this.camera.fovMode = BABYLON.Camera.FOVMODE_VERTICAL_FIXED;
+      // } else {
+      //   this.camera.fovMode = BABYLON.Camera.FOVMODE_HORIZONTAL_FIXED;
+      // }
     });
 
     this.subscription = messageService.messageAnnounced$.subscribe(
@@ -63,12 +69,12 @@ export class EngineService {
 
     this.managerClassIndex = this.options.currentScene.value;
     this.managerClasses = [
-        BlockPlaneManager,
-        BlockSpiralManager,
-        //            RippleManager,
-        CubeManager,
-        EquationManager,
-        // StarManager
+      BlockPlaneManager,
+      BlockSpiralManager,
+      //            RippleManager,
+      CubeManager,
+      EquationManager,
+      // StarManager
     ];
 
 
@@ -90,6 +96,8 @@ export class EngineService {
     this.camera.lowerRadiusLimit = 10;
     this.camera.attachControl(this.canvas, true);
 
+    this.camera.fovMode = BABYLON.Camera.FOVMODE_HORIZONTAL_FIXED;
+
     // create a basic light, aiming 0,1,0 - meaning, to the sky
     const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(-1, -1, 0), this.scene);
     light.intensity = 1.5;
@@ -109,18 +117,6 @@ export class EngineService {
     this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService);
     this.currentManager.create();
 
-    // this.bpm = new BlockPlaneManager(this.scene, this.audioService);
-    // this.bpm.create();
-
-    // this.eqm = new EquationManager(this.scene, this.audioService);
-    // this.eqm.create();
-
-    // this.cbm = new CubeManager(this.scene, this.audioService);
-    // this.cbm.create();
-
-    // this.bsm = new BlockSpiralManager(this.scene, this.audioService);
-    // this.bsm.create();
-
   }
 
   public animate(): void {
@@ -130,14 +126,10 @@ export class EngineService {
       const rendererLoopCallback = () => {
 
         // fix for canvas stretching
-        this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
+        // this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
+        this.resizeCanvas();
 
         this.currentManager.update();
-
-        // this.bpm.update();
-        // this.eqm.update();
-        // this.cbm.update();
-        // this.bsm.update();
 
         this.scene.render();
       };

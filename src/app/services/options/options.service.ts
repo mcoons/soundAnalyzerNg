@@ -24,24 +24,46 @@ export class OptionsService {
       value: true,
       tooltip: 'Show or hide the Analyzer title'
     },
-
+    showWaveform: {
+      showInConsole: false,
+      group: 'General',
+      type: 'checkbox',
+      label: 'Show Waveform',
+      value: false
+    },
+    waveformDelay: {
+      showInConsole: false,
+      group: 'General',
+      type: 'slider',
+      label: 'Waveform Delay',
+      value: 3,
+      min: 1,
+      max: 5
+    },
+    showBars: {
+      showInConsole: false,
+      group: 'General',
+      type: 'checkbox',
+      label: 'Show Eq Bars',
+      value: false
+    },
     renderPlayer: {
       showInConsole: false,
-      group: 'Player',
+      group: 'General',
       type: 'checkbox',
-      label: 'Show Player',
+      label: 'Show Full Player',
       value: false
     },
     showTrackTitle: {
       showInConsole: false,
-      group: 'Player',
+      group: 'Hidden',
       type: 'checkbox',
       label: 'Show Track Title',
       value: true
     },
     volume: {
       showInConsole: false,
-      group: 'Player',
+      group: 'General',
       type: 'slider',
       label: 'Volume',
       value: 7,
@@ -49,38 +71,17 @@ export class OptionsService {
       max: 10
     },
 
-    showWaveform: {
-      showInConsole: false,
-      group: 'Visual',
-      type: 'checkbox',
-      label: 'Show Waveform',
-      value: false
-    },
-    showBars: {
-      showInConsole: false,
-      group: 'Visual',
-      type: 'checkbox',
-      label: 'Show Bars',
-      value: false
-    },
+
     sampleGain: {
       showInConsole: false,
-      group: 'Visual',
+      group: '3DVisual',
       type: 'slider',
       label: 'Visual Effect Strength',
-      value: 1,
+      value: 7,
       min: 1,
       max: 20
     },
-    waveformDelay: {
-      showInConsole: false,
-      group: 'Visual',
-      type: 'slider',
-      label: 'Waveform Delay',
-      value: 3,
-      min: 1,
-      max: 5
-    },
+
 
 
     blockPlaneManager: {
@@ -198,7 +199,20 @@ export class OptionsService {
       label: 'Player Top Canvas',
       value: 0
     },
-
+    playlist: {
+      showInConsole: false,
+      group: 'Console',
+      type: 'list',
+      label: 'Playlist',
+      value: []
+    },
+    currentTrack: {
+      showInConsole: false,
+      group: 'Console',
+      type: 'numeric',
+      label: 'Current Index',
+      value: 0
+    },
   };
 
   constructor(public messageService: MessageService) {
