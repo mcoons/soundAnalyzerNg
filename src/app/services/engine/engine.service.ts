@@ -13,6 +13,7 @@ import { BlockPlaneManager } from '../../visualization-classes/BlockPlaneManager
 import { EquationManager } from '../../visualization-classes/EquationManager';
 import { CubeManager } from '../../visualization-classes/CubeManager';
 import { BlockSpiralManager } from '../../visualization-classes/BlockSpiralManager';
+import { StarManager } from '../../visualization-classes/StarManager';
 
 
 @Injectable({ providedIn: 'root' })
@@ -21,6 +22,8 @@ export class EngineService {
   private engine: BABYLON.Engine;
   private camera: BABYLON.ArcRotateCamera;
   private scene: BABYLON.Scene;
+
+  glowLayer;
 
   private bpm: BlockPlaneManager;
   private eqm: EquationManager;
@@ -74,7 +77,7 @@ export class EngineService {
       //            RippleManager,
       CubeManager,
       EquationManager,
-      // StarManager
+      StarManager
     ];
 
 
@@ -90,6 +93,9 @@ export class EngineService {
     // create a basic BJS Scene object
     this.scene = new BABYLON.Scene(this.engine);
     this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+
+    this.glowLayer = new BABYLON.GlowLayer("glow", this.scene);
+    this.glowLayer.intensity = 3.5;
 
     this.camera = new BABYLON.ArcRotateCamera('camera1', 4.7, 1.1, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
     this.camera.upperRadiusLimit = 9400;
@@ -130,7 +136,7 @@ export class EngineService {
         this.resizeCanvas();
 
         this.currentManager.update();
-
+        this.fixDpi();
         this.scene.render();
       };
 
@@ -186,5 +192,22 @@ export class EngineService {
 
   }
 
+  fixDpi = () => {
+    // create a style object that returns width and height
+    const dpi = window.devicePixelRatio;
 
+    const styles = window.getComputedStyle(this.canvas);
+
+    const style = {
+      height() {
+        return +styles.height.slice(0, -2);
+      },
+      width() {
+        return +styles.width.slice(0, -2);
+      }
+    };
+    // set the correct canvas attributes for device dpi
+    this.canvas.setAttribute('width', (style.width() * dpi).toString());
+    this.canvas.setAttribute('height', (style.height() * dpi).toString());
+  }
 }
