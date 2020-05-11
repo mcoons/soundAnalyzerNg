@@ -1,8 +1,10 @@
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component,
+  // OnInit,
+  Input } from '@angular/core';
 
 import { OptionsService } from '../../services/options/options.service';
-import { MessageService } from '../../services/message/message.service';
+// import { MessageService } from '../../services/message/message.service';
 
 @Component({
   selector: 'app-splash-screen',
@@ -10,15 +12,16 @@ import { MessageService } from '../../services/message/message.service';
   styleUrls: ['./splash-screen.component.css']
 })
 
-export class SplashScreenComponent implements OnInit {
+export class SplashScreenComponent {
   @Input('title') title: string;
 
   constructor(
-    public optionsService: OptionsService,
-    public messageService: MessageService
+    public optionsService: OptionsService
+    // ,
+    // public messageService: MessageService
   ) { }
 
-  ngOnInit() {}
+  // ngOnInit() {}
 
   splashScreenOK() {
     this.optionsService.toggleOption('showPlayer');
@@ -26,7 +29,7 @@ export class SplashScreenComponent implements OnInit {
     this.optionsService.toggleOption('showWaveform');
     this.optionsService.toggleOption('showPanel');
     this.optionsService.toggleOption('showSplash');
-    setTimeout(() => {this.optionsService.toggleOption('renderPlayer')}, 5);
+    setTimeout(() => {this.optionsService.toggleOption('renderPlayer'); }, 5);
     // this.optionsService.toggleOption('renderPlayer');
   }
 }

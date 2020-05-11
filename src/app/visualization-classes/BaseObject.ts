@@ -1,5 +1,17 @@
 export class BaseObject {
 
+    name;
+    parent;
+    palette;
+    material;
+    resolution;
+    reflect;
+    scene;
+    dataSource;
+    mesh;
+    paths;
+    sideO;
+
     constructor(name, parent, palette, material, resolution, reflect, scene, dataSource) {
 
         this.name = name;
@@ -22,7 +34,7 @@ export class BaseObject {
         return `${this.name} reports create from BaseObject: ${this.mesh}`;
     }
 
-    update() {
+    update(oo) {
         return `${this.name} reports update from BaseObject: ${this.mesh}`;
     }
 
@@ -30,7 +42,7 @@ export class BaseObject {
         if (this.mesh) {
             this.mesh.dispose();
         }
-        return `${this.name} reports destroy from BaseObject: ${this.mesh}`;
+        // return `${this.name} reports destroy from BaseObject: ${this.mesh}`;
     }
 
 }

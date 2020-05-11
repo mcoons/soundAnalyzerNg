@@ -1,7 +1,6 @@
 #splashScreen {
-  /* bottom: 10px; */
-  /* position: fixed; */
-  color: white;
+  color: black;
+  background-color: lightgray;
   text-align: center;
 
   display: flex;
@@ -10,16 +9,10 @@
   align-items: center;
   padding: 30px;
 
-  /* width: 30%; */
-  /* height: 30%; */
-  /* left: 50%; */
-  /* top: 50%; */
-  /* margin-left: -15%; */
-  /* margin-top: -15%; */
-  border: 1px solid blue;
-  box-shadow:
-    0 0 8px 5px blue,
-    inset 0 0 8px 5px blue;
+  border: 5px solid black;
+  border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
+  box-shadow: 4px 4px 6px rgba(63, 63, 63, 0.653), 2px 2px 5px black inset;
+  
   z-index: 100;
 }
 
@@ -32,11 +25,13 @@
 
 button {
   width: 90px;
-  /* position: absolute; */
-  /* bottom: 20px; */
-  /* left: 50%; */
-  /* margin-left: -45px; */
   border-radius: 5px;
+  box-shadow: 7px 7px 8px #fafafa inset, -5px -5px 6px #7796b3 inset, 2px 2px 6px rgba(68, 68, 68, 0.653);
+  border-top: 2px solid rgb(172, 172, 172);
+  border-bottom: 2px solid rgb(100, 100, 100);
+  border-left: 2px solid rgb(172, 172, 172);
+  border-right: 2px solid rgb(100, 100, 100);
+  background: linear-gradient(to bottom right, rgb(227, 240, 255), rgb(186, 217, 255));
 }
 
 p {

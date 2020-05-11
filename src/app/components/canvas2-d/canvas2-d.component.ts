@@ -1,24 +1,21 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+
+import { Component, OnDestroy, AfterViewInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { OptionsService } from '../../services/options/options.service';
 import { AudioService } from '../../services/audio/audio.service';
-
 import { MessageService } from '../../services/message/message.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-canvas2-d',
   templateUrl: './canvas2-d.component.html',
   styleUrls: ['./canvas2-d.component.css']
 })
-export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
+export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
   private ctx: CanvasRenderingContext2D;
   private canvas: HTMLCanvasElement;
-
-  subscription: Subscription;
-
-  options;
+  private subscription: Subscription;
 
   waveformDelayCounter = 0;
   waveFormDataSource;
@@ -31,30 +28,17 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         // console.log('Canvas2D: Message received from service is :  ' + message);
-        this.options = this.optionsService.getOptions();
       });
-  }
-
-  ngOnInit(): void {
-    this.options = this.optionsService.getOptions();
   }
 
   ngAfterViewInit(): void {
     this.canvas = document.getElementById('canvas2d') as HTMLCanvasElement;
     this.ctx = this.canvas.getContext('2d');
-
-    // console.log('2D canvas');
-    // console.log(this.canvas);
-
-    // console.log('2D ctx: ');
-    // console.log(this.ctx);
-
     this.canvas.style.width = this.canvas.width.toString();
     this.canvas.style.height = this.canvas.height.toString();
     this.ctx.globalAlpha = .5;
 
     window.requestAnimationFrame(this.render2DFrame);
-
   }
 
   ngOnDestroy() {
@@ -76,7 +60,7 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.waveformDelayCounter++;
-    if (this.waveformDelayCounter >= this.options.waveformDelay.value) {
+    if (this.waveformDelayCounter >= this.optionsService.options.waveformDelay.value) {
       this.waveformDelayCounter = 0;
       this.waveFormDataSource = this.audioService.getTDData();
     }
@@ -89,11 +73,10 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   fixDpi = () => {
-    // create a style object that returns width and height
     const dpi = window.devicePixelRatio;
-
     const styles = window.getComputedStyle(this.canvas);
 
+    // create a style object that returns width and height
     const style = {
       height() {
         return +styles.height.slice(0, -2);
@@ -120,7 +103,6 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
     this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
     let x = 0;
-
     for (let i = 0; i < 550; i++) { // -80
       const barHeight = dataSource[i] * .5 + 1;
 
@@ -155,12 +137,7 @@ export class Canvas2DComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getTopOfPlayer(): number {
-
     const playerDiv = document.getElementById('playerDIV') as HTMLElement;
-
-    // console.log('playerDiv client height = ' + playerDiv.clientHeight);
-    // console.log('playerDiv offsetTop = ' + playerDiv.offsetTop);
-    // console.log('window.devicePixelRatio = ' + window.devicePixelRatio);
 
     if (playerDiv.offsetTop * window.devicePixelRatio <= this.canvas.height) {
       return playerDiv.offsetTop * window.devicePixelRatio;

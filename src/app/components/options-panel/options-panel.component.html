@@ -19,6 +19,18 @@
             </ng-container>  
         </div>
 
+        <div>
+            <button class="playerButton" (click)="this.previousTrack()"><i class="material-icons">skip_previous</i></button>
+            <button class="playerButton" (click)="this.playPause()"><i class="material-icons">{{ this.optionsService.state.playing.value === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i></button>
+            <button class="playerButton" (click)="this.nextTrack()"><i class="material-icons">skip_next</i></button>
+          </div>
+        
+          <div>
+              <i id="downicon" class="material-icons">volume_mute</i>
+            <input type="range" class="volume-slider" min="0" [max]="10" step="1" [value]="this.optionsService.options.volume.value"
+              (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
+              <i id="upicon" class="material-icons">volume_up</i>
+          </div>
         <!-- <p class="optionHeader" >Player Options</p>
 
         <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
@@ -73,14 +85,18 @@
 
         <p class="optionHeader">Playlist</p>
 
-        <button class="playlistButton" (click)="siteListSelection()">Site Playlist</button>
-        <button class="playlistButton" (click)="localListSelection()">Local Playlist</button>
+        <div id="listBtnContainer">
+            <button class="playlistButton" (click)="siteListSelection()">Site Playlist</button>
+            <button class="playlistButton" (click)="localListSelection()">Local Playlist</button>
+        </div>
 
         <ng-container *ngFor="let track of this.optionsService.state.playlist.value; index as i">
             <!-- <div >{{i}} - {{track.title}}</div> -->
             <div class="track">
                 <input type="radio" [id]="'track'+i" name="tracks" [value]="i"  (click)="trackChange($event)" [checked]="this.optionsService.state.currentTrack.value === i">
-                <label [for]="'track'+i">{{i}} - {{track.title}}</label>
+                <div class="labelContainer">
+                    <label class="trackLabel" [for]="'track'+i">{{i}} - {{track.title}}</label>
+                </div> 
             </div>
         </ng-container>
 

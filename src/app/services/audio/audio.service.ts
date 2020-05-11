@@ -92,20 +92,20 @@ export class AudioService {
   soundArrays: any;
   analyzerArrays: any;
 
-  options;
+  // options;
 
   constructor(
     public optionsService: OptionsService,
     public messageService: MessageService) {
 
-    this.options = this.optionsService.getOptions();
+    // this.options = this.optionsService.getOptions();
 
     messageService.messageAnnounced$.subscribe(
       message => {
         // console.log("Audio Service: Message received from service is :  " + message);
-        this.options = this.optionsService.getOptions();
+        // this.options = this.optionsService.getOptions();
         if (this.audio != null) {
-          this.audio.volume = (this.options.volume.value) / 10;
+          this.audio.volume = (this.optionsService.options.volume.value) / 10;
           this.setGain();
         }
       });
@@ -122,7 +122,7 @@ export class AudioService {
     this.audio = audio;
 
     // this.audio.volume = .7;
-    this.audio.volume = (this.options.volume.value) / 10;
+    this.audio.volume = (this.optionsService.options.volume.value) / 10;
 
     // this.smoothingConstant = .9;
     // // this.maxAverages = 50;
@@ -266,8 +266,8 @@ export class AudioService {
       this.fr4096Analyser,
       this.fr8192Analyser,
       this.fr16384Analyser,
-      this.frAnalyser,
-      this.frAnalyserAll
+      // this.frAnalyser,
+      // this.frAnalyserAll
     ];
 
     this.audioSrc.connect(this.tdAnalyser);
@@ -392,6 +392,7 @@ export class AudioService {
 
     for (let index = 0; index < 576; index++) {
       this.sample1[index] = 0;
+
       this.sample1Normalized[index] = 0;
       // this.sample1Totals[index] = {
       //   index: index,
@@ -431,6 +432,7 @@ export class AudioService {
       return null;
     }
   }
+
 
   getTDData() {
     if (this.tdDataArray) {

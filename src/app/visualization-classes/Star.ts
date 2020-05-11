@@ -1,15 +1,40 @@
 import {
     BaseObject
-} from './BaseObject.js';
+} from './BaseObject';
 
 
 export class Star extends BaseObject {
+    innerStartIndex;
+    outerStartIndex;
+
+    innerEndIndex;
+    outerEndIndex;
+
+    innerSlices;
+    outerSlices;
+
+    innerRadius;
+    outerRadius;
+
+    xRotationDelta;
+    yRotationDelta;
+    zRotationDelta;
+
+    innerPath;
+    outerPath;
+    innerIndexDirection;
+    outerIndexDirection;
+    innerDataIndex;
+    outerDataIndex;
+    innerItemsDesired;
+    outerItemsDesired;
+
 
     constructor(name, parent, palette, material, resolution, reflect, scene, dataSource) {
         // constructor(name, parent, palette, material, resolution, reflect, eventBus, scene, dataSource) {
 
-            // super(name, parent, palette, material, resolution, reflect, eventBus, scene, dataSource);
-            super(name, parent, palette, material, resolution, reflect, scene, dataSource);
+        // super(name, parent, palette, material, resolution, reflect, eventBus, scene, dataSource);
+        super(name, parent, palette, material, resolution, reflect, scene, dataSource);
 
         ////////////////////////////
         // class specific variables
@@ -45,37 +70,37 @@ export class Star extends BaseObject {
 
         this.create();
 
-        var self = this;
-        // this.eventBus.subscribe("eventTest", eventTestCallback);
+        // var self = this;
+        // this.eventBus.subscribe('eventTest', eventTestCallback);
 
         // function eventTestCallback() {
-        //     // console.log("Event Received from " + self.name);
-        //     // console.log("My position is " + self.mesh.position);
+        //     // console.log('Event Received from ' + self.name);
+        //     // console.log('My position is ' + self.mesh.position);
         //     self.testCallback();
         // }
-        // this.eventBus.unsubscribe("eventTest", eventTestCallback);
+        // this.eventBus.unsubscribe('eventTest', eventTestCallback);
 
     }
 
     // testCallback() {
-    //     // console.log("method test from: " + this.name);
+    //     // console.log('method test from: ' + this.name);
     // }
 
     create() {
         for (let r = 1; r <= 2; r++) {
-            let path = [];
+            const path = [];
             for (let theta = 0; theta < 2 * Math.PI; theta += 2 * Math.PI / this.resolution) {
 
-                let x = r * Math.cos(theta);
-                let z = r * Math.sin(theta);
-                let y = 0;
+                const x = r * Math.cos(theta);
+                const z = r * Math.sin(theta);
+                const y = 0;
 
                 path.push(new BABYLON.Vector3(x, y, z));
             }
             this.paths.push(path);
         }
 
-        this.mesh = BABYLON.Mesh.CreateRibbon("ribbon", this.paths, true, true, 0, this.scene, true, this.sideO);
+        this.mesh = BABYLON.Mesh.CreateRibbon('ribbon', this.paths, true, true, 0, this.scene, true, this.sideO);
         this.mesh.material = this.material;
 
         this.mesh.doNotSyncBoundingInfo = true;
@@ -91,7 +116,7 @@ export class Star extends BaseObject {
 
     update(zindex) {
 
-        let data = this.dataSource;
+        const data = this.dataSource;
 
         // Rotation imposes the rotation order YXZ in local space using Euler angles.
         this.mesh.rotation.y += this.yRotationDelta;
@@ -107,22 +132,26 @@ export class Star extends BaseObject {
 
         for (let theta = 0; theta <= 2 * Math.PI; theta += 2 * Math.PI / this.resolution) {
             // inner range calculations
-            if (this.innerDataIndex >= this.innerEndIndex || this.innerDataIndex <= this.innerStartIndex) this.innerIndexDirection = -this.innerIndexDirection;
+            if (this.innerDataIndex >= this.innerEndIndex || this.innerDataIndex <= this.innerStartIndex) {
+                this.innerIndexDirection = -this.innerIndexDirection;
+            }
 
-            let innerX = data[this.innerDataIndex] * this.innerRadius * Math.cos(theta) / 100;
-            let innerZ = data[this.innerDataIndex] * this.innerRadius * Math.sin(theta) / 100;
-            let innerY = -.01 * zindex;
+            const innerX = data[this.innerDataIndex] * this.innerRadius * Math.cos(theta) / 100;
+            const innerZ = data[this.innerDataIndex] * this.innerRadius * Math.sin(theta) / 100;
+            const innerY = -.01 * zindex;
             this.innerDataIndex += this.innerIndexDirection;
 
             this.innerPath.push(new BABYLON.Vector3(innerX, innerY, innerZ));
 
             // outer range calculations
-            if (this.outerDataIndex >= this.outerEndIndex || this.outerDataIndex <= this.outerStartIndex) this.outerIndexDirection = -this.outerIndexDirection;
+            if (this.outerDataIndex >= this.outerEndIndex || this.outerDataIndex <= this.outerStartIndex) {
+                this.outerIndexDirection = -this.outerIndexDirection;
+            }
 
-            let outerX = data[this.outerDataIndex] * this.outerRadius * Math.cos(theta) / 100;
-            let outerZ = data[this.outerDataIndex] * this.outerRadius * Math.sin(theta) / 100;
-            // let outerY = -.001 * zindex;
-            let outerY = -.01 * zindex;
+            const outerX = data[this.outerDataIndex] * this.outerRadius * Math.cos(theta) / 100;
+            const outerZ = data[this.outerDataIndex] * this.outerRadius * Math.sin(theta) / 100;
+            // const outerY = -.001 * zindex;
+            const outerY = -.01 * zindex;
             this.outerDataIndex += this.outerIndexDirection;
 
             this.outerPath.push(new BABYLON.Vector3(outerX, outerY, outerZ));
@@ -146,25 +175,26 @@ export class Star extends BaseObject {
         super.remove();
     }
 
-    setOptions(p_innerStartIndex, p_outerStartIndex, p_innerSlices, p_outerSlices, p_innerRadius, p_outerRadius, p_resolution, p_reflect, p_xRotation, p_yRotation, p_zRotation) {
+    setOptions( PinnerStartIndex, PouterStartIndex, PinnerSlices, PouterSlices, PinnerRadius, PouterRadius,
+                Presolution, Preflect, PxRotation, PyRotation, PzRotation) {
         // reset other things in here too like color, reset rotations
 
-        // this.innerStartIndex = p_innerStartIndex ? p_innerStartIndex : this.innerStartIndex;
-        // this.outerStartIndex = p_outerStartIndex ? p_outerStartIndex : this.outerStartIndex;
+        // this.innerStartIndex = PinnerStartIndex ? PinnerStartIndex : this.innerStartIndex;
+        // this.outerStartIndex = PouterStartIndex ? PouterStartIndex : this.outerStartIndex;
 
-        this.innerSlices = p_innerSlices ? p_innerSlices : this.innerSlices;
-        this.outerSlices = p_outerSlices ? p_outerSlices : this.outerSlices;
+        this.innerSlices = PinnerSlices ? PinnerSlices : this.innerSlices;
+        this.outerSlices = PouterSlices ? PouterSlices : this.outerSlices;
 
-        // this.innerRadius = p_innerRadius ? p_innerRadius : this.innerRadius;
-        // this.outerRadius = p_outerRadius ? p_outerRadius : this.outerRadius;
+        // this.innerRadius = PinnerRadius ? PinnerRadius : this.innerRadius;
+        // this.outerRadius = PouterRadius ? PouterRadius : this.outerRadius;
 
-        this.resolution = p_resolution ? p_resolution : this.resolution;
+        this.resolution = Presolution ? Presolution : this.resolution;
 
-        this.reflect = p_reflect ? p_reflect : this.reflect;
+        this.reflect = Preflect ? Preflect : this.reflect;
 
-        this.xRotationDelta = p_xRotation ? p_xRotation : this.xRotationDelta;
-        this.yRotationDelta = p_yRotation ? p_yRotation : this.yRotationDelta;
-        this.zRotationDelta = p_zRotation ? p_zRotation : this.zRotationDelta;
+        this.xRotationDelta = PxRotation ? PxRotation : this.xRotationDelta;
+        this.yRotationDelta = PyRotation ? PyRotation : this.yRotationDelta;
+        this.zRotationDelta = PzRotation ? PzRotation : this.zRotationDelta;
 
         /////////////////////////////////////////////////////////
 

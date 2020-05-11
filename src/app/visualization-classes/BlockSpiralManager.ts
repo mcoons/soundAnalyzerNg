@@ -24,7 +24,7 @@ export class BlockSpiralManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -50, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1600;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1200;
 
     }
 
@@ -39,7 +39,7 @@ export class BlockSpiralManager {
         //     depth: depth
         // }, this.scene);
 
-        for (let theta = 0; theta < 18 * Math.PI; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
+        for (let theta = 0; theta < 17 * Math.PI; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
 
             // width = 6;
             // depth = radius / 12;
@@ -98,7 +98,7 @@ export class BlockSpiralManager {
             y = (y / 255 * y / 255) * 255;
 
             o.scaling.y = .05 + y / 17;
-            o.position.y = o.scaling.y / 2 - i / 10 + 50;
+            o.position.y = o.scaling.y / 2 - i / 16 + 30;
 
             const b = y * .9;
             const g = 128 - y * 1.5;

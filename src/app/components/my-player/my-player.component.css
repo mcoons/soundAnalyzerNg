@@ -16,7 +16,7 @@
    display: none;
 }
 
-button {
+.playerButton {
     background-color: Transparent;
     border: none;
     outline:none;   
