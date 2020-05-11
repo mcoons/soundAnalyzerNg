@@ -6,6 +6,8 @@ import { OptionsService } from '../../services/options/options.service';
 import { AudioService } from '../../services/audio/audio.service';
 import { MessageService } from '../../services/message/message.service';
 
+import { map } from '../../visualization-classes/utilities.js'
+
 @Component({
   selector: 'app-canvas2-d',
   templateUrl: './canvas2-d.component.html',
@@ -123,17 +125,24 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     }
 
     const width = this.canvas.width - 50;
+    const halfWidth = width / 2;
+    let y;
 
     this.ctx.lineWidth = 3;
     this.ctx.moveTo(25, 90);
     this.ctx.beginPath();
     for (let i = 0; i < width; i++) {
-      const y = (this.waveFormDataSource[i] - 128);
+
+      const multiplier = Math.sin(map(i, 0, width, 0, Math.PI));
+
+      y = (this.waveFormDataSource[i] - 128) * multiplier;
+
       this.ctx.lineTo(i + 25, y + 90);
     }
 
     this.ctx.strokeStyle = 'white';
     this.ctx.stroke();
+
   }
 
   getTopOfPlayer(): number {

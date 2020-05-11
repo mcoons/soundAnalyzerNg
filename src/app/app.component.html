@@ -1,21 +1,15 @@
 
-<app-title [title]="title"></app-title>
-
-
-
-
-<!-- <div id="mainContainer"  class="d-flex"> -->
-<div id="mainContainer" >
-  
-  <div id="splashContainer" [@splashOpenClose]="this.optionsService.options.showSplash.value == true ? 'splashOpen' : 'splashClosed'">
-    <app-splash-screen [title]="title"></app-splash-screen>
-  </div>
-  <div id="main" class="col">
+  <div id="mainContainer" >
+    
+    <div id="splashContainer" [@splashOpenClose]="this.optionsService.options.showSplash.value == true ? 'splashOpen' : 'splashClosed'">
+      <app-splash-screen [title]="title"></app-splash-screen>
+    </div>
+    <div id="main" class="col">
+      <app-title [title]="title"></app-title>
 
     <app-canvas3-d></app-canvas3-d>
     <app-canvas2-d></app-canvas2-d>
 
-    <!-- <app-audio-player id="ngPlayerDIV" *ngIf = "this.options.showPlayer.value == true" ></app-audio-player> -->
     <app-my-player id="ngPlayerDIV" *ngIf = "this.optionsService.options.showPlayer.value == true" ></app-my-player>
 
     <button *ngIf = "this.optionsService.options.showSplash.value == false" (click)="this.togglePanel()">{{ this.optionsService.options.showPanel.value == true ? ">" : "<" }}</button>
@@ -31,5 +25,3 @@
   
 </div>
   
-
-
