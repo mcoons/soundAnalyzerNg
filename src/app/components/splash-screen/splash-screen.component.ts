@@ -27,9 +27,11 @@ export class SplashScreenComponent {
     this.optionsService.toggleOption('showPlayer');
     this.optionsService.toggleOption('showBars');
     this.optionsService.toggleOption('showWaveform');
-    this.optionsService.toggleOption('showPanel');
     this.optionsService.toggleOption('showSplash');
-    setTimeout(() => {this.optionsService.toggleOption('renderPlayer'); }, 5);
-    // this.optionsService.toggleOption('renderPlayer');
+    setTimeout(() => {
+      this.optionsService.toggleOption('showPanel');
+      this.optionsService.toggleOption('renderPlayer'); 
+    
+    }, 5);
   }
 }
