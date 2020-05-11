@@ -26,10 +26,10 @@
           </div>
         
           <div>
-              <i id="downicon" class="material-icons">volume_mute</i>
-            <input type="range" class="volume-slider" min="0" [max]="10" step="1" [value]="this.optionsService.options.volume.value"
+              <i id="vdownicon" class="material-icons">volume_mute</i>
+            <input type="range" class="volume-slider" min="0" [max]="10" step="1" [value]="this.options.volume.value"
               (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
-              <i id="upicon" class="material-icons">volume_up</i>
+              <i id="vupicon" class="material-icons">volume_up</i>
           </div>
         <!-- <p class="optionHeader" >Player Options</p>
 
@@ -72,8 +72,12 @@
                     <label [for]="option"> {{this.options[option].label}}</label>
                 </ng-container>
                 <ng-container *ngIf="this.options[option].type=='slider'" >
+
+                    <i id="gdownicon" class="material-icons">remove_circle_outline</i>
                     <input class="range"  type="range" [id]="option" [name]="option" (input)="updateItem($event)" (change)="updateItem($event)" 
                     [min]="this.options[option].min" [max]="this.options[option].max" [value]="this.options[option].value" step="1"> 
+                    <i id="gupicon" class="material-icons">add_circle_outline</i>
+
                     <br><label class="rangeLabel" [for]="option">{{this.options[option].label}} ({{this.options[option].value}})</label>
                 </ng-container>
                 <ng-container *ngIf="this.options[option].type=='radio'" >

@@ -97,14 +97,13 @@ input {
 .playerButton {
     background-color: Transparent;
     border: none;
-    outline: none;   
     color: black;
 }
 
-#upicon {
+#vupicon {
     margin-left: 3px;
 }
 
-#downicon {
+#vdownicon {
     margin-right: -5px;
 }

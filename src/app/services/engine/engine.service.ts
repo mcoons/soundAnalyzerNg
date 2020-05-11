@@ -25,10 +25,10 @@ export class EngineService {
 
   glowLayer;
 
-  private bpm: BlockPlaneManager;
-  private eqm: EquationManager;
-  private cbm: CubeManager;
-  private bsm: BlockSpiralManager;
+  // private bpm: BlockPlaneManager;
+  // private eqm: EquationManager;
+  // private cbm: CubeManager;
+  // private bsm: BlockSpiralManager;
 
   private managerClasses;
   private managerClassIndex;
@@ -131,11 +131,10 @@ export class EngineService {
       const rendererLoopCallback = () => {
 
         // fix for canvas stretching
-        // this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
         this.resizeCanvas();
 
         this.currentManager.update();
-        this.fixDpi();
+        // this.fixDpi();
         this.scene.render();
       };
 

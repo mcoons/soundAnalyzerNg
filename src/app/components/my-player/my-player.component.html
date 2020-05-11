@@ -11,7 +11,7 @@
 
   <div>
       <i id="downicon" class="material-icons">volume_mute</i>
-    <input type="range" class="volume-slider" min="0" [max]="10" step="1" [value]="this.optionsService.options.volume.value"
+    <input id="vslider" type="range" class="volume-slider" min="0" [max]="10" step="1" [value]="this.optionsService.options.volume.value"
       (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
       <i id="upicon" class="material-icons">volume_up</i>
   </div>
@@ -21,11 +21,11 @@
   <div>
     <div>
       {{ this.formatTime(this.currentTime) }}
-    </div>
+    <!-- </div> -->
     <input type="range" class="time-slider" min="0" [max]="this.duration" step="1" value="{{this.currentTime}}"
       (input)="onSliderChangeTime($event)">
-    <div>
-      {{ this.formatTime(this.duration) }}
+    <!-- <div> -->
+      &nbsp;{{ this.formatTime(this.duration) }}
     </div>
   </div>
 

@@ -36,7 +36,7 @@ export class OptionsService {
       group: 'Hidden',
       type: 'slider',
       label: 'Waveform Delay',
-      value: 3,
+      value: 1,
       min: 1,
       max: 5
     },
@@ -51,7 +51,7 @@ export class OptionsService {
       showInConsole: false,
       group: 'General',
       type: 'checkbox',
-      label: 'Show Full Player',
+      label: 'Show Main Player',
       value: false
     },
     showTrackTitle: {
