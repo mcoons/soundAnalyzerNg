@@ -33,10 +33,10 @@ export class OptionsService {
     },
     waveformDelay: {
       showInConsole: false,
-      group: 'General',
+      group: 'Hidden',
       type: 'slider',
       label: 'Waveform Delay',
-      value: 3,
+      value: 1,
       min: 1,
       max: 5
     },
@@ -51,7 +51,7 @@ export class OptionsService {
       showInConsole: false,
       group: 'General',
       type: 'checkbox',
-      label: 'Show Full Player',
+      label: 'Show Main Player',
       value: false
     },
     showTrackTitle: {
@@ -63,7 +63,7 @@ export class OptionsService {
     },
     volume: {
       showInConsole: false,
-      group: 'General',
+      group: 'Hidden',
       type: 'slider',
       label: 'Volume',
       value: 7,
@@ -77,7 +77,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'slider',
       label: 'Visual Effect Strength',
-      value: 7,
+      value: 3,
       min: 1,
       max: 20
     },
@@ -100,23 +100,22 @@ export class OptionsService {
       value: 1,
       checked: false
     },
-    cubeManager: {
-      showInConsole: true,
-      group: '3DVisual',
-      type: 'radio',
-      label: 'Cube',
-      value: 2,
-      checked: false
-    },
     equationManager: {
       showInConsole: true,
       group: '3DVisual',
       type: 'radio',
       label: 'Equation',
-      value: 3,
+      value: 2,
       checked: true
     },
-
+    cubeManager: {
+      showInConsole: true,
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Cube',
+      value: 3,
+      checked: false
+    },
     starManager: {
       showInConsole: true,
       group: '3DVisual',
@@ -167,7 +166,7 @@ export class OptionsService {
       group: 'Hidden',
       type: 'numeric',
       label: 'Current Scene',
-      value: 3
+      value: 2
     }
 
   };
@@ -222,6 +221,13 @@ export class OptionsService {
       label: 'Current Index',
       value: 0
     },
+    playing: {
+      showInConsole: false,
+      group: 'Console',
+      type: 'boolean',
+      label: 'Playing',
+      value: false
+    },
   };
 
   constructor(public messageService: MessageService) {
@@ -248,7 +254,7 @@ export class OptionsService {
     // this.engServ.selectScene(index);
   }
 
-  updateOption(itemName: string, value) {
+  setOption(itemName: string, value) {
     this.options[itemName].value = value;
     this.windowResize();
     this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
@@ -256,6 +262,10 @@ export class OptionsService {
 
   getOptions() {
     return this.options;
+  }
+
+  getOption(option) {
+    return this.options[option].value;
   }
 
   updateState(itemName: string, value) {

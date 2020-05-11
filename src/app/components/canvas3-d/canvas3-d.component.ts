@@ -1,13 +1,9 @@
 
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { OptionsService } from '../../services/options/options.service';
-import { AudioService } from '../../services/audio/audio.service';
 import { MessageService } from '../../services/message/message.service';
-
 import { EngineService } from '../../services/engine/engine.service';
-
 
 @Component({
   selector: 'app-canvas3-d',
@@ -15,42 +11,28 @@ import { EngineService } from '../../services/engine/engine.service';
   styleUrls: ['./canvas3-d.component.css']
 })
 
-export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
+export class Canvas3DComponent implements AfterViewInit, OnDestroy {
   @ViewChild('rendererCanvas', { static: true })
   public rendererCanvas: ElementRef<HTMLCanvasElement>;
-  
-  canvas;
 
+  canvas;
   subscription: Subscription;
 
-  options;
-
   constructor(
-    public optionsService: OptionsService,
-    public audioService: AudioService,
     public messageService: MessageService,
-    private engServ: EngineService) {
+    private engineService: EngineService) {
 
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         // console.log('Canvas3D: Message received from service is :  ' + message);
-        this.options = this.optionsService.getOptions();
       });
   }
 
-  ngOnInit(): void {
-    this.options = this.optionsService.getOptions();
-    this.canvas = document.getElementById('rendererCanvas') as HTMLCanvasElement;
-
-    this.engServ.createScene(this.rendererCanvas);
-    this.fixDpi();
-    this.engServ.animate();
-  }
-
   ngAfterViewInit(): void {
-    // this.canvas = document.getElementById('canvas3d') as HTMLCanvasElement;
-    // console.log('3D canvas');
-    // console.log(this.canvas);
+    this.canvas = document.getElementById('rendererCanvas') as HTMLCanvasElement;
+    this.fixDpi();
+    this.engineService.createScene(this.rendererCanvas);
+    this.engineService.animate();
   }
 
   ngOnDestroy() {
@@ -58,13 +40,11 @@ export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription.unsubscribe();
   }
 
-
   fixDpi = () => {
-    // create a style object that returns width and height
     const dpi = window.devicePixelRatio;
-
     const styles = window.getComputedStyle(this.canvas);
 
+    // create a style object that returns width and height
     const style = {
       height() {
         return +styles.height.slice(0, -2);
@@ -73,6 +53,7 @@ export class Canvas3DComponent implements OnInit, OnDestroy, AfterViewInit {
         return +styles.width.slice(0, -2);
       }
     };
+
     // set the correct canvas attributes for device dpi
     this.canvas.setAttribute('width', (style.width() * dpi).toString());
     this.canvas.setAttribute('height', (style.height() * dpi).toString());

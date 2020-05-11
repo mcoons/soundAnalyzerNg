@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+// import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import * as moment from 'moment';
 
 import {
@@ -21,12 +21,14 @@ import { MessageService } from '../../services/message/message.service';
   styleUrls: ['./my-player.component.css'],
   animations: [
     trigger('playerOpenClose', [
-      state('playerOpen', style({
-        bottom: '10px'
-      })),
-      state('playerClosed', style({
-        bottom: '-100px'
-      })),
+      state('playerOpen',
+        style({
+          bottom: '10px'
+        })),
+      state('playerClosed',
+        style({
+          bottom: '-150px'
+        })),
       transition('playerOpen => playerClosed', [
         animate('1s')
       ]),
@@ -42,28 +44,23 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   audio: HTMLAudioElement;
   fileInput;
   subscription: Subscription;
-  options;
-
   siteTracks = [];
   userTracks = [];
   playList = [];
-  currentTrack = 0;
   duration = 0;
   currentTime = 0;
-  currentVolume = 7;
-  playing = false;
 
   constructor(
     public optionsService: OptionsService,
     public audioService: AudioService,
     public messageService: MessageService,
-    private sanitizer: DomSanitizer) {
+    // private sanitizer: DomSanitizer
+  ) {
 
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         if (message === 'track change') {
-          this.currentTrack = this.optionsService.state.currentTrack.value;
-          this.selectTrack(this.currentTrack);
+          this.selectTrack(this.optionsService.state.currentTrack.value);
         }
         if (message === 'site list selection') {
           this.loadSiteTracks();
@@ -71,9 +68,19 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         if (message === 'local list selection') {
           this.fileInput.click();
         }
-
-        console.log('Audio Player: Message received from service is :  ' + message);
-        this.options = this.optionsService.getOptions();
+        if (message === 'playPause') {
+          this.playPause();
+        }
+        if (message === 'previousTrack') {
+          this.previousTrack();
+        }
+        if (message === 'nextTrack') {
+          this.nextTrack();
+        }
+        if (message === 'volume change') {
+          this.audio.volume = this.optionsService.getOption('volume') / 10;
+        }
+        // console.log('Audio Player: Message received from service is :  ' + message);
       });
 
     this.siteTracks = [
@@ -137,11 +144,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.playList = this.siteTracks;
     this.optionsService.updateState('playlist', this.playList);
-
-    this.currentTrack = 0;
-    this.optionsService.updateState('currentTrack', this.currentTrack);
-
-    this.options = this.optionsService.getOptions();
+    this.optionsService.updateState('currentTrack', 0);
   }
 
   ngOnInit(): void {
@@ -161,10 +164,8 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.audioService.setAudio(this.audio);
     this.optionsService.windowResize();
-
     this.setPlaySource();
     this.playPause();
-    // this.getDuration();
   }
 
   ngOnDestroy() {
@@ -173,73 +174,54 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setPlaySource() {
-    // console.log('setting play source');
-    this.audio.src = this.playList[this.currentTrack].link;
-    // console.log('duration after src: ' + this.audio.duration);
+    this.audio.src = this.playList[this.optionsService.state.currentTrack.value].link;
     this.currentTime = 0;
     this.duration = 0;
-    // console.log(this.audio.src);
   }
 
   playPause() {
-    // play track - playList[currentTrack]
     if (this.audio.paused) {
-      this.audio.play();
-      // console.log('duration after play: ' + this.audio.duration);
       this.audio.play()
         .then(() => {
-          // console.log('Audio Successfully Playing');
-          this.playing = true;
+          this.optionsService.updateState('playing', true);
           this.getDuration();
         })
         .catch(() => {
-          // console.log('Audio Failed Playing');
+          console.log('Audio Failed Playing');
         });
-
     } else {
       this.audio.pause();
-      this.playing = false;
+      this.optionsService.updateState('playing', false);
     }
   }
 
-  selectTrack(index) {
+  selectTrack(index: number) {
     this.audio.pause();
-
-    this.currentTrack = index;
-    this.optionsService.updateState('currentTrack', this.currentTrack);
-
+    this.optionsService.updateState('currentTrack', index);
     this.setPlaySource();
     this.playPause();
   }
 
   previousTrack() {
-    // stop play
     this.audio.pause();
-
-    // dec currentTrack, wrap if necessary
-    this.currentTrack--;
-    if (this.currentTrack < 0) {
-      this.currentTrack = this.playList.length - 1;
+    let ct = this.optionsService.state.currentTrack.value;
+    ct--;
+    if (ct < 0) {
+      ct = this.playList.length - 1;
     }
-    this.optionsService.updateState('currentTrack', this.currentTrack);
-
-    // play track - playList[currentTrack]
+    this.optionsService.updateState('currentTrack', ct);
     this.setPlaySource();
     this.playPause();
   }
 
   nextTrack() {
-    // stop play
     this.audio.pause();
-
-    // inc currentTrack, wrap if necessary
-    this.currentTrack++;
-    if (this.currentTrack > this.playList.length - 1) {
-      this.currentTrack = 0;
+    let ct = this.optionsService.state.currentTrack.value;
+    ct++;
+    if (ct > this.playList.length - 1) {
+      ct = 0;
     }
-    this.optionsService.updateState('currentTrack', this.currentTrack);
-
-    // play track - playList[currentTrack]
+    this.optionsService.updateState('currentTrack', ct);
     this.setPlaySource();
     this.playPause();
   }
@@ -250,18 +232,15 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   setVolume(volume) {
     this.audio.volume = volume / 10;
-    this.currentVolume = volume;
-    this.optionsService.updateOption('volume', volume);
+    this.optionsService.setOption('volume', volume);
     this.messageService.announceMessage('volume change');
   }
 
   onSliderChangeTime(e) {
-    // console.log(e);
     this.seekTo(e.target.value);
   }
 
   seekTo(seconds) {
-    // console.log('second in seek to: ' + seconds);
     this.audio.currentTime = seconds;
     this.currentTime = seconds;
   }
@@ -272,7 +251,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getDuration() {
-      this.duration = this.audio.duration || 0;
+    this.duration = this.audio.duration || 0;
   }
 
   timeUpdate() {
@@ -280,53 +259,42 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   loadSiteTracks() {
-    console.log('loading site tracks');
-
-    // stop play
     this.audio.pause();
-
-    // set currentTrack to 0;
-    this.currentTrack = 0;
-    this.optionsService.updateState('currentTrack', this.currentTrack);
-
-    // load site tracks selection into playList
+    this.optionsService.updateState('currentTrack', 0);
     this.playList = this.siteTracks;
     this.optionsService.updateState('playlist', this.playList);
-
-    // play first track - playList[currentTrack]
     this.setPlaySource();
     this.playPause();
   }
 
   loadUserTracks() {
-    if (this.userTracks === []) {
+    if (this.userTracks.length === 0) {
       return;
     }
-
-    // stop play
     this.audio.pause();
-
-    // set currentTrack to 0;
-    this.currentTrack = 0;
-    this.optionsService.updateState('currentTrack', this.currentTrack);
-
-    // load user tracks selection into playList
+    this.optionsService.updateState('currentTrack', 0);
     this.playList = this.userTracks;
     this.optionsService.updateState('playlist', this.playList);
-
-    // play first track - playList[currentTrack]
     this.setPlaySource();
     this.playPause();
   }
 
   public fileChangeEvent(fileInput: any) {
-    this.userTracks = [];
+    const newUserTracks = [];
+
+    // for (const index of fileInput.target.files) {
+    //   this.userTracks.push(
+    //     {
+    //       title: fileInput.target.files[index].name,
+    //       // link: this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(fileInput.target.files[index]))
+    //       link: URL.createObjectURL(fileInput.target.files[index])
+    //     }
+    //   );
+    // }
 
     for (let index = 0; index < fileInput.target.files.length; index++) {
       const element = fileInput.target.files[index];
-      // console.log(element.name);
-      // console.log(URL.createObjectURL(fileInput.target.files[index]));
-      this.userTracks.push(
+      newUserTracks.push(
         {
           title: element.name,
           // link: this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(fileInput.target.files[index]))
@@ -334,13 +302,11 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       );
     }
-    // console.log(this.userTracks);
 
-    if (this.userTracks === []) {
-      // console.log('returning due to null');
+    if (newUserTracks.length === 0) {
       return;
     }
-
+    this.userTracks = [...newUserTracks];
     this.loadUserTracks();
   }
 

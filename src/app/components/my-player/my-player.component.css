@@ -16,15 +16,19 @@
    display: none;
 }
 
-button {
+.playerButton {
     background-color: Transparent;
     border: none;
-    outline:none;   
     color: white;
 }
 
 #upicon {
     margin-left: 3px;
+}
+
+#vslider {
+    /* margin-top: -5px; */
+    margin-bottom: 5px;
 }
 
 #downicon {

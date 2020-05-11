@@ -1,6 +1,4 @@
 canvas {
-    /* border: 2px solid green; */
-    /* border-right: 3px solid white; */
     pointer-events: none;
     position: absolute;
     top: 0;

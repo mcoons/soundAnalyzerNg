@@ -53,6 +53,7 @@ export class EquationManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
 
         const radius = 200;
+        const loopMax = (2 * Math.PI - (Math.PI / 32));
 
         const master = BABYLON.MeshBuilder.CreateBox(('box'), {
             height: 20,
@@ -60,7 +61,8 @@ export class EquationManager {
             depth: 20
         }, this.scene);
 
-        for (let theta = 0; theta < 2 * Math.PI; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
+        // for (let theta = 0; theta < (2 * Math.PI - (Math.PI / 32)); theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
+        for (let theta = 0; theta < loopMax; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
 
 
             // const thing = BABYLON.MeshBuilder.CreateBox(('box'), {
@@ -382,6 +384,7 @@ export class EquationManager {
     }
 
     update() {
+        const loopMax = (2 * Math.PI - (Math.PI / 32));
 
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta += this.cameraMoveDir;
 
@@ -397,7 +400,9 @@ export class EquationManager {
         let index = 0;
         let soundIndex = 0;
 
-        for (let theta = 0; theta < 2 * Math.PI; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
+        const scalingDenom = 20;
+
+        for (let theta = 0; theta < loopMax; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
 
             this.objects1[index].position.x = radius * Math.cos(theta + this.thetaDelta);
             this.objects1[index].position.z = radius * Math.sin(theta + this.thetaDelta);
@@ -418,13 +423,15 @@ export class EquationManager {
             this.objects1[index].material.diffuseColor.g = g / 255;
             this.objects1[index].material.diffuseColor.b = b / 255;
 
+            this.objects1[index].scaling.y = 1 + y / scalingDenom;
+
             soundIndex++;
             index++;
         }
 
 
         index = 0;
-        for (let theta = 0; theta < 2 * Math.PI; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
+        for (let theta = 0; theta < loopMax; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
 
             this.objects2[index].position.x = 1.1 * radius * Math.cos(theta + this.thetaDelta);
             this.objects2[index].position.z = 1.1 * radius * Math.sin(theta + this.thetaDelta);
@@ -445,13 +452,15 @@ export class EquationManager {
             this.objects2[index].material.diffuseColor.g = g / 255;
             this.objects2[index].material.diffuseColor.b = b / 255;
 
+            this.objects2[index].scaling.y = 1 + y / scalingDenom;
+
             soundIndex++;
             index++;
         }
 
 
         index = 0;
-        for (let theta = 0; theta < 2 * Math.PI; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
+        for (let theta = 0; theta < loopMax; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
 
             this.objects3[index].position.x = 1.2 * radius * Math.cos(theta + this.thetaDelta);
             this.objects3[index].position.z = 1.2 * radius * Math.sin(theta + this.thetaDelta);
@@ -472,13 +481,15 @@ export class EquationManager {
             this.objects3[index].material.diffuseColor.g = g / 255;
             this.objects3[index].material.diffuseColor.b = b / 255;
 
+            this.objects3[index].scaling.y = 1 + y / scalingDenom;
+
             soundIndex++;
             index++;
         }
 
 
         index = 0;
-        for (let theta = 0; theta < 2 * Math.PI; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
+        for (let theta = 0; theta < loopMax; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
 
             this.objects4[index].position.x = 1.3 * radius * Math.cos(theta + this.thetaDelta);
             this.objects4[index].position.z = 1.3 * radius * Math.sin(theta + this.thetaDelta);
@@ -499,13 +510,15 @@ export class EquationManager {
             this.objects4[index].material.diffuseColor.g = g / 255;
             this.objects4[index].material.diffuseColor.b = b / 255;
 
+            this.objects4[index].scaling.y = 1 + y / scalingDenom;
+
             soundIndex++;
             index++;
         }
 
 
         index = 0;
-        for (let theta = 0; theta < 2 * Math.PI; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
+        for (let theta = 0; theta < loopMax; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
 
             this.objects5[index].position.x = 1.4 * radius * Math.cos(theta + this.thetaDelta);
             this.objects5[index].position.z = 1.4 * radius * Math.sin(theta + this.thetaDelta);
@@ -526,13 +539,15 @@ export class EquationManager {
             this.objects5[index].material.diffuseColor.g = g / 255;
             this.objects5[index].material.diffuseColor.b = b / 255;
 
+            this.objects5[index].scaling.y = 1 + y / scalingDenom;
+
             soundIndex++;
             index++;
         }
 
 
         index = 0;
-        for (let theta = 0; theta < 2 * Math.PI; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
+        for (let theta = 0; theta < loopMax; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
 
             this.objects6[index].position.x = 1.5 * radius * Math.cos(theta + this.thetaDelta);
             this.objects6[index].position.z = 1.5 * radius * Math.sin(theta + this.thetaDelta);
@@ -553,13 +568,15 @@ export class EquationManager {
             this.objects6[index].material.diffuseColor.g = g / 255;
             this.objects6[index].material.diffuseColor.b = b / 255;
 
+            this.objects6[index].scaling.y = 1 + y / scalingDenom;
+
             soundIndex++;
             index++;
         }
 
 
         index = 0;
-        for (let theta = 0; theta < 2 * Math.PI; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
+        for (let theta = 0; theta < loopMax; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
 
             this.objects7[index].position.x = 1.6 * radius * Math.cos(theta + this.thetaDelta);
             this.objects7[index].position.z = 1.6 * radius * Math.sin(theta + this.thetaDelta);
@@ -580,13 +597,15 @@ export class EquationManager {
             this.objects7[index].material.diffuseColor.g = g / 255;
             this.objects7[index].material.diffuseColor.b = b / 255;
 
+            this.objects7[index].scaling.y = 1 + y / scalingDenom;
+
             soundIndex++;
             index++;
         }
 
 
         index = 0;
-        for (let theta = 0; theta < 2 * Math.PI; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
+        for (let theta = 0; theta < loopMax; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
 
             this.objects8[index].position.x = 1.7 * radius * Math.cos(theta + this.thetaDelta);
             this.objects8[index].position.z = 1.7 * radius * Math.sin(theta + this.thetaDelta);
@@ -606,6 +625,8 @@ export class EquationManager {
             this.objects8[index].material.diffuseColor.r = r / 255;
             this.objects8[index].material.diffuseColor.g = g / 255;
             this.objects8[index].material.diffuseColor.b = b / 255;
+
+            this.objects8[index].scaling.y = 1 + y / scalingDenom;
 
             soundIndex++;
             index++;

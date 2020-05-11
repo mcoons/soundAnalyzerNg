@@ -45,18 +45,14 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   }
 
   updateItem(e) {
-    this.optionsService.updateOption(e.target.name, e.target.value);
+    this.optionsService.setOption(e.target.name, e.target.value);
   }
 
   radioChange(e) {
     // console.log(e.target);
     // console.log(this.options);
     this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
-    this.optionsService.updateOption('currentScene', e.target.value);
-
-    // (document.querySelector('#playerDIV > mat-advanced-audio-player > mat-card.mat-card.mat-focus-indicator.d-flex.justify-content-center.ngx-advanced-audio-player.z-depth-1.mat-elevation-z2 > button.mat-focus-indicator.p-1.play-pause.mat-button.mat-button-base')  ).click();
-    // (document.querySelector('#cdk-accordion-child-0 > div > table > tbody > tr:nth-child(1) > td.mat-cell.cdk-cell.cdk-column-title.mat-column-title.ng-star-inserted')  ).click();
-  
+    this.optionsService.setOption('currentScene', e.target.value);
   }
 
   trackChange(e) {
@@ -71,6 +67,29 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   localListSelection() {
     this.messageService.announceMessage('local list selection');
+  }
+
+  previousTrack() {
+    this.messageService.announceMessage('previousTrack');
+  }
+
+  nextTrack() {
+    this.messageService.announceMessage('nextTrack');
+  }
+
+  playPause() {
+    this.messageService.announceMessage('playPause');
+  }
+
+  onSliderChangeVolume(e) {
+    this.setVolume(e.target.value);
+  }
+
+  setVolume(volume) {
+    // this.audio.volume = volume / 10;
+    // this.currentVolume = volume;
+    this.optionsService.setOption('volume', volume);
+    this.messageService.announceMessage('volume change');
   }
 
   ngOnDestroy() {

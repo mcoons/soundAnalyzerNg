@@ -25,10 +25,10 @@ export class EngineService {
 
   glowLayer;
 
-  private bpm: BlockPlaneManager;
-  private eqm: EquationManager;
-  private cbm: CubeManager;
-  private bsm: BlockSpiralManager;
+  // private bpm: BlockPlaneManager;
+  // private eqm: EquationManager;
+  // private cbm: CubeManager;
+  // private bsm: BlockSpiralManager;
 
   private managerClasses;
   private managerClassIndex;
@@ -37,7 +37,7 @@ export class EngineService {
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
 
-  options;
+  // options;
   subscription;
 
   public constructor(
@@ -62,21 +62,20 @@ export class EngineService {
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         // console.log('Engine: Message received from service is :  ' + message);
-        this.options = this.optionsService.getOptions();
+        // this.options = this.optionsService.getOptions();
         // this.managerClassIndex = this.options.currentScene.value;
 
-        this.selectScene(this.options.currentScene.value);
+        this.selectScene(this.optionsService.options.currentScene.value);
       });
 
-    this.options = this.optionsService.getOptions();
+    // this.options = this.optionsService.getOptions();
 
-    this.managerClassIndex = this.options.currentScene.value;
+    this.managerClassIndex = this.optionsService.options.currentScene.value;
     this.managerClasses = [
       BlockPlaneManager,
       BlockSpiralManager,
-      //            RippleManager,
-      CubeManager,
       EquationManager,
+      CubeManager,
       StarManager
     ];
 
@@ -94,8 +93,8 @@ export class EngineService {
     this.scene = new BABYLON.Scene(this.engine);
     this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
-    this.glowLayer = new BABYLON.GlowLayer("glow", this.scene);
-    this.glowLayer.intensity = 3.5;
+    this.glowLayer = new BABYLON.GlowLayer('glow', this.scene);
+    this.glowLayer.intensity = 1;
 
     this.camera = new BABYLON.ArcRotateCamera('camera1', 4.7, 1.1, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
     this.camera.upperRadiusLimit = 9400;
@@ -132,11 +131,10 @@ export class EngineService {
       const rendererLoopCallback = () => {
 
         // fix for canvas stretching
-        // this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
         this.resizeCanvas();
 
         this.currentManager.update();
-        this.fixDpi();
+        // this.fixDpi();
         this.scene.render();
       };
 
