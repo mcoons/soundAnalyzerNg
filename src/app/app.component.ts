@@ -52,7 +52,7 @@ import { MessageService } from './services/message/message.service';
 })
 
 export class AppComponent implements OnInit {
-  title = 'Music Visualyzer Ng';
+  title = 'MP3 Visualyzer Ng';
 
   // options;
 
