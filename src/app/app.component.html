@@ -22,7 +22,8 @@
   
   </div>
   
-  <div id="optionsContainer" class="fixed" [@panelOpenClose]="this.optionsService.options.showPanel.value == true ? 'panelOpen' : 'panelClosed'">
+  <div id="optionsContainer" class="fixed" [@panelOpenClose]="this.optionsService.options.showPanel.value == true ? 'panelOpen' : 'panelClosed'"
+  *ngIf = "this.optionsService.options.showSplash.value == false">
     
     <app-options-panel></app-options-panel>
 

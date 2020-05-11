@@ -1,3 +1,4 @@
+
 #title {
     top: 10px;
     position: absolute;
@@ -7,7 +8,6 @@
     width: 90%;
     left: 50%;
     margin-left: -45%;
-    /* border: 1px solid orange; */
 }
 
 p {

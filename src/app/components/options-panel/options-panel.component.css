@@ -1,5 +1,5 @@
+
 #options {
-    /* border: 1px solid blue; */
     margin: 0px;
     margin-right: 0;
     margin-top: 0;
@@ -11,11 +11,11 @@
     background-color: lightgray;
     color: black;
     border: 5px solid black;
-    border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
+    -o-border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
+       border-image: -webkit-radial-gradient(#9C8355 20%, #F8F2C0) 20;
+       border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
     box-shadow: 4px 4px 6px rgba(70, 46, 0, 0.653), 2px 2px 5px black inset;
-    
     height: 100%;
-
 }
 
 #glowContainer {
@@ -25,10 +25,8 @@
     margin-right:0;
     margin-left: 0;
     padding: 10px;
-    /* padding-right: 0; */
     overflow: auto;
 }
-
 
 .optionHeader {
     color: white;
@@ -39,10 +37,6 @@
     background-color: darkblue;
 }
 
-/* .optionsContainer { */
-    /* margin-left: 15px; */
-/* } */
-
 label  {
     margin-left: 5px !important;
 }
@@ -52,47 +46,44 @@ input {
 }
 
 #listBtnContainer {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: space-between;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     width: 100%;
 }
+
 .playlistButton {
-    /* display: block; */
     width: 100px;
-    /* flex-grow: 4; */
     margin-bottom: 10px;
     border-radius: 5px;
-    box-shadow: 7px 7px 8px #fafafa inset, -5px -5px 6px #7796b3 inset, 2px 2px 6px rgba(68, 68, 68, 0.653);
-    border-top: 2px solid rgb(172, 172, 172);
-    border-bottom: 2px solid rgb(100, 100, 100);
-    border-left: 2px solid rgb(172, 172, 172);
-    border-right: 2px solid rgb(100, 100, 100);
-    background: linear-gradient(to bottom right, rgb(227, 240, 255), rgb(186, 217, 255));
+    border-top: 1px solid rgb(206, 206, 206);
+    border-left: 1px solid rgb(206, 206, 206);
+    border-right: 1px solid rgb(92, 92, 92);
+    border-bottom: 1px solid rgb(92, 92, 92);
+    background-image: -webkit-linear-gradient(top left, rgb(202, 202, 202),rgb(150, 150, 150) );
+    background-image: linear-gradient(to bottom right, rgb(202, 202, 202),rgb(150, 150, 150) );
+    box-shadow: 3px 3px 4px rgba(155, 155, 155, 0.856),
+    3px 3px 3px white inset, 
+    -3px -3px 3px rgb(105, 105, 105) inset;
+}
+
+.playlistButton:hover {
+    background-image: -webkit-linear-gradient(top left, rgb(223, 223, 223),rgb(167, 167, 167) );
+    background-image: linear-gradient(to bottom right, rgb(223, 223, 223),rgb(167, 167, 167) );
 }
 
 .track {
     white-space: nowrap;
     overflow: hidden;
-    /* padding: 0; */
-    /* margin: 0; */
 }
 
 .labelContainer {
     display: inline-block;
     overflow: none;
-    /* padding: 0; */
-    /* margin: 0; */
 }
-
-/* .trackLabel { */
-    /* margin-top: 10px; */
-    /* text-indent: -50px; */
-    /* white-space: nowrap; */
-    /* overflow: hidden; */
-    /* margin-top: 5px; */
-    /* padding: 0; */
-/* } */
-
 
 .playerButton {
     background-color: Transparent;
