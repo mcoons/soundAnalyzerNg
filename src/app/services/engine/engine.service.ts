@@ -93,8 +93,8 @@ export class EngineService {
     this.scene = new BABYLON.Scene(this.engine);
     this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
-    this.glowLayer = new BABYLON.GlowLayer('glow', this.scene);
-    this.glowLayer.intensity = 1;
+    // this.glowLayer = new BABYLON.GlowLayer('glow', this.scene);
+    // this.glowLayer.intensity = 1;
 
     this.camera = new BABYLON.ArcRotateCamera('camera1', 4.7, 1.1, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
     this.camera.upperRadiusLimit = 9400;

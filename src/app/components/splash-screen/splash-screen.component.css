@@ -1,7 +1,7 @@
 
 #splashScreen {
-  color: black;
-  background-color: lightgray;
+  color: white;
+  background-color: rgba(176, 176, 176, 0.5);
   text-align: center;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -50,7 +50,7 @@ button {
   border-bottom: 1px solid rgb(92, 92, 92);
   background-image: -webkit-linear-gradient(top left, rgb(202, 202, 202),rgb(139, 139, 139) );
   background-image: linear-gradient(to bottom right, rgb(202, 202, 202),rgb(139, 139, 139) );
-  box-shadow: 3px 3px 4px rgba(155, 155, 155, 0.856),
+  box-shadow: 3px 3px 4px rgba(5, 5, 5, 0.856),
   3px 3px 3px white inset, 
   -3px -3px 3px rgb(105, 105, 105) inset;
 }

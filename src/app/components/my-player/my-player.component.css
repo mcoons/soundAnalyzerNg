@@ -1,13 +1,72 @@
 
 #playerDIV {
+    /* border: 5px solid red; */
     position: absolute;
     color: white;
     text-align: center;
-    width: 75%;
+    /* margin-top: 10px; */
+    /* width: 75%;
     left: 25%;
-    margin-left: -12%;
+    margin-left: -12%; */
     z-index: 30;
-    bottom: "-500px";
+    bottom: "-130px";
+    /* margin-left: auto;
+    margin-right: auto; */
+    left: 50%;
+    transform: translate(-50%);
+    -webkit-transform: translate(-50%);
+    padding: 15px;
+
+    /* border: 5px solid #F8F2C0; */
+    /* border-radius: 15px 15px 0 0; */
+
+    /* -o-border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
+       border-image: -webkit-radial-gradient(#9C8355 20%, #F8F2C0) 20;
+       border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
+    box-shadow: 4px 4px 6px rgba(63, 63, 63, 0.653), 2px 2px 5px black inset;
+    background-color: rgba(176, 176, 176, 0.5); */
+}
+
+#playerHideBtn {
+    top: -30px;
+    /* width: 70px;
+    height: 30px; */
+    position: absolute;
+    /* text-align: center; */
+    left: 50%;
+    transform: translate(-50%);
+    -webkit-transform: translate(-50%);
+    z-index: 30;
+    background-color: rgba(176, 176, 176, 0);
+border: none;
+    /* opacity: 0.2; */
+    /* font-size: 200%; */
+    /* border-top: 5px solid #F8F2C0;
+    border-right: 5px solid #F8F2C0;
+    border-left: 5px solid #F8F2C0; */
+    /* -o-border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
+       border-image: -webkit-radial-gradient(#9C8355 20%, #F8F2C0) 20; */
+       /* border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20; */
+    /* box-shadow: 4px 4px 6px rgba(63, 63, 63, 0.653), 2px 2px 5px black inset;
+    border-radius: 15px 15px 0 0; */
+    color: #F8F2C0;
+    /* text-shadow: 2px 2px 5px black ; */
+    /* border-bottom: none; */
+}
+
+/* #playerHideBtn:hover {
+    opacity: .9;
+} */
+/* .container2 {
+    left: 50%;
+    transform: translate(-50% , -50%);
+    -webkit-transform: translate(-50%, -50%);
+} */
+
+#minimizeBtn {
+    margin-top: -10px;
+    margin-right: -10px;
+    float: right;
 }
 
 #originalAudioWrapper, #originalFileInputWrapper {

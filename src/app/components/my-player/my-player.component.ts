@@ -23,11 +23,11 @@ import { MessageService } from '../../services/message/message.service';
     trigger('playerOpenClose', [
       state('playerOpen',
         style({
-          bottom: '10px'
+          bottom: '0px'
         })),
       state('playerClosed',
         style({
-          bottom: '-150px'
+          bottom: '-130px'
         })),
       transition('playerOpen => playerClosed', [
         animate('1s')
@@ -308,6 +308,10 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.userTracks = [...newUserTracks];
     this.loadUserTracks();
+  }
+
+  togglePlayer() {
+    this.optionsService.toggleOption('renderPlayer');
   }
 
 }
