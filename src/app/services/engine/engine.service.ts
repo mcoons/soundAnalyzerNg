@@ -65,12 +65,12 @@ export class EngineService {
         // this.options = this.optionsService.getOptions();
         // this.managerClassIndex = this.options.currentScene.value;
 
-        this.selectScene(this.optionsService.options.currentScene.value);
+        this.selectScene(this.optionsService.getOptions().currentScene.value);
       });
 
     // this.options = this.optionsService.getOptions();
 
-    this.managerClassIndex = this.optionsService.options.currentScene.value;
+    this.managerClassIndex = this.optionsService.getOptions().currentScene.value;
     this.managerClasses = [
       BlockPlaneManager,
       BlockSpiralManager,

@@ -15,7 +15,7 @@ export class OptionsService {
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
 
-  options = {
+  private options = {
     showTitle: {
       showInConsole: false,
       group: 'General',
@@ -140,7 +140,7 @@ export class OptionsService {
     //   label: 'Show Console',
     //   value: false
     // },
-    
+
     showPanel: {
       showInConsole: false,
       group: 'Hidden',

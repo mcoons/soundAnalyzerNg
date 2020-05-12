@@ -1,7 +1,7 @@
 
   <div id="mainContainer" >
     
-    <div id="splashContainer" [@splashOpenClose]="this.optionsService.options.showSplash.value == true ? 'splashOpen' : 'splashClosed'">
+    <div id="splashContainer" [@splashOpenClose]="this.optionsService.getOptions().showSplash.value == true ? 'splashOpen' : 'splashClosed'">
       <app-splash-screen [title]="title"></app-splash-screen>
     </div>
     <div id="main" class="col">
@@ -10,17 +10,16 @@
     <app-canvas3-d></app-canvas3-d>
     <app-canvas2-d></app-canvas2-d>
 
-    <app-my-player id="ngPlayerDIV" *ngIf = "this.optionsService.options.showPlayer.value == true" ></app-my-player>
+    <app-my-player id="ngPlayerDIV" *ngIf = "this.optionsService.getOptions().showPlayer.value == true" ></app-my-player>
 
-    <button *ngIf = "this.optionsService.options.showSplash.value == false" (click)="this.togglePanel()">
-      <!-- {{ this.optionsService.options.showPanel.value == true ? ">" : "<" }} -->
-      <i class="material-icons">{{ this.optionsService.options.showPanel.value === true ? 'close' : 'more_vert' }}</i>
+    <button *ngIf = "this.optionsService.getOptions().showSplash.value == false" (click)="this.togglePanel()">
+      <i class="material-icons">{{ this.optionsService.getOptions().showPanel.value === true ? 'close' : 'more_vert' }}</i>
     </button>
   
   </div>
   
-  <div id="optionsContainer" class="fixed" [@panelOpenClose]="this.optionsService.options.showPanel.value == true ? 'panelOpen' : 'panelClosed'"
-  *ngIf = "this.optionsService.options.showSplash.value == false">
+  <div id="optionsContainer" class="fixed" [@panelOpenClose]="this.optionsService.getOptions().showPanel.value == true ? 'panelOpen' : 'panelClosed'"
+  *ngIf = "this.optionsService.getOptions().showSplash.value == false">
     
     <app-options-panel></app-options-panel>
 

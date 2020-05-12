@@ -22,8 +22,6 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   private _subscription: Subscription;
 
-  options;
-
   constructor(
     public optionsService: OptionsService,
     public _messageService: MessageService) {
@@ -31,13 +29,11 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     this._subscription = _messageService.messageAnnounced$.subscribe(
       message => {
         // console.log('Options Panel: Message received from service is :  ' + message);
-        this.options = this.optionsService.getOptions();
       });
 
   }
 
   ngOnInit() {
-    this.options = this.optionsService.getOptions();
   }
 
   toggleItem(e) {
@@ -45,13 +41,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   }
 
   updateItem(e) {
-    console.log('----');
-    console.log(e);
-    console.log('----');
-
-    this._messageService.announceMessage('Item was changed: ' + e.target.id + ' to ' + this.options[e.target.id].value);
-
-    // this.optionsService.setOption(e.target.name, e.target.value);
+    this._messageService.announceMessage('Item was changed: ' + e.target.id + ' to ' + this.optionsService.getOptions()[e.target.id].value);
   }
 
   radioChange(e) {
@@ -87,12 +77,9 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   onSliderChangeVolume(e) {
     this._messageService.announceMessage('volume change');
-
-    // this.setVolume(e.target.value);
   }
 
   setVolume(volume) {
-    // this.optionsService.setOption('volume', volume);
     this._messageService.announceMessage('volume change');
   }
 
