@@ -1,41 +1,49 @@
 <!-- <p>my-player works!</p> -->
 
 <div id="playerDIV"
-  [@playerOpenClose]="this.optionsService.options.renderPlayer.value == true ? 'playerOpen' : 'playerClosed'">
-
-  <div>
-    <button class="playerButton" (click)="this.previousTrack()"><i class="material-icons">skip_previous</i></button>
-    <button class="playerButton" (click)="this.playPause()"><i class="material-icons">{{ this.optionsService.state.playing.value === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i></button>
-    <button class="playerButton" (click)="this.nextTrack()"><i class="material-icons">skip_next</i></button>
-  </div>
-
-  <div>
-      <i id="downicon" class="material-icons">volume_mute</i>
-    <input id="vslider" type="range" class="volume-slider" min="0" [max]="10" step="1" [value]="this.optionsService.options.volume.value"
-      (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
-      <i id="upicon" class="material-icons">volume_up</i>
-  </div>
-
-  <div *ngIf="this.optionsService.options.showTrackTitle.value">{{this.playList[this.optionsService.state.currentTrack.value]?.title || ""}}</div>
+[@playerOpenClose]="this.optionsService.options.renderPlayer.value == true ? 'playerOpen' : 'playerClosed'">
+<button id="playerHideBtn" *ngIf = "this.optionsService.options.showSplash.value == false" (click)="this.togglePlayer()">
+  <i class="material-icons">{{ this.optionsService.options.renderPlayer.value === true ? 'close' : 'more_horiz' }}</i>
+</button>
 
   <div>
     <div>
-      {{ this.formatTime(this.currentTime) }}
-    <!-- </div> -->
-    <input type="range" class="time-slider" min="0" [max]="this.duration" step="1" value="{{this.currentTime}}"
-      (input)="onSliderChangeTime($event)">
-    <!-- <div> -->
-      &nbsp;{{ this.formatTime(this.duration) }}
+      <button class="playerButton" (click)="this.previousTrack()"><i class="material-icons">skip_previous</i></button>
+      <button class="playerButton" (click)="this.playPause()">
+        <i class="material-icons">{{ this.optionsService.state.playing.value === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i>
+        </button>
+      <button class="playerButton" (click)="this.nextTrack()"><i class="material-icons">skip_next</i></button>
+    </div>
+
+    <div>
+      <i id="downicon" class="material-icons">volume_mute</i>
+      <input id="vslider" type="range" class="volume-slider" min="0" [max]="10" step="1"
+        [value]="this.optionsService.options.volume.value" (input)="onSliderChangeVolume($event)"
+        (change)="onSliderChangeVolume($event)">
+      <i id="upicon" class="material-icons">volume_up</i>
+    </div>
+
+    <div *ngIf="this.optionsService.options.showTrackTitle.value">
+      {{this.playList[this.optionsService.state.currentTrack.value]?.title || ""}}</div>
+
+    <div>
+      <div>
+        {{ this.formatTime(this.currentTime) }}
+        <!-- </div> -->
+        <input type="range" class="time-slider" min="0" [max]="this.duration" step="1" value="{{this.currentTime}}"
+          (input)="onSliderChangeTime($event)">
+        <!-- <div> -->
+        &nbsp;{{ this.formatTime(this.duration) }}
+      </div>
+    </div>
+
+    <div id="originalFileInputWrapper">
+      <input id="fileInput" (change)="fileChangeEvent($event)" placeholder="Upload file..." type="file"
+        accept="audio/mpeg" multiple />
+    </div>
+
+    <div id="originalAudioWrapper">
+      <audio id="audio" class="button" autoplay controls>The Audio Element is not supported on this device!</audio>
     </div>
   </div>
-
-  <div id="originalFileInputWrapper">
-    <input id="fileInput" (change)="fileChangeEvent($event)" placeholder="Upload file..." type="file" accept="audio/mpeg" 
-      multiple />
-  </div>
-
-  <div id="originalAudioWrapper">
-    <audio id="audio" class="button" autoplay controls>The Audio Element is not supported on this device!</audio>
-  </div>
-
 </div>

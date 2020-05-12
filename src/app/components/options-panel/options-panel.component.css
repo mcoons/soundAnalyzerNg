@@ -3,19 +3,23 @@
     margin: 0px;
     margin-right: 0;
     margin-top: 0;
-    padding: 10px;
+    /* padding: 10px; */
     padding-right: 0;
     padding-left:0;
     padding-top:0;
     padding-bottom:0;
     background-color: lightgray;
     color: black;
-    border: 5px solid black;
+    /* border: 5px solid black; */
+    border: 5px solid #F8F2C0;
+        /* border-radius: 15px 0 0 15px; */
+
     -o-border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
        border-image: -webkit-radial-gradient(#9C8355 20%, #F8F2C0) 20;
        border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
     box-shadow: 4px 4px 6px rgba(70, 46, 0, 0.653), 2px 2px 5px black inset;
     height: 100%;
+    z-index:500;
 }
 
 #glowContainer {
@@ -24,6 +28,7 @@
     margin-top:0;
     margin-right:0;
     margin-left: 0;
+    margin-bottom: 0;
     padding: 10px;
     overflow: auto;
 }
@@ -65,7 +70,7 @@ input {
     border-bottom: 1px solid rgb(92, 92, 92);
     background-image: -webkit-linear-gradient(top left, rgb(202, 202, 202),rgb(150, 150, 150) );
     background-image: linear-gradient(to bottom right, rgb(202, 202, 202),rgb(150, 150, 150) );
-    box-shadow: 3px 3px 4px rgba(155, 155, 155, 0.856),
+    box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.856),
     3px 3px 3px white inset, 
     -3px -3px 3px rgb(105, 105, 105) inset;
 }

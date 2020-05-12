@@ -40,6 +40,18 @@ Node Mapping
 
 1920x1200, 1680x1050, 1280x800, and 1024x640
 
+width = 11
+halfwidth = 5
+
+m = i - abs(halfwidth - (halfdwidth -i))
+
+
+
+i = 0 1 2 3 4 5 6 7 8 9 10 
+
+m = 0 1 2 3 4 5 4 3 2 1 0
+
+
 
 
 TODO

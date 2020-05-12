@@ -125,17 +125,14 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     }
 
     const width = this.canvas.width - 50;
-    const halfWidth = width / 2;
-    let y;
 
     this.ctx.lineWidth = 3;
     this.ctx.moveTo(25, 90);
     this.ctx.beginPath();
     for (let i = 0; i < width; i++) {
 
-      const multiplier = Math.sin(map(i, 0, width, 0, Math.PI));
-
-      y = (this.waveFormDataSource[i] - 128) * multiplier;
+      const multiplier = Math.sin(map(i, 0, width - 1, 0, Math.PI));
+      const y = (this.waveFormDataSource[i] - 128) * multiplier;
 
       this.ctx.lineTo(i + 25, y + 90);
     }
@@ -149,9 +146,9 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     const playerDiv = document.getElementById('playerDIV') as HTMLElement;
 
     if (playerDiv.offsetTop * window.devicePixelRatio <= this.canvas.height) {
-      return playerDiv.offsetTop * window.devicePixelRatio;
+      return playerDiv.offsetTop * window.devicePixelRatio -60;
     } else {
-      return this.canvas.height - 25;
+      return this.canvas.height - 60;
     }
   }
 
