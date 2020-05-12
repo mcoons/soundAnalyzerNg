@@ -1,10 +1,6 @@
 
-
-
 https://dashboard.heroku.com/apps/soundanalyzerng
-
 https://soundanalyzerng.herokuapp.com/
-
 https://github.com/mcoons/soundAnalyzerNg
 
 
@@ -21,8 +17,6 @@ angular is wrapped by an express server for prod deployment on Heroku
     ng serve
 
 
-
-
 Node Mapping
 
             audioSrc   <-  volume
@@ -36,51 +30,41 @@ Node Mapping
        analysers           
 
 
-
-
 1920x1200, 1680x1050, 1280x800, and 1024x640
-
-width = 11
-halfwidth = 5
-
-m = i - abs(halfwidth - (halfdwidth -i))
-
-
-
-i = 0 1 2 3 4 5 6 7 8 9 10 
-
-m = 0 1 2 3 4 5 4 3 2 1 0
-
-
 
 
 TODO
 _______________________________________________________________________
 
+Check for CSS cross browser changes
+Push newest changes to Heroku
+Test on Windows Chrome
+
+Add more to player hide animation to conpensate for different sizes
+Add sin() to camera movement on eq visual
+Clean up messaging.
+Implement @ViewChild instead of getElementById
 Add accordian functionality to options
+Pick a library to use and update code - Bootstrap, BootstrapNg, Material 
+Make variables private and assign types where possible
+Do something cool with Title
+Add auto change of visual between songs.  User selectable list?
+
+Add microphone support
 
 Add multiple scenes, one for each visual, then render the current selected scene
 
 Add testing (Karma, Jasmine)
-
-Fix audio player lock issue - DONE
-
-Implement @ViewChild instead of getElementById
-
-Pick a library to use and update code - Bootstrap, BootstrapNg, Material 
-
 
 Determine relation between pixels on all layers 
  a) where top of player div relates to 2d canvas  DONE
  b) cast ray from 2d pt into 3d
  c) div to 3d
 
-Add microphone support
 
-Add 3D visuals
-    BlockPlane - DONE
 
-Add sin() to camera movement
+
+
 
 Add sound generation - Shepards Tone - http://jsfiddle.net/captbaritone/x893Lqk5
 

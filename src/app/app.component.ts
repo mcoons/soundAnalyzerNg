@@ -52,18 +52,18 @@ import { MessageService } from './services/message/message.service';
 })
 
 export class AppComponent implements OnInit {
-  title = 'MP3 Visualyzer Ng';
-
-  // options;
+  private _title: string = 'MP3 Visualyzer Ng';
 
   constructor(public optionsService: OptionsService, public messageService: MessageService) {
-    // this.options = this.optionsService.getOptions();
 
     messageService.messageAnnounced$.subscribe(
       message => {
         // console.log('Audio Player: Message received from service is :  ' + message);
-        // this.options = this.optionsService.getOptions();
       });
+  }
+
+  get title() {
+    return this._title;
   }
 
   ngOnInit() {

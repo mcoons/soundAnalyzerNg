@@ -57,17 +57,17 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     this.optionsService.windowResize();
 
 
-    if (this.optionsService.options.showBars.value === true) {
+    if (this.optionsService.getOptions().showBars.value === true) {
       this.draw2DBars();
     }
 
     this.waveformDelayCounter++;
-    if (this.waveformDelayCounter >= this.optionsService.options.waveformDelay.value) {
+    if (this.waveformDelayCounter >= this.optionsService.getOptions().waveformDelay.value) {
       this.waveformDelayCounter = 0;
       this.waveFormDataSource = this.audioService.getTDData();
     }
 
-    if (this.optionsService.options.showWaveform.value === true) {
+    if (this.optionsService.getOptions().showWaveform.value === true) {
       this.drawWaveform();
     }
 
@@ -146,7 +146,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     const playerDiv = document.getElementById('playerDIV') as HTMLElement;
 
     if (playerDiv.offsetTop * window.devicePixelRatio <= this.canvas.height) {
-      return playerDiv.offsetTop * window.devicePixelRatio -60;
+      return playerDiv.offsetTop * window.devicePixelRatio - 60;
     } else {
       return this.canvas.height - 60;
     }

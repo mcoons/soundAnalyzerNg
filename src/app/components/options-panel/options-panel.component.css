@@ -3,16 +3,13 @@
     margin: 0px;
     margin-right: 0;
     margin-top: 0;
-    /* padding: 10px; */
     padding-right: 0;
     padding-left:0;
     padding-top:0;
     padding-bottom:0;
     background-color: lightgray;
     color: black;
-    /* border: 5px solid black; */
     border: 5px solid #F8F2C0;
-        /* border-radius: 15px 0 0 15px; */
 
     -o-border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
        border-image: -webkit-radial-gradient(#9C8355 20%, #F8F2C0) 20;

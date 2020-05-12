@@ -25,11 +25,6 @@ export class EngineService {
 
   glowLayer;
 
-  // private bpm: BlockPlaneManager;
-  // private eqm: EquationManager;
-  // private cbm: CubeManager;
-  // private bsm: BlockSpiralManager;
-
   private managerClasses;
   private managerClassIndex;
   private currentManager;
@@ -37,7 +32,6 @@ export class EngineService {
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
 
-  // options;
   subscription;
 
   public constructor(
@@ -52,25 +46,16 @@ export class EngineService {
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
       this.engine.resize();
 
-      // if (this.scene.getEngine().getRenderHeight() > this.scene.getEngine().getRenderWidth()) {
-      //   this.camera.fovMode = BABYLON.Camera.FOVMODE_VERTICAL_FIXED;
-      // } else {
-      //   this.camera.fovMode = BABYLON.Camera.FOVMODE_HORIZONTAL_FIXED;
-      // }
     });
 
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         // console.log('Engine: Message received from service is :  ' + message);
-        // this.options = this.optionsService.getOptions();
-        // this.managerClassIndex = this.options.currentScene.value;
 
-        this.selectScene(this.optionsService.options.currentScene.value);
+        this.selectScene(this.optionsService.getOptions().currentVisual.value);
       });
 
-    // this.options = this.optionsService.getOptions();
-
-    this.managerClassIndex = this.optionsService.options.currentScene.value;
+    this.managerClassIndex = this.optionsService.getOptions().currentVisual.value;
     this.managerClasses = [
       BlockPlaneManager,
       BlockSpiralManager,
@@ -152,25 +137,10 @@ export class EngineService {
     this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
   }
 
-  // public setupCamera = (camera) => {
-  //   camera.orthoBottom = this.scene.getEngine().getRenderHeight();
-  //   camera.orthoTop = 0;
-  //   camera.orthoLeft = 0;
-  //   camera.orthoRight = this.scene.getEngine().getRenderWidth();
-  // }
-
-
-
-  // nextScene() {
-  //   this.selectScene(this.managerClassIndex >= this.managerClasses.length - 1 ? 0 : this.managerClassIndex + 1);
-  // }
-
   selectScene(index) {
     if (this.managerClassIndex === index) {
       return;
     }
-
-    // $("#cameraTarget").addClass("hidden");
 
     // this.scene.freezeActiveMeshes();
 

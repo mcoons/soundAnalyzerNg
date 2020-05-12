@@ -92,20 +92,15 @@ export class AudioService {
   soundArrays: any;
   analyzerArrays: any;
 
-  // options;
-
   constructor(
     public optionsService: OptionsService,
     public messageService: MessageService) {
 
-    // this.options = this.optionsService.getOptions();
-
     messageService.messageAnnounced$.subscribe(
       message => {
-        // console.log("Audio Service: Message received from service is :  " + message);
-        // this.options = this.optionsService.getOptions();
+        // console.log('Audio Service: Message received from service is :  ' + message);
         if (this.audio != null) {
-          this.audio.volume = (this.optionsService.options.volume.value) / 10;
+          this.audio.volume = (this.optionsService.getOptions().volume.value) / 10;
           this.setGain();
         }
       });
@@ -121,14 +116,7 @@ export class AudioService {
 
     this.audio = audio;
 
-    // this.audio.volume = .7;
-    this.audio.volume = (this.optionsService.options.volume.value) / 10;
-
-    // this.smoothingConstant = .9;
-    // // this.maxAverages = 50;
-    // this.minDecibels = -100;  // -100
-    // this.maxDecibels = 0;   // -30
-    // this.tdHistoryArraySize = 64;  // 4096
+    this.audio.volume = (this.optionsService.getOptions().volume.value) / 10;
 
     this.audioCtx = new AudioContext();
 
@@ -288,8 +276,6 @@ export class AudioService {
     this.fr64Analyser.connect(this.frAnalyserAll);
     this.frAnalyserAll.connect(this.frAnalyser);
 
-    // setInterval(this.analyzeData, 120);
-
   }
 
   analyzeData = () => {
@@ -443,6 +429,6 @@ export class AudioService {
   }
 
   setGain() {
-    this.gainNode.gain.setValueAtTime(this.optionsService.options.sampleGain.value, this.audioCtx.currentTime);
+    this.gainNode.gain.setValueAtTime(this.optionsService.getOptions().sampleGain.value, this.audioCtx.currentTime);
   }
 }

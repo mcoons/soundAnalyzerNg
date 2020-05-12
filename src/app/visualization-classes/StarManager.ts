@@ -309,6 +309,7 @@ export class StarManager {
                 rotationBias.z === 1 ? (Math.round(Math.random() * 3) % 2 ? .01 * (Math.round(Math.random() * 2) - 1) : 0) : 0,
             );
             star.mesh.parent = parent;
+            star.mesh.position.y = index/500;
             this.objects.push(star);
         }
     }
@@ -340,6 +341,7 @@ export class StarManager {
                 rotationBias.z === 1 ? (Math.round(Math.random() * 3) % 2 ? .01 * (Math.round(Math.random() * 2) - 1) : 0) : 0,
             );
             star.mesh.parent = parent;
+            star.mesh.position.y = index/500;
             this.objects.push(star);
         }
     }
@@ -371,6 +373,7 @@ export class StarManager {
                 rotationBias.z === 1 ? (Math.round(Math.random() * 3) % 2 ? .01 * (Math.round(Math.random() * 2) - 1) : 0) : 0,
             );
             star.mesh.parent = parent;
+            star.mesh.position.y = index/500;
             this.objects.push(star);
         }
     }
@@ -403,6 +406,7 @@ export class StarManager {
                 rotationBias.z === 1 ? (Math.round(Math.random() * 3) % 2 ? .01 * (Math.round(Math.random() * 2) - 1) : 0) : 0,
             );
             star.mesh.parent = parent;
+            star.mesh.position.y = index/500;
             this.objects.push(star);
         }
     }
@@ -435,6 +439,7 @@ export class StarManager {
                 rotationBias.z === 1 ? (Math.round(Math.random() * 3) % 2 ? .01 * (Math.round(Math.random() * 2) - 1) : 0) : 0,
             );
             star.mesh.parent = parent;
+            star.mesh.position.y = index/500;
             this.objects.push(star);
         }
     }
