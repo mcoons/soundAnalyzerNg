@@ -42,38 +42,11 @@
 }
 
 button {
-    /* border: none; */
     position: absolute;
-    /* height: 70px;
-    width: 30px; */
     z-index: 30;
-    /* margin-top: -35px; */
-    /* padding-top: 10px;
-    padding-left: -5px; */
     top: 50%;
     right: 0px;
     border: none;
-    /* opacity: 0.2; */
-    /* font-size: 200%; */
-    /* border-top: 5px solid #F8F2C0;
-    border-bottom: 5px solid #F8F2C0;
-    border-left: 5px solid #F8F2C0;
-    border-right: none; */
-    /* -o-border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
-       border-image: -webkit-radial-gradient(#9C8355 20%, #F8F2C0) 20; */
-       /* border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20; */
-    /* box-shadow: 4px 4px 6px rgba(63, 63, 63, 0.653), 2px 2px 5px black inset;
-    border-radius: 15px 0 0 15px; */
     color: #F8F2C0;
-    /* text-shadow: 2px 2px 5px black ; */
     background-color: rgba(176, 176, 176, 0);
-
-}
-
-/* button:hover {
-    opacity: .9;
-} */
-
-#optionsContainer {
-    /* padding-bottom: 20px; */
 }

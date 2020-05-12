@@ -78,7 +78,9 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
           this.nextTrack();
         }
         if (message === 'volume change') {
-          this.audio.volume = this.optionsService.getOption('volume') / 10;
+          // this.audio.volume = this.optionsService.getOption('volume') / 10;
+          // this.audio.volume = this.optionsService.volume / 10;
+          this.onSliderChangeVolume(null);
         }
         // console.log('Audio Player: Message received from service is :  ' + message);
       });
@@ -227,14 +229,16 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onSliderChangeVolume(e) {
-    this.setVolume(e.target.value);
+    this.audio.volume = this.optionsService.volume  / 10;
+
+    // this.setVolume(e.target.value);
   }
 
-  setVolume(volume) {
-    this.audio.volume = volume / 10;
-    this.optionsService.setOption('volume', volume);
-    this.messageService.announceMessage('volume change');
-  }
+  // setVolume(volume) {
+  //   this.audio.volume = volume / 10;
+  //   this.optionsService.setOption('volume', volume);
+  //   this.messageService.announceMessage('volume change');
+  // }
 
   onSliderChangeTime(e) {
     this.seekTo(e.target.value);

@@ -61,7 +61,7 @@ export class EngineService {
 
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
-        // console.log('Engine: Message received from service is :  ' + message);
+        console.log('Engine: Message received from service is :  ' + message);
         // this.options = this.optionsService.getOptions();
         // this.managerClassIndex = this.options.currentScene.value;
 

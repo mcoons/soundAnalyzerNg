@@ -20,15 +20,15 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   objectKeys = Object.keys;
 
-  subscription: Subscription;
+  private _subscription: Subscription;
 
   options;
 
   constructor(
     public optionsService: OptionsService,
-    public messageService: MessageService) {
+    public _messageService: MessageService) {
 
-    this.subscription = messageService.messageAnnounced$.subscribe(
+    this._subscription = _messageService.messageAnnounced$.subscribe(
       message => {
         // console.log('Options Panel: Message received from service is :  ' + message);
         this.options = this.optionsService.getOptions();
@@ -45,12 +45,16 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   }
 
   updateItem(e) {
-    this.optionsService.setOption(e.target.name, e.target.value);
+    console.log('----');
+    console.log(e);
+    console.log('----');
+
+    this._messageService.announceMessage('Item was changed: ' + e.target.id + ' to ' + this.options[e.target.id].value);
+
+    // this.optionsService.setOption(e.target.name, e.target.value);
   }
 
   radioChange(e) {
-    // console.log(e.target);
-    // console.log(this.options);
     this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
     this.optionsService.setOption('currentScene', e.target.value);
   }
@@ -58,42 +62,42 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   trackChange(e) {
     console.log(e.target);
     this.optionsService.updateState('currentTrack', e.target.value);
-    this.messageService.announceMessage('track change');
+    this._messageService.announceMessage('track change');
   }
 
   siteListSelection() {
-    this.messageService.announceMessage('site list selection');
+    this._messageService.announceMessage('site list selection');
   }
 
   localListSelection() {
-    this.messageService.announceMessage('local list selection');
+    this._messageService.announceMessage('local list selection');
   }
 
   previousTrack() {
-    this.messageService.announceMessage('previousTrack');
+    this._messageService.announceMessage('previousTrack');
   }
 
   nextTrack() {
-    this.messageService.announceMessage('nextTrack');
+    this._messageService.announceMessage('nextTrack');
   }
 
   playPause() {
-    this.messageService.announceMessage('playPause');
+    this._messageService.announceMessage('playPause');
   }
 
   onSliderChangeVolume(e) {
-    this.setVolume(e.target.value);
+    this._messageService.announceMessage('volume change');
+
+    // this.setVolume(e.target.value);
   }
 
   setVolume(volume) {
-    // this.audio.volume = volume / 10;
-    // this.currentVolume = volume;
-    this.optionsService.setOption('volume', volume);
-    this.messageService.announceMessage('volume change');
+    // this.optionsService.setOption('volume', volume);
+    this._messageService.announceMessage('volume change');
   }
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
-    this.subscription.unsubscribe();
+    this._subscription.unsubscribe();
   }
 }

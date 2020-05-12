@@ -146,7 +146,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     const playerDiv = document.getElementById('playerDIV') as HTMLElement;
 
     if (playerDiv.offsetTop * window.devicePixelRatio <= this.canvas.height) {
-      return playerDiv.offsetTop * window.devicePixelRatio -60;
+      return playerDiv.offsetTop * window.devicePixelRatio - 60;
     } else {
       return this.canvas.height - 60;
     }

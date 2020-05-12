@@ -102,7 +102,7 @@ export class AudioService {
 
     messageService.messageAnnounced$.subscribe(
       message => {
-        // console.log("Audio Service: Message received from service is :  " + message);
+        console.log('Audio Service: Message received from service is :  ' + message);
         // this.options = this.optionsService.getOptions();
         if (this.audio != null) {
           this.audio.volume = (this.optionsService.options.volume.value) / 10;

@@ -1,37 +1,70 @@
-
-
-
 <div id="options">
-    <div id="glowContainer">    
-        <p class="optionHeader" >General Options</p>
+  <div id="glowContainer">
+    <p class="optionHeader">General Options</p>
 
-        <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">   
-            <ng-container *ngIf="this.options[option].group=='General'" >
-                <ng-container *ngIf="this.options[option].type=='checkbox'" >
-                    <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)" [checked]="this.options[option].value" > 
-                    <label [for]="option"> {{this.options[option].label}}</label>
-                </ng-container>
-                <ng-container *ngIf="this.options[option].type=='slider'" >
-                    <input  class="range" type="range" [id]="option" [name]="option" (input)="updateItem($event)" (change)="updateItem($event)" 
-                    [min]="this.options[option].min" [max]="this.options[option].max" [value]="this.options[option].value" step="1"> 
-                    <br><label class="rangeLabel">{{this.options[option].label}} ({{this.options[option].value}})</label>
-                </ng-container>
-            </ng-container>  
-        </div>
+    <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">
+      <!-- <ng-container *ngIf="this.options[option].group=='General'" > -->
+      <ng-container *ngIf="this.optionsService.getOptions()[option].group=='General'">
+        <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox'">
 
-        <div>
-            <button class="playerButton" (click)="this.previousTrack()"><i class="material-icons">skip_previous</i></button>
-            <button class="playerButton" (click)="this.playPause()"><i class="material-icons">{{ this.optionsService.state.playing.value === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i></button>
-            <button class="playerButton" (click)="this.nextTrack()"><i class="material-icons">skip_next</i></button>
-          </div>
-        
-          <div>
-              <i id="vdownicon" class="material-icons">volume_mute</i>
-            <input type="range" class="volume-slider" min="0" [max]="10" step="1" [value]="this.options.volume.value"
-              (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
-              <i id="vupicon" class="material-icons">volume_up</i>
-          </div>
-        <!-- <p class="optionHeader" >Player Options</p>
+            <!-- <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)"
+            [checked]="this.optionsService.getOptions()[option].value"> -->
+
+            <input type="checkbox" 
+              [id]="option" 
+              [name]="option" 
+              [(ngModel)]="this.optionsService[option]" 
+              ng-model-options="{ getterSetter: true }">
+            <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
+
+        </ng-container>
+        <ng-container *ngIf="this.optionsService.getOptions()[option].type=='slider'">
+          <!-- <input  class="range" type="range" [id]="option" [name]="option" (input)="updateItem($event)" (change)="updateItem($event)" 
+                    [min]="this.optionsService.getOptions()[option].min" [max]="this.optionsService.getOptions()[option].max" [value]="this.optionsService.getOptions()[option].value" step="1">  -->
+
+          <input type="range" 
+            [id]="option" 
+            [name]="option"
+            class="range" 
+            [min]="this.optionsService.getOptions()[option].min"
+            [max]="this.optionsService.getOptions()[option].max" 
+            step="1" 
+            [(ngModel)]="this.optionsService[option]" 
+            ng-model-options="{ getterSetter: true }">
+
+
+          <br><label class="rangeLabel">{{this.optionsService.getOptions()[option].label}}
+            ({{this.optionsService.getOptions()[option].value}})</label>
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <div>
+      <button class="playerButton" (click)="this.previousTrack()"><i class="material-icons">skip_previous</i></button>
+      <!-- <button class="playerButton" (click)="this.playPause()"><i class="material-icons">{{ this.optionsService.state.playing.value === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i></button> -->
+      <button class="playerButton" (click)="this.playPause()"><i
+          class="material-icons">{{ this.optionsService.playing === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i></button>
+      <button class="playerButton" (click)="this.nextTrack()"><i class="material-icons">skip_next</i></button>
+    </div>
+
+    <div>
+      <i id="vdownicon" class="material-icons">volume_mute</i>
+      <!-- <input type="range" class="volume-slider" min="0" [max]="10" step="1" [value]="this.options.volume.value" (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)"> -->
+
+      <input type="range" 
+        class="volume-slider" 
+        min="0" 
+        [max]="10" 
+        step="1" 
+        [(ngModel)]="this.optionsService.volume"
+        ng-model-options="{ getterSetter: true }" 
+        (input)="onSliderChangeVolume($event)"
+        (change)="onSliderChangeVolume($event)"
+        >
+
+      <i id="vupicon" class="material-icons">volume_up</i>
+    </div>
+    <!-- <p class="optionHeader" >Player Options</p>
 
         <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
             <ng-container *ngIf="this.options[option].group=='Player'" >
@@ -47,7 +80,7 @@
             </ng-container>  
         </div> -->
 
-        <!-- <p class="optionHeader" >General Visual Options</p>
+    <!-- <p class="optionHeader" >General Visual Options</p>
 
         <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
             <ng-container *ngIf="this.options[option].group=='Visual'" >
@@ -63,53 +96,76 @@
             </ng-container>  
         </div> -->
 
-        <p class="optionHeader">3D Visuals</p>
+    <p class="optionHeader">3D Visuals</p>
 
-        <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">      
-            <ng-container *ngIf="this.options[option].group=='3DVisual'" >
-                <ng-container *ngIf="this.options[option].type=='checkbox'" >
-                    <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)" [checked]="this.options[option].value"> 
-                    <label [for]="option"> {{this.options[option].label}}</label>
-                </ng-container>
-                <ng-container *ngIf="this.options[option].type=='slider'" >
-
-                    <i id="gdownicon" class="material-icons">remove_circle_outline</i>
-                    <input class="range"  type="range" [id]="option" [name]="option" (input)="updateItem($event)" (change)="updateItem($event)" 
-                    [min]="this.options[option].min" [max]="this.options[option].max" [value]="this.options[option].value" step="1"> 
-                    <i id="gupicon" class="material-icons">add_circle_outline</i>
-
-                    <br><label class="rangeLabel" [for]="option">{{this.options[option].label}} ({{this.options[option].value}})</label>
-                </ng-container>
-                <ng-container *ngIf="this.options[option].type=='radio'" >
-                    <input type="radio" [id]="option" name="3DVisuals" [value]="this.options[option].value"  (click)="radioChange($event)" [checked]="this.options[option].checked">
-                    <label [for]="option"> {{this.options[option].label}}</label>
-                </ng-container>
-            </ng-container>  
-        </div>
-
-        <p class="optionHeader">Playlist</p>
-
-        <div id="listBtnContainer">
-            <button class="playlistButton" (click)="siteListSelection()">Site Playlist</button>
-            <button class="playlistButton" (click)="localListSelection()">Local Playlist</button>
-        </div>
-
-        <ng-container *ngFor="let track of this.optionsService.state.playlist.value; index as i">
-            <!-- <div >{{i}} - {{track.title}}</div> -->
-            <div class="track">
-                <input type="radio" [id]="'track'+i" name="tracks" [value]="i"  (click)="trackChange($event)" [checked]="this.optionsService.state.currentTrack.value === i">
-                <div class="labelContainer">
-                    <label class="trackLabel" [for]="'track'+i">{{i}} - {{track.title}}</label>
-                </div> 
-            </div>
+    <div class="optionsContainer" *ngFor="let option of objectKeys(this.options)">
+      <ng-container *ngIf="this.options[option].group=='3DVisual'">
+        <ng-container *ngIf="this.options[option].type=='checkbox'">
+          <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)"
+            [checked]="this.options[option].value">
+          <label [for]="option"> {{this.options[option].label}}</label>
         </ng-container>
+        <ng-container *ngIf="this.options[option].type=='slider'">
+
+          <i id="gdownicon" class="material-icons">remove_circle_outline</i>
+<!-- 
+          <input type="range" 
+            [id]="option" 
+            [name]="option" 
+            class="range" 
+            [min]="this.options[option].min" 
+            [max]="this.options[option].max"
+            step="1"
+            (input)="updateItem($event)"
+            (change)="updateItem($event)" 
+            [value]="this.options[option].value" 
+            > -->
+
+            <input type="range" 
+            [id]="option" 
+            [name]="option" 
+            class="range" 
+            [min]="this.optionsService.getOptions()[option].min"
+            [max]="this.optionsService.getOptions()[option].max"
+            step="1"
+            (input)="updateItem($event)"
+            (change)="updateItem($event)" 
+            [(ngModel)]="this.optionsService[option]" 
+            ng-model-options="{ getterSetter: true }">
 
 
+            <i id="gupicon" class="material-icons">add_circle_outline</i>
+
+          <br><label class="rangeLabel" [for]="option">{{this.options[option].label}}
+            ({{this.options[option].value}})</label>
+        </ng-container>
+        <ng-container *ngIf="this.options[option].type=='radio'">
+          <input type="radio" [id]="option" name="3DVisuals" [value]="this.options[option].value"
+            (click)="radioChange($event)" [checked]="this.options[option].checked">
+          <label [for]="option"> {{this.options[option].label}}</label>
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <p class="optionHeader">Playlist</p>
+
+    <div id="listBtnContainer">
+      <button class="playlistButton" (click)="siteListSelection()">Site Playlist</button>
+      <button class="playlistButton" (click)="localListSelection()">Local Playlist</button>
+    </div>
+
+    <ng-container *ngFor="let track of this.optionsService.state.playlist.value; index as i">
+      <div class="track">
+        <input type="radio" [id]="'track'+i" name="tracks" [value]="i" (click)="trackChange($event)"
+          [checked]="this.optionsService.state.currentTrack.value === i">
+        <div class="labelContainer">
+          <label class="trackLabel" [for]="'track'+i">{{i}} - {{track.title}}</label>
+        </div>
+      </div>
+    </ng-container>
 
 
-
- 
-        <ng-container *ngIf="this.optionsService.env == 'dev'">
+    <!-- <ng-container *ngIf="this.optionsService.env == 'dev'">
 
             <p class="optionHeader" >Developer Options</p>
         
@@ -149,7 +205,7 @@
 
             </div>
 
-        </ng-container>
+        </ng-container> -->
 
-    </div>
+  </div>
 </div>

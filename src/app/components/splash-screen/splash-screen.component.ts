@@ -1,10 +1,7 @@
 
-import { Component,
-  // OnInit,
-  Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { OptionsService } from '../../services/options/options.service';
-// import { MessageService } from '../../services/message/message.service';
 
 @Component({
   selector: 'app-splash-screen',
@@ -17,11 +14,7 @@ export class SplashScreenComponent {
 
   constructor(
     public optionsService: OptionsService
-    // ,
-    // public messageService: MessageService
   ) { }
-
-  // ngOnInit() {}
 
   splashScreenOK() {
     this.optionsService.toggleOption('showPlayer');
@@ -31,7 +24,6 @@ export class SplashScreenComponent {
     setTimeout(() => {
       this.optionsService.toggleOption('showPanel');
       this.optionsService.toggleOption('renderPlayer'); 
-    
     }, 5);
   }
 }

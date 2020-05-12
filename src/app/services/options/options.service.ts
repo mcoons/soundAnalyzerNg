@@ -33,7 +33,7 @@ export class OptionsService {
     },
     waveformDelay: {
       showInConsole: false,
-      group: 'Hidden',
+      group: 'General',
       type: 'slider',
       label: 'Waveform Delay',
       value: 1,
@@ -133,13 +133,14 @@ export class OptionsService {
 
 
 
-    showConsole: {
-      showInConsole: false,
-      group: 'Developer',
-      type: 'checkbox',
-      label: 'Show Console',
-      value: false
-    },
+    // showConsole: {
+    //   showInConsole: false,
+    //   group: 'Developer',
+    //   type: 'checkbox',
+    //   label: 'Show Console',
+    //   value: false
+    // },
+    
     showPanel: {
       showInConsole: false,
       group: 'Hidden',
@@ -293,5 +294,170 @@ export class OptionsService {
     this.updateState('playerTopCanvas', playerDiv.offsetTop * window.devicePixelRatio);
 
   }
+
+  get showTitle(): boolean {
+    return this.options.showTitle.value;
+  }
+
+  set showTitle(value: boolean) {
+    this.options.showTitle.value = value;
+  }
+
+  get showWaveform() {
+    return this.options.showWaveform.value;
+  }
+
+  set showWaveform(value) {
+    this.options.showWaveform.value = value;
+  }
+
+  get waveformDelay(): number {
+    return this.options.waveformDelay.value;
+  }
+
+  set waveformDelay(value: number) {
+    this.options.waveformDelay.value = value;
+  }
+
+  get showBars(): boolean {
+    return this.options.showBars.value;
+  }
+
+  set showBars(value: boolean) {
+    this.options.showBars.value = value;
+  }
+
+  get renderPlayer(): boolean {
+    return this.options.renderPlayer.value;
+  }
+
+  set renderPlayer(value: boolean) {
+    this.options.renderPlayer.value = value;
+  }
+
+  get showTrackTitle(): boolean {
+    return this.options.showTrackTitle.value;
+  }
+
+  set showTrackTitle(value: boolean) {
+    this.options.showTrackTitle.value = value;
+  }
+
+  get volume(): number {
+    return this.options.volume.value;
+  }
+
+  set volume(value: number) {
+    this.options.volume.value = value as number;
+  }
+
+  get sampleGain(): number {
+    return this.options.sampleGain.value;
+  }
+
+  set sampleGain(value: number) {
+    this.options.sampleGain.value = value;
+  }
+
+  get showPanel(): boolean {
+    return this.options.showPanel.value;
+  }
+
+  set showPanel(value: boolean) {
+    this.options.showPanel.value = value;
+  }
+
+  get showPlayer(): boolean {
+    return this.options.showPlayer.value;
+  }
+
+  set showPlayer(value: boolean) {
+    this.options.showPlayer.value = value;
+  }
+
+  get showSplash(): boolean {
+    return this.options.showSplash.value;
+  }
+
+  set showSplash(value: boolean) {
+    this.options.showSplash.value = value;
+  }
+
+  get currentScene(): number {
+    return this.options.currentScene.value;
+  }
+
+  set currentScene(value: number) {
+    this.options.currentScene.value = value;
+  }
+
+
+
+  get blockPlaneManager(): boolean {
+    return this.options.blockPlaneManager.checked;
+  }
+
+  set blockPlaneManager(value: boolean) {
+    this.options.blockPlaneManager.checked = value;
+  }
+
+
+  get blockSpiralManager(): boolean {
+    return this.options.blockSpiralManager.checked;
+  }
+
+  set blockSpiralManager(value: boolean) {
+    this.options.blockSpiralManager.checked = value;
+  }
+
+
+  get equationManager(): boolean {
+    return this.options.equationManager.checked;
+  }
+
+  set equationManager(value: boolean) {
+    this.options.equationManager.checked = value;
+  }
+
+
+  get cubeManager(): boolean {
+    return this.options.cubeManager.checked;
+  }
+
+  set cubeManager(value: boolean) {
+    this.options.cubeManager.checked = value;
+  }
+
+
+  get starManager(): boolean {
+    return this.options.starManager.checked;
+  }
+
+  set starManager(value: boolean) {
+    this.options.starManager.checked = value;
+  }
+
+
+
+
+
+  get currentTrack(): number {
+    return this.state.currentTrack.value;
+  }
+
+  set currentTrack(value: number) {
+    this.state.currentTrack.value = value;
+  }
+
+
+
+  get playing(): boolean {
+    return this.state.playing.value;
+  }
+
+  set playing(value: boolean) {
+    this.state.playing.value = value;
+  }
+
 
 }
