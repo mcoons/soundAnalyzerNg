@@ -28,9 +28,10 @@ export class Star extends BaseObject {
     outerDataIndex;
     innerItemsDesired;
     outerItemsDesired;
+    yOffset;
 
 
-    constructor(name, parent, palette, material, resolution, reflect, scene, dataSource) {
+    constructor(name, parent, palette, material, resolution, reflect, scene, dataSource, yOffset) {
         // constructor(name, parent, palette, material, resolution, reflect, eventBus, scene, dataSource) {
 
         // super(name, parent, palette, material, resolution, reflect, eventBus, scene, dataSource);
@@ -68,6 +69,7 @@ export class Star extends BaseObject {
         this.innerEndIndex = this.innerStartIndex + Math.round(this.innerItemsDesired);
         this.outerEndIndex = this.outerStartIndex + Math.round(this.outerItemsDesired);
 
+        this.yOffset = yOffset/10;
         this.create();
 
         // var self = this;
@@ -93,7 +95,8 @@ export class Star extends BaseObject {
 
                 const x = r * Math.cos(theta);
                 const z = r * Math.sin(theta);
-                const y = 0;
+                // const y = 0;
+                const y = this.yOffset;
 
                 path.push(new BABYLON.Vector3(x, y, z));
             }
@@ -138,7 +141,7 @@ export class Star extends BaseObject {
 
             const innerX = data[this.innerDataIndex] * this.innerRadius * Math.cos(theta) / 100;
             const innerZ = data[this.innerDataIndex] * this.innerRadius * Math.sin(theta) / 100;
-            const innerY = -.01 * zindex;
+            const innerY = -.01 * zindex + this.yOffset;
             this.innerDataIndex += this.innerIndexDirection;
 
             this.innerPath.push(new BABYLON.Vector3(innerX, innerY, innerZ));
@@ -151,7 +154,7 @@ export class Star extends BaseObject {
             const outerX = data[this.outerDataIndex] * this.outerRadius * Math.cos(theta) / 100;
             const outerZ = data[this.outerDataIndex] * this.outerRadius * Math.sin(theta) / 100;
             // const outerY = -.001 * zindex;
-            const outerY = -.01 * zindex;
+            const outerY = -.01 * zindex + this.yOffset;
             this.outerDataIndex += this.outerIndexDirection;
 
             this.outerPath.push(new BABYLON.Vector3(outerX, outerY, outerZ));
