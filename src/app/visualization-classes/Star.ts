@@ -104,6 +104,15 @@ export class Star extends BaseObject {
         }
 
         this.mesh = BABYLON.Mesh.CreateRibbon('ribbon', this.paths, true, true, 0, this.scene, true, this.sideO);
+        
+        // this.mesh = BABYLON.MeshBuilder.CreateRibbon('ribbon',
+        // { pathArray: this.paths, closeArray: true, closePath: true, sideOrientation: BABYLON.Mesh.DOUBLESIDE, updatable: true },
+        // this.scene);
+        
+
+
+
+
         this.mesh.material = this.material;
 
         this.mesh.doNotSyncBoundingInfo = true;

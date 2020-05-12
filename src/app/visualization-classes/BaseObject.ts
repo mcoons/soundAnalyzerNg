@@ -25,7 +25,7 @@ export class BaseObject {
 
         this.mesh = null;
         this.paths = [];
-        this.sideO = BABYLON.Mesh.BACKSIDE;
+        this.sideO = BABYLON.Mesh.DOUBLESIDE;
 
         // this.eventBus = eventBus;
     }
