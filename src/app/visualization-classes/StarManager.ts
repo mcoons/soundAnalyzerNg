@@ -288,7 +288,7 @@ export class StarManager {
         for (let index = 0; index < 5; index++) {
 
             const star = new Star('Random Star 2-' + index, 'star parent', null,
-                getBiasedGlowMaterial(colorBias, this.scene), this.pieResolution, null, this.scene, dataSource);
+                getBiasedGlowMaterial(colorBias, this.scene), this.pieResolution, null, this.scene, dataSource, index*10);
             const rad = 20 * index + 10;
             star.setOptions(
                 Math.round(Math.random() * 20),
@@ -309,7 +309,7 @@ export class StarManager {
                 rotationBias.z === 1 ? (Math.round(Math.random() * 3) % 2 ? .01 * (Math.round(Math.random() * 2) - 1) : 0) : 0,
             );
             star.mesh.parent = parent;
-            star.mesh.position.y = index/500;
+            star.mesh.position.y = index/20;
             this.objects.push(star);
         }
     }
@@ -319,7 +319,7 @@ export class StarManager {
         for (let index = 0; index < 5; index++) {
 
             const star = new Star('Random Star 3-' + index, 'star parent', null,
-                getBiasedGlowMaterial(colorBias, this.scene), this.pieResolution, null, this.scene, dataSource);
+                getBiasedGlowMaterial(colorBias, this.scene), this.pieResolution, null, this.scene, dataSource, index*10);
             const rad = 20 * index + 10;
             const i = Math.round(Math.random() * 10);
             star.setOptions(
@@ -341,7 +341,7 @@ export class StarManager {
                 rotationBias.z === 1 ? (Math.round(Math.random() * 3) % 2 ? .01 * (Math.round(Math.random() * 2) - 1) : 0) : 0,
             );
             star.mesh.parent = parent;
-            star.mesh.position.y = index/500;
+            star.mesh.position.y = index/20;
             this.objects.push(star);
         }
     }
@@ -351,7 +351,7 @@ export class StarManager {
         for (let index = 0; index < 5; index++) {
 
             const star = new Star('Random Star 4-' + index, 'star parent', null,
-                getBiasedGlowMaterial(colorBias, this.scene), this.pieResolution, null, this.scene, dataSource);
+                getBiasedGlowMaterial(colorBias, this.scene), this.pieResolution, null, this.scene, dataSource,index*10);
             const rad = 8 * (9 - index) + 40;
             const i = Math.round(Math.random() * 10);
             star.setOptions(
@@ -373,7 +373,7 @@ export class StarManager {
                 rotationBias.z === 1 ? (Math.round(Math.random() * 3) % 2 ? .01 * (Math.round(Math.random() * 2) - 1) : 0) : 0,
             );
             star.mesh.parent = parent;
-            star.mesh.position.y = index/500;
+            star.mesh.position.y = index/20;
             this.objects.push(star);
         }
     }
@@ -383,7 +383,7 @@ export class StarManager {
         for (let index = 0; index < 5; index++) {
 
             const star = new Star('Random Star 5-' + index, 'star parent', null,
-                getBiasedGlowMaterial(colorBias, this.scene), this.pieResolution, null, this.scene, dataSource);
+                getBiasedGlowMaterial(colorBias, this.scene), this.pieResolution, null, this.scene, dataSource, index*10);
             const rad = 10 * index + 80;
             const i = Math.round(Math.random() * 10 + 2);
             const s = Math.pow(2, Math.round(Math.random() * 1));
@@ -406,7 +406,7 @@ export class StarManager {
                 rotationBias.z === 1 ? (Math.round(Math.random() * 3) % 2 ? .01 * (Math.round(Math.random() * 2) - 1) : 0) : 0,
             );
             star.mesh.parent = parent;
-            star.mesh.position.y = index/500;
+            star.mesh.position.y = index/20;
             this.objects.push(star);
         }
     }
@@ -416,7 +416,7 @@ export class StarManager {
         for (let index = 0; index < 15; index++) {
 
             const star = new Star('Random Star 6-' + index, 'star parent', null,
-                getBiasedGlowMaterial(colorBias, this.scene), this.pieResolution, null, this.scene, dataSource);
+                getBiasedGlowMaterial(colorBias, this.scene), this.pieResolution, null, this.scene, dataSource, index*10);
             const rad = 30 * index + 20;
             const i = Math.round(Math.random() * 10 + 2);
             const s = Math.pow(2, Math.round(Math.random() * 1));
@@ -439,7 +439,7 @@ export class StarManager {
                 rotationBias.z === 1 ? (Math.round(Math.random() * 3) % 2 ? .01 * (Math.round(Math.random() * 2) - 1) : 0) : 0,
             );
             star.mesh.parent = parent;
-            star.mesh.position.y = index/500;
+            star.mesh.position.y = index/20;
             this.objects.push(star);
         }
     }
