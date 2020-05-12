@@ -60,7 +60,8 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         if (message === 'track change') {
-          this.selectTrack(this.optionsService.state.currentTrack.value);
+          // this.selectTrack(this.optionsService.getState().currentTrack.value);
+          this.selectTrack(this.optionsService.currentTrack);
         }
         if (message === 'site list selection') {
           this.loadSiteTracks();
@@ -174,7 +175,8 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setPlaySource() {
-    this.audio.src = this.playList[this.optionsService.state.currentTrack.value].link;
+    // this.audio.src = this.playList[this.optionsService.getState().currentTrack.value].link;
+    this.audio.src = this.playList[this.optionsService.currentTrack].link;
     this.currentTime = 0;
     this.duration = 0;
   }
@@ -204,7 +206,8 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   previousTrack() {
     this.audio.pause();
-    let ct = this.optionsService.state.currentTrack.value;
+    // let ct = this.optionsService.getState().currentTrack.value;
+    let ct = this.optionsService.currentTrack;
     ct--;
     if (ct < 0) {
       ct = this.playList.length - 1;
@@ -216,7 +219,8 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   nextTrack() {
     this.audio.pause();
-    let ct = this.optionsService.state.currentTrack.value;
+    // let ct = this.optionsService.getState().currentTrack.value;
+    let ct = this.optionsService.currentTrack;
     ct++;
     if (ct > this.playList.length - 1) {
       ct = 0;

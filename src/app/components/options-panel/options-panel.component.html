@@ -78,11 +78,14 @@
       <button class="playlistButton" (click)="localListSelection()">Local Playlist</button>
     </div>
 
-    <ng-container *ngFor="let track of this.optionsService.state.playlist.value; index as i">
-      <div class="track">
-        <input type="radio" [id]="'track'+i" name="tracks" [value]="i" (click)="trackChange($event)"
-          [checked]="this.optionsService.state.currentTrack.value === i">
-        <div class="labelContainer">
+    <ng-container *ngFor="let track of this.optionsService.getState().playlist.value; index as i">
+        <div class="track">
+        <!-- <input type="radio" [id]="'track'+i" name="tracks" [value]="i" (click)="trackChange($event)"
+          [checked]="this.optionsService.getState().currentTrack.value === i"> -->
+          <input type="radio" [id]="'track'+i" name="tracks" [value]="i" (click)="trackChange($event)"
+          [checked]="this.optionsService.currentTrack === i">
+
+          <div class="labelContainer">
           <label class="trackLabel" [for]="'track'+i">{{i}} - {{track.title}}</label>
         </div>
       </div>

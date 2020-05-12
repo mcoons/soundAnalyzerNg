@@ -92,18 +92,13 @@ export class AudioService {
   soundArrays: any;
   analyzerArrays: any;
 
-  // options;
-
   constructor(
     public optionsService: OptionsService,
     public messageService: MessageService) {
 
-    // this.options = this.optionsService.getOptions();
-
     messageService.messageAnnounced$.subscribe(
       message => {
-        console.log('Audio Service: Message received from service is :  ' + message);
-        // this.options = this.optionsService.getOptions();
+        // console.log('Audio Service: Message received from service is :  ' + message);
         if (this.audio != null) {
           this.audio.volume = (this.optionsService.getOptions().volume.value) / 10;
           this.setGain();
@@ -280,8 +275,6 @@ export class AudioService {
     this.fr128Analyser.connect(this.fr64Analyser);
     this.fr64Analyser.connect(this.frAnalyserAll);
     this.frAnalyserAll.connect(this.frAnalyser);
-
-    // setInterval(this.analyzeData, 120);
 
   }
 

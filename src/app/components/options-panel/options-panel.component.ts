@@ -24,7 +24,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   constructor(
     public optionsService: OptionsService,
-    public _messageService: MessageService) {
+    private _messageService: MessageService) {
 
     this._subscription = _messageService.messageAnnounced$.subscribe(
       message => {
@@ -46,11 +46,11 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   radioChange(e) {
     this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
-    this.optionsService.setOption('currentScene', e.target.value);
+    this.optionsService.setOption('currentVisual', e.target.value);
   }
 
   trackChange(e) {
-    console.log(e.target);
+    // console.log(e.target);
     this.optionsService.updateState('currentTrack', e.target.value);
     this._messageService.announceMessage('track change');
   }
