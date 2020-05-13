@@ -117,7 +117,7 @@ export class Star extends BaseObject {
 
         this.mesh.material = this.material;
 
-        this.mesh.doNotSyncBoundingInfo = true;
+        // this.mesh.doNotSyncBoundingInfo = true;
         // this.mesh.convertToUnIndexedMesh();
 
 
