@@ -18,9 +18,9 @@
     </div>
 
     <div>
-      <i id="downicon" class="material-icons">volume_mute</i>
+      <i id="downicon" class="material-icons md-18">volume_mute</i>
         <input type="range" class="volume-slider" min="0" [max]="10" step="1" [(ngModel)] ="this.optionsService.volume" ng-model-options="{ getterSetter: true }" (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
-      <i id="upicon" class="material-icons">volume_up</i>
+      <i id="upicon" class="material-icons md-18">volume_up</i>
     </div>
 
     <!-- <div *ngIf="this.optionsService.getOptions().showTrackTitle.value"> -->

@@ -4,6 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { TooltipModule } from 'ng2-tooltip-directive';
 
@@ -34,7 +35,9 @@ import { MyPlayerComponent } from './components/my-player/my-player.component';
       NgbModule,
       BrowserAnimationsModule,
       FormsModule,
-      TooltipModule
+      TooltipModule,
+      MatExpansionModule
+
    ],
    providers: [
       WindowRefService

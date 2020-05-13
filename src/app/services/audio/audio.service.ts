@@ -99,10 +99,17 @@ export class AudioService {
     messageService.messageAnnounced$.subscribe(
       message => {
         // console.log('Audio Service: Message received from service is :  ' + message);
-        if (this.audio != null) {
-          this.audio.volume = (this.optionsService.getOptions().volume.value) / 10;
+        if (this.audio != null && message === 'volume change') {
+          this.audio.volume = (this.optionsService.volume) / 10;
+        }
+        if (this.audio != null && message === 'sampleGain') {
           this.setGain();
         }
+        if (this.audio != null && message === 'smoothingConstant') {
+          this.setSmoothingConstant();
+        }
+
+
       });
 
     this.clearSampleArrays();
@@ -212,7 +219,7 @@ export class AudioService {
 
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
-    this.tdAnalyser.fftSize = 8192;
+    this.tdAnalyser.fftSize = 16384;
     // this.tdAnalyser.fftSize = 2048;
     this.tdAnalyser.minDecibels = this.minDecibels;
     this.tdAnalyser.maxDecibels = this.maxDecibels;
@@ -430,5 +437,11 @@ export class AudioService {
 
   setGain() {
     this.gainNode.gain.setValueAtTime(this.optionsService.getOptions().sampleGain.value, this.audioCtx.currentTime);
+  }
+
+  setSmoothingConstant() {
+    this.analyzerArrays.forEach( aa => {
+      aa.smoothingTimeConstant = this.optionsService.smoothingConstant / 10;
+    });
   }
 }

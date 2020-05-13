@@ -100,14 +100,16 @@ export class Star extends BaseObject {
 
                 path.push(new BABYLON.Vector3(x, y, z));
             }
+            // path.push(path[0]);
             this.paths.push(path);
         }
-
-        this.mesh = BABYLON.Mesh.CreateRibbon('ribbon', this.paths, true, true, 0, this.scene, true, this.sideO);
         
-        // this.mesh = BABYLON.MeshBuilder.CreateRibbon('ribbon',
-        // { pathArray: this.paths, closeArray: true, closePath: true, sideOrientation: BABYLON.Mesh.DOUBLESIDE, updatable: true },
-        // this.scene);
+
+        // this.mesh = BABYLON.Mesh.CreateRibbon('ribbon', this.paths, true, true, 0, this.scene, true, this.sideO);
+        
+        this.mesh = BABYLON.MeshBuilder.CreateRibbon('ribbon',
+        { pathArray: this.paths, sideOrientation: BABYLON.Mesh.DOUBLESIDE, updatable: true },
+        this.scene);
         
 
 
@@ -115,7 +117,7 @@ export class Star extends BaseObject {
 
         this.mesh.material = this.material;
 
-        this.mesh.doNotSyncBoundingInfo = true;
+        // this.mesh.doNotSyncBoundingInfo = true;
         // this.mesh.convertToUnIndexedMesh();
 
 
