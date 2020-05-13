@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {TooltipPosition} from '@angular/material/tooltip';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
     this._subscription = _messageService.messageAnnounced$.subscribe(
       message => {
-        // console.log('Options Panel: Message received from service is :  ' + message);
+        console.log('Options Panel: Message received from service is :  ' + message);
       });
 
   }
@@ -41,7 +42,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   }
 
   updateItem(e) {
-    this._messageService.announceMessage('Item was changed: ' + e.target.id + ' to ' + this.optionsService.getOptions()[e.target.id].value);
+    this._messageService.announceMessage(e.target.id);
   }
 
   radioChange(e) {

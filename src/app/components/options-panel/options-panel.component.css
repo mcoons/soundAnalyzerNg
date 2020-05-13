@@ -1,3 +1,7 @@
+.md-18 {
+    font-size: 18px !important;
+}
+
 
 #options {
     margin: 0px;
@@ -67,9 +71,9 @@ input {
     border-bottom: 1px solid rgb(92, 92, 92);
     background-image: -webkit-linear-gradient(top left, rgb(202, 202, 202),rgb(150, 150, 150) );
     background-image: linear-gradient(to bottom right, rgb(202, 202, 202),rgb(150, 150, 150) );
-    box-shadow: 3px 3px 4px rgba(100, 100, 100, 0.856),
-    3px 3px 3px white inset, 
-    -3px -3px 3px rgb(105, 105, 105) inset;
+    box-shadow: 2px 2px 3px rgba(100, 100, 100, 0.856),
+    2px 2px 2px white inset, 
+    -2px -2px 2px rgb(105, 105, 105) inset;
 }
 
 .playlistButton:hover {
@@ -93,10 +97,40 @@ input {
     color: black;
 }
 
-#vupicon {
+#vupicon, #gupicon {
     margin-left: 3px;
 }
 
 #vdownicon {
     margin-right: -5px;
+}
+
+ .mat-expansion-panel, .mat-accordion, .mat-expansion-panel-body   {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 12px;
+}
+
+.mat-expansion-panel {
+    margin-bottom: 5px !important;
+    /* padding: 5px !important; */
+    background-color: darkgrey;
+
+}
+
+.mat-expansion-indicator {
+    line-height: 0;
+}
+
+.mat-expansion-panel-header, .mat-panel-title {
+    height: 30px !important;
+    /* padding: 0 !important; */
+    margin: 0 !important;
+    background-color: darkgrey;
+}
+
+.mat-expansion-panel-body  {
+    background-color: lightgray;
+    color: black;
+    padding: 5px !important;
 }

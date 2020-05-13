@@ -34,7 +34,8 @@ export class OptionsService {
       label: 'Waveform Delay',
       value: 1,
       min: 1,
-      max: 5
+      max: 5,
+      step: 1
     },
     showBars: {
       group: 'General',
@@ -60,7 +61,8 @@ export class OptionsService {
       label: 'Volume',
       value: 7,
       min: 0,
-      max: 10
+      max: 10,
+      step: 1
     },
 
 
@@ -70,9 +72,18 @@ export class OptionsService {
       label: 'Visual Effect Strength',
       value: 3,
       min: 1,
-      max: 20
+      max: 20,
+      step: 1
     },
-
+    smoothingConstant: {
+      group: '3DVisual',
+      type: 'slider',
+      label: 'Smoothing Constant',
+      value: 9,
+      min: 1,
+      max: 9.9,
+      step: .1
+    },
 
 
     blockPlaneManager: {
@@ -316,6 +327,14 @@ export class OptionsService {
 
   set sampleGain(value: number) {
     this.options.sampleGain.value = value;
+  }
+
+  get smoothingConstant(): number {
+    return this.options.smoothingConstant.value;
+  }
+
+  set smoothingConstant(value: number) {
+    this.options.smoothingConstant.value = value;
   }
 
   get showPanel(): boolean {

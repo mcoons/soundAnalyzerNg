@@ -30,6 +30,17 @@ Node Mapping
        analysers           
 
 
+AudioNode.connect(destination)
+AudioNode.disconnect();
+
+MediaStreamTrackAudioSourceNode
+
+BiquadFilterNode
+
+
+
+
+
 1920x1200, 1680x1050, 1280x800, and 1024x640
 
 
