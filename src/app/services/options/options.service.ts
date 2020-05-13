@@ -37,6 +37,15 @@ export class OptionsService {
       max: 5,
       step: 1
     },
+    waveformMultiplier: {
+      group: 'General',
+      type: 'slider',
+      label: 'Waveform Multiplier',
+      value: 1,
+      min: 1,
+      max: 10,
+      step: .1
+    },
     showBars: {
       group: 'General',
       type: 'checkbox',
@@ -287,6 +296,14 @@ export class OptionsService {
 
   set waveformDelay(value: number) {
     this.options.waveformDelay.value = value;
+  }
+
+  get waveformMultiplier(): number {
+    return this.options.waveformMultiplier.value;
+  }
+
+  set waveformMultiplier(value: number) {
+    this.options.waveformMultiplier.value = value;
   }
 
   get showBars(): boolean {

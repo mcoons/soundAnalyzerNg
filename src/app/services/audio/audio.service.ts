@@ -219,7 +219,7 @@ export class AudioService {
 
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
-    this.tdAnalyser.fftSize = 8192;
+    this.tdAnalyser.fftSize = 16384;
     // this.tdAnalyser.fftSize = 2048;
     this.tdAnalyser.minDecibels = this.minDecibels;
     this.tdAnalyser.maxDecibels = this.maxDecibels;

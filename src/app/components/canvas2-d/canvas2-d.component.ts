@@ -132,7 +132,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     for (let i = 0; i < width; i++) {
 
       const multiplier = Math.sin(map(i, 0, width - 1, 0, Math.PI));
-      const y = (this.waveFormDataSource[i] - 128) * multiplier;
+      const y = (this.waveFormDataSource[i] - 128) * multiplier * this.optionsService.waveformMultiplier;
 
       this.ctx.lineTo(i + 25, y + 90);
     }
