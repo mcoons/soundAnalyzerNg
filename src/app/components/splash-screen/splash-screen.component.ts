@@ -2,6 +2,7 @@
 import { Component, Input } from '@angular/core';
 
 import { OptionsService } from '../../services/options/options.service';
+import { MessageService } from '../../services/message/message.service';
 
 @Component({
   selector: 'app-splash-screen',
@@ -13,7 +14,8 @@ export class SplashScreenComponent {
   @Input('title') title: string;
 
   constructor(
-    public optionsService: OptionsService
+    public optionsService: OptionsService,
+    public messageService: MessageService
   ) { }
 
   splashScreenOK() {
@@ -21,9 +23,15 @@ export class SplashScreenComponent {
     this.optionsService.toggleOption('showBars');
     this.optionsService.toggleOption('showWaveform');
     this.optionsService.toggleOption('showSplash');
+    this.optionsService.currentVisual = 0;
+    this.optionsService.toggleVisualRadio('equationManager', 2);
+    this.optionsService.toggleVisualRadio('blockPlaneManager', 0);
+    
+    this.messageService.announceMessage("scene change");
+
     setTimeout(() => {
       this.optionsService.toggleOption('showPanel');
-      this.optionsService.toggleOption('renderPlayer'); 
+      this.optionsService.toggleOption('renderPlayer');
     }, 5);
   }
 }

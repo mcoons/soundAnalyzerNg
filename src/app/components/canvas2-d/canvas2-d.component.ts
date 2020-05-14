@@ -124,17 +124,18 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       return;
     }
 
-    const width = this.canvas.width - 50;
+    // const width = this.canvas.width - 50;
+    const width = 1024;
 
     this.ctx.lineWidth = 3;
-    this.ctx.moveTo(25, 90);
+    this.ctx.moveTo(this.canvas.width / 2 - 512, 120);
     this.ctx.beginPath();
     for (let i = 0; i < width; i++) {
 
       const multiplier = Math.sin(map(i, 0, width - 1, 0, Math.PI));
       const y = (this.waveFormDataSource[i] - 128) * multiplier * this.optionsService.waveformMultiplier;
 
-      this.ctx.lineTo(i + 25, y + 90);
+      this.ctx.lineTo(i + this.canvas.width / 2 - 512, y + 120);
     }
 
     this.ctx.strokeStyle = 'white';

@@ -75,24 +75,6 @@ export class OptionsService {
     },
 
 
-    sampleGain: {
-      group: '3DVisual',
-      type: 'slider',
-      label: 'Visual Effect Strength',
-      value: 3,
-      min: 1,
-      max: 20,
-      step: 1
-    },
-    smoothingConstant: {
-      group: '3DVisual',
-      type: 'slider',
-      label: 'Smoothing Constant',
-      value: 9,
-      min: 1,
-      max: 9.9,
-      step: .1
-    },
 
 
     blockPlaneManager: {
@@ -129,6 +111,26 @@ export class OptionsService {
       label: 'Stars',
       value: 4,
       checked: false
+    },
+
+
+    sampleGain: {
+      group: '3DVisual',
+      type: 'slider',
+      label: 'Visual Effect Strength',
+      value: 3,
+      min: 1,
+      max: 20,
+      step: 1
+    },
+    smoothingConstant: {
+      group: '3DVisual',
+      type: 'slider',
+      label: 'Smoothing Constant',
+      value: 9,
+      min: 1,
+      max: 9.9,
+      step: .1
     },
 
 
@@ -208,6 +210,12 @@ export class OptionsService {
       label: 'Playing',
       value: false
     },
+    microphone: {
+      group: 'Console',
+      type: 'boolean',
+      label: 'Microphone',
+      value: false
+    }
   };
 
   constructor(public messageService: MessageService) {
@@ -230,7 +238,7 @@ export class OptionsService {
     this.options.cubeManager.checked = (itemName === 'cubeManager');
     this.options.equationManager.checked = (itemName === 'equationManager');
 
-    this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
+    // this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
     // this.engServ.selectScene(index);
   }
 
@@ -440,6 +448,14 @@ export class OptionsService {
 
   set playing(value: boolean) {
     this.state.playing.value = value;
+  }
+
+  get microphone(): boolean {
+    return this.state.microphone.value;
+  }
+
+  set microphone(value: boolean) {
+    this.state.microphone.value = value;
   }
 
 

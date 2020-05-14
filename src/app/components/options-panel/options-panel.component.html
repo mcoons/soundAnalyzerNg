@@ -2,7 +2,7 @@
   <div id="glowContainer">
     <mat-accordion multi="true">
 
-      <mat-expansion-panel class="mat-expansion-panel">
+      <mat-expansion-panel expanded="true">
         <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
           <mat-panel-title>
             General Options
@@ -52,7 +52,7 @@
         </div>
       </mat-expansion-panel>
 
-      <mat-expansion-panel>
+      <mat-expansion-panel  expanded="true">
         <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
           3D Visuals
         </mat-expansion-panel-header>
@@ -99,8 +99,9 @@
         </mat-expansion-panel-header>
 
         <div id="listBtnContainer">
-          <button class="playlistButton" (click)="siteListSelection()">Site Playlist</button>
-          <button class="playlistButton" (click)="localListSelection()">Local Playlist</button>
+          <button class="playlistButton" (click)="siteListSelection()">Site</button>
+          <button class="playlistButton" (click)="localListSelection()">Local</button>
+          <button class="playlistButton" (click)="this.audioService.enableMic()">Mic</button>
         </div>
 
         <ng-container *ngFor="let track of this.optionsService.getState().playlist.value; index as i">

@@ -5,6 +5,8 @@ import { OptionsService } from '../../services/options/options.service';
 import { MessageService } from '../../services/message/message.service';
 import { Subscription } from 'rxjs';
 
+import { AudioService } from '../../services/audio/audio.service';
+
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {TooltipPosition} from '@angular/material/tooltip';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -25,6 +27,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   constructor(
     public optionsService: OptionsService,
+    public audioService: AudioService,
     private _messageService: MessageService) {
 
     this._subscription = _messageService.messageAnnounced$.subscribe(
@@ -57,10 +60,12 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   }
 
   siteListSelection() {
+    this.audioService.disableMic();
     this._messageService.announceMessage('site list selection');
   }
 
   localListSelection() {
+    this.audioService.disableMic();
     this._messageService.announceMessage('local list selection');
   }
 

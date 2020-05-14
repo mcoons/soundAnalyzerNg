@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { OptionsService } from '../options/options.service';
 import { MessageService } from '../message/message.service';
 
+import { WindowRefService } from '../window-ref/window-ref.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,8 +16,11 @@ export class AudioService {
   audio: HTMLAudioElement = null;
   audioSrc: any;
   audioCtx: any;
+  micSrc;
+  streams;
+  lastVolume;
 
-  minDecibels = -100;
+  minDecibels = -130;
   maxDecibels = 0;
   smoothingConstant = .9;
   maxAverages = 50;
@@ -91,10 +96,12 @@ export class AudioService {
 
   soundArrays: any;
   analyzerArrays: any;
+  
 
   constructor(
     public optionsService: OptionsService,
-    public messageService: MessageService) {
+    public messageService: MessageService,
+    private windowRef: WindowRefService) {
 
     messageService.messageAnnounced$.subscribe(
       message => {
@@ -219,8 +226,8 @@ export class AudioService {
 
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
-    this.tdAnalyser.fftSize = 16384;
-    // this.tdAnalyser.fftSize = 2048;
+    // this.tdAnalyser.fftSize = 16384;
+    this.tdAnalyser.fftSize = 2048;
     this.tdAnalyser.minDecibels = this.minDecibels;
     this.tdAnalyser.maxDecibels = this.maxDecibels;
     this.tdAnalyser.smoothingTimeConstant = this.smoothingConstant;
@@ -266,6 +273,7 @@ export class AudioService {
     ];
 
     this.audioSrc.connect(this.tdAnalyser);
+
     this.tdAnalyser.connect(this.splitter);
 
     this.splitter.connect(this.gainNode, 0);
@@ -440,8 +448,89 @@ export class AudioService {
   }
 
   setSmoothingConstant() {
-    this.analyzerArrays.forEach( aa => {
+    this.analyzerArrays.forEach(aa => {
       aa.smoothingTimeConstant = this.optionsService.smoothingConstant / 10;
     });
+  }
+
+  disableMic() {
+
+    console.log("in disable mic");
+
+    if (!this.optionsService.microphone) {
+      return;
+    }
+
+    this.streams.getTracks().forEach( (track) => {
+      track.stop();
+    });
+
+    this.micSrc.disconnect(this.tdAnalyser);
+    this.audioSrc.connect(this.tdAnalyser);
+
+    this.optionsService.microphone = false;
+    this.optionsService.volume = this.lastVolume;
+    this.audio.volume = this.lastVolume / 10;
+
+    this.optionsService.renderPlayer = true;
+    this.splitter.connect(this.audioCtx.destination, 1);
+
+
+  }
+
+  enableMic = () => {
+
+    if (this.optionsService.microphone) {
+      return;
+    }
+
+    if (!hasGetUserMedia()) {
+      alert('getUserMedia() is not supported by your browser');
+      return;
+    }
+
+    function errorMsg(msg, error) {
+      alert('Error: ' + msg);
+      if (typeof error !== 'undefined') {
+        console.error(error);
+      }
+    }
+
+    function hasGetUserMedia() {
+      return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+    }
+
+    this.audio.pause();
+    this.optionsService.playing = false;
+
+    const constraints = { audio: true };
+
+    navigator.mediaDevices.getUserMedia(constraints)
+      .then( (streams) => {
+        this.streams = streams;
+        this.micSrc = this.audioCtx.createMediaStreamSource(streams);
+
+        this.optionsService.microphone = true;
+        this.lastVolume = this.optionsService.volume;
+        this.optionsService.volume = 0;
+        this.audio.volume = 0;
+        this.optionsService.renderPlayer = false;
+
+        this.splitter.disconnect(this.audioCtx.destination, 1);
+        this.audioSrc.disconnect(this.tdAnalyser);
+        this.micSrc.connect(this.tdAnalyser);
+      })
+      .catch( (error) => {
+        if (error.name === 'PermissionDeniedError') {
+          errorMsg('Permissions have not been granted to use your camera and ' +
+            'microphone, you need to allow the page access to your devices in ' +
+            'order for the demo to work.', 'PermissionDeniedError');
+        }
+        errorMsg('getUserMedia error: ' + error.name, error);
+
+
+
+      });
+
   }
 }
