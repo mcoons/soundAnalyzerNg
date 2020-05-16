@@ -12,9 +12,9 @@
 
     <app-my-player id="ngPlayerDIV" *ngIf = "this.optionsService.getOptions().showPlayer.value == true" ></app-my-player>
 
-    <button *ngIf = "this.optionsService.getOptions().showSplash.value == false" (click)="this.togglePanel()">
+    <button *ngIf = "this.optionsService.getOptions().showSplash.value == false " (click)="this.togglePanel()">
       <i class="material-icons">{{ this.optionsService.getOptions().showPanel.value === true ? 'close' : 'more_vert' }}</i>
-    </button>
+    </button> 
   
   </div>
   

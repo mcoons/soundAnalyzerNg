@@ -22,6 +22,12 @@ export class OptionsService {
       label: 'Show Title',
       value: true,
     },
+    showBars: {
+      group: 'General',
+      type: 'checkbox',
+      label: 'Show Freq Bars',
+      value: false
+    },
     showWaveform: {
       group: 'General',
       type: 'checkbox',
@@ -46,14 +52,8 @@ export class OptionsService {
       max: 10,
       step: .1
     },
-    showBars: {
-      group: 'General',
-      type: 'checkbox',
-      label: 'Show Eq Bars',
-      value: false
-    },
     renderPlayer: {
-      group: 'General',
+      group: 'Hidden',
       type: 'checkbox',
       label: 'Show Main Player',
       value: false
@@ -112,8 +112,16 @@ export class OptionsService {
       value: 4,
       checked: false
     },
+    spectrograph: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Spectrograph',
+      value: 5,
+      checked: false
+    },
 
 
+    
     sampleGain: {
       group: '3DVisual',
       type: 'slider',
@@ -157,6 +165,86 @@ export class OptionsService {
       type: 'numeric',
       label: 'Current Scene',
       value: 2
+    },
+
+
+    currentNote: {
+      group: 'KeyHighlight',
+      type: 'string',
+      label: 'currentNote',
+      value: 'None'
+    },
+
+    None: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'None',
+      hertz: 0,
+      value: 0,
+      checked: true
+    },
+
+    C: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'C',
+      hertz: 32.703,
+      value: 33,
+      checked: false
+    },
+
+    D: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'D',
+      hertz: 36.708,
+      value: 45,
+      checked: false
+    },
+
+    E: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'E',
+      hertz: 41.2035,
+      value: 58,
+      checked: false
+    },
+
+    F: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'F',
+      hertz: 43.654,
+      value: 65,
+      checked: false
+    },
+
+    G: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'G',
+      hertz: 48.999,
+      value: 73,
+      checked: false
+    },
+
+    A: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'A',
+      hertz: 55,
+      value: 82,
+      checked: false
+    },
+
+    B: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'B',
+      hertz: 61.735,
+      value: 92,
+      checked: false
     }
 
   };
@@ -237,6 +325,23 @@ export class OptionsService {
     this.options.blockSpiralManager.checked = (itemName === 'blockSpiralManager');
     this.options.cubeManager.checked = (itemName === 'cubeManager');
     this.options.equationManager.checked = (itemName === 'equationManager');
+
+    // this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
+    // this.engServ.selectScene(index);
+  }
+
+  toggleNoteRadio(itemName: string, index: number) {
+    this.options.A.checked = (itemName === 'A');
+    this.options.B.checked = (itemName === 'B');
+    this.options.C.checked = (itemName === 'C');
+    this.options.D.checked = (itemName === 'D');
+    this.options.E.checked = (itemName === 'E');
+    this.options.F.checked = (itemName === 'F');
+    this.options.G.checked = (itemName === 'G');
+    this.options.None.checked = (itemName === 'None');
+
+    // this.options.cubeManager.checked = (itemName === 'cubeManager');
+    // this.options.equationManager.checked = (itemName === 'equationManager');
 
     // this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
     // this.engServ.selectScene(index);
@@ -408,6 +513,14 @@ export class OptionsService {
 
   set blockSpiralManager(value: boolean) {
     this.options.blockSpiralManager.checked = value;
+  }
+
+  get spectrograph(): boolean {
+    return this.options.spectrograph.checked;
+  }
+
+  set spectrograph(value: boolean) {
+    this.options.spectrograph.checked = value;
   }
 
   get equationManager(): boolean {

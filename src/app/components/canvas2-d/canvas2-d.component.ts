@@ -6,7 +6,7 @@ import { OptionsService } from '../../services/options/options.service';
 import { AudioService } from '../../services/audio/audio.service';
 import { MessageService } from '../../services/message/message.service';
 
-import { map } from '../../visualization-classes/utilities.js'
+import { map } from '../../visualization-classes/utilities.js';
 
 @Component({
   selector: 'app-canvas2-d',
@@ -113,7 +113,44 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       const b = 255 - 128 * i / 550;
 
       this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
-      this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight, barWidth, barHeight);
+      this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight - 30, barWidth, barHeight);
+
+      // if (i%10 === 0) {
+      //   this.ctx.fillStyle = 'rgba(255,255,255 ,.7)';
+      //   this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight -10, barWidth, barHeight);
+      // }
+
+      // if (i%100 === 0) {
+      //   this.ctx.fillStyle = 'rgba(255,0,0 ,.7)';
+      //   this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight -10, barWidth, barHeight);
+      // }
+
+      // if (i % 64 === 0) {
+      //   this.ctx.fillStyle = 'rgba(0,255,0 ,.7)';
+      //   this.ctx.fillRect(x + 25, (this.getTopOfPlayer()+10), barWidth, -20);
+      // }
+
+      const ch = this.optionsService.getOptions().currentNote.value;
+      if (ch !== 'None') {
+      const keyOffset = this.optionsService.getOptions()[ch].value;
+      const hertz = this.optionsService.getOptions()[ch].hertz * Math.pow(2, ((i - keyOffset) / 64 + 2) - 1);
+
+      // console.log("key selected is: "+ch);
+      // console.log("key offset is: "+keyOffset);
+
+      this.ctx.font = '20px Arial';
+      if (i <= 480 && i >= 58 && (i - keyOffset) % 64 === 0) {
+
+        this.ctx.fillStyle = 'white';
+        this.ctx.fillRect(x + 25, (this.getTopOfPlayer() - 40), barWidth, 10);
+
+        this.ctx.fillText(ch + ((i - keyOffset) / 64 + 2), x + 25 - 9, (this.getTopOfPlayer() - 10));
+        this.ctx.fillText('~' + hertz.toString() + 'Hz', x + 25 - 50, (this.getTopOfPlayer() + 10));
+      }
+
+    }
+
+
 
       x += barWidth; // + 1;
     }

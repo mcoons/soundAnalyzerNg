@@ -85,18 +85,22 @@ export class AudioService {
   highTD = 0;
   lowTD = 256;
 
+  lastHigh =  0;
+
+  highFreq = 0;
+
   tdHistory: any;
 
   tdHistoryArraySize = 64;
 
   sample1: Uint8Array = new Uint8Array(576);
   sample1Normalized: Uint8Array = new Uint8Array(576);
+  sample1BufferHistory = [];
   // sample1Totals: any;
   // sample1Averages: any;
 
   soundArrays: any;
   analyzerArrays: any;
-  
 
   constructor(
     public optionsService: OptionsService,
@@ -119,7 +123,8 @@ export class AudioService {
 
       });
 
-    this.clearSampleArrays();
+    this.clearSampleArrays()
+
   }
 
   public setAudio = (audio: HTMLAudioElement) => {
@@ -291,6 +296,13 @@ export class AudioService {
     this.fr64Analyser.connect(this.frAnalyserAll);
     this.frAnalyserAll.connect(this.frAnalyser);
 
+
+    for (let index = 0; index < 201; index++) {
+
+      let frTemp = [];
+      frTemp = Array(550).fill(0);
+      this.sample1BufferHistory.push(frTemp);
+    }
   }
 
   analyzeData = () => {
@@ -329,18 +341,30 @@ export class AudioService {
 
     }
 
+    this.sample1BufferHistory.push(this.sample1.slice(0));
+    if (this.sample1BufferHistory.length > 200) {
+      this.sample1BufferHistory.shift();
+    }
+
     // get highest,lowest and average FREQUENCIES for this frame
     let frCurrentHigh = 0;
     let frCurrentLow = 255;
+    let frHighIndex = 0;
 
     this.sample1.forEach((f, i) => {
       if (f > frCurrentHigh) {
         frCurrentHigh = f;
+        frHighIndex = i;
       }
 
       if (f < frCurrentLow) {
         frCurrentLow = f;
       }
+
+      // if (this.lastHigh !== frCurrentHigh) {
+      //   // console.log(frHighIndex);
+      //   this.lastHigh = frCurrentHigh;
+      // }
 
       // this.sample1Totals[i].values.push(f / 10); //  /255
       // if (this.sample1Totals[i].values.length > this.maxAverages) {
@@ -455,7 +479,7 @@ export class AudioService {
 
   disableMic() {
 
-    console.log("in disable mic");
+    console.log('in disable mic');
 
     if (!this.optionsService.microphone) {
       return;

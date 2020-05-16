@@ -4,9 +4,7 @@
 
       <mat-expansion-panel expanded="true">
         <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
-          <mat-panel-title>
-            General Options
-          </mat-panel-title>
+          General Options
         </mat-expansion-panel-header>
 
         <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.getOptions())">
@@ -32,24 +30,78 @@
           </ng-container>
         </div>
 
-        <div>
-          <button class="playerButton" (click)="this.previousTrack()"><i
-              class="material-icons">skip_previous</i></button>
-          <button class="playerButton" (click)="this.playPause()"><i
-              class="material-icons">{{ this.optionsService.playing === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i></button>
-          <button class="playerButton" (click)="this.nextTrack()"><i class="material-icons">skip_next</i></button>
-        </div>
+        <ng-container *ngIf="this.optionsService.microphone === false" >
+          <div>
+            <button class="playerButton" (click)="this.previousTrack()"><i
+                class="material-icons">skip_previous</i></button>
+            <button class="playerButton" (click)="this.playPause()"><i
+                class="material-icons">{{ this.optionsService.playing === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i></button>
+            <button class="playerButton" (click)="this.nextTrack()"><i class="material-icons">skip_next</i></button>
+          </div>
+  
+          <div>
+            <i id="vdownicon" class="material-icons md-18">volume_mute</i>
+  
+            <input type="range" class="volume-slider" [min]="this.optionsService.getOptions().volume.min"
+              [max]="this.optionsService.getOptions().volume.max" [step]="this.optionsService.getOptions().volume.step"
+              [(ngModel)]="this.optionsService.volume" ng-model-options="{ getterSetter: true }"
+              (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
+  
+            <i id="vupicon" class="material-icons md-18">volume_up</i>
+          </div>
 
-        <div>
-          <i id="vdownicon" class="material-icons md-18">volume_mute</i>
+        </ng-container>
 
-          <input type="range" class="volume-slider" [min]="this.optionsService.getOptions().volume.min"
-            [max]="this.optionsService.getOptions().volume.max" [step]="this.optionsService.getOptions().volume.step"
-            [(ngModel)]="this.optionsService.volume" ng-model-options="{ getterSetter: true }"
-            (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
 
-          <i id="vupicon" class="material-icons md-18">volume_up</i>
-        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel *ngIf="this.optionsService.showBars === true" expanded="true">
+      <!-- <mat-expansion-panel expanded="true"> -->
+        <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
+          Note/Freq Display
+        </mat-expansion-panel-header>
+        
+        <input type="radio" id="A" name="Notes"
+        value="A" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['A'].checked">
+        <label [for]="A">A</label>
+        &nbsp;
+        <input type="radio" id="B" name="Notes"
+        value="B" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['B'].checked">
+        <label [for]="B">B</label>
+        &nbsp;   
+        <input type="radio" id="C" name="Notes"
+        value="C" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['C'].checked">
+        <label [for]="C">C</label>
+        &nbsp;
+        <input type="radio" id="D" name="Notes"
+        value="D" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['D'].checked">
+        <label [for]="D">D</label>
+        <br>
+        <input type="radio" id="E" name="Notes"
+        value="E" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['E'].checked">
+        <label [for]="E">E</label>
+        &nbsp;       
+        <input type="radio" id="F" name="Notes"
+        value="F" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['F'].checked">
+        <label [for]="F">F</label>
+        &nbsp;
+        <input type="radio" id="G" name="Notes"
+        value="G" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['G'].checked">
+        <label [for]="G">G</label>
+        &nbsp;
+        <input type="radio" id="None" name="Notes"
+        value="None" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['None'].checked">
+        <label [for]="None">None</label>
+
+
       </mat-expansion-panel>
 
       <mat-expansion-panel  expanded="true">
@@ -104,16 +156,19 @@
           <button class="playlistButton" (click)="this.audioService.enableMic()">Mic</button>
         </div>
 
-        <ng-container *ngFor="let track of this.optionsService.getState().playlist.value; index as i">
-          <div class="track">
-            <input type="radio" [id]="'track'+i" name="tracks" [value]="i" (click)="trackChange($event)"
-              [checked]="this.optionsService.currentTrack === i">
-
-            <div class="labelContainer">
-              <label class="trackLabel" [for]="'track'+i">{{i}} - {{track.title}}</label>
+        <ng-container *ngIf="this.optionsService.microphone === false" >
+          <ng-container *ngFor="let track of this.optionsService.getState().playlist.value; index as i">
+            <div class="track">
+              <input type="radio" [id]="'track'+i" name="tracks" [value]="i" (click)="trackChange($event)"
+                [checked]="this.optionsService.currentTrack === i">
+  
+              <div class="labelContainer">
+                <label class="trackLabel" [for]="'track'+i">{{i}} - {{track.title}}</label>
+              </div>
             </div>
-          </div>
+          </ng-container>
         </ng-container>
+
 
       </mat-expansion-panel>
     </mat-accordion>

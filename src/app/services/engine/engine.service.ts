@@ -14,6 +14,7 @@ import { EquationManager } from '../../visualization-classes/EquationManager';
 import { CubeManager } from '../../visualization-classes/CubeManager';
 import { BlockSpiralManager } from '../../visualization-classes/BlockSpiralManager';
 import { StarManager } from '../../visualization-classes/StarManager';
+import { Spectrograph } from '../../visualization-classes/Spectrograph';
 
 
 @Injectable({ providedIn: 'root' })
@@ -61,7 +62,8 @@ export class EngineService {
       BlockSpiralManager,
       EquationManager,
       CubeManager,
-      StarManager
+      StarManager,
+      Spectrograph
     ];
 
 
