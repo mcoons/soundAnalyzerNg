@@ -32,7 +32,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
     this._subscription = _messageService.messageAnnounced$.subscribe(
       message => {
-        console.log('Options Panel: Message received from service is :  ' + message);
+        // console.log('Options Panel: Message received from service is :  ' + message);
       });
 
   }
@@ -53,6 +53,11 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     this.optionsService.setOption('currentVisual', e.target.value);
   }
 
+  radioNoteChange(e) {
+    this.optionsService.toggleNoteRadio(e.target.id, e.target.value);
+    this.optionsService.setOption('currentNote', e.target.value);
+  }
+
   trackChange(e) {
     // console.log(e.target);
     this.optionsService.updateState('currentTrack', e.target.value);
@@ -65,6 +70,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   }
 
   localListSelection() {
+    // console.log('entered options-panel.localListSelection');
     this.audioService.disableMic();
     this._messageService.announceMessage('local list selection');
   }

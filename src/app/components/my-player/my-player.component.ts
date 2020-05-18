@@ -278,6 +278,8 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public fileChangeEvent(fileInput: any) {
+
+    // console.log('entered file change event');
     const newUserTracks = [];
 
     // for (const index of fileInput.target.files) {
@@ -302,14 +304,19 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (newUserTracks.length === 0) {
+      console.log('user tracks length = 0');
+
       return;
     }
     this.userTracks = [...newUserTracks];
+    // console.log('file change event calling loadUserTracks');
+    // console.log(this.userTracks);
+
     this.loadUserTracks();
   }
 
   togglePlayer() {
-    this.optionsService.toggleOption('renderPlayer');
+    this.optionsService.toggleState('renderPlayer');
   }
 
 }

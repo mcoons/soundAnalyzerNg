@@ -1,21 +1,34 @@
-import { AudioService } from '../services/audio/audio.service';
+
 import * as BABYLON from 'babylonjs';
+import { AudioService } from '../services/audio/audio.service';
+import { OptionsService } from '../services/options/options.service';
+import { MessageService } from '../services/message/message.service';
 
 export class BlockPlaneManager {
 
     private objects;
     private scene: BABYLON.Scene;
     private audioService: AudioService;
+    private optionsService: OptionsService;
+    private messageService: MessageService;
 
-    constructor(scene, audioService) {
+    constructor(scene, audioService, optionsService, messageService) {
         this.scene = scene;
         this.audioService = audioService;
+        this.optionsService = optionsService;
+        this.messageService = messageService;
         this.objects = [];
 
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 2600;
+
+        this.optionsService.smoothingConstant = 7;
+        this.optionsService.sampleGain = 1;
+        this.messageService.announceMessage('sampleGain');
+        this.messageService.announceMessage('smoothingConstant');
+
     }
 
     create() {

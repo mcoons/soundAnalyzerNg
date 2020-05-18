@@ -1,20 +1,27 @@
-import { AudioService } from '../services/audio/audio.service';
+
 import * as BABYLON from 'babylonjs';
+import { AudioService } from '../services/audio/audio.service';
+import { OptionsService } from '../services/options/options.service';
+import { MessageService } from '../services/message/message.service';
 
 export class CubeManager {
-
 
     private objects;
     private scene: BABYLON.Scene;
     private audioService: AudioService;
+    private optionsService: OptionsService;
+    private messageService: MessageService;
 
     private master;
     private thetaDelta;
     private cameraMoveDir;
 
-    constructor(scene, audioService) {
+    constructor(scene, audioService, optionsService, messageService) {
+
         this.scene = scene;
         this.audioService = audioService;
+        this.optionsService = optionsService;
+        this.messageService = messageService;
 
         this.objects = [];
         this.thetaDelta = 0;
@@ -24,6 +31,12 @@ export class CubeManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = Math.PI / 2;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = Math.PI / 2;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 800;
+
+        this.optionsService.smoothingConstant = 7;
+        this.optionsService.sampleGain = 1;
+        this.messageService.announceMessage('sampleGain');
+        this.messageService.announceMessage('smoothingConstant');
+
     }
 
     create() {

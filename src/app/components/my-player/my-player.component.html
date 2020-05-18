@@ -7,7 +7,7 @@
   <i class="material-icons">{{ this.optionsService.renderPlayer === true ? 'close' : 'more_horiz' }}</i>
 </button>
 
-  <div>
+  <div *ngIf= "this.optionsService.microphone === false">
     <div>
       <button class="playerButton" (click)="this.previousTrack()"><i class="material-icons">skip_previous</i></button>
       <button class="playerButton" (click)="this.playPause()">
@@ -38,13 +38,13 @@
       </div>
     </div>
 
-    <div id="originalFileInputWrapper">
-      <input id="fileInput" (change)="fileChangeEvent($event)" placeholder="Upload file..." type="file"
-        accept="audio/mpeg" multiple />
-    </div>
-
-    <div id="originalAudioWrapper">
-      <audio id="audio" class="button" autoplay controls>The Audio Element is not supported on this device!</audio>
-    </div>
   </div>
+      <div id="originalFileInputWrapper">
+        <input id="fileInput" (change)="fileChangeEvent($event)" placeholder="Upload file..." type="file"
+          accept="audio/mpeg" multiple />
+      </div>
+  
+      <div id="originalAudioWrapper">
+        <audio id="audio" class="button" autoplay controls>The Audio Element is not supported on this device!</audio>
+      </div>
 </div>

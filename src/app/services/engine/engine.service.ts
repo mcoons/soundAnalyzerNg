@@ -14,6 +14,7 @@ import { EquationManager } from '../../visualization-classes/EquationManager';
 import { CubeManager } from '../../visualization-classes/CubeManager';
 import { BlockSpiralManager } from '../../visualization-classes/BlockSpiralManager';
 import { StarManager } from '../../visualization-classes/StarManager';
+import { Spectrograph } from '../../visualization-classes/Spectrograph';
 
 
 @Injectable({ providedIn: 'root' })
@@ -61,7 +62,8 @@ export class EngineService {
       BlockSpiralManager,
       EquationManager,
       CubeManager,
-      StarManager
+      StarManager,
+      Spectrograph
     ];
 
 
@@ -86,6 +88,10 @@ export class EngineService {
     this.camera.lowerRadiusLimit = 10;
     this.camera.attachControl(this.canvas, true);
 
+    // setInterval(() => {
+    //   console.log('radius: ' + this.camera.radius + ', alpha: ' + this.camera.alpha + ', beta: ' + this.camera.beta);
+    // }, 1000);
+
     this.camera.fovMode = BABYLON.Camera.FOVMODE_HORIZONTAL_FIXED;
 
     // create a basic light, aiming 0,1,0 - meaning, to the sky
@@ -104,7 +110,8 @@ export class EngineService {
     const pointLight4 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(500, 480, -280), this.scene);
     pointLight4.intensity = .5;
 
-    this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService);
+    // tslint:disable-next-line: max-line-length
+    this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService, this.optionsService, this.messageService);
     this.currentManager.create();
 
   }
@@ -154,7 +161,7 @@ export class EngineService {
     });
 
     this.managerClassIndex = index;
-    this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService);
+    this.currentManager = new this.managerClasses[index](this.scene, this.audioService, this.optionsService, this.messageService);
     this.currentManager.create();
     // this.scene.freezeActiveMeshes();
 

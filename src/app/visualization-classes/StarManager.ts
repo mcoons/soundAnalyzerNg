@@ -1,5 +1,8 @@
-import { AudioService } from '../services/audio/audio.service';
+
 import * as BABYLON from 'babylonjs';
+import { AudioService } from '../services/audio/audio.service';
+import { OptionsService } from '../services/options/options.service';
+import { MessageService } from '../services/message/message.service';
 
 import {
     Star
@@ -11,10 +14,12 @@ import {
 
 export class StarManager {
 
-    private objects;
     private scene: BABYLON.Scene;
     private audioService: AudioService;
+    private optionsService: OptionsService;
+    private messageService: MessageService;
 
+    private objects;
     private pieResolution;
     starMasters;
     currentProcedure;
@@ -22,13 +27,15 @@ export class StarManager {
     masterTransform;
 
     // constructor(sceneManager, eventBus, audioService) {
-    constructor(scene, audioService) {
+    constructor(scene, audioService, optionsService, messageService) {
 
         // this.sceneManager = sceneManager;
         this.scene = scene;
 
         // this.eventBus = eventBus;
         this.audioService = audioService;
+        this.optionsService = optionsService;
+        this.messageService = messageService;
 
         this.pieResolution = 256;
         this.objects = [];
@@ -39,9 +46,14 @@ export class StarManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 900;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 745;
 
+        this.optionsService.smoothingConstant = 8;
+        this.optionsService.sampleGain = 10;
         // $('#cameraTarget').removeClass('hidden');
+        this.messageService.announceMessage('sampleGain');
+        this.messageService.announceMessage('smoothingConstant');
+
 
     }
 
@@ -351,7 +363,7 @@ export class StarManager {
         for (let index = 0; index < 5; index++) {
 
             const star = new Star('Random Star 4-' + index, 'star parent', null,
-                getBiasedGlowMaterial(colorBias, this.scene), this.pieResolution, null, this.scene, dataSource,index * 10);
+                getBiasedGlowMaterial(colorBias, this.scene), this.pieResolution, null, this.scene, dataSource, index * 10);
             const rad = 8 * (9 - index) + 40;
             const i = Math.round(Math.random() * 10);
             star.setOptions(

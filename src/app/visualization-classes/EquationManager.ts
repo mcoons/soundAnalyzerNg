@@ -1,11 +1,16 @@
 
-import { AudioService } from '../services/audio/audio.service';
 import * as BABYLON from 'babylonjs';
+import { AudioService } from '../services/audio/audio.service';
+import { OptionsService } from '../services/options/options.service';
+import { MessageService } from '../services/message/message.service';
 
 export class EquationManager {
 
     private scene: BABYLON.Scene;
     private audioService: AudioService;
+    private optionsService: OptionsService;
+    private messageService: MessageService;
+
     private objects1;
     private objects2;
     private objects3;
@@ -20,10 +25,12 @@ export class EquationManager {
     private cameraMoveDir;
     private thetaDelta;
 
-    constructor(scene, audioService) {
+    constructor(scene, audioService, optionsService, messageService) {
 
         this.scene = scene;
         this.audioService = audioService;
+        this.optionsService = optionsService;
+        this.messageService = messageService;
 
         this.objects1 = [];
         this.objects2 = [];
@@ -47,6 +54,12 @@ export class EquationManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1350;
+
+        this.optionsService.smoothingConstant = 9;
+        this.optionsService.sampleGain = 1;
+        this.messageService.announceMessage('sampleGain');
+        this.messageService.announceMessage('smoothingConstant');
+
     }
 
     create() {

@@ -69,7 +69,7 @@ export class Star extends BaseObject {
         this.innerEndIndex = this.innerStartIndex + Math.round(this.innerItemsDesired);
         this.outerEndIndex = this.outerStartIndex + Math.round(this.outerItemsDesired);
 
-        this.yOffset = yOffset/10;
+        this.yOffset = yOffset / 10;
         this.create();
 
         // var self = this;
@@ -103,23 +103,18 @@ export class Star extends BaseObject {
             // path.push(path[0]);
             this.paths.push(path);
         }
-        
+
 
         // this.mesh = BABYLON.Mesh.CreateRibbon('ribbon', this.paths, true, true, 0, this.scene, true, this.sideO);
-        
+
         this.mesh = BABYLON.MeshBuilder.CreateRibbon('ribbon',
         { pathArray: this.paths, sideOrientation: BABYLON.Mesh.DOUBLESIDE, updatable: true },
         this.scene);
-        
-
-
-
 
         this.mesh.material = this.material;
 
         // this.mesh.doNotSyncBoundingInfo = true;
         // this.mesh.convertToUnIndexedMesh();
-
 
         if (this.reflect) {
             this.reflect.addToRenderList(this.mesh);

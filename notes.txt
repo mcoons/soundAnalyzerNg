@@ -43,25 +43,30 @@ BiquadFilterNode
 
 1920x1200, 1680x1050, 1280x800, and 1024x640
 
+// tslint:disable-next-line: max-line-length
+
 
 TODO
 _______________________________________________________________________
+
+Implement dataset selection option for lowend devices
+Rewrite 3d classes to use current dataset sizes
+Make sure 3d classes can react to dataset chnges
+Update audio to only update for current datasets
 
 Check for CSS cross browser changes
 Push newest changes to Heroku
 Test on Windows Chrome
 
-Add more to player hide animation to conpensate for different sizes
+Make the main player size constant
 Add sin() to camera movement on eq visual
 Clean up messaging.
 Implement @ViewChild instead of getElementById
-Add accordian functionality to options
 Pick a library to use and update code - Bootstrap, BootstrapNg, Material 
 Make variables private and assign types where possible
 Do something cool with Title
 Add auto change of visual between songs.  User selectable list?
 
-Add microphone support
 
 Add multiple scenes, one for each visual, then render the current selected scene
 

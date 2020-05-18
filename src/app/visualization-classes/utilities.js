@@ -169,12 +169,12 @@ function getBiasedGlowMaterial(colorBias, scene) {
 function map(x, oMin, oMax, nMin, nMax) {
     // check range
     if (oMin === oMax) {
-        console.log("Warning: Zero input range");
+        console.log("Map Warning: Zero input range");
         return null;
     }
 
     if (nMin === nMax) {
-        console.log("Warning: Zero output range");
+        console.log("Map Warning: Zero output range");
         return null;
     }
 

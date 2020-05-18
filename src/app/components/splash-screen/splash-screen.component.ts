@@ -26,12 +26,12 @@ export class SplashScreenComponent {
     this.optionsService.currentVisual = 0;
     this.optionsService.toggleVisualRadio('equationManager', 2);
     this.optionsService.toggleVisualRadio('blockPlaneManager', 0);
-    
-    this.messageService.announceMessage("scene change");
+
+    this.messageService.announceMessage('scene change');
 
     setTimeout(() => {
       this.optionsService.toggleOption('showPanel');
-      this.optionsService.toggleOption('renderPlayer');
+      this.optionsService.toggleState('renderPlayer');
     }, 5);
   }
 }

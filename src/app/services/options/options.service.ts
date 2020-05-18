@@ -22,6 +22,12 @@ export class OptionsService {
       label: 'Show Title',
       value: true,
     },
+    showBars: {
+      group: 'General',
+      type: 'checkbox',
+      label: 'Show Freq Bars',
+      value: false
+    },
     showWaveform: {
       group: 'General',
       type: 'checkbox',
@@ -46,34 +52,6 @@ export class OptionsService {
       max: 10,
       step: .1
     },
-    showBars: {
-      group: 'General',
-      type: 'checkbox',
-      label: 'Show Eq Bars',
-      value: false
-    },
-    renderPlayer: {
-      group: 'General',
-      type: 'checkbox',
-      label: 'Show Main Player',
-      value: false
-    },
-    showTrackTitle: {
-      group: 'Hidden',
-      type: 'checkbox',
-      label: 'Show Track Title',
-      value: true
-    },
-    volume: {
-      group: 'Hidden',
-      type: 'slider',
-      label: 'Volume',
-      value: 7,
-      min: 0,
-      max: 10,
-      step: 1
-    },
-
 
 
 
@@ -112,6 +90,14 @@ export class OptionsService {
       value: 4,
       checked: false
     },
+    spectrograph: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Spectrograph',
+      value: 5,
+      checked: false
+    },
+
 
 
     sampleGain: {
@@ -127,7 +113,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'slider',
       label: 'Smoothing Constant',
-      value: 9,
+      value: 7,
       min: 1,
       max: 9.9,
       step: .1
@@ -157,65 +143,168 @@ export class OptionsService {
       type: 'numeric',
       label: 'Current Scene',
       value: 2
+    },
+
+
+    currentNote: {
+      group: 'KeyHighlight',
+      type: 'string',
+      label: 'currentNote',
+      value: 'None'
+    },
+
+    None: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'None',
+      hertz: 0,
+      value: 0,
+      checked: true
+    },
+
+    C: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'C',
+      hertz: 32.703,
+      value: 33,
+      checked: false
+    },
+
+    D: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'D',
+      hertz: 36.708,
+      value: 45,
+      checked: false
+    },
+
+    E: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'E',
+      hertz: 41.2035,
+      value: 58,
+      checked: false
+    },
+
+    F: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'F',
+      hertz: 43.654,
+      value: 65,
+      checked: false
+    },
+
+    G: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'G',
+      hertz: 48.999,
+      value: 73,
+      checked: false
+    },
+
+    A: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'A',
+      hertz: 55,
+      value: 82,
+      checked: false
+    },
+
+    B: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'B',
+      hertz: 61.735,
+      value: 92,
+      checked: false
     }
 
   };
 
   private state = {
     windowHeight: {
-      group: 'Console',
-      type: 'numeric',
-      label: 'Window Height',
+      // group: 'Console',
+      // type: 'numeric',
+      // label: 'Window Height',
       value: 0
     },
     playerHeight: {
-      group: 'Console',
-      type: 'numeric',
-      label: 'Player Height',
+      // group: 'Console',
+      // type: 'numeric',
+      // label: 'Player Height',
       value: 0
     },
     pixelRatio: {
-      group: 'Console',
-      type: 'numeric',
-      label: 'Pixel Ratio',
+      // group: 'Console',
+      // type: 'numeric',
+      // label: 'Pixel Ratio',
       value: 0
     },
     playerTopHTML: {
-      group: 'Console',
-      type: 'numeric',
-      label: 'Player Top HTML',
+      // group: 'Console',
+      // type: 'numeric',
+      // label: 'Player Top HTML',
       value: 0
     },
     playerTopCanvas: {
-      group: 'Console',
-      type: 'numeric',
-      label: 'Player Top Canvas',
+      // group: 'Console',
+      // type: 'numeric',
+      // label: 'Player Top Canvas',
       value: 0
     },
     playlist: {
-      group: 'Console',
-      type: 'list',
-      label: 'Playlist',
+      // group: 'Console',
+      // type: 'list',
+      // label: 'Playlist',
       value: []
     },
     currentTrack: {
-      group: 'Console',
-      type: 'numeric',
-      label: 'Current Index',
+      // group: 'Console',
+      // type: 'numeric',
+      // label: 'Current Index',
       value: 0
     },
     playing: {
-      group: 'Console',
-      type: 'boolean',
-      label: 'Playing',
+      // group: 'Console',
+      // type: 'boolean',
+      // label: 'Playing',
       value: false
     },
     microphone: {
-      group: 'Console',
-      type: 'boolean',
-      label: 'Microphone',
+      // group: 'Console',
+      // type: 'boolean',
+      // label: 'Microphone',
       value: false
-    }
+    },
+    renderPlayer: {
+      // group: 'Hidden',
+      // type: 'checkbox',
+      // label: 'Show Main Player',
+      value: false
+    },
+    showTrackTitle: {
+      // group: 'Hidden',
+      // type: 'checkbox',
+      // label: 'Show Track Title',
+      value: true
+    },
+    volume: {
+      group: 'Hidden',
+      type: 'slider',
+      label: 'Volume',
+      min: 0,
+      max: 10,
+      step: 1,
+      value: 7
+    },
+
+
   };
 
   constructor(public messageService: MessageService) {
@@ -232,11 +321,34 @@ export class OptionsService {
     this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
   }
 
+  toggleState(itemName: string) {
+    this.state[itemName].value = !this.state[itemName].value;
+    this.windowResize();
+    this.announceChange('Item was changed: ' + itemName + ' to ' + this.state[itemName].value);
+  }
+
   toggleVisualRadio(itemName: string, index: number) {
     this.options.blockPlaneManager.checked = (itemName === 'blockPlaneManager');
     this.options.blockSpiralManager.checked = (itemName === 'blockSpiralManager');
     this.options.cubeManager.checked = (itemName === 'cubeManager');
     this.options.equationManager.checked = (itemName === 'equationManager');
+
+    // this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
+    // this.engServ.selectScene(index);
+  }
+
+  toggleNoteRadio(itemName: string, index: number) {
+    this.options.A.checked = (itemName === 'A');
+    this.options.B.checked = (itemName === 'B');
+    this.options.C.checked = (itemName === 'C');
+    this.options.D.checked = (itemName === 'D');
+    this.options.E.checked = (itemName === 'E');
+    this.options.F.checked = (itemName === 'F');
+    this.options.G.checked = (itemName === 'G');
+    this.options.None.checked = (itemName === 'None');
+
+    // this.options.cubeManager.checked = (itemName === 'cubeManager');
+    // this.options.equationManager.checked = (itemName === 'equationManager');
 
     // this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
     // this.engServ.selectScene(index);
@@ -323,27 +435,27 @@ export class OptionsService {
   }
 
   get renderPlayer(): boolean {
-    return this.options.renderPlayer.value;
+    return this.state.renderPlayer.value;
   }
 
   set renderPlayer(value: boolean) {
-    this.options.renderPlayer.value = value;
+    this.state.renderPlayer.value = value;
   }
 
   get showTrackTitle(): boolean {
-    return this.options.showTrackTitle.value;
+    return this.state.showTrackTitle.value;
   }
 
   set showTrackTitle(value: boolean) {
-    this.options.showTrackTitle.value = value;
+    this.state.showTrackTitle.value = value;
   }
 
   get volume(): number {
-    return this.options.volume.value;
+    return this.state.volume.value;
   }
 
   set volume(value: number) {
-    this.options.volume.value = value as number;
+    this.state.volume.value = value as number;
   }
 
   get sampleGain(): number {
@@ -408,6 +520,14 @@ export class OptionsService {
 
   set blockSpiralManager(value: boolean) {
     this.options.blockSpiralManager.checked = value;
+  }
+
+  get spectrograph(): boolean {
+    return this.options.spectrograph.checked;
+  }
+
+  set spectrograph(value: boolean) {
+    this.options.spectrograph.checked = value;
   }
 
   get equationManager(): boolean {
