@@ -1,18 +1,26 @@
-import { AudioService } from '../services/audio/audio.service';
+
 import * as BABYLON from 'babylonjs';
+import { AudioService } from '../services/audio/audio.service';
+import { OptionsService } from '../services/options/options.service';
+import { MessageService } from '../services/message/message.service';
 
 export class BlockSpiralManager {
 
     private objects;
     private scene: BABYLON.Scene;
     private audioService: AudioService;
+    private optionsService: OptionsService;
+    private messageService: MessageService;
 
     private wheel1Master;
 
-    constructor(scene, audioService) {
+    constructor(scene, audioService, optionsService, messageService) {
 
         this.scene = scene;
         this.audioService = audioService;
+        this.optionsService = optionsService;
+        this.messageService = messageService;
+
         this.objects = [];
 
         this.wheel1Master = new BABYLON.TransformNode('root');
@@ -25,6 +33,11 @@ export class BlockSpiralManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1200;
+
+        this.optionsService.smoothingConstant = 9;
+        this.optionsService.sampleGain = 10;
+        this.messageService.announceMessage('sampleGain');
+        this.messageService.announceMessage('smoothingConstant');
 
     }
 

@@ -32,7 +32,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
     this._subscription = _messageService.messageAnnounced$.subscribe(
       message => {
-        console.log('Options Panel: Message received from service is :  ' + message);
+        // console.log('Options Panel: Message received from service is :  ' + message);
       });
 
   }
@@ -70,9 +70,9 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   }
 
   localListSelection() {
-    console.log('entered options-panel.localListSelection');
-    this._messageService.announceMessage('local list selection');
+    // console.log('entered options-panel.localListSelection');
     this.audioService.disableMic();
+    this._messageService.announceMessage('local list selection');
   }
 
   previousTrack() {

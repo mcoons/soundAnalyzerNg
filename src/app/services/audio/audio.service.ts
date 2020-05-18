@@ -123,7 +123,7 @@ export class AudioService {
 
       });
 
-    this.clearSampleArrays()
+    this.clearSampleArrays();
 
   }
 
@@ -135,7 +135,7 @@ export class AudioService {
 
     this.audio = audio;
 
-    this.audio.volume = (this.optionsService.getOptions().volume.value) / 10;
+    this.audio.volume = (this.optionsService.volume) / 10;
 
     this.audioCtx = new AudioContext();
 
@@ -297,7 +297,7 @@ export class AudioService {
     this.frAnalyserAll.connect(this.frAnalyser);
 
 
-    for (let index = 0; index < 201; index++) {
+    for (let index = 0; index < 151; index++) {
 
       let frTemp = [];
       frTemp = Array(550).fill(0);
@@ -342,7 +342,7 @@ export class AudioService {
     }
 
     this.sample1BufferHistory.push(this.sample1.slice(0));
-    if (this.sample1BufferHistory.length > 200) {
+    if (this.sample1BufferHistory.length > 150) {
       this.sample1BufferHistory.shift();
     }
 
@@ -468,7 +468,7 @@ export class AudioService {
   }
 
   setGain() {
-    this.gainNode.gain.setValueAtTime(this.optionsService.getOptions().sampleGain.value, this.audioCtx.currentTime);
+    this.gainNode.gain.setValueAtTime(this.optionsService.sampleGain, this.audioCtx.currentTime);
   }
 
   setSmoothingConstant() {
@@ -479,7 +479,7 @@ export class AudioService {
 
   disableMic() {
 
-    console.log('in disable mic');
+    // console.log('in disable mic');
 
     if (!this.optionsService.microphone) {
       return;
