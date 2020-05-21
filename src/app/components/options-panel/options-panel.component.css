@@ -23,6 +23,7 @@
     z-index:500;
 }
 
+
 #glowContainer {
     height: 100%;
     margin: 5px;
@@ -144,4 +145,8 @@ input[type=range] {
     background-color: lightgray;
     color: black;
     padding: 5px !important;
+}
+
+.active {
+    color: green;
 }

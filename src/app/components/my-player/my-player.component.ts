@@ -261,6 +261,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.optionsService.updateState('currentTrack', 0);
     this.playList = this.siteTracks;
     this.optionsService.updateState('playlist', this.playList);
+    this.optionsService.input = 'site';
     this.setPlaySource();
     this.playPause();
   }
@@ -273,6 +274,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.optionsService.updateState('currentTrack', 0);
     this.playList = this.userTracks;
     this.optionsService.updateState('playlist', this.playList);
+    this.optionsService.input = 'local';
     this.setPlaySource();
     this.playPause();
   }

@@ -26,13 +26,10 @@ export class StarManager {
 
     masterTransform;
 
-    // constructor(sceneManager, eventBus, audioService) {
     constructor(scene, audioService, optionsService, messageService) {
 
-        // this.sceneManager = sceneManager;
         this.scene = scene;
 
-        // this.eventBus = eventBus;
         this.audioService = audioService;
         this.optionsService = optionsService;
         this.messageService = messageService;
@@ -50,10 +47,8 @@ export class StarManager {
 
         this.optionsService.smoothingConstant = 8;
         this.optionsService.sampleGain = 10;
-        // $('#cameraTarget').removeClass('hidden');
         this.messageService.announceMessage('sampleGain');
         this.messageService.announceMessage('smoothingConstant');
-
 
     }
 
@@ -61,6 +56,11 @@ export class StarManager {
         let starMaster;
         this.masterTransform = new BABYLON.TransformNode('root');
         this.masterTransform.position = new BABYLON.Vector3(0, 0, 0);
+
+        const PI = Math.PI;
+        const TwoPI = PI * 2;
+        const PId2 = PI / 2;
+        const PId32 = PI / 32;
 
         ////////////////////////////////////////////////////////
 
@@ -82,7 +82,7 @@ export class StarManager {
         starMaster.scaling.x = .3;
         starMaster.scaling.y = .3;
         starMaster.scaling.z = .3;
-        starMaster.rotation.y = Math.PI / 2;
+        starMaster.rotation.y = PId2;
 
         this.starMasters.push(starMaster);
 
@@ -106,7 +106,7 @@ export class StarManager {
         starMaster.scaling.x = .3;
         starMaster.scaling.y = .3;
         starMaster.scaling.z = .3;
-        starMaster.rotation.y = Math.PI / 2;
+        starMaster.rotation.y = PId2;
 
         this.starMasters.push(starMaster);
 
@@ -114,7 +114,6 @@ export class StarManager {
 
         starMaster = new BABYLON.TransformNode('starMaster');
 
-        // this.createStarGroupRandom4({
         this.currentProcedure({
             r: .45,
             g: .45,
@@ -131,7 +130,7 @@ export class StarManager {
         starMaster.scaling.x = .3;
         starMaster.scaling.y = .3;
         starMaster.scaling.z = .3;
-        starMaster.rotation.y = Math.PI / 2;
+        starMaster.rotation.y = PId2;
 
         this.starMasters.push(starMaster);
 
@@ -139,7 +138,6 @@ export class StarManager {
 
         starMaster = new BABYLON.TransformNode('starMaster');
 
-        // this.createStarGroupRandom4({
         this.currentProcedure({
             r: .45,
             g: .45,
@@ -156,7 +154,7 @@ export class StarManager {
         starMaster.scaling.x = .3;
         starMaster.scaling.y = .3;
         starMaster.scaling.z = .3;
-        starMaster.rotation.y = Math.PI / 2;
+        starMaster.rotation.y = PId2;
 
         this.starMasters.push(starMaster);
 
@@ -164,7 +162,6 @@ export class StarManager {
 
         starMaster = new BABYLON.TransformNode('starMaster');
 
-        // this.createStarGroupRandom3({
         this.currentProcedure({
             r: .45,
             g: .65,
@@ -181,7 +178,7 @@ export class StarManager {
         starMaster.scaling.x = .3;
         starMaster.scaling.y = .3;
         starMaster.scaling.z = .3;
-        starMaster.rotation.y = Math.PI / 2;
+        starMaster.rotation.y = PId2;
 
         this.starMasters.push(starMaster);
 
@@ -189,7 +186,6 @@ export class StarManager {
 
         starMaster = new BABYLON.TransformNode('starMaster');
 
-        // this.createStarGroupRandom3({
         this.currentProcedure({
             r: .45,
             g: .65,
@@ -206,7 +202,7 @@ export class StarManager {
         starMaster.scaling.x = .33;
         starMaster.scaling.y = .33;
         starMaster.scaling.z = .33;
-        starMaster.rotation.y = Math.PI / 2;
+        starMaster.rotation.y = PId2;
 
         this.starMasters.push(starMaster);
 
@@ -214,7 +210,6 @@ export class StarManager {
 
         starMaster = new BABYLON.TransformNode('starMaster');
 
-        // this.createStarGroupRandom2({
         this.currentProcedure({
             r: .75,
             g: .45,
@@ -231,7 +226,7 @@ export class StarManager {
         starMaster.scaling.x = .35;
         starMaster.scaling.y = .35;
         starMaster.scaling.z = .35;
-        starMaster.rotation.y = Math.PI / 2;
+        starMaster.rotation.y = PId2;
 
         this.starMasters.push(starMaster);
 
@@ -239,7 +234,6 @@ export class StarManager {
 
         starMaster = new BABYLON.TransformNode('starMaster');
 
-        // this.createStarGroupRandom2({
         this.currentProcedure({
             r: .75,
             g: .45,
@@ -256,7 +250,7 @@ export class StarManager {
         starMaster.scaling.x = .3;
         starMaster.scaling.y = .3;
         starMaster.scaling.z = .3;
-        starMaster.rotation.y = Math.PI / 2;
+        starMaster.rotation.y = PId2;
 
         this.starMasters.push(starMaster);
 

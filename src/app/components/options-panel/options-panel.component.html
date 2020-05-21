@@ -66,35 +66,60 @@
         [checked]="this.optionsService.getOptions()['A'].checked">
         <label for="A">A</label>
         &nbsp;
+        <input type="radio" id="ASharp" name="Notes"
+        value="ASharp" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['ASharp'].checked">
+        <label for="ASharp">A#</label>
+        &nbsp;
         <input type="radio" id="B" name="Notes"
         value="B" (click)="radioNoteChange($event)"
         [checked]="this.optionsService.getOptions()['B'].checked">
         <label for="B">B</label>
-        &nbsp;   
+        &nbsp;
         <input type="radio" id="C" name="Notes"
         value="C" (click)="radioNoteChange($event)"
         [checked]="this.optionsService.getOptions()['C'].checked">
         <label for="C">C</label>
         &nbsp;
+        <input type="radio" id="CSharp" name="Notes"
+        value="CSharp" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['CSharp'].checked">
+        <label for="CSharp">C#</label>
+ <br>
         <input type="radio" id="D" name="Notes"
         value="D" (click)="radioNoteChange($event)"
         [checked]="this.optionsService.getOptions()['D'].checked">
         <label for="D">D</label>
-        <br>
+        &nbsp;
+        <input type="radio" id="DSharp" name="Notes"
+        value="DSharp" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['DSharp'].checked">
+        <label for="DSharp">D#</label>
+        &nbsp;
         <input type="radio" id="E" name="Notes"
         value="E" (click)="radioNoteChange($event)"
         [checked]="this.optionsService.getOptions()['E'].checked">
         <label for="E">E</label>
-        &nbsp;       
+        &nbsp;
         <input type="radio" id="F" name="Notes"
         value="F" (click)="radioNoteChange($event)"
         [checked]="this.optionsService.getOptions()['F'].checked">
         <label for="F">F</label>
         &nbsp;
+        <input type="radio" id="FSharp" name="Notes"
+        value="FSharp" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['FSharp'].checked">
+        <label for="FSharp">F#</label>
+        <br>
         <input type="radio" id="G" name="Notes"
         value="G" (click)="radioNoteChange($event)"
         [checked]="this.optionsService.getOptions()['G'].checked">
         <label for="G">G</label>
+        &nbsp;
+        <input type="radio" id="GSharp" name="Notes"
+        value="GSharp" (click)="radioNoteChange($event)"
+        [checked]="this.optionsService.getOptions()['GSharp'].checked">
+        <label for="GSharp">G#</label>
         &nbsp;
         <input type="radio" id="None" name="Notes"
         value="None" (click)="radioNoteChange($event)"
@@ -104,7 +129,7 @@
 
       </mat-expansion-panel>
 
-      <mat-expansion-panel  expanded="true">
+      <mat-expansion-panel expanded="true">
         <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
           3D Visuals
         </mat-expansion-panel-header>
@@ -144,16 +169,16 @@
         </div>
       </mat-expansion-panel>
 
-      <mat-expansion-panel>
+      <mat-expansion-panel expanded="true">
 
         <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
           Playlist
         </mat-expansion-panel-header>
 
         <div id="listBtnContainer">
-          <button class="playlistButton" (click)="siteListSelection()">Site</button>
-          <button class="playlistButton" (click)="localListSelection()">Local</button>
-          <button class="playlistButton" (click)="this.audioService.enableMic()">Mic</button>
+          <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'site'}" (click)="siteListSelection()">Site</button>
+          <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'local'}" (click)="localListSelection()">Local</button>
+          <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'mic'}" (click)="this.audioService.enableMic()">Mic</button>
         </div>
 
         <ng-container *ngIf="this.optionsService.microphone === false" >
@@ -171,6 +196,9 @@
 
 
       </mat-expansion-panel>
+
     </mat-accordion>
   </div>
+  
+  
 </div>
