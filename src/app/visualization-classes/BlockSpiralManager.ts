@@ -43,6 +43,12 @@ export class BlockSpiralManager {
 
     create() {
 
+        const PI = Math.PI;
+        const TwoPI = PI * 2;
+        const PId2 = PI / 2;
+        const PId32 = PI / 32;
+
+
         // let width = 8;
         let radius = 20;
         // let depth = 2.0;
@@ -52,7 +58,7 @@ export class BlockSpiralManager {
         //     depth: depth
         // }, this.scene);
 
-        for (let theta = 0; theta < 17 * Math.PI; theta += Math.PI / 32) { // 512 items ---  256*2    128*4    64*8
+        for (let theta = 0; theta < 17 * PI; theta += PId32) { // 512 items ---  256*2    128*4    64*8
 
             // width = 6;
             // depth = radius / 12;
@@ -72,8 +78,8 @@ export class BlockSpiralManager {
             thing.position.y = 50;
             thing.rotation.y = -theta;
 
-            thing.doNotSyncBoundingInfo = true;
-            thing.convertToUnIndexedMesh();
+            // thing.doNotSyncBoundingInfo = true;
+            // thing.convertToUnIndexedMesh();
 
             const r = .5;
             const g = .5;
@@ -86,6 +92,8 @@ export class BlockSpiralManager {
             mat.specularColor = new BABYLON.Color3(0, 0, 0);
 
             mat.backFaceCulling = true;
+            // mat.wireframe = true;
+
 
             thing.material = mat;
 
@@ -100,9 +108,15 @@ export class BlockSpiralManager {
 
 
     update() {
+
+        const PI = Math.PI;
+        const TwoPI = PI * 2;
+        const PId2 = PI / 2;
+        const PId32 = PI / 32;
+
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha += .001;
-        if ((this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha >= 2 * Math.PI) {
-            (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha -= 2 * Math.PI;
+        if ((this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha >= TwoPI) {
+            (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha -= TwoPI;
         }
 
 

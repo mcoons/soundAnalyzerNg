@@ -1,13 +1,14 @@
+
 import { WindowRefService } from '../window-ref/window-ref.service';
 import { ElementRef, Injectable, NgZone } from '@angular/core';
 import { Subscription, Observable, fromEvent } from 'rxjs';
 
+import * as BABYLON from 'babylonjs';
+import 'babylonjs-materials';
+
 import { MessageService } from '../message/message.service';
 import { AudioService } from '../audio/audio.service';
 import { OptionsService } from '../options/options.service';
-
-import * as BABYLON from 'babylonjs';
-import 'babylonjs-materials';
 
 import { BlockPlaneManager } from '../../visualization-classes/BlockPlaneManager';
 import { EquationManager } from '../../visualization-classes/EquationManager';
@@ -15,6 +16,7 @@ import { CubeManager } from '../../visualization-classes/CubeManager';
 import { BlockSpiralManager } from '../../visualization-classes/BlockSpiralManager';
 import { StarManager } from '../../visualization-classes/StarManager';
 import { Spectrograph } from '../../visualization-classes/Spectrograph';
+import { Particles } from '../../visualization-classes/Particles';
 
 
 @Injectable({ providedIn: 'root' })
@@ -63,20 +65,15 @@ export class EngineService {
       EquationManager,
       CubeManager,
       StarManager,
-      Spectrograph
+      Spectrograph,
+      Particles
     ];
-
 
   }
 
   public createScene(canvas: ElementRef<HTMLCanvasElement>): void {
-    // The first step is to get the reference of the canvas element from our HTML document
     this.canvas = canvas.nativeElement;
-
-    // Then, load the Babylon 3D engine:
     this.engine = new BABYLON.Engine(this.canvas, true);
-
-    // create a basic BJS Scene object
     this.scene = new BABYLON.Scene(this.engine);
     this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
@@ -87,12 +84,11 @@ export class EngineService {
     this.camera.upperRadiusLimit = 9400;
     this.camera.lowerRadiusLimit = 10;
     this.camera.attachControl(this.canvas, true);
+    this.camera.fovMode = BABYLON.Camera.FOVMODE_HORIZONTAL_FIXED;
 
     // setInterval(() => {
     //   console.log('radius: ' + this.camera.radius + ', alpha: ' + this.camera.alpha + ', beta: ' + this.camera.beta);
     // }, 1000);
-
-    this.camera.fovMode = BABYLON.Camera.FOVMODE_HORIZONTAL_FIXED;
 
     // create a basic light, aiming 0,1,0 - meaning, to the sky
     const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(-1, -1, 0), this.scene);
@@ -121,12 +117,8 @@ export class EngineService {
     // because it could trigger heavy changeDetection cycles.
     this.ngZone.runOutsideAngular(() => {
       const rendererLoopCallback = () => {
-
-        // fix for canvas stretching
         this.resizeCanvas();
-
         this.currentManager.update();
-        // this.fixDpi();
         this.scene.render();
       };
 
@@ -170,9 +162,7 @@ export class EngineService {
   fixDpi = () => {
     // create a style object that returns width and height
     const dpi = window.devicePixelRatio;
-
     const styles = window.getComputedStyle(this.canvas);
-
     const style = {
       height() {
         return +styles.height.slice(0, -2);

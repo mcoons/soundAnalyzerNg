@@ -16,6 +16,8 @@ export class OptionsService {
   resizeSubscription$: Subscription;
 
   private options = {
+
+    // general options
     showTitle: {
       group: 'General',
       type: 'checkbox',
@@ -53,8 +55,7 @@ export class OptionsService {
       step: .1
     },
 
-
-
+    // visual options
     blockPlaneManager: {
       group: '3DVisual',
       type: 'radio',
@@ -97,9 +98,13 @@ export class OptionsService {
       value: 5,
       checked: false
     },
-
-
-
+    particles: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Particles',
+      value: 6,
+      checked: false
+    },
     sampleGain: {
       group: '3DVisual',
       type: 'slider',
@@ -119,33 +124,7 @@ export class OptionsService {
       step: .1
     },
 
-
-    showPanel: {
-      group: 'Hidden',
-      type: 'checkbox',
-      label: 'Show Panel',
-      value: false
-    },
-    showPlayer: {
-      group: 'Hidden',
-      type: 'checkbox',
-      label: 'Show Player',
-      value: false
-    },
-    showSplash: {
-      group: 'Hidden',
-      type: 'checkbox',
-      label: 'Show Splash',
-      value: true
-    },
-    currentVisual: {
-      group: 'Hidden',
-      type: 'numeric',
-      label: 'Current Scene',
-      value: 2
-    },
-
-
+    // key highlight options
     currentNote: {
       group: 'KeyHighlight',
       type: 'string',
@@ -171,12 +150,30 @@ export class OptionsService {
       checked: false
     },
 
+    CSharp: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'C#',
+      hertz: 34.648,
+      value: 39,  ///////////////
+      checked: false
+    },
+
     D: {
       group: 'KeyHighlight',
       type: 'numeric',
       label: 'D',
       hertz: 36.708,
       value: 45,
+      checked: false
+    },
+
+    DSharp: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'D#',
+      hertz: 38.891,
+      value: 52,  //////////////
       checked: false
     },
 
@@ -198,12 +195,30 @@ export class OptionsService {
       checked: false
     },
 
+    FSharp: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'F#',
+      hertz: 46.249,
+      value: 69,  ///////////////
+      checked: false
+    },
+
     G: {
       group: 'KeyHighlight',
       type: 'numeric',
       label: 'G',
       hertz: 48.999,
       value: 73,
+      checked: false
+    },
+
+    GSharp: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'G#',
+      hertz: 51.913,
+      value: 77,  ///////////////
       checked: false
     },
 
@@ -216,6 +231,15 @@ export class OptionsService {
       checked: false
     },
 
+    ASharp: {
+      group: 'KeyHighlight',
+      type: 'numeric',
+      label: 'A#',
+      hertz: 58.270,
+      value: 87,  /////////////
+      checked: false
+    },
+
     B: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -223,77 +247,53 @@ export class OptionsService {
       hertz: 61.735,
       value: 92,
       checked: false
+    },
+
+
+
+
+    // move to state ?????
+    showPanel: {
+      group: 'Hidden',
+      type: 'checkbox',
+      label: 'Show Panel',
+      value: false
+    },
+    showPlayer: {
+      group: 'Hidden',
+      type: 'checkbox',
+      label: 'Show Player',
+      value: false
+    },
+    showSplash: {
+      group: 'Hidden',
+      type: 'checkbox',
+      label: 'Show Splash',
+      value: true
+    },
+    currentVisual: {
+      group: 'Hidden',
+      type: 'numeric',
+      label: 'Current Scene',
+      value: 2
     }
 
   };
 
   private state = {
-    windowHeight: {
-      // group: 'Console',
-      // type: 'numeric',
-      // label: 'Window Height',
-      value: 0
-    },
-    playerHeight: {
-      // group: 'Console',
-      // type: 'numeric',
-      // label: 'Player Height',
-      value: 0
-    },
-    pixelRatio: {
-      // group: 'Console',
-      // type: 'numeric',
-      // label: 'Pixel Ratio',
-      value: 0
-    },
-    playerTopHTML: {
-      // group: 'Console',
-      // type: 'numeric',
-      // label: 'Player Top HTML',
-      value: 0
-    },
-    playerTopCanvas: {
-      // group: 'Console',
-      // type: 'numeric',
-      // label: 'Player Top Canvas',
-      value: 0
-    },
-    playlist: {
-      // group: 'Console',
-      // type: 'list',
-      // label: 'Playlist',
-      value: []
-    },
-    currentTrack: {
-      // group: 'Console',
-      // type: 'numeric',
-      // label: 'Current Index',
-      value: 0
-    },
-    playing: {
-      // group: 'Console',
-      // type: 'boolean',
-      // label: 'Playing',
-      value: false
-    },
-    microphone: {
-      // group: 'Console',
-      // type: 'boolean',
-      // label: 'Microphone',
-      value: false
-    },
-    renderPlayer: {
-      // group: 'Hidden',
-      // type: 'checkbox',
-      // label: 'Show Main Player',
-      value: false
-    },
-    showTrackTitle: {
-      // group: 'Hidden',
-      // type: 'checkbox',
-      // label: 'Show Track Title',
-      value: true
-    },
+    windowHeight: { value: 0 },
+    playerHeight: { value: 0 },
+    pixelRatio: { value: 0 },
+    playerTopHTML: { value: 0 },
+    playerTopCanvas: { value: 0 },
+    playlist: { value: [] },
+    currentTrack: { value: 0 },
+    playing: { value: false },
+    microphone: { value: false },
+    renderPlayer: { value: false },
+    showTrackTitle: { value: true },
+    input: { value: 'site' },
+
     volume: {
       group: 'Hidden',
       type: 'slider',
@@ -302,9 +302,7 @@ export class OptionsService {
       max: 10,
       step: 1,
       value: 7
-    },
-
-
+    }
   };
 
   constructor(public messageService: MessageService) {
@@ -332,9 +330,6 @@ export class OptionsService {
     this.options.blockSpiralManager.checked = (itemName === 'blockSpiralManager');
     this.options.cubeManager.checked = (itemName === 'cubeManager');
     this.options.equationManager.checked = (itemName === 'equationManager');
-
-    // this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
-    // this.engServ.selectScene(index);
   }
 
   toggleNoteRadio(itemName: string, index: number) {
@@ -346,12 +341,6 @@ export class OptionsService {
     this.options.F.checked = (itemName === 'F');
     this.options.G.checked = (itemName === 'G');
     this.options.None.checked = (itemName === 'None');
-
-    // this.options.cubeManager.checked = (itemName === 'cubeManager');
-    // this.options.equationManager.checked = (itemName === 'equationManager');
-
-    // this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
-    // this.engServ.selectScene(index);
   }
 
   setOption(itemName: string, value) {
@@ -560,6 +549,14 @@ export class OptionsService {
 
   set currentTrack(value: number) {
     this.state.currentTrack.value = value;
+  }
+
+  get input(): string {
+    return this.state.input.value;
+  }
+
+  set input(value: string) {
+    this.state.input.value = value;
   }
 
   get playing(): boolean {

@@ -17,7 +17,16 @@ angular is wrapped by an express server for prod deployment on Heroku
     ng serve
 
 
-Node Mapping
+To Reduce a Large Heroku Slug Size
+    heroku plugins:install heroku-repo
+
+    heroku repo:gc --app your-app-name
+    heroku repo:purge_cache --app your-app-name
+
+
+
+
+Audio Node Mapping
 
             audioSrc   <-  volume
                 |
@@ -34,10 +43,7 @@ AudioNode.connect(destination)
 AudioNode.disconnect();
 
 MediaStreamTrackAudioSourceNode
-
 BiquadFilterNode
-
-
 
 
 
@@ -46,17 +52,126 @@ BiquadFilterNode
 // tslint:disable-next-line: max-line-length
 
 
+62   63     64   65
+
+[62]  10   80%    [62]  15   20%    =  8 + 3 = 11    = 11
+[63]  12   60%    [63]  16   40%    =  7.2+6.4= 13.6 = 14
+[64]  15   40%    [64]  18   60%    =  6+10.8=16.8   = 17
+[65]  14   20%    [65]  12   80%    =  2.8+9.6=12.4  = 12
+
+10  90   59
+20  80   60
+30  70   61
+40  60   62
+50  50   63
+------
+60  40   64
+70  30   65
+80  20   66
+90  10   67
+
+
+
+create 8 64 bucket sets for 512 final buckets
+doubling the original buckets each new set
+averaged into each new bucket set
+
+ave 1   per bucket   64
+ave 2   per bucket   128  = 192  total consumed
+ave 4   per bucket   256  = 448
+ave 8   per bucket   512  = 960
+ave 16  per bucket   1024 = 1984
+ave 32  per bucket   2048 = 4032
+ave 64  per bucket   4096 = 8128
+ave 128 per bucket   8192 = 16320
+
+leaves 64 high feq buckets
+
+-----------------------
+
+function averageBuckets(s,e) {
+    let total = 0;
+    for (let i = s; i<= e; i++) {
+        total += data[i];
+    }
+    return total/(e-s+1)
+}
+
+let windowSize = 64;   // will be 64
+let windowCount = 8;  // will be 8
+let dataSize = 16384;    // will be 16384
+let data = [];
+for (let i = 0; i < dataSize; i++) {
+    data[i] = Math.round( Math.random()*255 );
+ //   console.log(i,data[i]);
+}
+
+let targetIndex = 0;
+let startIndex = 0;
+let endIndex = 0;
+let span = 1;  // 1,2,4,8,16
+let newData = [];
+
+for (let span = 0; span < windowCount; span++) {
+
+for (let seq = 0; seq < windowSize; seq++) {
+
+endIndex = startIndex + Math.pow(2,span)-1;
+console.log(targetIndex,startIndex,endIndex, averageBuckets(startIndex,endIndex));
+newData.push(averageBuckets(startIndex,endIndex));
+startIndex += Math.pow(2,span);    
+targetIndex++;
+}
+
+
+}
+
+
+
+console.log(`average of buckets 0-0`,averageBuckets(0,0));
+console.log(`average of buckets 1-1`,averageBuckets(1,1));
+console.log(`average of buckets 2-2`,averageBuckets(2,2));
+
+console.log(`average of buckets 3-4`,averageBuckets(3,4));
+console.log(`average of buckets 5-6`,averageBuckets(5,6));
+console.log(`average of buckets 7-8`,averageBuckets(7,8));
+
+console.log(`average of buckets 9-12`,averageBuckets(9,12));
+console.log(`average of buckets 13-16`,averageBuckets(13,16));
+console.log(`average of buckets 17-20`,averageBuckets(17,20));
+
+
+-------------------------------------------------
+
+
+
+   let nIx;
+
+   for (let n = 1; n < 16384; n+=1) { 
+      nIx = Math.round(Math.log(n)/Math.log(1.01912));
+      //nIx = Math.round(Math.log(n)/Math.log(2));
+      console.log( n, nIx);
+   }
+
+
+
+
+-----------------------------------------------
+
+
 TODO
 _______________________________________________________________________
 
+Fix playlist selection button highlight when canceling coming from mic
+Move PI const out of create/update
+Fix octive differences in timings or smoothings.  see pausing on spectrograph 
+
+Add # to note selection
 Implement dataset selection option for lowend devices
-Rewrite 3d classes to use current dataset sizes
-Make sure 3d classes can react to dataset chnges
-Update audio to only update for current datasets
+Rewrite 3d classes to use current dataset/sizes changes
+Update audio to only update for current selected dataset
 
 Check for CSS cross browser changes
-Push newest changes to Heroku
-Test on Windows Chrome
 
 Make the main player size constant
 Add sin() to camera movement on eq visual
@@ -76,6 +191,68 @@ Determine relation between pixels on all layers
  a) where top of player div relates to 2d canvas  DONE
  b) cast ray from 2d pt into 3d
  c) div to 3d
+
+----------------------------------------------------------------------
+
+So first, understand that the output of an FFT will give you an array of 
+relative strength in frequency RANGES, not precise frequencies.
+
+These ranges are spread out in the spectrum [0,Nyquist frequency]. The Nyquist 
+frequency is one-half of the sample rate. So if your AudioContext.sampleRate is 
+48000 (Hertz), your frequency bins will range across [0,24000] (also in Hz).
+
+If you are using the default value of 2048 for fftSize in your AnalyserNode, 
+then frequencyBinCount will be 1024 (it's always half the FFT size). This 
+means each frequency bin will represent (24000/1024 = 23.4) approximately 
+23.4Hz of range - so the bins will look something like this 
+(off-the-cuff, rounding errors may occur here):
+
+fData[0] is the strength of frequencies from 0 to 23.4Hz.
+fData[1] is the strength of frequencies from 23.4Hz to 46.8Hz.
+fData[2] is the strength of frequencies from 46.8Hz to 70.2Hz.
+fData[3] is the strength of frequencies from 70.2Hz to 93.6Hz.
+...
+fData[511] is the strength of frequencies from 11976.6Hz to 12000Hz.
+fData[512] is the strength of frequencies from 12000Hz to 12023.4Hz.
+...
+fData[1023] is the strength of frequencies from 23976.6Hz to 24000Hz.
+
+The next comment that usually comes up is "Wait a second - this is less precise, 
+musically speaking, in the bass registers (where 23.4 Hz can cover a whole OCTAVE) 
+than the treble registers (where there are hundreds of Hz between notes)." 
+To that I say: Yes, yes it is. That's just how FFTs work. In the upper registers, 
+it's easier to see tuning differences.
+
+The NEXT next comment is usually "wow, I need a MASSIVE fftSize to be precise in the 
+bass registers." Usually, the answer is "no, you probably shouldn't do it that way" - 
+at some point, auto-correlation is more efficient than FFTs, and it's a lot more precise.
+
+The numbers you get from the FFT method represent the amplitude of particular frequencies 
+in the audio and not really the loudness
+
+Strictly speaking, loudness is a perceptual quantity and different frequencies are percieved 
+differently by the ear and so you have move from the standard frequency scale to a perceptual 
+scale such as the MEL scale before you can properly analyse the loudness of components.
+Practical though, you can just assume the amplitude to represent the loudness of different 
+frequecies and just use it for many applications such as audio visualisations.
+
+
+What is the unit of each element when I get from getByteFrequencyData?
+The unit of each element from getByteFrequencyData is a normalized magnitude data of from 
+the FFT scaled to fit the dBFS range of the maxDecibles and minDecibles attributes on the 
+AnalyserNode. So a byte value 0 would imply minDecibles (default is -100dBFS) or lower and 
+a byte value of 255 would imply maxDecibles (default is -30dBFS) or higher.
+
+
+Lookup the concept of Nyquist Frequency - the default sampling rate of web audio is 44.1kHz - 
+this means the theoretical maximum frequency would be 22050 hertz given perfect hardware such 
+as microphone and analog-to-digital converter inside your computer.
+
+
+https://dlbeer.co.nz/articles/fftvis.html
+
+https://github.com/cwilso/web-audio-samples/blob/master/samples/audio/frequency-response.html
+
 
 
 

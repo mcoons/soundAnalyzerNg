@@ -47,7 +47,7 @@ export class CubeManager {
             height: 30
         }, this.scene);
 
-        for (let y = 0; y <= 6; y++) { // 9 * 64 = 576
+        for (let y = 0; y <= 8; y++) { // 9 * 64 = 576
             for (let x = 0; x <= 9; x++) { // 9 * 64 = 576
                 for (let z = 0; z <= 7; z++) {
                     const thing = master.clone('clone');
@@ -56,8 +56,8 @@ export class CubeManager {
                     thing.position.y = (y - 3) * 80;  // 80
                     thing.position.z = (z - 3.5) * 80;  // 80
 
-                    thing.doNotSyncBoundingInfo = true;
-                    thing.convertToUnIndexedMesh();
+                    // thing.doNotSyncBoundingInfo = true;
+                    // thing.convertToUnIndexedMesh();
 
                     const r = 1;
                     const g = 1;
@@ -70,6 +70,8 @@ export class CubeManager {
                     mat.ambientColor = new BABYLON.Color3(r * .25, g * .25, b * .25);
                     mat.backFaceCulling = true;
                     mat.alpha = 1;
+                    // mat.wireframe = true;
+
                     thing.material = mat;
 
                     this.objects.push(thing);
@@ -80,8 +82,14 @@ export class CubeManager {
     }
 
     update() {
-        if ((this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha >= Math.PI * 2) {
-            (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha -= Math.PI * 2;
+
+        const PI = Math.PI;
+        const TwoPI = PI * 2;
+        const PId2 = PI / 2;
+        const PId32 = PI / 32;
+
+        if ((this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha >= TwoPI) {
+            (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha -= TwoPI;
         }
 
         this.objects.forEach((o, i) => {
