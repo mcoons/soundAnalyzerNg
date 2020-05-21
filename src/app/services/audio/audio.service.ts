@@ -416,6 +416,23 @@ export class AudioService {
   }
 
 
+  getSampleAve() {
+    if (this.sampleAve) {
+      return [...this.sampleAve];
+    } else {
+      return null;
+    }
+  }
+
+  getSample512() {
+    if (this.fr512DataArray) {
+      return [...this.fr512DataArray];
+    } else {
+      return null;
+    }
+  }
+
+
   getTDData() {
     if (this.tdDataArray) {
       return [...this.tdDataArray];

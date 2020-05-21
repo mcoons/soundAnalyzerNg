@@ -156,7 +156,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
     ////////////////////////////
 
-    dataSource = this.audioService.fr512DataArray;
+    dataSource = this.audioService.getSample512();
     barWidth = (WIDTH / dataSource.length);
     x = 0;
     for (let i = 0; i < dataSource.length; i++) { // -80
@@ -174,7 +174,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
     ////////////////////////////
 
-    dataSource = this.audioService.sampleAve;
+    dataSource = this.audioService.getSampleAve();
     barWidth = (WIDTH / dataSource.length);
     x = 0;
     for (let i = 0; i < dataSource.length; i++) { // -80
