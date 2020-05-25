@@ -6,22 +6,20 @@ import { MessageService } from '../services/message/message.service';
 
 export class BlockPlaneManager {
 
-    private objects;
-    private objects2;
-    private objects3;
     private scene: BABYLON.Scene;
     private audioService: AudioService;
     private optionsService: OptionsService;
     private messageService: MessageService;
+
+    private SPS;
+    private mesh;
+    private mat;
 
     constructor(scene, audioService, optionsService, messageService) {
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
         this.messageService = messageService;
-        this.objects = [];
-        this.objects2 = [];
-        this.objects3 = [];
 
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
@@ -33,210 +31,69 @@ export class BlockPlaneManager {
         this.messageService.announceMessage('sampleGain');
         this.messageService.announceMessage('smoothingConstant');
 
+        this.scene.registerBeforeRender(this.beforeRender);
+    }
+
+    beforeRender = () => {
+        this.SPS.setParticles();
     }
 
     create() {
-        // const width = 30;
-        // const depth = 60;
+        let z: number;
+        let x: number;
 
-        for (let z = (this.audioService.getSample().length / 64); z >= 0; z--) {  // 8
-            for (let x = 0; x < 64; x++) { // 9 * 64 = 576
+        this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
+        this.mat.backFaceCulling = true;
+        this.mat.specularColor = new BABYLON.Color3(.1, .1, .1);
+        this.mat.ambientColor = new BABYLON.Color3(.25, .25, .25);
 
-                const thing = BABYLON.MeshBuilder.CreateBox(('box'), {
-                    width: 30,
-                    depth: 60
-                }, this.scene);
+        const myPositionFunction = (particle, i, s) => {
+            particle.position.x = (x - 31.5) * 30;
+            particle.position.z = (z - 5) * 60;
+            particle.position.y = 0;
+            particle.color = new BABYLON.Color4(.5, .5, .5, 1);
+        };
 
-                thing.position.x = (x - 31.5) * 30;
-                thing.position.z = (z - 5) * 60;
-                thing.position.y = 0;
+        this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
 
-                // thing.doNotSyncBoundingInfo = true;
-                // thing.convertToUnIndexedMesh();
+        const box = BABYLON.MeshBuilder.CreateBox(('box'), {
+            width: 30,
+            depth: 60
+        }, this.scene);
 
-                const r = 0;
-                const g = 0.1;
-                const b = 0.0;
-
-                const color = new BABYLON.Color3(r, g, b);
-
-                const mat = new BABYLON.StandardMaterial('mat', this.scene);
-                mat.diffuseColor = color;
-                mat.specularColor = new BABYLON.Color3(r * .1, g * .1, b * .1);
-                mat.ambientColor = new BABYLON.Color3(r * .25, g * .25, b * .25);
-                mat.backFaceCulling = true;
-                mat.alpha = 1;
-                // mat.wireframe = true;
-
-
-                thing.material = mat;
-
-                this.objects.push(thing);
+        for (z = (this.audioService.getSample().length / 64); z >= 0; z--) {  // 8
+            for (x = 0; x < 64; x++) { // 9 * 64 = 576
+                this.SPS.addShape(box, 1, { positionFunction: myPositionFunction });
             }
         }
 
+        box.dispose();
 
+        this.mesh = this.SPS.buildMesh();
+        this.mesh.material = this.mat;
 
-        for (let z = (this.audioService.fr512DataArray.length / 64); z >= 0; z--) {  // 8
-            for (let x = 0; x < 64; x++) { // 9 * 64 = 576
+        this.SPS.updateParticle = (particle) => {
 
-                const thing = BABYLON.MeshBuilder.CreateBox(('box'), {
-                    width: 30,
-                    depth: 60
-                }, this.scene);
+            let yy = this.audioService.getSample()[particle.idx];
+            yy = (yy / 200 * yy / 200) * 255;
 
-                thing.position.x = (x - 31.5) * 30;
-                thing.position.z = (z + 15) * 60;
-                thing.position.y = 0;
+            particle.scaling.y = yy * .5 + .01;
+            particle.position.y = particle.scaling.y / 2;
 
-                // thing.doNotSyncBoundingInfo = true;
-                // thing.convertToUnIndexedMesh();
+            const r = yy / 255;
+            const b = (200 - yy * 2) / 255;
+            const g = (128 - yy / 2) / 255;
 
-                const r = 0;
-                const g = 0.1;
-                const b = 0.0;
-
-                const color = new BABYLON.Color3(r, g, b);
-
-                const mat = new BABYLON.StandardMaterial('mat', this.scene);
-                mat.diffuseColor = color;
-                mat.specularColor = new BABYLON.Color3(r * .1, g * .1, b * .1);
-                mat.ambientColor = new BABYLON.Color3(r * .25, g * .25, b * .25);
-                mat.backFaceCulling = true;
-                mat.alpha = 1;
-                // mat.wireframe = true;
-
-                thing.material = mat;
-
-                this.objects2.push(thing);
-            }
-        }
-
-
-
-
-        for (let z = (this.audioService.sampleAve.length / 64); z >= 0; z--) {  // 8
-            for (let x = 0; x < 64; x++) { // 9 * 64 = 576
-
-                const thing = BABYLON.MeshBuilder.CreateBox(('box'), {
-                    width: 30,
-                    depth: 60
-                }, this.scene);
-
-                thing.position.x = (x - 31.5) * 30;
-                thing.position.z = (z + 5) * 60;
-                thing.position.y = 0;
-
-                // thing.doNotSyncBoundingInfo = true;
-                // thing.convertToUnIndexedMesh();
-
-                const r = 0;
-                const g = 0.1;
-                const b = 0.0;
-
-                const color = new BABYLON.Color3(r, g, b);
-
-                const mat = new BABYLON.StandardMaterial('mat', this.scene);
-                mat.diffuseColor = color;
-                mat.specularColor = new BABYLON.Color3(r * .1, g * .1, b * .1);
-                mat.ambientColor = new BABYLON.Color3(r * .25, g * .25, b * .25);
-                mat.backFaceCulling = true;
-                mat.alpha = 1;
-                // mat.wireframe = true;
-
-                thing.material = mat;
-
-                this.objects3.push(thing);
-            }
-        }
-
-
-
-
+            particle.color = new BABYLON.Color3(r, g, b);
+        };
     }
 
-    update() {
-        this.objects.forEach((o, i) => {
-            let yy = this.audioService.getSample()[i];
-            yy = (yy / 200 * yy / 200) * 255;
-
-            o.scaling.y = yy * .5 + .01;
-            o.position.y = o.scaling.y / 2;
-
-            let r = 0;
-            let b = 0;
-            let g = 0;
-
-            r = yy;
-            b = 200 - yy * 2;
-            g = 128 - yy / 2;
-
-
-            o.material.diffuseColor.r = r / 255;
-            o.material.diffuseColor.g = g / 255;
-            o.material.diffuseColor.b = b / 255;
-        });
-
-
-        this.objects2.forEach((o, i) => {
-            let yy = this.audioService.fr512DataArray[i];
-            yy = (yy / 200 * yy / 200) * 255;
-
-            o.scaling.y = yy * .5 + .01;
-            o.position.y = o.scaling.y / 2;
-
-            let r = 0;
-            let b = 0;
-            let g = 0;
-
-            r = yy;
-            b = 200 - yy * 2;
-            g = 128 - yy / 2;
-
-
-            o.material.diffuseColor.r = r / 255;
-            o.material.diffuseColor.g = g / 255;
-            o.material.diffuseColor.b = b / 255;
-        });
-
-
-
-
-        this.objects3.forEach((o, i) => {
-            let yy = this.audioService.sampleAve[i];
-            yy = (yy / 200 * yy / 200) * 255;
-
-            o.scaling.y = yy * .5 + .01;
-            o.position.y = o.scaling.y / 2;
-
-            let r = 0;
-            let b = 0;
-            let g = 0;
-
-            r = yy;
-            b = 200 - yy * 2;
-            g = 128 - yy / 2;
-
-
-            o.material.diffuseColor.r = r / 255;
-            o.material.diffuseColor.g = g / 255;
-            o.material.diffuseColor.b = b / 255;
-        });
-
-
-
-
-    }
+    update() {    }
 
     remove() {
-        this.objects.forEach(o => o.dispose());
-        this.objects = null;
-
-        this.objects2.forEach(o => o.dispose());
-        this.objects2 = null;
-
-        this.objects3.forEach(o => o.dispose());
-        this.objects3 = null;
+        this.SPS.mesh.dispose();
+        this.mesh.dispose();
+        this.scene.unregisterBeforeRender(this.beforeRender);
     }
 
 }

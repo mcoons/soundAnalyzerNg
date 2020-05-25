@@ -156,39 +156,39 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
     ////////////////////////////
 
-    dataSource = this.audioService.getSample512();
-    barWidth = (WIDTH / dataSource.length);
-    x = 0;
-    for (let i = 0; i < dataSource.length; i++) { // -80
-      const barHeight = dataSource[i] * .5 + 1;
+    // dataSource = this.audioService.getSample512();
+    // barWidth = (WIDTH / dataSource.length);
+    // x = 0;
+    // for (let i = 0; i < dataSource.length; i++) { // -80
+    //   const barHeight = dataSource[i] * .5 + 1;
 
-      const r = barHeight * 2 - 1;
-      const g = 255 * i / 576;
-      const b = 255 - 128 * i / 550;
+    //   const r = barHeight * 2 - 1;
+    //   const g = 255 * i / 576;
+    //   const b = 255 - 128 * i / 550;
 
-      this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
-      this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight - 210, barWidth, barHeight);
+    //   this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
+    //   this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight - 210, barWidth, barHeight);
 
-      x += barWidth; // + 1;
-    }
+    //   x += barWidth; // + 1;
+    // }
 
     ////////////////////////////
 
-    dataSource = this.audioService.getSampleAve();
-    barWidth = (WIDTH / dataSource.length);
-    x = 0;
-    for (let i = 0; i < dataSource.length; i++) { // -80
-      const barHeight = dataSource[i] * .5 + 1;
+    // dataSource = this.audioService.getSampleAve();
+    // barWidth = (WIDTH / dataSource.length);
+    // x = 0;
+    // for (let i = 0; i < dataSource.length; i++) { // -80
+    //   const barHeight = dataSource[i] * .5 + 1;
 
-      const r = barHeight * 2 - 1;
-      const g = 255 * i / 576;
-      const b = 255 - 128 * i / 550;
+    //   const r = barHeight * 2 - 1;
+    //   const g = 255 * i / 576;
+    //   const b = 255 - 128 * i / 550;
 
-      this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
-      this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight - 120, barWidth, barHeight);
+    //   this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
+    //   this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight - 120, barWidth, barHeight);
 
-      x += barWidth; // + 1;
-    }
+    //   x += barWidth; // + 1;
+    // }
 
 
 

@@ -63,6 +63,7 @@ export class OptionsService {
       value: 0,
       checked: false
     },
+
     blockSpiralManager: {
       group: '3DVisual',
       type: 'radio',
@@ -98,13 +99,14 @@ export class OptionsService {
       value: 5,
       checked: false
     },
-    particles: {
+    spherePlaneManagerSPS: {
       group: '3DVisual',
       type: 'radio',
-      label: 'Particles',
+      label: 'Sphere Plane SPS',
       value: 6,
       checked: false
     },
+
     sampleGain: {
       group: '3DVisual',
       type: 'slider',
@@ -308,7 +310,6 @@ export class OptionsService {
   constructor(public messageService: MessageService) {
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
-      // console.log('event: ', evt);
       this.windowResize();
     });
   }

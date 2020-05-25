@@ -11,12 +11,13 @@ import { AudioService } from '../audio/audio.service';
 import { OptionsService } from '../options/options.service';
 
 import { BlockPlaneManager } from '../../visualization-classes/BlockPlaneManager';
+import { SpherePlaneManagerSPS } from '../../visualization-classes/SpherePlaneManagerSPS';
 import { EquationManager } from '../../visualization-classes/EquationManager';
 import { CubeManager } from '../../visualization-classes/CubeManager';
 import { BlockSpiralManager } from '../../visualization-classes/BlockSpiralManager';
 import { StarManager } from '../../visualization-classes/StarManager';
 import { Spectrograph } from '../../visualization-classes/Spectrograph';
-import { Particles } from '../../visualization-classes/Particles';
+// import { Particles } from '../../visualization-classes/Particles';
 
 
 @Injectable({ providedIn: 'root' })
@@ -66,7 +67,8 @@ export class EngineService {
       CubeManager,
       StarManager,
       Spectrograph,
-      Particles
+      // Particles,
+      SpherePlaneManagerSPS
     ];
 
   }
@@ -91,21 +93,21 @@ export class EngineService {
     // }, 1000);
 
     // create a basic light, aiming 0,1,0 - meaning, to the sky
-    const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(-1, -1, 0), this.scene);
-    light.intensity = 1.5;
-
+    
     const pointLight1 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(500, 500, -600), this.scene);
     pointLight1.intensity = .8;
-
+    
     const pointLight2 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(-500, -500, 600), this.scene);
     // pointLight2.intensity = 1.3;
-
+    
     const pointLight3 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(0, 500, 0), this.scene);
     // pointLight3.intensity = 1.8;
-
-    const pointLight4 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(500, 480, -280), this.scene);
+    
+    const pointLight4 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(800, 480, -280), this.scene);
     pointLight4.intensity = .5;
-
+    
+    const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(-1, -1, 0), this.scene);
+    // light.intensity = 1.5;
     // tslint:disable-next-line: max-line-length
     this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService, this.optionsService, this.messageService);
     this.currentManager.create();

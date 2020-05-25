@@ -6,15 +6,14 @@ import { MessageService } from '../services/message/message.service';
 
 export class CubeManager {
 
-    private objects;
     private scene: BABYLON.Scene;
     private audioService: AudioService;
     private optionsService: OptionsService;
     private messageService: MessageService;
 
-    private master;
-    private thetaDelta;
-    private cameraMoveDir;
+    private SPS;
+    private mesh;
+    private mat;
 
     constructor(scene, audioService, optionsService, messageService) {
 
@@ -22,10 +21,6 @@ export class CubeManager {
         this.audioService = audioService;
         this.optionsService = optionsService;
         this.messageService = messageService;
-
-        this.objects = [];
-        this.thetaDelta = 0;
-        this.cameraMoveDir = .002;
 
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -40, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = Math.PI / 2;
@@ -37,82 +32,68 @@ export class CubeManager {
         this.messageService.announceMessage('sampleGain');
         this.messageService.announceMessage('smoothingConstant');
 
+        this.scene.registerBeforeRender(this.beforeRender);
+    }
+
+    beforeRender = () => {
+        this.SPS.setParticles();
     }
 
     create() {
+        let x: number;
+        let y: number;
+        let z: number;
 
-        const master = BABYLON.MeshBuilder.CreateBox(('box'), {
+        this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
+        this.mat.backFaceCulling = false;
+
+        const myPositionFunction = (particle, i, s) => {
+            particle.position.x = (x - 4.5) * 80;  // 80
+            particle.position.y = (y - 3) * 80;  // 80
+            particle.position.z = (z - 3.5) * 80;  // 80
+            particle.color = new BABYLON.Color4(.5, .5, .5, .1);
+        };
+
+        this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
+
+        const box = BABYLON.MeshBuilder.CreateBox(('box'), {
             width: 30,
             depth: 30,
             height: 30
         }, this.scene);
 
-        for (let y = 0; y <= 8; y++) { // 9 * 64 = 576
-            for (let x = 0; x <= 9; x++) { // 9 * 64 = 576
-                for (let z = 0; z <= 7; z++) {
-                    const thing = master.clone('clone');
-
-                    thing.position.x = (x - 4.5) * 80;  // 80
-                    thing.position.y = (y - 3) * 80;  // 80
-                    thing.position.z = (z - 3.5) * 80;  // 80
-
-                    // thing.doNotSyncBoundingInfo = true;
-                    // thing.convertToUnIndexedMesh();
-
-                    const r = 1;
-                    const g = 1;
-                    const b = 1;
-                    const color = new BABYLON.Color3(r, g, b);
-
-                    const mat = new BABYLON.StandardMaterial('mat', this.scene);
-                    mat.diffuseColor = color;
-                    mat.specularColor = new BABYLON.Color3(r * .1, g * .1, b * .1);
-                    mat.ambientColor = new BABYLON.Color3(r * .25, g * .25, b * .25);
-                    mat.backFaceCulling = true;
-                    mat.alpha = 1;
-                    // mat.wireframe = true;
-
-                    thing.material = mat;
-
-                    this.objects.push(thing);
+        for ( y = 0; y <= 8; y++) { // 9 * 64 = 576
+            for ( x = 0; x <= 9; x++) { // 9 * 64 = 576
+                for ( z = 0; z <= 7; z++) {
+                    this.SPS.addShape(box, 1, { positionFunction: myPositionFunction });
                 }
             }
         }
-        master.dispose();
+        box.dispose();
+
+        this.mesh = this.SPS.buildMesh();
+        this.mesh.material = this.mat;
+
+        this.SPS.updateParticle = (particle) => {
+            const yy = this.audioService.sample1[particle.idx] * 1.05;
+
+            particle.scaling.x = yy / 160;
+            particle.scaling.y = yy / 160;
+            particle.scaling.z = yy / 160;
+
+            const r = (128 - yy) / 255;
+            const b = yy / 255;
+            const g = (128 - yy) / 255;
+
+            particle.color = new BABYLON.Color4(r, g, b, (yy / 255) * (yy / 255));
+        };
     }
 
-    update() {
-
-        const PI = Math.PI;
-        const TwoPI = PI * 2;
-        const PId2 = PI / 2;
-        const PId32 = PI / 32;
-
-        if ((this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha >= TwoPI) {
-            (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha -= TwoPI;
-        }
-
-        this.objects.forEach((o, i) => {
-            const yy = this.audioService.sample1[i] * 1.05;
-
-            o.scaling.x = yy / 160;
-            o.scaling.y = yy / 160;
-            o.scaling.z = yy / 160;
-
-            const r = 128 - yy;
-            const b = yy;
-            const g = 128 - yy;
-
-            o.material.diffuseColor.r = r / 255;
-            o.material.diffuseColor.g = g / 255;
-            o.material.diffuseColor.b = b / 255;
-            o.material.alpha = ((yy / 255) * (yy / 255));
-        });
-    }
+    update() {    }
 
     remove() {
-        this.objects.forEach(o => o.dispose());
-        this.objects = null;
+        this.SPS.mesh.dispose();
+        this.mesh.dispose();
+        this.scene.unregisterBeforeRender(this.beforeRender);
     }
-
 }

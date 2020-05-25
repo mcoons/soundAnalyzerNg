@@ -63,7 +63,6 @@ export class Particles {
             particle.color = new BABYLON.Color4(grey, grey, grey, 1);
         }
 
-
         this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
         const sphere = BABYLON.MeshBuilder.CreateSphere('s', { diameter: 6, segments: 8 }, this.scene);
         this.SPS.addShape(sphere, 2000, { positionFunction: myPositionFunction, vertexFunction: myVertexFunction });
