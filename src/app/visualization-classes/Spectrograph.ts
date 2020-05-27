@@ -32,7 +32,6 @@ export class Spectrograph {
         this.ground.material.specularColor = new BABYLON.Color3(0, 0, 0); // black is no shine
         // this.ground.material.wireframe = true;
 
-        // this.ground.position.z = 64.26;
         this.ground.scaling = new BABYLON.Vector3(400, .25, 400);
 
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -50, 0);

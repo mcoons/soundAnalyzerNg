@@ -13,6 +13,7 @@ export class BlockSpiralManager {
     private SPS;
     private mesh;
     private mat;
+    private rotation = 0;
 
     constructor(scene, audioService, optionsService, messageService) {
 
@@ -37,13 +38,17 @@ export class BlockSpiralManager {
 
     beforeRender = () => {
         this.SPS.setParticles();
+
+        this.rotation += Math.PI / 1000;
+        if (this.rotation >= Math.PI * 2) {
+            this.rotation = 0;
+        }
+        this.SPS.mesh.rotation.y = this.rotation;
     }
 
     create() {
 
         const PI = Math.PI;
-        const TwoPI = PI * 2;
-        const PId2 = PI / 2;
         const PId32 = PI / 32;
 
         let radius = 20;
@@ -51,8 +56,8 @@ export class BlockSpiralManager {
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = false;
-        this.mat.specularColor = new BABYLON.Color3(.1, .1, .1);
-        this.mat.ambientColor = new BABYLON.Color3(.25, .25, .25);
+        // this.mat.specularColor = new BABYLON.Color3(.5, .5, .5);
+        // this.mat.ambientColor = new BABYLON.Color3(.6, .6, .6);
 
         const myPositionFunction = (particle, i, s) => {
             particle.position.x = radius * Math.cos(gtheta);
@@ -86,22 +91,20 @@ export class BlockSpiralManager {
             particle.scaling.y = .05 + y / 17;
             particle.position.y = particle.scaling.y / 2 - particle.idx / 16; // + 30;
 
-            const b = (y * .9) / 255;
-            const g = (128 - y * 1.5) / 255;
-            const r = (128 - y / 2) / 255;
-
-            particle.color = new BABYLON.Color3(r, g, b);
+            particle.color.r = this.optionsService.colors(y).r / 255;
+            particle.color.g = this.optionsService.colors(y).g / 255;
+            particle.color.b = this.optionsService.colors(y).b / 255;
         };
     }
 
     update() {
-        const PI = Math.PI;
-        const TwoPI = PI * 2;
+        // const PI = Math.PI;
+        // const TwoPI = PI * 2;
 
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha += .001;
-        if ((this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha >= TwoPI) {
-            (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha -= TwoPI;
-        }
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha += .001;
+        // if ((this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha >= TwoPI) {
+        //     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha -= TwoPI;
+        // }
     }
 
     remove() {

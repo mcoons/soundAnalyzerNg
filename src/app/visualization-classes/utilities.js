@@ -207,9 +207,117 @@ function logToScreen(htmlToRender) {
     document.getElementById("consoleElement").innerHTML = htmlToRender;
 }
 
+function colors(yy) {
+    let r;
+    let g;
+    let b;
+    
+    const colorSets = [
+        {
+            r: 128 - yy / 2,
+            g: yy,
+            b: 200 - yy * 2
+        },
+        {
+            r: yy,
+            g: 128 - yy / 2,
+            b: 200 - yy * 2
+        },
+        {
+            r: 128 - yy / 2,
+            g: 200 - yy * 2,
+            b: yy
+        },
+        {
+            r: 200 - yy * 2,
+            g: yy,
+            b: 128 - yy / 2
+        },
+        {
+            r: yy,
+            g: 200 - yy * 2,
+            b: 128 - yy / 2
+        },
+        {
+            r: 200 - yy * 2,
+            g: 128 - yy / 2,
+            b: yy
+        },
+        {
+            r: 255 - (128 - yy / 2),
+            g: 255 - yy,
+            b: 255 - (200 - yy * 2)
+        },
+        {
+            r: 255 - yy,
+            g: 255 - (128 - yy / 2),
+            b: 255 - (200 - yy * 2)
+        },
+        {
+            r: 255 - (128 - yy / 2),
+            g: 255 - (200 - yy * 2),
+            b: 255 - yy
+        },
+        {
+            r: 255 - (200 - yy * 2),
+            g: 255 - yy,
+            b: 255 - (128 - yy / 2)
+        },
+        {
+            r: 255 - yy,
+            g: 255 - (200 - yy * 2),
+            b: 255 - (128 - yy / 2)
+        },
+        {
+            r: 255 - (200 - yy * 2),
+            g: 255 - (128 - yy / 2),
+            b: 255 - yy
+        }
+    ];
+
+    let getOptionColor = (name, c) => {
+        let val = this.optionsService[name];
+
+        if (c === 'r') {
+            return(val.substring(1, 3));
+        }
+
+        if (c === 'g') {
+            return(val.substring(3, 5));
+        }
+
+        if (c === 'b') {
+            return(val.substring(5));
+        }
+
+        // return val;
+    };
+
+    if (this.optionsService.randomizeColors === true) {
+        // tslint:disable-next-line: max-line-length
+        r = colorSets[this.startingColorSet].r + (colorSets[this.endingColorSet].r - colorSets[this.startingColorSet].r) * this.colorTime;
+        // tslint:disable-next-line: max-line-length
+        g = colorSets[this.startingColorSet].g + (colorSets[this.endingColorSet].g - colorSets[this.startingColorSet].g) * this.colorTime;
+        // tslint:disable-next-line: max-line-length
+        b = colorSets[this.startingColorSet].b + (colorSets[this.endingColorSet].b - colorSets[this.startingColorSet].b) * this.colorTime;
+    } else {
+
+        // tslint:disable-next-line: max-line-length
+        r = parseInt( getOptionColor('minColor', 'r'), 16) + (parseInt( getOptionColor('maxColor', 'r'), 16) - parseInt( getOptionColor('minColor', 'r'), 16)) * yy/255;
+        // tslint:disable-next-line: max-line-length
+        g = parseInt( getOptionColor('minColor', 'g'), 16) + (parseInt( getOptionColor('maxColor', 'g'), 16) - parseInt( getOptionColor('minColor', 'g'), 16)) * yy/255;
+        // tslint:disable-next-line: max-line-length
+        b = parseInt( getOptionColor('minColor', 'b'), 16) + (parseInt( getOptionColor('maxColor', 'b'), 16) - parseInt( getOptionColor('minColor', 'b'), 16)) * yy/255;
+        // console.log('test');
+        // console.log(parseInt( getOptionColor('minColor', 'g'), 16));
+    }
+    return { r, g, b };
+}
+
 export {
     // addToGlowPalette,
     // addToPalette,
+    colors,
     buildPalettes,
     getBiasedGlowMaterial,
     map,

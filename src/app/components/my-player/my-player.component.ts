@@ -175,7 +175,6 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setPlaySource() {
-    // this.audio.src = this.playList[this.optionsService.getState().currentTrack.value].link;
     this.audio.src = this.playList[this.optionsService.currentTrack].link;
     this.currentTime = 0;
     this.duration = 0;
@@ -206,7 +205,6 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   previousTrack() {
     this.audio.pause();
-    // let ct = this.optionsService.getState().currentTrack.value;
     let ct = this.optionsService.currentTrack;
     ct--;
     if (ct < 0) {
@@ -219,7 +217,6 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   nextTrack() {
     this.audio.pause();
-    // let ct = this.optionsService.getState().currentTrack.value;
     let ct = this.optionsService.currentTrack;
     ct++;
     if (ct > this.playList.length - 1) {
@@ -284,16 +281,6 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     // console.log('entered file change event');
     const newUserTracks = [];
 
-    // for (const index of fileInput.target.files) {
-    //   this.userTracks.push(
-    //     {
-    //       title: fileInput.target.files[index].name,
-    //       // link: this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(fileInput.target.files[index]))
-    //       link: URL.createObjectURL(fileInput.target.files[index])
-    //     }
-    //   );
-    // }
-
     for (let index = 0; index < fileInput.target.files.length; index++) {
       const element = fileInput.target.files[index];
       newUserTracks.push(
@@ -311,8 +298,6 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     this.userTracks = [...newUserTracks];
-    // console.log('file change event calling loadUserTracks');
-    // console.log(this.userTracks);
 
     this.loadUserTracks();
   }

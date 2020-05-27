@@ -54,7 +54,7 @@ export class EquationManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1350;
 
         this.optionsService.smoothingConstant = 9;
-        this.optionsService.sampleGain = 1;
+        this.optionsService.sampleGain = 4;
         this.messageService.announceMessage('sampleGain');
         this.messageService.announceMessage('smoothingConstant');
 
@@ -84,13 +84,9 @@ export class EquationManager {
             thing.position.x = radius * Math.cos(theta + this.thetaDelta);
             thing.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
-            // thing.rotation.y = -theta;
-
-            // thing.doNotSyncBoundingInfo = true;
-            // thing.convertToUnIndexedMesh();
 
             const mat = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat.specularColor = new BABYLON.Color3(0, 0, 0);
+            mat.specularColor = new BABYLON.Color3(.5, .5, .5);
             mat.backFaceCulling = true;
             thing.material = mat;
 
@@ -104,10 +100,9 @@ export class EquationManager {
             thing2.position.x = radius * Math.cos(theta + this.thetaDelta);
             thing2.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing2.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
-            // thing2.rotation.y = -theta;
 
             const mat2 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat2.specularColor = new BABYLON.Color3(0, 0, 0);
+            mat2.specularColor = new BABYLON.Color3(.5, .5, .5);
             mat2.backFaceCulling = true;
             thing2.material = mat2;
 
@@ -121,10 +116,9 @@ export class EquationManager {
             thing3.position.x = radius * Math.cos(theta + this.thetaDelta);
             thing3.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing3.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
-            // thing3.rotation.y = -theta;
 
             const mat3 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat3.specularColor = new BABYLON.Color3(0, 0, 0);
+            mat3.specularColor = new BABYLON.Color3(.5, .5, .5);
             mat3.backFaceCulling = true;
             thing3.material = mat3;
 
@@ -138,10 +132,9 @@ export class EquationManager {
             thing4.position.x = radius * Math.cos(theta + this.thetaDelta);
             thing4.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing4.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
-            // thing4.rotation.y = -theta;
 
             const mat4 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat4.specularColor = new BABYLON.Color3(0, 0, 0);
+            mat4.specularColor = new BABYLON.Color3(.5, .5, .5);
             mat4.backFaceCulling = true;
             thing4.material = mat4;
 
@@ -155,10 +148,9 @@ export class EquationManager {
             thing5.position.x = radius * Math.cos(theta + this.thetaDelta);
             thing5.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing5.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
-            // thing5.rotation.y = -theta;
 
             const mat5 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat5.specularColor = new BABYLON.Color3(0, 0, 0);
+            mat5.specularColor = new BABYLON.Color3(.5, .5, .5);
             mat5.backFaceCulling = true;
             thing5.material = mat5;
 
@@ -172,10 +164,9 @@ export class EquationManager {
             thing6.position.x = radius * Math.cos(theta + this.thetaDelta);
             thing6.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing6.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
-            // thing6.rotation.y = -theta;
 
             const mat6 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat6.specularColor = new BABYLON.Color3(0, 0, 0);
+            mat6.specularColor = new BABYLON.Color3(.5, .5, .5);
             mat6.backFaceCulling = true;
             thing6.material = mat6;
 
@@ -189,10 +180,9 @@ export class EquationManager {
             thing7.position.x = radius * Math.cos(theta + this.thetaDelta);
             thing7.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing7.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
-            // thing7.rotation.y = -theta;
 
             const mat7 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat7.specularColor = new BABYLON.Color3(0, 0, 0);
+            mat7.specularColor = new BABYLON.Color3(.5, .5, .5);
             mat7.backFaceCulling = true;
             thing7.material = mat7;
 
@@ -206,10 +196,9 @@ export class EquationManager {
             thing8.position.x = radius * Math.cos(theta + this.thetaDelta);
             thing8.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing8.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
-            // thing8.rotation.y = -theta;
 
             const mat8 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat8.specularColor = new BABYLON.Color3(0, 0, 0);
+            mat8.specularColor = new BABYLON.Color3(.5, .5, .5);
             mat8.backFaceCulling = true;
             thing8.material = mat8;
 
@@ -250,12 +239,11 @@ export class EquationManager {
             this.objects1[index].position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta + this.thetaDelta);
             let y = (this.audioService.sample1[index]);
             y = (y / 255 * y / 255) * 255;
-            let r = y * 1.6;
-            let g = 128 - y * 1.5;
-            let b = 192 + y / 4;
-            this.objects1[index].material.diffuseColor.r = r / 255;
-            this.objects1[index].material.diffuseColor.g = g / 255;
-            this.objects1[index].material.diffuseColor.b = b / 255;
+
+            this.objects1[index].material.diffuseColor.r  = this.optionsService.colors(y).r / 255;
+            this.objects1[index].material.diffuseColor.g = this.optionsService.colors(y).g / 255;
+            this.objects1[index].material.diffuseColor.b  = this.optionsService.colors(y).b / 255;
+
             this.objects1[index].scaling.y = 1 + y / scalingDenom;
 
 
@@ -264,12 +252,10 @@ export class EquationManager {
             this.objects2[index].position.y = 0.9 * radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta + this.thetaDelta);
             y = (this.audioService.sample1[index + 64]);
             y = (y / 255 * y / 255) * 255;
-            r = y * 1.6;
-            g = 128 - y * 1.5;
-            b = 192 + y / 4;
-            this.objects2[index].material.diffuseColor.r = r / 255;
-            this.objects2[index].material.diffuseColor.g = g / 255;
-            this.objects2[index].material.diffuseColor.b = b / 255;
+
+            this.objects2[index].material.diffuseColor.r  = this.optionsService.colors(y).r / 255;
+            this.objects2[index].material.diffuseColor.g = this.optionsService.colors(y).g / 255;
+            this.objects2[index].material.diffuseColor.b  = this.optionsService.colors(y).b / 255;
             this.objects2[index].scaling.y = 1 + y / scalingDenom;
 
 
@@ -278,12 +264,10 @@ export class EquationManager {
             this.objects3[index].position.y = 0.8 * radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta + this.thetaDelta);
             y = (this.audioService.sample1[index + 128]);
             y = (y / 255 * y / 255) * 255;
-            r = y * 1.6;
-            g = 128 - y * 1.5;
-            b = 192 + y / 4;
-            this.objects3[index].material.diffuseColor.r = r / 255;
-            this.objects3[index].material.diffuseColor.g = g / 255;
-            this.objects3[index].material.diffuseColor.b = b / 255;
+
+            this.objects3[index].material.diffuseColor.r  = this.optionsService.colors(y).r / 255;
+            this.objects3[index].material.diffuseColor.g = this.optionsService.colors(y).g / 255;
+            this.objects3[index].material.diffuseColor.b  = this.optionsService.colors(y).b / 255;
             this.objects3[index].scaling.y = 1 + y / scalingDenom;
 
 
@@ -292,12 +276,10 @@ export class EquationManager {
             this.objects4[index].position.y = 0.7 * radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta + this.thetaDelta);
             y = (this.audioService.sample1[index + 192]);
             y = (y / 255 * y / 255) * 255;
-            r = y * 1.6;
-            g = 128 - y * 1.5;
-            b = 192 + y / 4;
-            this.objects4[index].material.diffuseColor.r = r / 255;
-            this.objects4[index].material.diffuseColor.g = g / 255;
-            this.objects4[index].material.diffuseColor.b = b / 255;
+
+            this.objects4[index].material.diffuseColor.r  = this.optionsService.colors(y).r / 255;
+            this.objects4[index].material.diffuseColor.g = this.optionsService.colors(y).g / 255;
+            this.objects4[index].material.diffuseColor.b  = this.optionsService.colors(y).b / 255;
             this.objects4[index].scaling.y = 1 + y / scalingDenom;
 
 
@@ -306,12 +288,10 @@ export class EquationManager {
             this.objects5[index].position.y = 0.6 * radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta + this.thetaDelta);
             y = (this.audioService.sample1[index + 256]);
             y = (y / 255 * y / 255) * 255;
-            r = y * 1.6;
-            g = 128 - y * 1.5;
-            b = 192 + y / 4;
-            this.objects5[index].material.diffuseColor.r = r / 255;
-            this.objects5[index].material.diffuseColor.g = g / 255;
-            this.objects5[index].material.diffuseColor.b = b / 255;
+
+            this.objects5[index].material.diffuseColor.r  = this.optionsService.colors(y).r / 255;
+            this.objects5[index].material.diffuseColor.g = this.optionsService.colors(y).g / 255;
+            this.objects5[index].material.diffuseColor.b  = this.optionsService.colors(y).b / 255;
             this.objects5[index].scaling.y = 1 + y / scalingDenom;
 
 
@@ -320,12 +300,10 @@ export class EquationManager {
             this.objects6[index].position.y = 0.5 * radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta + this.thetaDelta);
             y = (this.audioService.sample1[index + 320]);
             y = (y / 255 * y / 255) * 255;
-            r = y * 1.6;
-            g = 128 - y * 1.5;
-            b = 192 + y / 4;
-            this.objects6[index].material.diffuseColor.r = r / 255;
-            this.objects6[index].material.diffuseColor.g = g / 255;
-            this.objects6[index].material.diffuseColor.b = b / 255;
+
+            this.objects6[index].material.diffuseColor.r  = this.optionsService.colors(y).r / 255;
+            this.objects6[index].material.diffuseColor.g = this.optionsService.colors(y).g / 255;
+            this.objects6[index].material.diffuseColor.b  = this.optionsService.colors(y).b / 255;
             this.objects6[index].scaling.y = 1 + y / scalingDenom;
 
 
@@ -334,12 +312,10 @@ export class EquationManager {
             this.objects7[index].position.y = 0.4 * radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta + this.thetaDelta);
             y = (this.audioService.sample1[index + 384]);
             y = (y / 255 * y / 255) * 255;
-            r = y * 1.6;
-            g = 128 - y * 1.5;
-            b = 192 + y / 4;
-            this.objects7[index].material.diffuseColor.r = r / 255;
-            this.objects7[index].material.diffuseColor.g = g / 255;
-            this.objects7[index].material.diffuseColor.b = b / 255;
+
+            this.objects7[index].material.diffuseColor.r  = this.optionsService.colors(y).r / 255;
+            this.objects7[index].material.diffuseColor.g = this.optionsService.colors(y).g / 255;
+            this.objects7[index].material.diffuseColor.b  = this.optionsService.colors(y).b / 255;
             this.objects7[index].scaling.y = 1 + y / scalingDenom;
 
 
@@ -348,12 +324,10 @@ export class EquationManager {
             this.objects8[index].position.y = 0.3 * radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta + this.thetaDelta);
             y = (this.audioService.sample1[index + 448]);
             y = (y / 255 * y / 255) * 255;
-            r = y * 1.6;
-            g = 128 - y * 1.5;
-            b = 192 + y / 4;
-            this.objects8[index].material.diffuseColor.r = r / 255;
-            this.objects8[index].material.diffuseColor.g = g / 255;
-            this.objects8[index].material.diffuseColor.b = b / 255;
+
+            this.objects8[index].material.diffuseColor.r  = this.optionsService.colors(y).r / 255;
+            this.objects8[index].material.diffuseColor.g = this.optionsService.colors(y).g / 255;
+            this.objects8[index].material.diffuseColor.b  = this.optionsService.colors(y).b / 255;
             this.objects8[index].scaling.y = 1 + y / scalingDenom;
 
             index++;

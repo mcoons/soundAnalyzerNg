@@ -27,7 +27,7 @@ export class BlockPlaneManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 2600;
 
         this.optionsService.smoothingConstant = 7;
-        this.optionsService.sampleGain = 1;
+        this.optionsService.sampleGain = 4;
         this.messageService.announceMessage('sampleGain');
         this.messageService.announceMessage('smoothingConstant');
 
@@ -80,11 +80,10 @@ export class BlockPlaneManager {
             particle.scaling.y = yy * .5 + .01;
             particle.position.y = particle.scaling.y / 2;
 
-            const r = yy / 255;
-            const b = (200 - yy * 2) / 255;
-            const g = (128 - yy / 2) / 255;
+            particle.color.r = this.optionsService.colors(yy).r / 255;
+            particle.color.g = this.optionsService.colors(yy).g / 255;
+            particle.color.b = this.optionsService.colors(yy).b / 255;
 
-            particle.color = new BABYLON.Color3(r, g, b);
         };
     }
 

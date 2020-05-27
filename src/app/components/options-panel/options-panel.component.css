@@ -150,3 +150,8 @@ input[type=range] {
 .active {
     color: green;
 }
+
+.colorHeader {
+    margin-top: 5px;
+    margin-left: 5px;
+}

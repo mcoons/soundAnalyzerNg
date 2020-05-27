@@ -135,8 +135,6 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
         const keyOffset = this.optionsService.getOptions()[ch].value;
         const hertz = this.optionsService.getOptions()[ch].hertz * Math.pow(2, ((i - keyOffset) / 64 + 2) - 1);
         const label = this.optionsService.getOptions()[ch].label;
-        // console.log("key selected is: "+ch);
-        // console.log("key offset is: "+keyOffset);
 
         this.ctx.font = '16px Arial';
         if (i <= 480 && i >= 58 && (i - keyOffset) % 64 === 0) {

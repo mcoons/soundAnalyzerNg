@@ -45,7 +45,9 @@ export class CubeManager {
         let z: number;
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
-        this.mat.backFaceCulling = false;
+        this.mat.backFaceCulling = true;
+        this.mat.specularColor = new BABYLON.Color3(.1, .1, .1);
+        this.mat.ambientColor = new BABYLON.Color3(.25, .25, .25);
 
         const myPositionFunction = (particle, i, s) => {
             particle.position.x = (x - 4.5) * 80;  // 80
@@ -73,9 +75,11 @@ export class CubeManager {
 
         this.mesh = this.SPS.buildMesh();
         this.mesh.material = this.mat;
+        this.SPS.mesh.hasVertexAlpha = true;
 
         this.SPS.updateParticle = (particle) => {
-            const yy = this.audioService.sample1[particle.idx] * 1.05;
+            let yy = this.audioService.sample1[particle.idx] * 1.05;
+            yy = (yy / 155 * yy / 155) * 255;
 
             particle.scaling.x = yy / 160;
             particle.scaling.y = yy / 160;

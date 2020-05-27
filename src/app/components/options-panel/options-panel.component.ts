@@ -53,13 +53,19 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     this.optionsService.setOption('currentVisual', e.target.value);
   }
 
+  colorChange(e) {
+    if (e.type !== 'change') {
+      return;
+    }
+
+  }
+
   radioNoteChange(e) {
     this.optionsService.toggleNoteRadio(e.target.id, e.target.value);
     this.optionsService.setOption('currentNote', e.target.value);
   }
 
   trackChange(e) {
-    // console.log(e.target);
     this.optionsService.updateState('currentTrack', e.target.value);
     this._messageService.announceMessage('track change');
   }
@@ -70,7 +76,6 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   }
 
   localListSelection() {
-    // console.log('entered options-panel.localListSelection');
     this.audioService.disableMic();
     this._messageService.announceMessage('local list selection');
   }

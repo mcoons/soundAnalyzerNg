@@ -17,7 +17,6 @@ import { CubeManager } from '../../visualization-classes/CubeManager';
 import { BlockSpiralManager } from '../../visualization-classes/BlockSpiralManager';
 import { StarManager } from '../../visualization-classes/StarManager';
 import { Spectrograph } from '../../visualization-classes/Spectrograph';
-// import { Particles } from '../../visualization-classes/Particles';
 
 
 @Injectable({ providedIn: 'root' })
@@ -67,7 +66,6 @@ export class EngineService {
       CubeManager,
       StarManager,
       Spectrograph,
-      // Particles,
       SpherePlaneManagerSPS
     ];
 
@@ -87,12 +85,6 @@ export class EngineService {
     this.camera.lowerRadiusLimit = 10;
     this.camera.attachControl(this.canvas, true);
     this.camera.fovMode = BABYLON.Camera.FOVMODE_HORIZONTAL_FIXED;
-
-    // setInterval(() => {
-    //   console.log('radius: ' + this.camera.radius + ', alpha: ' + this.camera.alpha + ', beta: ' + this.camera.beta);
-    // }, 1000);
-
-    // create a basic light, aiming 0,1,0 - meaning, to the sky
     
     const pointLight1 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(500, 500, -600), this.scene);
     pointLight1.intensity = .8;
@@ -119,6 +111,21 @@ export class EngineService {
     // because it could trigger heavy changeDetection cycles.
     this.ngZone.runOutsideAngular(() => {
       const rendererLoopCallback = () => {
+
+        this.optionsService.colorTime += this.optionsService.colorTimeInc;
+
+        if (this.optionsService.colorTime >= 1) {
+            this.optionsService.colorTime = 1;
+            this.optionsService.colorTimeInc *= -1;
+            this.optionsService.startingColorSet = Math.floor(Math.random() * 11);
+        }
+
+        if (this.optionsService.colorTime <= 0) {
+            this.optionsService.colorTime = 0;
+            this.optionsService.colorTimeInc *= -1;
+            this.optionsService.endingColorSet = Math.floor(Math.random() * 11);
+        }
+
         this.resizeCanvas();
         this.currentManager.update();
         this.scene.render();
@@ -143,8 +150,6 @@ export class EngineService {
       return;
     }
 
-    // this.scene.freezeActiveMeshes();
-
     if (this.currentManager) {
       this.currentManager.remove();
     }
@@ -157,7 +162,6 @@ export class EngineService {
     this.managerClassIndex = index;
     this.currentManager = new this.managerClasses[index](this.scene, this.audioService, this.optionsService, this.messageService);
     this.currentManager.create();
-    // this.scene.freezeActiveMeshes();
 
   }
 

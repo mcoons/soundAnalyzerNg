@@ -4,6 +4,7 @@ import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
 
+
 export class SpherePlaneManagerSPS {
 
     private scene: BABYLON.Scene;
@@ -17,6 +18,8 @@ export class SpherePlaneManagerSPS {
     private mesh1;
     private mesh2;
 
+    private rotation = 0;
+
     constructor(scene, audioService, optionsService, messageService) {
         this.scene = scene;
         this.audioService = audioService;
@@ -24,8 +27,8 @@ export class SpherePlaneManagerSPS {
         this.messageService = messageService;
 
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; //4.72
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .81; //1
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .81; // 1
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 2600;
 
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
@@ -35,14 +38,24 @@ export class SpherePlaneManagerSPS {
         this.scene.registerBeforeRender(this.beforeRender);
 
         this.optionsService.smoothingConstant = 5;
-        this.optionsService.sampleGain = 1;
+        this.optionsService.sampleGain = 4;
         this.messageService.announceMessage('sampleGain');
         this.messageService.announceMessage('smoothingConstant');
     }
 
     beforeRender = () => {
+
         this.innerSPS.setParticles();
         this.outerSPS.setParticles();
+
+        this.rotation += Math.PI / 500;
+        if (this.rotation >= Math.PI * 2) {
+            this.rotation = 0;
+        }
+        this.outerSPS.mesh.rotation.z = this.rotation;
+        this.outerSPS.mesh.rotation.y = this.rotation;
+        this.outerSPS.mesh.rotation.x = this.rotation;
+        this.innerSPS.mesh.rotation.y = this.rotation;
     }
 
     create() {
@@ -53,6 +66,8 @@ export class SpherePlaneManagerSPS {
         const radius = 520;
         const width = 100;
         const depth = 15;
+        const height = 20;
+
         let gtheta;
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
@@ -70,7 +85,6 @@ export class SpherePlaneManagerSPS {
         this.innerSPS = new BABYLON.SolidParticleSystem('innerSPS', this.scene, { updatable: true });
         const sphere = BABYLON.MeshBuilder.CreateSphere('s', { diameter: 6, segments: 8 }, this.scene);
 
-        // let count = 0;
         for (z = -15; z < 15; z++) {
             for (x = -15; x < 15; x++) {
                 const d = Math.sqrt((x * x) + (z * z));
@@ -90,13 +104,9 @@ export class SpherePlaneManagerSPS {
             let yy = this.audioService.getSample()[555 - particle.idx];
             yy = (yy / 200 * yy / 200) * 255;
 
-            const r = yy;
-            const b = 200 - yy * 2;
-            const g = 128 - yy / 2;
-
-            particle.color.r = r / 255;
-            particle.color.g = g / 255;
-            particle.color.b = b / 255;
+            particle.color.r = this.optionsService.colors(yy).r / 255;
+            particle.color.g = this.optionsService.colors(yy).g / 255;
+            particle.color.b = this.optionsService.colors(yy).b / 255;
 
             particle.scale.x = yy / 20 + 2.5;
             particle.scale.y = yy / 20 + 2.5;
@@ -115,9 +125,9 @@ export class SpherePlaneManagerSPS {
 
         this.outerSPS = new BABYLON.SolidParticleSystem('outerSPS', this.scene, { updatable: true });
         const box = BABYLON.MeshBuilder.CreateBox(('box'), {
-            width: width,
-            depth: depth,
-            height: 20
+            width,
+            depth,
+            height
         }, this.scene);
 
         for (let theta = Math.PI / 2; theta < 2 * Math.PI + Math.PI / 2 - Math.PI / 100; theta += Math.PI / 100) {
@@ -133,7 +143,7 @@ export class SpherePlaneManagerSPS {
 
         this.outerSPS.updateParticle = (particle) => {
             const myTheta = particle.idx * Math.PI / 100 + Math.PI / 2;
-            let yy = this.audioService.fr128DataArray[particle.idx < 100 ? particle.idx : 100 - (particle.idx - 100)] / 255;
+            const yy = this.audioService.fr128DataArray[particle.idx < 100 ? particle.idx : 100 - (particle.idx - 100)] / 255;
 
             particle.scaling.x = .05 + yy * 2;
             particle.position.x = (520 + yy * 100) * Math.cos(myTheta);
@@ -142,7 +152,7 @@ export class SpherePlaneManagerSPS {
         };
     }
 
-    update() {    }
+    update() { }
 
     remove() {
         this.innerSPS.mesh.dispose();

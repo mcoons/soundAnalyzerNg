@@ -283,22 +283,6 @@ export class AudioService {
       this.sample1[index + 512] = (this.soundArrays[1])[index + 64];   // 128 buckets
     }
 
-
-
-    // for (let index = 0; index < 64; index++) { //  64*9 = 576
-    //   // this.sample1[index + 0]   = (this.soundArrays[7])[index];        // 16384
-    //   this.sample1[index + 0]  = (this.soundArrays[8])[index + 64];   // 16384
-    //   this.sample1[index + 64] = (this.soundArrays[7])[index + 64];   // 8192
-    //   this.sample1[index + 128] = (this.soundArrays[6])[index + 64];   // 4096
-    //   this.sample1[index + 192] = (this.soundArrays[5])[index + 64];   // 2048
-    //   this.sample1[index + 256] = (this.soundArrays[4])[index + 64];   // 1024
-    //   this.sample1[index + 320] = (this.soundArrays[3])[index + 64];   // 512
-    //   this.sample1[index + 384] = (this.soundArrays[2])[index + 64];   // 256 buckets
-    //   this.sample1[index + 448] = (this.soundArrays[1])[index + 64];   // 128 buckets
-    // }
-
-
-
     const averageBuckets = (s, e) => {
       let total = 0;
       for (let i = s; i <= e; i++) {
@@ -309,14 +293,10 @@ export class AudioService {
 
     const windowSize = 64;   // will be 64
     const windowCount = 8;  // will be 8
-    // const dataSize = 16384;    // will be 16384
-
 
     let targetIndex = 0;
     let startIndex = 0;
     let endIndex = 0;
-    // const span = 1;  // 1,2,4,8,16
-    // const newData = [];
 
     for (let span = 0; span < windowCount; span++) {
 
@@ -353,11 +333,6 @@ export class AudioService {
       }
 
     });
-
-    // console.log("Index: ",frHighIndex);
-
-    // this.sample1Normalized = this.normalizeData(this.sample1);
-
 
     //////////////////////////////////////
     // get TIME DOMAIN data for this frame

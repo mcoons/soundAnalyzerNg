@@ -27,7 +27,6 @@ export class BaseObject {
         this.paths = [];
         this.sideO = BABYLON.Mesh.DOUBLESIDE;
 
-        // this.eventBus = eventBus;
     }
 
     create() {
@@ -42,7 +41,6 @@ export class BaseObject {
         if (this.mesh) {
             this.mesh.dispose();
         }
-        // return `${this.name} reports destroy from BaseObject: ${this.mesh}`;
     }
 
 }

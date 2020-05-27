@@ -15,6 +15,29 @@ export class OptionsService {
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
 
+  colorTime = 0;
+  colorTimeInc = .002;
+  startingColorSet = 0;
+  endingColorSet = 1;
+
+  visuals = [
+    'blockPlaneManager',
+    'blockSpiralManager',
+    'equationManager',
+    'cubeManager',
+    'starManager',
+    'spectrograph',
+    'spherePlaneManagerSPS'
+  ];
+
+
+  constructor(public messageService: MessageService) {
+    this.resizeObservable$ = fromEvent(window, 'resize');
+    this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
+      this.windowResize();
+    });
+  }
+
   private options = {
 
     // general options
@@ -61,50 +84,56 @@ export class OptionsService {
       type: 'radio',
       label: 'Block Plane',
       value: 0,
-      checked: false
+      checked: false,
+      colorOptions: true
     },
-
     blockSpiralManager: {
       group: '3DVisual',
       type: 'radio',
       label: 'Block Spiral',
       value: 1,
-      checked: false
+      checked: false,
+      colorOptions: true
     },
     equationManager: {
       group: '3DVisual',
       type: 'radio',
       label: 'Equation',
       value: 2,
-      checked: true
+      checked: true,
+      colorOptions: true
     },
     cubeManager: {
       group: '3DVisual',
       type: 'radio',
       label: 'Cube',
       value: 3,
-      checked: false
+      checked: false,
+      colorOptions: false
     },
     starManager: {
       group: '3DVisual',
       type: 'radio',
       label: 'Stars',
       value: 4,
-      checked: false
+      checked: false,
+      colorOptions: false
     },
     spectrograph: {
       group: '3DVisual',
       type: 'radio',
       label: 'Spectrograph',
       value: 5,
-      checked: false
+      checked: false,
+      colorOptions: false
     },
     spherePlaneManagerSPS: {
       group: '3DVisual',
       type: 'radio',
       label: 'Sphere Plane SPS',
       value: 6,
-      checked: false
+      checked: false,
+      colorOptions: true
     },
 
     sampleGain: {
@@ -125,6 +154,24 @@ export class OptionsService {
       max: 9.9,
       step: .1
     },
+    randomizeColors: {
+      group: '3DVisual',
+      type: 'checkbox',
+      label: 'Animate Colors',
+      value: true,
+    },
+    minColor: {
+      group: '3DVisual',
+      type: 'color',
+      label: 'Minimum Color',
+      value: '#000000'
+    },
+    maxColor: {
+      group: '3DVisual',
+      type: 'color',
+      label: 'Maximum Color',
+      value: '#ff0000'
+    },
 
     // key highlight options
     currentNote: {
@@ -133,7 +180,6 @@ export class OptionsService {
       label: 'currentNote',
       value: 'None'
     },
-
     None: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -142,7 +188,6 @@ export class OptionsService {
       value: 0,
       checked: true
     },
-
     C: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -151,7 +196,6 @@ export class OptionsService {
       value: 33,
       checked: false
     },
-
     CSharp: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -160,7 +204,6 @@ export class OptionsService {
       value: 39,  ///////////////
       checked: false
     },
-
     D: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -169,7 +212,6 @@ export class OptionsService {
       value: 45,
       checked: false
     },
-
     DSharp: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -178,7 +220,6 @@ export class OptionsService {
       value: 52,  //////////////
       checked: false
     },
-
     E: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -187,7 +228,6 @@ export class OptionsService {
       value: 58,
       checked: false
     },
-
     F: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -196,7 +236,6 @@ export class OptionsService {
       value: 65,
       checked: false
     },
-
     FSharp: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -205,7 +244,6 @@ export class OptionsService {
       value: 69,  ///////////////
       checked: false
     },
-
     G: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -214,7 +252,6 @@ export class OptionsService {
       value: 73,
       checked: false
     },
-
     GSharp: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -223,7 +260,6 @@ export class OptionsService {
       value: 77,  ///////////////
       checked: false
     },
-
     A: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -232,7 +268,6 @@ export class OptionsService {
       value: 82,
       checked: false
     },
-
     ASharp: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -241,7 +276,6 @@ export class OptionsService {
       value: 87,  /////////////
       checked: false
     },
-
     B: {
       group: 'KeyHighlight',
       type: 'numeric',
@@ -307,11 +341,111 @@ export class OptionsService {
     }
   };
 
-  constructor(public messageService: MessageService) {
-    this.resizeObservable$ = fromEvent(window, 'resize');
-    this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
-      this.windowResize();
-    });
+  colors(yy) {
+    let r;
+    let g;
+    let b;
+
+    const colorSets = [
+        {
+            r: 128 - yy / 2,
+            g: yy,
+            b: 200 - yy * 2
+        },
+        {
+            r: yy,
+            g: 128 - yy / 2,
+            b: 200 - yy * 2
+        },
+        {
+            r: 128 - yy / 2,
+            g: 200 - yy * 2,
+            b: yy
+        },
+        {
+            r: 200 - yy * 2,
+            g: yy,
+            b: 128 - yy / 2
+        },
+        {
+            r: yy,
+            g: 200 - yy * 2,
+            b: 128 - yy / 2
+        },
+        {
+            r: 200 - yy * 2,
+            g: 128 - yy / 2,
+            b: yy
+        },
+        {
+            r: 255 - (128 - yy / 2),
+            g: 255 - yy,
+            b: 255 - (200 - yy * 2)
+        },
+        {
+            r: 255 - yy,
+            g: 255 - (128 - yy / 2),
+            b: 255 - (200 - yy * 2)
+        },
+        {
+            r: 255 - (128 - yy / 2),
+            g: 255 - (200 - yy * 2),
+            b: 255 - yy
+        },
+        {
+            r: 255 - (200 - yy * 2),
+            g: 255 - yy,
+            b: 255 - (128 - yy / 2)
+        },
+        {
+            r: 255 - yy,
+            g: 255 - (200 - yy * 2),
+            b: 255 - (128 - yy / 2)
+        },
+        {
+            r: 255 - (200 - yy * 2),
+            g: 255 - (128 - yy / 2),
+            b: 255 - yy
+        }
+    ];
+
+    const getOptionColor = (name, c) => {
+        let val = this.options[name].value;
+
+        if (c === 'r') {
+            return(val.substring(1, 3));
+        }
+
+        if (c === 'g') {
+            return(val.substring(3, 5));
+        }
+
+        if (c === 'b') {
+            return(val.substring(5));
+        }
+
+        // return val;
+    };
+
+    if (this.options.randomizeColors.value === true) {
+        // tslint:disable-next-line: max-line-length
+        r = colorSets[this.startingColorSet].r + (colorSets[this.endingColorSet].r - colorSets[this.startingColorSet].r) * this.colorTime;
+        // tslint:disable-next-line: max-line-length
+        g = colorSets[this.startingColorSet].g + (colorSets[this.endingColorSet].g - colorSets[this.startingColorSet].g) * this.colorTime;
+        // tslint:disable-next-line: max-line-length
+        b = colorSets[this.startingColorSet].b + (colorSets[this.endingColorSet].b - colorSets[this.startingColorSet].b) * this.colorTime;
+    } else {
+
+        // tslint:disable-next-line: max-line-length
+        r = parseInt( getOptionColor('minColor', 'r'), 16) + (parseInt( getOptionColor('maxColor', 'r'), 16) - parseInt( getOptionColor('minColor', 'r'), 16)) * yy/255;
+        // tslint:disable-next-line: max-line-length
+        g = parseInt( getOptionColor('minColor', 'g'), 16) + (parseInt( getOptionColor('maxColor', 'g'), 16) - parseInt( getOptionColor('minColor', 'g'), 16)) * yy/255;
+        // tslint:disable-next-line: max-line-length
+        b = parseInt( getOptionColor('minColor', 'b'), 16) + (parseInt( getOptionColor('maxColor', 'b'), 16) - parseInt( getOptionColor('minColor', 'b'), 16)) * yy/255;
+        // console.log('test');
+        // console.log(parseInt( getOptionColor('minColor', 'g'), 16));
+    }
+    return { r, g, b };
   }
 
   toggleOption(itemName: string) {
@@ -544,6 +678,36 @@ export class OptionsService {
     this.options.starManager.checked = value;
   }
 
+  
+
+  get randomizeColors(): boolean {
+    return this.options.randomizeColors.value;
+  }
+
+  set randomizeColors(value: boolean) {
+    this.options.randomizeColors.value = value;
+  }
+
+  get minColor(): string {
+    return this.options.minColor.value;
+  }
+
+  set minColor(value: string) {
+    this.options.minColor.value = value;
+  }
+
+
+  get maxColor(): string {
+    return this.options.maxColor.value;
+  }
+
+  set maxColor(value: string) {
+    this.options.maxColor.value = value;
+  }
+
+
+
+
   get currentTrack(): number {
     return this.state.currentTrack.value;
   }
@@ -575,6 +739,7 @@ export class OptionsService {
   set microphone(value: boolean) {
     this.state.microphone.value = value;
   }
+
 
 
 }
