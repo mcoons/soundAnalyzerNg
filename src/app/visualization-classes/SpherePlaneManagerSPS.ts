@@ -31,7 +31,7 @@ export class SpherePlaneManagerSPS {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .81; // 1
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1200;
 
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
         (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.2;
