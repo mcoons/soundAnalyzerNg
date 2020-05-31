@@ -39,7 +39,7 @@ export class Rings {
         this.scene.registerBeforeRender(this.beforeRender);
 
         this.optionsService.smoothingConstant = 5;
-        this.optionsService.sampleGain = 4;
+        this.optionsService.sampleGain = 15;
         this.messageService.announceMessage('sampleGain');
         this.messageService.announceMessage('smoothingConstant');
     }
@@ -124,10 +124,6 @@ export class Rings {
             this.mat.subMaterials[particle.idx].emissiveColor.g = this.optionsService.colors(yy).g / 255;
             this.mat.subMaterials[particle.idx].emissiveColor.b = this.optionsService.colors(yy).b / 255;
             
-
-
-
-
             // 0 = full     .2 = none
             let yo = map(yy,0,255,.2,0);
             (this.mat.subMaterials[particle.idx].diffuseTexture as BABYLON.Texture).vOffset = yo;
