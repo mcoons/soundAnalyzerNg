@@ -20,12 +20,12 @@ export class SplashScreenComponent {
 
   splashScreenOK() {
     this.optionsService.toggleOption('showPlayer');
-    this.optionsService.toggleOption('showBars');
-    this.optionsService.toggleOption('showWaveform');
+    // this.optionsService.toggleOption('showBars');
+    // this.optionsService.toggleOption('showWaveform');
     this.optionsService.toggleOption('showSplash');
-    this.optionsService.currentVisual = 0;
-    this.optionsService.toggleVisualRadio('equationManager', 2);
-    this.optionsService.toggleVisualRadio('blockPlaneManager', 0);
+    this.optionsService.currentVisual = 8;
+    this.optionsService.toggleVisualRadio('hex', 8);
+    // this.optionsService.toggleVisualRadio('blockPlaneManager', 0);
 
     this.messageService.announceMessage('scene change');
 

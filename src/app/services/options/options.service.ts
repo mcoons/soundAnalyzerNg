@@ -27,9 +27,15 @@ export class OptionsService {
     'cubeManager',
     'starManager',
     'spectrograph',
-    'spherePlaneManagerSPS'
+    'spherePlaneManagerSPS',
+    'rings',
+    // 'hills',
+    'hex'
   ];
 
+  notes = [
+    'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'None'
+  ];
 
   constructor(public messageService: MessageService) {
     this.resizeObservable$ = fromEvent(window, 'resize');
@@ -77,7 +83,12 @@ export class OptionsService {
       max: 10,
       step: .1
     },
-
+    showWireframe: {
+      group: 'Hidden',
+      type: 'checkbox',
+      label: 'Show Wireframe',
+      value: false
+    },
     // visual options
     blockPlaneManager: {
       group: '3DVisual',
@@ -130,8 +141,32 @@ export class OptionsService {
     spherePlaneManagerSPS: {
       group: '3DVisual',
       type: 'radio',
-      label: 'Sphere Plane SPS',
+      label: 'Sphere Plane',
       value: 6,
+      checked: false,
+      colorOptions: true
+    },
+    rings: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Rings',
+      value: 7,
+      checked: false,
+      colorOptions: true
+    },
+    // hills: {
+    //   group: '3DVisual',
+    //   type: 'radio',
+    //   label: 'Hills',
+    //   value: 8,
+    //   checked: false,
+    //   colorOptions: true
+    // },
+    hex: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Hex',
+      value: 8,
       checked: false,
       colorOptions: true
     },
@@ -175,7 +210,7 @@ export class OptionsService {
 
     // key highlight options
     currentNote: {
-      group: 'KeyHighlight',
+      group: 'Hidden',
       type: 'string',
       label: 'currentNote',
       value: 'None'
@@ -196,7 +231,7 @@ export class OptionsService {
       value: 33,
       checked: false
     },
-    CSharp: {
+    'C#': {
       group: 'KeyHighlight',
       type: 'numeric',
       label: 'C#',
@@ -212,7 +247,7 @@ export class OptionsService {
       value: 45,
       checked: false
     },
-    DSharp: {
+    'D#': {
       group: 'KeyHighlight',
       type: 'numeric',
       label: 'D#',
@@ -236,7 +271,7 @@ export class OptionsService {
       value: 65,
       checked: false
     },
-    FSharp: {
+    'F#': {
       group: 'KeyHighlight',
       type: 'numeric',
       label: 'F#',
@@ -252,7 +287,7 @@ export class OptionsService {
       value: 73,
       checked: false
     },
-    GSharp: {
+    'G#': {
       group: 'KeyHighlight',
       type: 'numeric',
       label: 'G#',
@@ -268,7 +303,7 @@ export class OptionsService {
       value: 82,
       checked: false
     },
-    ASharp: {
+    'A#': {
       group: 'KeyHighlight',
       type: 'numeric',
       label: 'A#',
@@ -437,11 +472,11 @@ export class OptionsService {
     } else {
 
         // tslint:disable-next-line: max-line-length
-        r = parseInt( getOptionColor('minColor', 'r'), 16) + (parseInt( getOptionColor('maxColor', 'r'), 16) - parseInt( getOptionColor('minColor', 'r'), 16)) * yy/255;
+        r = parseInt( getOptionColor('minColor', 'r'), 16) + (parseInt( getOptionColor('maxColor', 'r'), 16) - parseInt( getOptionColor('minColor', 'r'), 16)) * yy / 255;
         // tslint:disable-next-line: max-line-length
-        g = parseInt( getOptionColor('minColor', 'g'), 16) + (parseInt( getOptionColor('maxColor', 'g'), 16) - parseInt( getOptionColor('minColor', 'g'), 16)) * yy/255;
+        g = parseInt( getOptionColor('minColor', 'g'), 16) + (parseInt( getOptionColor('maxColor', 'g'), 16) - parseInt( getOptionColor('minColor', 'g'), 16)) * yy / 255;
         // tslint:disable-next-line: max-line-length
-        b = parseInt( getOptionColor('minColor', 'b'), 16) + (parseInt( getOptionColor('maxColor', 'b'), 16) - parseInt( getOptionColor('minColor', 'b'), 16)) * yy/255;
+        b = parseInt( getOptionColor('minColor', 'b'), 16) + (parseInt( getOptionColor('maxColor', 'b'), 16) - parseInt( getOptionColor('minColor', 'b'), 16)) * yy / 255;
         // console.log('test');
         // console.log(parseInt( getOptionColor('minColor', 'g'), 16));
     }
@@ -461,21 +496,36 @@ export class OptionsService {
   }
 
   toggleVisualRadio(itemName: string, index: number) {
-    this.options.blockPlaneManager.checked = (itemName === 'blockPlaneManager');
-    this.options.blockSpiralManager.checked = (itemName === 'blockSpiralManager');
-    this.options.cubeManager.checked = (itemName === 'cubeManager');
-    this.options.equationManager.checked = (itemName === 'equationManager');
+    this.visuals.forEach( v => {
+      this.options[v].checked = (itemName === v);
+    });
+
+    // this.options.blockPlaneManager.checked = (itemName === 'blockPlaneManager');
+    // this.options.blockSpiralManager.checked = (itemName === 'blockSpiralManager');
+    // this.options.cubeManager.checked = (itemName === 'cubeManager');
+    // this.options.equationManager.checked = (itemName === 'equationManager');
+    // this.options.starManager.checked = (itemName === 'starManager');
+    // this.options.spectrograph.checked = (itemName === 'spectrograph');
+    // this.options.spherePlaneManagerSPS.checked = (itemName === 'spherePlaneManagerSPS');
+    // this.options.rings.checked = (itemName === 'rings');
+    // this.options.hills.checked = (itemName === 'hills');
+    // this.options.hex.checked = (itemName === 'hex');
+
   }
 
   toggleNoteRadio(itemName: string, index: number) {
-    this.options.A.checked = (itemName === 'A');
-    this.options.B.checked = (itemName === 'B');
-    this.options.C.checked = (itemName === 'C');
-    this.options.D.checked = (itemName === 'D');
-    this.options.E.checked = (itemName === 'E');
-    this.options.F.checked = (itemName === 'F');
-    this.options.G.checked = (itemName === 'G');
-    this.options.None.checked = (itemName === 'None');
+    this.notes.forEach( n => {
+      this.options[n].checked = (itemName === n);
+    });
+
+    // this.options.A.checked = (itemName === 'A');
+    // this.options.B.checked = (itemName === 'B');
+    // this.options.C.checked = (itemName === 'C');
+    // this.options.D.checked = (itemName === 'D');
+    // this.options.E.checked = (itemName === 'E');
+    // this.options.F.checked = (itemName === 'F');
+    // this.options.G.checked = (itemName === 'G');
+    // this.options.None.checked = (itemName === 'None');
   }
 
   setOption(itemName: string, value) {
@@ -556,6 +606,14 @@ export class OptionsService {
 
   set showBars(value: boolean) {
     this.options.showBars.value = value;
+  }
+
+  get showWireframe() {
+    return this.options.showWireframe.value;
+  }
+
+  set showWireframe(value) {
+    this.options.showWireframe.value = value;
   }
 
   get renderPlayer(): boolean {
@@ -704,8 +762,6 @@ export class OptionsService {
   set maxColor(value: string) {
     this.options.maxColor.value = value;
   }
-
-
 
 
   get currentTrack(): number {

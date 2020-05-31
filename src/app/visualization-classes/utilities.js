@@ -154,7 +154,8 @@ function getBiasedGlowMaterial(colorBias, scene) {
     mat.diffuseColor = color;
     mat.specularColor = new BABYLON.Color3(r * .1, g * .1, b * .1);
     mat.ambientColor = new BABYLON.Color3(r * .25, g * .25, b * .25);
-    // mat.emissiveColor = new BABYLON.Color3(r, g, b);
+    mat.emissiveColor = new BABYLON.Color3(r, g, b);
+    // mat.emissiveColor = new BABYLON.Color3(1, 1, 1);
     // mat.alpha = .5;
 
     

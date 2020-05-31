@@ -3,6 +3,7 @@ import * as BABYLON from 'babylonjs';
 import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
+import { EngineService } from '../services/engine/engine.service';
 
 export class Particles {
 
@@ -14,7 +15,7 @@ export class Particles {
     SPS;
     mat;
 
-    constructor(scene, audioService, optionsService, messageService) {
+    constructor(scene, audioService, optionsService, messageService, engineService) {
 
         this.scene = scene;
         this.audioService = audioService;

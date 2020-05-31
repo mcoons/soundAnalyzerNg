@@ -3,6 +3,7 @@ import * as BABYLON from 'babylonjs';
 import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
+import { EngineService } from '../services/engine/engine.service';
 
 export class Spectrograph {
 
@@ -10,11 +11,12 @@ export class Spectrograph {
     private audioService: AudioService;
     private optionsService: OptionsService;
     private messageService: MessageService;
+
     private ground;
     private groundVertices;
     private colorsBuffer;
 
-    constructor(scene, audioService, optionsService, messageService) {
+    constructor(scene, audioService, optionsService, messageService, engineService) {
 
         this.scene = scene;
         this.audioService = audioService;
@@ -24,7 +26,7 @@ export class Spectrograph {
     }
 
     create() {
-        console.log(this.audioService.getSample().length);
+        // console.log(this.audioService.getSample().length);
         // tslint:disable-next-line: max-line-length
         this.ground = BABYLON.MeshBuilder.CreateGround('ground1', { width: 2, height: 1, subdivisionsX: this.audioService.getSample().length  - 1, subdivisionsY: 150, updatable: true }, this.scene); // 550
         this.ground.material = new BABYLON.StandardMaterial('gmat', this.scene);
@@ -32,12 +34,12 @@ export class Spectrograph {
         this.ground.material.specularColor = new BABYLON.Color3(0, 0, 0); // black is no shine
         // this.ground.material.wireframe = true;
 
-        this.ground.scaling = new BABYLON.Vector3(400, .25, 400);
+        this.ground.scaling = new BABYLON.Vector3(350, .25, 350);
 
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -50, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.7124;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .85;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1155;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
 
         this.optionsService.smoothingConstant = 1;
         this.optionsService.sampleGain = 1;
@@ -45,7 +47,6 @@ export class Spectrograph {
         this.messageService.announceMessage('smoothingConstant');
 
         this.groundVertices = this.ground.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-
     }
 
     update() {
@@ -76,6 +77,8 @@ export class Spectrograph {
                 yVertexDataIndex += 3;
             }
         }
+
+        this.ground.material.wireframe = this.optionsService.showWireframe;
 
         // update the 3D babylon ground plane
         this.ground.updateVerticesData(BABYLON.VertexBuffer.PositionKind, this.groundVertices);

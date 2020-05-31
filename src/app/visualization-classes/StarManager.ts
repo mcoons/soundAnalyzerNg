@@ -3,6 +3,7 @@ import * as BABYLON from 'babylonjs';
 import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
+import { EngineService } from '../services/engine/engine.service';
 
 import {
     Star
@@ -26,7 +27,7 @@ export class StarManager {
 
     masterTransform;
 
-    constructor(scene, audioService, optionsService, messageService) {
+    constructor(scene, audioService, optionsService, messageService, engineService) {
 
         this.scene = scene;
 
@@ -43,7 +44,7 @@ export class StarManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 745;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 800;
 
         this.optionsService.smoothingConstant = 8;
         this.optionsService.sampleGain = 10;

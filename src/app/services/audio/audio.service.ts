@@ -105,6 +105,8 @@ export class AudioService {
           this.setGain();
         }
         if (this.audio != null && message === 'smoothingConstant') {
+          // console.log(this.optionsService.smoothingConstant);
+          this.smoothingConstant = this.optionsService.smoothingConstant/10;
           this.setSmoothingConstant();
         }
       });
@@ -174,21 +176,21 @@ export class AudioService {
     this.fr4096Analyser.fftSize = 8192;
     this.fr4096Analyser.minDecibels = this.minDecibels;
     this.fr4096Analyser.maxDecibels = this.maxDecibels;
-    this.fr4096Analyser.smoothingTimeConstant = this.smoothingConstant;
+    this.fr4096Analyser.smoothingTimeConstant = this.smoothingConstant*.8;
 
 
     this.fr8192Analyser = this.audioCtx.createAnalyser();
     this.fr8192Analyser.fftSize = 16384;
     this.fr8192Analyser.minDecibels = this.minDecibels;
     this.fr8192Analyser.maxDecibels = this.maxDecibels;
-    this.fr8192Analyser.smoothingTimeConstant = this.smoothingConstant;
+    this.fr8192Analyser.smoothingTimeConstant = this.smoothingConstant*.6;
 
 
     this.fr16384Analyser = this.audioCtx.createAnalyser();
     this.fr16384Analyser.fftSize = 32768;
     this.fr16384Analyser.minDecibels = this.minDecibels;
     this.fr16384Analyser.maxDecibels = this.maxDecibels;
-    this.fr16384Analyser.smoothingTimeConstant = this.smoothingConstant;
+    this.fr16384Analyser.smoothingTimeConstant = this.smoothingConstant*.4;
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
     // this.tdAnalyser.fftSize = 16384;
@@ -421,9 +423,19 @@ export class AudioService {
   }
 
   setSmoothingConstant() {
-    this.analyzersArray.forEach(aa => {
-      aa.smoothingTimeConstant = this.optionsService.smoothingConstant / 10;
-    });
+    // this.analyzersArray.forEach(aa => {
+    //   aa.smoothingTimeConstant = this.optionsService.smoothingConstant / 10;
+    // });
+    this.fr64Analyser.smoothingTimeConstant = this.smoothingConstant;
+    this.fr128Analyser.smoothingTimeConstant = this.smoothingConstant;
+    this.fr256Analyser.smoothingTimeConstant = this.smoothingConstant;
+    this.fr512Analyser.smoothingTimeConstant = this.smoothingConstant;
+    this.fr1024Analyser.smoothingTimeConstant = this.smoothingConstant;
+    this.fr2048Analyser.smoothingTimeConstant = this.smoothingConstant;
+    this.fr4096Analyser.smoothingTimeConstant = this.smoothingConstant*.8;
+    this.fr8192Analyser.smoothingTimeConstant = this.smoothingConstant*.6;
+    this.fr16384Analyser.smoothingTimeConstant = this.smoothingConstant*.4;
+
   }
 
   disableMic() {
