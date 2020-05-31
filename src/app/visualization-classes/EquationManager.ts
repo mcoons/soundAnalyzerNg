@@ -3,6 +3,7 @@ import * as BABYLON from 'babylonjs';
 import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
+import { EngineService } from '../services/engine/engine.service';
 
 export class EquationManager {
 
@@ -25,8 +26,17 @@ export class EquationManager {
     private cameraMoveDir;
     private thetaDelta;
 
+    mat;
+    mat2;
+    mat3;
+    mat4;
+    mat5;
+    mat6;
+    mat7;
+    mat8;
 
-    constructor(scene, audioService, optionsService, messageService) {
+
+    constructor(scene, audioService, optionsService, messageService, engineService) {
 
         this.scene = scene;
         this.audioService = audioService;
@@ -51,7 +61,7 @@ export class EquationManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1350;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
 
         this.optionsService.smoothingConstant = 9;
         this.optionsService.sampleGain = 4;
@@ -85,10 +95,10 @@ export class EquationManager {
             thing.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
 
-            const mat = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat.specularColor = new BABYLON.Color3(.5, .5, .5);
-            mat.backFaceCulling = true;
-            thing.material = mat;
+            this.mat = new BABYLON.StandardMaterial('matSpiral', this.scene);
+            this.mat.specularColor = new BABYLON.Color3(.2, .2, .2);
+            this.mat.backFaceCulling = true;
+            thing.material = this.mat;
 
             thing.parent = this.wheel1Master;
             this.objects1.push(thing);
@@ -101,10 +111,10 @@ export class EquationManager {
             thing2.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing2.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
 
-            const mat2 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat2.specularColor = new BABYLON.Color3(.5, .5, .5);
-            mat2.backFaceCulling = true;
-            thing2.material = mat2;
+            this.mat2 = new BABYLON.StandardMaterial('matSpiral', this.scene);
+            this.mat2.specularColor = new BABYLON.Color3(.2, .2, .2);
+            this.mat2.backFaceCulling = true;
+            thing2.material = this.mat2;
 
             thing2.parent = this.wheel1Master;
             this.objects2.push(thing2);
@@ -117,10 +127,10 @@ export class EquationManager {
             thing3.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing3.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
 
-            const mat3 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat3.specularColor = new BABYLON.Color3(.5, .5, .5);
-            mat3.backFaceCulling = true;
-            thing3.material = mat3;
+            this.mat3 = new BABYLON.StandardMaterial('matSpiral', this.scene);
+            this.mat3.specularColor = new BABYLON.Color3(.2, .2, .2);
+            this.mat3.backFaceCulling = true;
+            thing3.material = this.mat3;
 
             thing3.parent = this.wheel1Master;
             this.objects3.push(thing3);
@@ -133,10 +143,10 @@ export class EquationManager {
             thing4.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing4.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
 
-            const mat4 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat4.specularColor = new BABYLON.Color3(.5, .5, .5);
-            mat4.backFaceCulling = true;
-            thing4.material = mat4;
+            this.mat4 = new BABYLON.StandardMaterial('matSpiral', this.scene);
+            this.mat4.specularColor = new BABYLON.Color3(.2, .2, .2);
+            this.mat4.backFaceCulling = true;
+            thing4.material = this.mat4;
 
             thing4.parent = this.wheel1Master;
             this.objects4.push(thing4);
@@ -149,10 +159,10 @@ export class EquationManager {
             thing5.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing5.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
 
-            const mat5 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat5.specularColor = new BABYLON.Color3(.5, .5, .5);
-            mat5.backFaceCulling = true;
-            thing5.material = mat5;
+            this.mat5 = new BABYLON.StandardMaterial('matSpiral', this.scene);
+            this.mat5.specularColor = new BABYLON.Color3(.2, .2, .2);
+            this.mat5.backFaceCulling = true;
+            thing5.material = this.mat5;
 
             thing5.parent = this.wheel1Master;
             this.objects5.push(thing5);
@@ -165,10 +175,10 @@ export class EquationManager {
             thing6.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing6.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
 
-            const mat6 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat6.specularColor = new BABYLON.Color3(.5, .5, .5);
-            mat6.backFaceCulling = true;
-            thing6.material = mat6;
+            this.mat6 = new BABYLON.StandardMaterial('matSpiral', this.scene);
+            this.mat6.specularColor = new BABYLON.Color3(.2, .2, .2);
+            this.mat6.backFaceCulling = true;
+            thing6.material = this.mat6;
 
             thing6.parent = this.wheel1Master;
             this.objects6.push(thing6);
@@ -181,10 +191,10 @@ export class EquationManager {
             thing7.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing7.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
 
-            const mat7 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat7.specularColor = new BABYLON.Color3(.5, .5, .5);
-            mat7.backFaceCulling = true;
-            thing7.material = mat7;
+            this.mat7 = new BABYLON.StandardMaterial('matSpiral', this.scene);
+            this.mat7.specularColor = new BABYLON.Color3(.2, .2, .2);
+            this.mat7.backFaceCulling = true;
+            thing7.material = this.mat7;
 
             thing7.parent = this.wheel1Master;
             this.objects7.push(thing7);
@@ -197,16 +207,19 @@ export class EquationManager {
             thing8.position.z = radius * Math.sin(theta + this.thetaDelta);
             thing8.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
 
-            const mat8 = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            mat8.specularColor = new BABYLON.Color3(.5, .5, .5);
-            mat8.backFaceCulling = true;
-            thing8.material = mat8;
+            this.mat8 = new BABYLON.StandardMaterial('matSpiral', this.scene);
+            this.mat8.specularColor = new BABYLON.Color3(.2, .2, .2);
+            this.mat8.backFaceCulling = true;
+            thing8.material = this.mat8;
 
             thing8.parent = this.wheel1Master;
             this.objects8.push(thing8);
         }
 
         master.dispose();
+        this.wheel1Master.scaling.x = .8;
+        this.wheel1Master.scaling.y = .8;
+        this.wheel1Master.scaling.z = .8;
     }
 
     update() {
@@ -226,6 +239,8 @@ export class EquationManager {
                 this.cameraMoveDir *= -1;
             }
         }
+
+
 
         const radius = 200;
         let index = 0;
@@ -330,8 +345,19 @@ export class EquationManager {
             this.objects8[index].material.diffuseColor.b  = this.optionsService.colors(y).b / 255;
             this.objects8[index].scaling.y = 1 + y / scalingDenom;
 
+            this.objects1[index].material.wireframe = this.optionsService.showWireframe;
+            this.objects2[index].material.wireframe = this.optionsService.showWireframe;
+            this.objects3[index].material.wireframe = this.optionsService.showWireframe;
+            this.objects4[index].material.wireframe = this.optionsService.showWireframe;
+            this.objects5[index].material.wireframe = this.optionsService.showWireframe;
+            this.objects6[index].material.wireframe = this.optionsService.showWireframe;
+            this.objects7[index].material.wireframe = this.optionsService.showWireframe;
+            this.objects8[index].material.wireframe = this.optionsService.showWireframe;
+
             index++;
         }
+
+        // this.mat.wireframe = this.optionsService.showWireframe;
 
 
         this.wheel1Master.rotation.y += .01;

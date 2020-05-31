@@ -3,6 +3,7 @@ import * as BABYLON from 'babylonjs';
 import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
+import { EngineService } from '../services/engine/engine.service';
 
 export class CubeManager {
 
@@ -15,7 +16,7 @@ export class CubeManager {
     private mesh;
     private mat;
 
-    constructor(scene, audioService, optionsService, messageService) {
+    constructor(scene, audioService, optionsService, messageService, engineService) {
 
         this.scene = scene;
         this.audioService = audioService;
@@ -25,7 +26,7 @@ export class CubeManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -40, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = Math.PI / 2;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = Math.PI / 2;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 800;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
 
         this.optionsService.smoothingConstant = 7;
         this.optionsService.sampleGain = 1;
@@ -37,6 +38,7 @@ export class CubeManager {
 
     beforeRender = () => {
         this.SPS.setParticles();
+        this.mat.wireframe = this.optionsService.showWireframe;
     }
 
     create() {

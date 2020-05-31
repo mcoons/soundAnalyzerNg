@@ -3,6 +3,7 @@ import * as BABYLON from 'babylonjs';
 import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
+import { EngineService } from '../services/engine/engine.service';
 
 export class BlockPlaneManager {
 
@@ -15,7 +16,7 @@ export class BlockPlaneManager {
     private mesh;
     private mat;
 
-    constructor(scene, audioService, optionsService, messageService) {
+    constructor(scene, audioService, optionsService, messageService, engineService) {
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
@@ -24,7 +25,7 @@ export class BlockPlaneManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 2600;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
 
         this.optionsService.smoothingConstant = 7;
         this.optionsService.sampleGain = 4;
@@ -36,6 +37,7 @@ export class BlockPlaneManager {
 
     beforeRender = () => {
         this.SPS.setParticles();
+        this.mat.wireframe = this.optionsService.showWireframe;
     }
 
     create() {
@@ -46,6 +48,7 @@ export class BlockPlaneManager {
         this.mat.backFaceCulling = true;
         this.mat.specularColor = new BABYLON.Color3(.1, .1, .1);
         this.mat.ambientColor = new BABYLON.Color3(.25, .25, .25);
+
 
         const myPositionFunction = (particle, i, s) => {
             particle.position.x = (x - 31.5) * 30;
@@ -71,13 +74,15 @@ export class BlockPlaneManager {
 
         this.mesh = this.SPS.buildMesh();
         this.mesh.material = this.mat;
+        this.mesh.scaling.x = .4;
+        this.mesh.scaling.z = .4;
 
         this.SPS.updateParticle = (particle) => {
 
             let yy = this.audioService.getSample()[particle.idx];
             yy = (yy / 200 * yy / 200) * 255;
 
-            particle.scaling.y = yy * .5 + .01;
+            particle.scaling.y = yy * .2 + .01;
             particle.position.y = particle.scaling.y / 2;
 
             particle.color.r = this.optionsService.colors(yy).r / 255;
