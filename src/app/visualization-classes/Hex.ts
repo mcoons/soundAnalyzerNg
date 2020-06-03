@@ -48,10 +48,10 @@ export class Hex {
         this.scene.registerBeforeRender(this.beforeRender);
         // this.scene.registerAfterRender(this.afterRender);
 
-        this.optionsService.smoothingConstant = 5;
-        this.optionsService.sampleGain = 4;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 5;
+        // this.optionsService.sampleGain = 4;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
 
     }
 
@@ -68,9 +68,11 @@ export class Hex {
             this.rotation = 0;
         }
 
+        // // this.engineService.finalHexGround.rotation.y = this.rotation;
+        // // this.groundCover.rotation.y = this.rotation;
+
+
         this.engineService.hexSPS.mesh.rotation.y = this.rotation;
-        // this.engineService.finalHexGround.rotation.y = this.rotation;
-        // this.groundCover.rotation.y = this.rotation;
         this.groundParent.rotation.y = this.rotation;
 
     }
@@ -84,7 +86,7 @@ export class Hex {
         this.engineService.finalHexGround.setEnabled(true);
 
         this.engineService.hexMesh.setEnabled(true);
-        var matGroundCover = new BABYLON.StandardMaterial('mat1', this.scene);
+        const matGroundCover = new BABYLON.StandardMaterial('mat1', this.scene);
         matGroundCover.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse1.jpg', this.scene);
         matGroundCover.bumpTexture = new BABYLON.Texture('../../assets/mats/normal1.jpg', this.scene);
         (matGroundCover.diffuseTexture as BABYLON.Texture).vScale = 2;
@@ -92,46 +94,48 @@ export class Hex {
         (matGroundCover.diffuseTexture as BABYLON.Texture).uScale = 100;
         (matGroundCover.bumpTexture as BABYLON.Texture).uScale = 100;
 
-        var matGround = new BABYLON.StandardMaterial('mat1', this.scene);
+        const matGround = new BABYLON.StandardMaterial('mat1', this.scene);
         matGround.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse2.jpg', this.scene);
         matGround.bumpTexture = new BABYLON.Texture('../../assets/mats/normal2.jpg', this.scene);
         // matGround.diffuseTexture.vScale = 2;
         // matGround.bumpTexture.vScale = 2;
-        // matGround.diffuseTexture.uScale = 100;
-        // matGround.bumpTexture.uScale = 100;
+        (matGround.diffuseTexture as BABYLON.Texture).uScale = 10;
+        (matGround.diffuseTexture as BABYLON.Texture).vScale = 10;
+        (matGround.bumpTexture as BABYLON.Texture).uScale = 10;
+        (matGround.bumpTexture as BABYLON.Texture).vScale = 10;
 
         this.engineService.finalHexGround.material = matGround;
         this.engineService.finalHexGround.parent = this.groundParent;
 
+        const path = [];
+        const segLength = 100;
+        // const numSides = 44;
+        const numSides = 6;
 
-        var path = [];
-
-        var segLength = 100;
-        var numSides = 44;
-
-        var mat = new BABYLON.StandardMaterial('mat1', this.scene);
+        const mat = new BABYLON.StandardMaterial('mat1', this.scene);
         mat.diffuseColor = new BABYLON.Color3(1, 1, 1);
         mat.backFaceCulling = false;
 
-
-
-        for (var i = -1; i <= 0; i++) {
-            var x = (i / 2) * segLength;
-            var y = 0;
-            var z = 0;
+        for (let i = -1; i <= 0; i++) {
+            let x = (i / 2) * segLength;
+            const y = 0;
+            const z = 0;
             path.push(new BABYLON.Vector3(x, y, z));
-
         }
-        this.groundCover = BABYLON.Mesh.CreateTube('tube', path, 378, numSides, null, 0, this.scene);
+
+        // this.groundCover = BABYLON.Mesh.CreateTube('tube', path, 378, numSides, null, 0, this.scene);
+        this.groundCover = BABYLON.Mesh.CreateTube('tube', path, 441, numSides, null, 0, this.scene);
         this.groundCover.rotation.z = Math.PI / 2;
+        this.groundCover.rotation.y = Math.PI / 6;
+        
         this.groundCover.material = matGroundCover;
         this.groundCover.convertToFlatShadedMesh();
-        this.groundCover.scaling.y = 1.13;
+        // this.groundCover.scaling.y = 1.13;
         this.groundCover.position.y = 6;
 
         this.groundCover.parent = this.groundParent;
 
-        var matTube = new BABYLON.StandardMaterial('mat1', this.scene);
+        const matTube = new BABYLON.StandardMaterial('mat1', this.scene);
         matTube.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse3.jpg', this.scene);
         matTube.bumpTexture = new BABYLON.Texture('../../assets/mats/normal3.jpg', this.scene);
         // matTube.diffuseTexture.vScale = 50;
@@ -139,21 +143,25 @@ export class Hex {
         // matTube.bumpTexture.vScale = 2;
         // matTube.bumpTexture.uScale = 100;
 
-        this.tube1 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 750, thickness: 13, tessellation: 44 }, this.scene);
+        // this.tube1 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 750, thickness: 13, tessellation: 44 }, this.scene);
+        this.tube1 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 880, thickness: 13, tessellation: 6 }, this.scene);
         this.tube1.material = mat;
         this.tube1.position.y = 7.5;
         this.tube1.parent = this.groundParent;
-        this.tube1.scaling.x = 1.13;
+        // this.tube1.scaling.x = 1.13;
         this.tube1.scaling.y = .5;
         this.tube1.material = matTube;
+        this.tube1.rotation.y = Math.PI / 6;
 
 
-        this.tube2 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 750, thickness: 13, tessellation: 44 }, this.scene);
+        // this.tube2 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 750, thickness: 13, tessellation: 44 }, this.scene);
+        this.tube2 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 880, thickness: 13, tessellation: 6 }, this.scene);
         this.tube2.material = mat;
         this.tube2.position.y = -48;
         this.tube2.parent = this.groundParent;
-        this.tube2.scaling.x = 1.13;
+        // this.tube2.scaling.x = 1.13;
         this.tube2.material = matTube;
+        this.tube2.rotation.y = Math.PI/6;
 
 
 

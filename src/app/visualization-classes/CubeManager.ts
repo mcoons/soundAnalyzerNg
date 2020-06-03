@@ -28,10 +28,10 @@ export class CubeManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = Math.PI / 2;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
 
-        this.optionsService.smoothingConstant = 7;
-        this.optionsService.sampleGain = 1;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 7;
+        // this.optionsService.sampleGain = 1;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
 
         this.scene.registerBeforeRender(this.beforeRender);
     }

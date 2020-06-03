@@ -46,10 +46,10 @@ export class StarManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 800;
 
-        this.optionsService.smoothingConstant = 8;
-        this.optionsService.sampleGain = 10;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 8;
+        // this.optionsService.sampleGain = 10;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
 
     }
 

@@ -9,7 +9,7 @@ function buildPalettes(palette, paletteGlow, paletteRed, paletteGreen, paletteBl
         g = 0,
         b = 0;
 
-    for (g = 0; g <= 255; g++) {
+    for (let g = 0; g <= 255; g++) {
 
         // add to full scectrum ROYGBIV palettes [0..1529] - in all loops below
         addToPalette(r, g, b, palette, 1, false, scene);

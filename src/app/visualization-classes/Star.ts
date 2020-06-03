@@ -90,7 +90,6 @@ export class Star extends BaseObject {
             this.paths.push(path);
         }
 
-
         this.mesh = BABYLON.MeshBuilder.CreateRibbon('ribbon',
         { pathArray: this.paths, sideOrientation: BABYLON.Mesh.DOUBLESIDE, updatable: true },
         this.scene);

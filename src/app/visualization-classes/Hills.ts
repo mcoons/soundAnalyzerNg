@@ -39,10 +39,10 @@ export class Hills {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = Math.PI / 4;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
 
-        this.optionsService.smoothingConstant = 1;
-        this.optionsService.sampleGain = 1;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 1;
+        // this.optionsService.sampleGain = 1;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
 
     }
 
@@ -55,8 +55,8 @@ export class Hills {
 
         for (this.x = Math.round(-w / 2); this.x <= w / 2; this.x++) {
 
-            var paths = [];
-            var paths2 = [];
+            const paths = [];
+            const paths2 = [];
 
             let x2 = this.x;
             let y2 = 0;
@@ -90,8 +90,8 @@ export class Hills {
 
             }
 
-            var ribbon = BABYLON.MeshBuilder.CreateRibbon("ribbon", { pathArray: [paths, paths2] }, this.scene);
-            let mat = new BABYLON.StandardMaterial("myMaterial", this.scene);
+            const ribbon = BABYLON.MeshBuilder.CreateRibbon('ribbon', { pathArray: [paths, paths2] }, this.scene);
+            const mat = new BABYLON.StandardMaterial('myMaterial', this.scene);
             mat.backFaceCulling = false;
             ribbon.material = mat;
             this.objects.push(ribbon);

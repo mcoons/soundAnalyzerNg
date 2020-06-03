@@ -77,9 +77,9 @@ export class AudioService {
 
   highFreq = 0;
 
-  tdHistory: any;
+  tdHistory = [];
 
-  tdHistoryArraySize = 64;
+  tdHistoryArraySize = 50;
 
   sample1: Uint8Array = new Uint8Array(576);
   sample1Normalized: Uint8Array = new Uint8Array(576);
@@ -106,7 +106,7 @@ export class AudioService {
         }
         if (this.audio != null && message === 'smoothingConstant') {
           // console.log(this.optionsService.smoothingConstant);
-          this.smoothingConstant = this.optionsService.smoothingConstant/10;
+          this.smoothingConstant = this.optionsService.smoothingConstant / 10;
           this.setSmoothingConstant();
         }
       });
@@ -176,21 +176,21 @@ export class AudioService {
     this.fr4096Analyser.fftSize = 8192;
     this.fr4096Analyser.minDecibels = this.minDecibels;
     this.fr4096Analyser.maxDecibels = this.maxDecibels;
-    this.fr4096Analyser.smoothingTimeConstant = this.smoothingConstant*.8;
+    this.fr4096Analyser.smoothingTimeConstant = this.smoothingConstant * .8;
 
 
     this.fr8192Analyser = this.audioCtx.createAnalyser();
     this.fr8192Analyser.fftSize = 16384;
     this.fr8192Analyser.minDecibels = this.minDecibels;
     this.fr8192Analyser.maxDecibels = this.maxDecibels;
-    this.fr8192Analyser.smoothingTimeConstant = this.smoothingConstant*.6;
+    this.fr8192Analyser.smoothingTimeConstant = this.smoothingConstant * .6;
 
 
     this.fr16384Analyser = this.audioCtx.createAnalyser();
     this.fr16384Analyser.fftSize = 32768;
     this.fr16384Analyser.minDecibels = this.minDecibels;
     this.fr16384Analyser.maxDecibels = this.maxDecibels;
-    this.fr16384Analyser.smoothingTimeConstant = this.smoothingConstant*.4;
+    this.fr16384Analyser.smoothingTimeConstant = this.smoothingConstant * .4;
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
     // this.tdAnalyser.fftSize = 16384;
@@ -203,7 +203,7 @@ export class AudioService {
     this.tdDataArray = new Uint8Array(this.tdBufferLength);
     this.tdDataArrayNormalized = new Uint8Array(this.tdBufferLength);
 
-    this.tdHistory = Array(this.tdHistoryArraySize).fill(0);
+    // this.tdHistory = Array(this.tdHistoryArraySize).fill(0);
 
     this.clearSampleArrays();
 
@@ -243,6 +243,15 @@ export class AudioService {
       this.sample1BufferHistory.push(frTemp);
     }
 
+
+    for (let index = 0; index < this.tdHistoryArraySize; index++) {
+
+      let tdTemp = [];
+      tdTemp = Array(this.tdBufferLength).fill(0);
+      this.tdHistory.push(tdTemp);
+    }
+
+
     this.soundArrays = [
       this.fr64DataArray,  // 0
       this.fr128DataArray, // 1
@@ -254,6 +263,14 @@ export class AudioService {
       this.fr8192DataArray,
       this.fr16384DataArray // 8
     ];
+
+    // setInterval( () => {
+    //   if (this.audio != null) {
+    //     this.analyzeData();
+    //   }
+    // }, 10);
+
+
   }
 
 
@@ -354,10 +371,10 @@ export class AudioService {
     // });
 
     // normalize the data   0..1
-    this.tdDataArrayNormalized = this.normalizeData(this.tdDataArray);
+    // this.tdDataArrayNormalized = this.normalizeData(this.tdDataArray);
 
     // TODO: historical data for wave form       TODO:    TODO:
-    this.tdHistory.push(this.highTD);
+    this.tdHistory.push(this.tdDataArray.slice(0));
     if (this.tdHistory.length > this.tdHistoryArraySize) {
       this.tdHistory.shift();
     }
@@ -432,9 +449,9 @@ export class AudioService {
     this.fr512Analyser.smoothingTimeConstant = this.smoothingConstant;
     this.fr1024Analyser.smoothingTimeConstant = this.smoothingConstant;
     this.fr2048Analyser.smoothingTimeConstant = this.smoothingConstant;
-    this.fr4096Analyser.smoothingTimeConstant = this.smoothingConstant*.8;
-    this.fr8192Analyser.smoothingTimeConstant = this.smoothingConstant*.6;
-    this.fr16384Analyser.smoothingTimeConstant = this.smoothingConstant*.4;
+    this.fr4096Analyser.smoothingTimeConstant = this.smoothingConstant * .8;
+    this.fr8192Analyser.smoothingTimeConstant = this.smoothingConstant * .6;
+    this.fr16384Analyser.smoothingTimeConstant = this.smoothingConstant * .4;
 
   }
 

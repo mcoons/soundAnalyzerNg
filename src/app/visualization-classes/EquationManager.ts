@@ -63,10 +63,10 @@ export class EquationManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
 
-        this.optionsService.smoothingConstant = 9;
-        this.optionsService.sampleGain = 4;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 9;
+        // this.optionsService.sampleGain = 4;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
 
     }
 
@@ -227,7 +227,6 @@ export class EquationManager {
         const TwoPI = PI * 2;
         const PId2 = PI / 2;
         const PId32 = PI / 32;
-
         const loopMax = TwoPI - PId32;
 
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta += this.cameraMoveDir;
@@ -239,8 +238,6 @@ export class EquationManager {
                 this.cameraMoveDir *= -1;
             }
         }
-
-
 
         const radius = 200;
         let index = 0;
@@ -358,7 +355,6 @@ export class EquationManager {
         }
 
         // this.mat.wireframe = this.optionsService.showWireframe;
-
 
         this.wheel1Master.rotation.y += .01;
 

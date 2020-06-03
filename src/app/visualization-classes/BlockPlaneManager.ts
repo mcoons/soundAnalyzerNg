@@ -27,10 +27,10 @@ export class BlockPlaneManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
 
-        this.optionsService.smoothingConstant = 7;
-        this.optionsService.sampleGain = 4;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 7;
+        // this.optionsService.sampleGain = 4;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
 
         this.scene.registerBeforeRender(this.beforeRender);
     }
@@ -60,8 +60,8 @@ export class BlockPlaneManager {
         this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
 
         const box = BABYLON.MeshBuilder.CreateBox(('box'), {
-            width: 30,
-            depth: 60
+            width: 25,
+            depth: 50
         }, this.scene);
 
         for (z = (this.audioService.getSample().length / 64); z >= 0; z--) {  // 8

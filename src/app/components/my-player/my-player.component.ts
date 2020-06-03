@@ -281,6 +281,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     // console.log('entered file change event');
     const newUserTracks = [];
 
+    // tslint:disable-next-line: prefer-for-of
     for (let index = 0; index < fileInput.target.files.length; index++) {
       const element = fileInput.target.files[index];
       newUserTracks.push(

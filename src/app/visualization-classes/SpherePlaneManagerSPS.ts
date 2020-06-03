@@ -39,11 +39,11 @@ export class SpherePlaneManagerSPS {
 
         this.scene.registerBeforeRender(this.beforeRender);
 
-        this.optionsService.smoothingConstant = 5;
-        this.optionsService.sampleGain = 4;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
-        this.hl = new BABYLON.HighlightLayer("hl1", this.scene);
+        // this.optionsService.smoothingConstant = 5;
+        // this.optionsService.sampleGain = 4;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
+        this.hl = new BABYLON.HighlightLayer('hl1', this.scene);
 
     }
 
@@ -72,7 +72,7 @@ export class SpherePlaneManagerSPS {
         const depth = 15;
         const height = 20;
 
-        let gtheta;
+        // let gtheta;
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = false;
@@ -123,43 +123,6 @@ export class SpherePlaneManagerSPS {
 
         };
 
-        // BUILD OUTER SPS ////////////////////////////////
-
-        // const outerPositionFunction = (particle, i, s) => {
-        //     particle.position.x = radius * Math.cos(gtheta);
-        //     particle.position.z = radius * Math.sin(gtheta);
-        //     particle.position.y = 0;
-        //     particle.rotation.y = -gtheta;
-        //     particle.color = new BABYLON.Color4(.5, .5, .5, 1);
-        // };
-
-        // this.outerSPS = new BABYLON.SolidParticleSystem('outerSPS', this.scene, { updatable: true });
-        // const box = BABYLON.MeshBuilder.CreateBox(('box'), {
-        //     width,
-        //     depth,
-        //     height
-        // }, this.scene);
-
-        // for (let theta = Math.PI / 2; theta < 2 * Math.PI + Math.PI / 2 - Math.PI / 100; theta += Math.PI / 100) {
-        //     gtheta = theta;
-        //     this.outerSPS.addShape(box, 1, { positionFunction: outerPositionFunction });
-        // }
-
-        // this.mesh2 = this.outerSPS.buildMesh();
-        // this.mesh2.material = this.mat;
-
-        // // dispose the model
-        // box.dispose();
-
-        // this.outerSPS.updateParticle = (particle) => {
-        //     const myTheta = particle.idx * Math.PI / 100 + Math.PI / 2;
-        //     const yy = this.audioService.fr128DataArray[particle.idx < 100 ? particle.idx : 100 - (particle.idx - 100)] / 255;
-
-        //     particle.scaling.x = .05 + yy * 2;
-        //     particle.position.x = (520 + yy * 100) * Math.cos(myTheta);
-        //     particle.position.z = (520 + yy * 100) * Math.sin(myTheta);
-        //     particle.rotation.y = -myTheta;
-        // };
     }
 
     update() { }
