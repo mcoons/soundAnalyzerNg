@@ -4,6 +4,7 @@ import { Subscription, Observable, fromEvent } from 'rxjs';
 
 import { MessageService } from '../message/message.service';
 import { EngineService } from '../engine/engine.service';
+import { InvokeFunctionExpr } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,8 @@ export class OptionsService {
     'spherePlaneManagerSPS',
     'rings',
     // 'hills',
-    'hex'
+    'hex',
+    'waveRibbon'
   ];
 
   notes = [
@@ -67,7 +69,7 @@ export class OptionsService {
     },
     waveformDelay: {
       group: 'General',
-      type: 'slider',
+      type: 'waveslider',
       label: 'Waveform Delay',
       value: 1,
       min: 1,
@@ -76,7 +78,7 @@ export class OptionsService {
     },
     waveformMultiplier: {
       group: 'General',
-      type: 'slider',
+      type: 'waveslider',
       label: 'Waveform Multiplier',
       value: 1,
       min: 1,
@@ -170,7 +172,14 @@ export class OptionsService {
       checked: false,
       colorOptions: true
     },
-
+    waveRibbon: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'WaveRibbon',
+      value: 9,
+      checked: false,
+      colorOptions: false
+    },
     sampleGain: {
       group: '3DVisual',
       type: 'slider',
@@ -199,14 +208,33 @@ export class OptionsService {
       group: '3DVisual',
       type: 'color',
       label: 'Minimum Color',
+      value: '#0000ff'
+    },
+    midColor: {
+      group: '3DVisual',
+      type: 'color',
+      label: 'Middle Color',
       value: '#000000'
     },
+
     maxColor: {
       group: '3DVisual',
       type: 'color',
       label: 'Maximum Color',
       value: '#ff0000'
     },
+
+
+    midLoc: {
+      group: '3DVisual',
+      type: 'colorslider',
+      label: 'Midpoint Value',
+      value: 128,
+      min: 20,
+      max: 235,
+      step: 5
+    },
+
 
     // key highlight options
     currentNote: {
@@ -381,104 +409,117 @@ export class OptionsService {
     let g;
     let b;
 
+    let midLoc = this.midLoc;
+
     const colorSets = [
-        {
-            r: 128 - yy / 2,
-            g: yy,
-            b: 200 - yy * 2
-        },
-        {
-            r: yy,
-            g: 128 - yy / 2,
-            b: 200 - yy * 2
-        },
-        {
-            r: 128 - yy / 2,
-            g: 200 - yy * 2,
-            b: yy
-        },
-        {
-            r: 200 - yy * 2,
-            g: yy,
-            b: 128 - yy / 2
-        },
-        {
-            r: yy,
-            g: 200 - yy * 2,
-            b: 128 - yy / 2
-        },
-        {
-            r: 200 - yy * 2,
-            g: 128 - yy / 2,
-            b: yy
-        },
-        {
-            r: 255 - (128 - yy / 2),
-            g: 255 - yy,
-            b: 255 - (200 - yy * 2)
-        },
-        {
-            r: 255 - yy,
-            g: 255 - (128 - yy / 2),
-            b: 255 - (200 - yy * 2)
-        },
-        {
-            r: 255 - (128 - yy / 2),
-            g: 255 - (200 - yy * 2),
-            b: 255 - yy
-        },
-        {
-            r: 255 - (200 - yy * 2),
-            g: 255 - yy,
-            b: 255 - (128 - yy / 2)
-        },
-        {
-            r: 255 - yy,
-            g: 255 - (200 - yy * 2),
-            b: 255 - (128 - yy / 2)
-        },
-        {
-            r: 255 - (200 - yy * 2),
-            g: 255 - (128 - yy / 2),
-            b: 255 - yy
-        }
+      {
+        r: 128 - yy / 2,
+        g: yy,
+        b: 200 - yy * 2
+      },
+      {
+        r: yy,
+        g: 128 - yy / 2,
+        b: 200 - yy * 2
+      },
+      {
+        r: 128 - yy / 2,
+        g: 200 - yy * 2,
+        b: yy
+      },
+      {
+        r: 200 - yy * 2,
+        g: yy,
+        b: 128 - yy / 2
+      },
+      {
+        r: yy,
+        g: 200 - yy * 2,
+        b: 128 - yy / 2
+      },
+      {
+        r: 200 - yy * 2,
+        g: 128 - yy / 2,
+        b: yy
+      },
+      {
+        r: 255 - (128 - yy / 2),
+        g: 255 - yy,
+        b: 255 - (200 - yy * 2)
+      },
+      {
+        r: 255 - yy,
+        g: 255 - (128 - yy / 2),
+        b: 255 - (200 - yy * 2)
+      },
+      {
+        r: 255 - (128 - yy / 2),
+        g: 255 - (200 - yy * 2),
+        b: 255 - yy
+      },
+      {
+        r: 255 - (200 - yy * 2),
+        g: 255 - yy,
+        b: 255 - (128 - yy / 2)
+      },
+      {
+        r: 255 - yy,
+        g: 255 - (200 - yy * 2),
+        b: 255 - (128 - yy / 2)
+      },
+      {
+        r: 255 - (200 - yy * 2),
+        g: 255 - (128 - yy / 2),
+        b: 255 - yy
+      }
     ];
 
     const getOptionColor = (name, c) => {
-        let val = this.options[name].value;
+      const val = this.options[name].value;
 
-        if (c === 'r') {
-            return(val.substring(1, 3));
-        }
+      if (c === 'r') {
+        return (val.substring(1, 3));
+      }
 
-        if (c === 'g') {
-            return(val.substring(3, 5));
-        }
+      if (c === 'g') {
+        return (val.substring(3, 5));
+      }
 
-        if (c === 'b') {
-            return(val.substring(5));
-        }
+      if (c === 'b') {
+        return (val.substring(5));
+      }
 
-        // return val;
+      // return val;
     };
 
     if (this.options.randomizeColors.value === true) {
-        // tslint:disable-next-line: max-line-length
-        r = colorSets[this.startingColorSet].r + (colorSets[this.endingColorSet].r - colorSets[this.startingColorSet].r) * this.colorTime;
-        // tslint:disable-next-line: max-line-length
-        g = colorSets[this.startingColorSet].g + (colorSets[this.endingColorSet].g - colorSets[this.startingColorSet].g) * this.colorTime;
-        // tslint:disable-next-line: max-line-length
-        b = colorSets[this.startingColorSet].b + (colorSets[this.endingColorSet].b - colorSets[this.startingColorSet].b) * this.colorTime;
+      // tslint:disable-next-line: max-line-length
+      r = colorSets[this.startingColorSet].r + (colorSets[this.endingColorSet].r - colorSets[this.startingColorSet].r) * this.colorTime;
+      // tslint:disable-next-line: max-line-length
+      g = colorSets[this.startingColorSet].g + (colorSets[this.endingColorSet].g - colorSets[this.startingColorSet].g) * this.colorTime;
+      // tslint:disable-next-line: max-line-length
+      b = colorSets[this.startingColorSet].b + (colorSets[this.endingColorSet].b - colorSets[this.startingColorSet].b) * this.colorTime;
     } else {
 
+      if (yy <= midLoc) {
         // tslint:disable-next-line: max-line-length
-        r = parseInt( getOptionColor('minColor', 'r'), 16) + (parseInt( getOptionColor('maxColor', 'r'), 16) - parseInt( getOptionColor('minColor', 'r'), 16)) * yy / 255;
+        r = parseInt(getOptionColor('minColor', 'r'), 16) + (parseInt(getOptionColor('midColor', 'r'), 16) - parseInt(getOptionColor('minColor', 'r'), 16)) * yy / midLoc;
         // tslint:disable-next-line: max-line-length
-        g = parseInt( getOptionColor('minColor', 'g'), 16) + (parseInt( getOptionColor('maxColor', 'g'), 16) - parseInt( getOptionColor('minColor', 'g'), 16)) * yy / 255;
+        g = parseInt(getOptionColor('minColor', 'g'), 16) + (parseInt(getOptionColor('midColor', 'g'), 16) - parseInt(getOptionColor('minColor', 'g'), 16)) * yy / midLoc;
         // tslint:disable-next-line: max-line-length
-        b = parseInt( getOptionColor('minColor', 'b'), 16) + (parseInt( getOptionColor('maxColor', 'b'), 16) - parseInt( getOptionColor('minColor', 'b'), 16)) * yy / 255;
+        b = parseInt(getOptionColor('minColor', 'b'), 16) + (parseInt(getOptionColor('midColor', 'b'), 16) - parseInt(getOptionColor('minColor', 'b'), 16)) * yy / midLoc;
         // console.log('test');
         // console.log(parseInt( getOptionColor('minColor', 'g'), 16));
+      } else {
+        // tslint:disable-next-line: max-line-length
+        r = parseInt(getOptionColor('midColor', 'r'), 16) + (parseInt(getOptionColor('maxColor', 'r'), 16) - parseInt(getOptionColor('midColor', 'r'), 16)) * (yy - midLoc) / (255 - midLoc);
+        // tslint:disable-next-line: max-line-length
+        g = parseInt(getOptionColor('midColor', 'g'), 16) + (parseInt(getOptionColor('maxColor', 'g'), 16) - parseInt(getOptionColor('midColor', 'g'), 16)) * (yy - midLoc) / (255 - midLoc);
+        // tslint:disable-next-line: max-line-length
+        b = parseInt(getOptionColor('midColor', 'b'), 16) + (parseInt(getOptionColor('maxColor', 'b'), 16) - parseInt(getOptionColor('midColor', 'b'), 16)) * (yy - midLoc) / (255 - midLoc);
+        // console.log('test');
+        // console.log(parseInt( getOptionColor('minColor', 'g'), 16));
+      }
     }
     return { r, g, b };
   }
@@ -496,36 +537,15 @@ export class OptionsService {
   }
 
   toggleVisualRadio(itemName: string, index: number) {
-    this.visuals.forEach( v => {
+    this.visuals.forEach(v => {
       this.options[v].checked = (itemName === v);
     });
-
-    // this.options.blockPlaneManager.checked = (itemName === 'blockPlaneManager');
-    // this.options.blockSpiralManager.checked = (itemName === 'blockSpiralManager');
-    // this.options.cubeManager.checked = (itemName === 'cubeManager');
-    // this.options.equationManager.checked = (itemName === 'equationManager');
-    // this.options.starManager.checked = (itemName === 'starManager');
-    // this.options.spectrograph.checked = (itemName === 'spectrograph');
-    // this.options.spherePlaneManagerSPS.checked = (itemName === 'spherePlaneManagerSPS');
-    // this.options.rings.checked = (itemName === 'rings');
-    // this.options.hills.checked = (itemName === 'hills');
-    // this.options.hex.checked = (itemName === 'hex');
-
   }
 
   toggleNoteRadio(itemName: string, index: number) {
-    this.notes.forEach( n => {
+    this.notes.forEach(n => {
       this.options[n].checked = (itemName === n);
     });
-
-    // this.options.A.checked = (itemName === 'A');
-    // this.options.B.checked = (itemName === 'B');
-    // this.options.C.checked = (itemName === 'C');
-    // this.options.D.checked = (itemName === 'D');
-    // this.options.E.checked = (itemName === 'E');
-    // this.options.F.checked = (itemName === 'F');
-    // this.options.G.checked = (itemName === 'G');
-    // this.options.None.checked = (itemName === 'None');
   }
 
   setOption(itemName: string, value) {
@@ -736,8 +756,6 @@ export class OptionsService {
     this.options.starManager.checked = value;
   }
 
-  
-
   get randomizeColors(): boolean {
     return this.options.randomizeColors.value;
   }
@@ -755,12 +773,30 @@ export class OptionsService {
   }
 
 
+  get midColor(): string {
+    return this.options.midColor.value;
+  }
+
+  set midColor(value: string) {
+    this.options.midColor.value = value;
+  }
+
+
   get maxColor(): string {
     return this.options.maxColor.value;
   }
 
   set maxColor(value: string) {
     this.options.maxColor.value = value;
+  }
+
+
+  get midLoc(): number {
+    return this.options.midLoc.value;
+  }
+
+  set midLoc(value: number) {
+    this.options.midLoc.value = value;
   }
 
 
@@ -795,7 +831,5 @@ export class OptionsService {
   set microphone(value: boolean) {
     this.state.microphone.value = value;
   }
-
-
 
 }

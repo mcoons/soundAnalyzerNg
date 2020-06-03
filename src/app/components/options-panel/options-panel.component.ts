@@ -23,14 +23,14 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   objectKeys = Object.keys;
 
-  private _subscription: Subscription;
+  private subscription: Subscription;
 
   constructor(
     public optionsService: OptionsService,
     public audioService: AudioService,
-    private _messageService: MessageService) {
+    private messageService: MessageService) {
 
-    this._subscription = _messageService.messageAnnounced$.subscribe(
+    this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         // console.log('Options Panel: Message received from service is :  ' + message);
       });
@@ -45,7 +45,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   }
 
   updateItem(e) {
-    this._messageService.announceMessage(e.target.id);
+    this.messageService.announceMessage(e.target.id);
   }
 
   radioChange(e) {
@@ -67,41 +67,41 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   trackChange(e) {
     this.optionsService.updateState('currentTrack', e.target.value);
-    this._messageService.announceMessage('track change');
+    this.messageService.announceMessage('track change');
   }
 
   siteListSelection() {
     this.audioService.disableMic();
-    this._messageService.announceMessage('site list selection');
+    this.messageService.announceMessage('site list selection');
   }
 
   localListSelection() {
     this.audioService.disableMic();
-    this._messageService.announceMessage('local list selection');
+    this.messageService.announceMessage('local list selection');
   }
 
   previousTrack() {
-    this._messageService.announceMessage('previousTrack');
+    this.messageService.announceMessage('previousTrack');
   }
 
   nextTrack() {
-    this._messageService.announceMessage('nextTrack');
+    this.messageService.announceMessage('nextTrack');
   }
 
   playPause() {
-    this._messageService.announceMessage('playPause');
+    this.messageService.announceMessage('playPause');
   }
 
   onSliderChangeVolume(e) {
-    this._messageService.announceMessage('volume change');
+    this.messageService.announceMessage('volume change');
   }
 
   setVolume(volume) {
-    this._messageService.announceMessage('volume change');
+    this.messageService.announceMessage('volume change');
   }
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
-    this._subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

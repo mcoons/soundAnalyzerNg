@@ -93,14 +93,14 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
   }
 
   draw2DBars() {
-    let dataSource = this.audioService.getSample();
+    const dataSource = this.audioService.getSample();
     if (dataSource == null) {
       return;
     }
 
     const WIDTH = this.canvas.width - 50;
     const HEIGHT = this.canvas.height;
-    let barWidth = (WIDTH / dataSource.length); // - 1; // -80
+    const barWidth = (WIDTH / dataSource.length); // - 1; // -80
 
     this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
 

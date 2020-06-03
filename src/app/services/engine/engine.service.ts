@@ -20,6 +20,7 @@ import { Spectrograph } from '../../visualization-classes/Spectrograph';
 import { Rings } from '../../visualization-classes/Rings';
 import { Hills } from '../../visualization-classes/Hills';
 import { Hex } from '../../visualization-classes/Hex';
+import { WaveRibbon } from '../../visualization-classes/WaveRibbon';
 
 
 @Injectable({ providedIn: 'root' })
@@ -28,12 +29,6 @@ export class EngineService {
   private engine: BABYLON.Engine;
   private camera: BABYLON.ArcRotateCamera;
   private scene: BABYLON.Scene;
-
-  glowLayer;
-  highlightLayer;
-
-  private showAxis = false;
-
   private managerClasses;
   private managerClassIndex;
   private currentManager;
@@ -41,8 +36,11 @@ export class EngineService {
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
 
-  subscription;
+  private showAxis = false;
 
+  glowLayer;
+  highlightLayer;
+  subscription;
   hexMesh;
   hexSPS;
   finalHexGround;
@@ -81,8 +79,13 @@ export class EngineService {
       Spectrograph,
       SpherePlaneManagerSPS,
       Rings,
-      Hex
+      Hex,
+      WaveRibbon
     ];
+
+
+
+
 
   }
 
@@ -129,9 +132,6 @@ export class EngineService {
     // tslint:disable-next-line: max-line-length
     this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService, this.optionsService, this.messageService);
     this.currentManager.create();
-
-
-
   }
 
   public animate(): void {
@@ -182,6 +182,10 @@ export class EngineService {
       this.currentManager.remove();
     }
 
+    this.scene.materials.forEach(m => {
+      m.dispose(true, true, true);
+    });
+
     this.currentManager = null;
     this.scene.materials.forEach(m => {
       m.dispose(true, true, true);
@@ -211,13 +215,13 @@ export class EngineService {
   }
 
   showWorldAxis = (size) => {
-    let makeTextPlane = (text: string, color: string, textSize: number) => {
-      let dynamicTexture = new BABYLON.DynamicTexture('DynamicTexture', 50, this.scene, true);
+    const makeTextPlane = (text: string, color: string, textSize: number) => {
+      const dynamicTexture = new BABYLON.DynamicTexture('DynamicTexture', 50, this.scene, true);
       dynamicTexture.hasAlpha = true;
       dynamicTexture.drawText(text, 5, 40, 'bold 36px Arial', color, 'transparent', true);
       // @todo fix <any> - actual a hack for @types Error...
-      let plane = BABYLON.Mesh.CreatePlane('TextPlane', textSize, this.scene, true);
-      let material = new BABYLON.StandardMaterial('TextPlaneMaterial', this.scene);
+      const plane = BABYLON.Mesh.CreatePlane('TextPlane', textSize, this.scene, true);
+      const material = new BABYLON.StandardMaterial('TextPlaneMaterial', this.scene);
       plane.material = material;
       material.backFaceCulling = false;
       material.specularColor = new BABYLON.Color3(0, 0, 0);
@@ -247,7 +251,68 @@ export class EngineService {
     zChar.position = new BABYLON.Vector3(0, 0.05 * size, 0.9 * size);
   }
 
+
+
+
   createHexObj() {
+
+    // interface Mesh {
+    //   pointsInside(point: BABYLON.Vector3);
+    // }
+
+
+    // BABYLON.Mesh.prototype.pointIsInside = function (point) {
+    //   var boundInfo = this.getBoundingInfo();
+    //   var max = boundInfo.maximum;
+    //   var min = boundInfo.minimum;
+    //   var diameter = 2 * boundInfo.boundingSphere.radius;
+    //   if (point.x < min.x || point.x > max.x) {
+    //     return false;
+    //   }
+    //   if (point.y < min.y || point.y > max.y) {
+    //     return false;
+    //   }
+    //   if (point.z < min.z || point.z > max.z) {
+    //     return false;
+    //   }
+
+
+    //   var pointFound = false;
+    //   var d = 0;
+    //   var hitCount = 0;
+    //   var gap = 0;
+    //   var distance = 0;
+    //   var ray = new BABYLON.Ray(BABYLON.Vector3.Zero(), BABYLON.Axis.X, diameter);;
+    //   var pickInfo;
+    //   var direction = BABYLON.Vector3.Zero();
+
+
+    //   while (d < 2 && !pointFound) {
+    //     hitCount = 0;
+    //     direction = BABYLON.Axis.X.scale(2 * (0.5 - d));
+    //     ray.origin = point;
+    //     ray.direction = direction;
+    //     ray.distance = diameter;
+    //     pickInfo = ray.intersectsMesh(this);
+    //     while (pickInfo.hit) {
+    //       hitCount++;
+    //       pickInfo.pickedPoint.addToRef(direction.scale(0.00000001), point);
+    //       ray.origin = point;
+    //       pickInfo = ray.intersectsMesh(this);
+    //     }
+    //     if ((hitCount % 2) === 1) {
+    //       pointFound = true;
+    //     }
+    //     else if ((hitCount % 2) === 0 && hitCount > 0) {
+    //       pointFound = true;
+    //     }
+    //     d++;
+    //   }
+
+    //   return pointFound;
+    // };
+
+
     let x: number;
     let x2: number;
     let z: number;
@@ -265,11 +330,12 @@ export class EngineService {
     this.hexMat = new BABYLON.StandardMaterial(`material`, this.scene);
     this.hexMat.bumpTexture = new BABYLON.Texture('../../assets/images/normal8.jpg', this.scene);
 
-    const groundBox = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 750, tessellation: 88, height: 48 }, this.scene);
+    // const groundBox = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 750, tessellation: 88, height: 48 }, this.scene);
+    const groundBox = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 880, tessellation: 6, height: 48 }, this.scene);
     groundBox.position.y = -24;
-    groundBox.scaling.x = 1.13;
+    // groundBox.scaling.x = 1.13;
     const groundCSG = BABYLON.CSG.FromMesh(groundBox);
-    groundBox.dispose();
+    // groundBox.dispose();
 
     // BUILD SPS ////////////////////////////////
 
@@ -299,8 +365,14 @@ export class EngineService {
         if (d <= 13.3) {
           this.hexSPS.addShape(hex, 1, { positionFunction: innerPositionFunction });
         }
+        // if (groundBox.pointIsInside(new BABYLON.Vector3(x2, 0, z))) {
+        //   this.hexSPS.addShape(hex, 1, { positionFunction: innerPositionFunction });
+        // }
+
       }
     }
+
+    groundBox.dispose();
 
     this.hexMesh = this.hexSPS.buildMesh();
     this.hexMesh.material = this.hexMat;
@@ -313,8 +385,6 @@ export class EngineService {
     this.finalHexGround = holyGroundCSG.toMesh('ground', this.groundMat, this.scene);
     this.finalHexGround.position.y = -19;
     // this.finalHexGround.convertToFlatShadedMesh();
-
-
 
     // this.finalHexGround.material = this.groundMat;
 

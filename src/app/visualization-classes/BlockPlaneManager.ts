@@ -60,8 +60,8 @@ export class BlockPlaneManager {
         this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
 
         const box = BABYLON.MeshBuilder.CreateBox(('box'), {
-            width: 30,
-            depth: 60
+            width: 25,
+            depth: 50
         }, this.scene);
 
         for (z = (this.audioService.getSample().length / 64); z >= 0; z--) {  // 8

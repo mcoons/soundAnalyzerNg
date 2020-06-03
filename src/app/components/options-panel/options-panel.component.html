@@ -19,8 +19,26 @@
 
             </ng-container>
 
+            <ng-container *ngIf="this.optionsService.getOptions()[option].type=='slider'">
+              <b><label class="rangeLabel">{{this.optionsService.getOptions()[option].label}}
+                  ({{this.optionsService.getOptions()[option].value}})</label></b><br>
+
+              <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+
+              <input type="range" [id]="option" [name]="option" class="range"
+                [min]="this.optionsService.getOptions()[option].min"
+                [max]="this.optionsService.getOptions()[option].max"
+                [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
+                ng-model-options="{ getterSetter: true }">
+
+              <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
+
+            </ng-container>
+
+            
+
             <ng-container *ngIf="this.optionsService.showWaveform === true">
-              <ng-container *ngIf="this.optionsService.getOptions()[option].type=='slider'">
+              <ng-container *ngIf="this.optionsService.getOptions()[option].type=='waveslider'">
                 <b><label class="rangeLabel">{{this.optionsService.getOptions()[option].label}}
                     ({{this.optionsService.getOptions()[option].value}})</label></b><br>
 
@@ -35,20 +53,15 @@
                 <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
 
               </ng-container>
-
             </ng-container>
-
           </ng-container>
         </div>
-
-
 
       </mat-expansion-panel>
 
       <!-- Note/Freq -->
 
       <mat-expansion-panel *ngIf="this.optionsService.showBars === true" expanded="true">
-        <!-- <mat-expansion-panel expanded="true"> -->
         <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
           Note/Freq Display
         </mat-expansion-panel-header>
@@ -118,7 +131,6 @@
         <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.getOptions())">
           <ng-container *ngIf="this.optionsService.getOptions()[option].group=='3DVisual'">
 
-
             <ng-container *ngIf="this.optionsService.getOptions()[option].type=='slider'">
               <b><label class="rangeLabel" [for]="option">{{this.optionsService.getOptions()[option].label}}
                   ({{this.optionsService.getOptions()[option].value}})</label></b><br>
@@ -132,10 +144,7 @@
                 ng-model-options="{ getterSetter: true }">
 
               <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
-
-
             </ng-container>
-
 
 
             <ng-container *ngIf="this.optionsService.getOptions()[option].type=='radio'">
@@ -148,11 +157,7 @@
             <ng-container
               *ngIf="this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].colorOptions === true">
 
-
-
               <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox'">
-                <!-- <input type="checkbox" [id]="option" [name]="option" (click)="toggleItem($event)"
-                  [checked]="this.optionsService.getOptions()[option].value"> -->
                 <input type="checkbox" [id]="option" [name]="option"
                   [(ngModel)]="this.optionsService.getOptions()[option].value">
 
@@ -162,15 +167,29 @@
 
               <ng-container *ngIf="this.optionsService.randomizeColors === false">
                 <ng-container *ngIf="this.optionsService.getOptions()[option].type=='color'">
-                  <b class='colorHeader'>Selection for {{this.optionsService.getOptions()[option].label}}</b>
-                  <br>
-                  <!-- <input type="color" [id]="option" 
-                    [(ngModel)]="this.optionsService[option]" (click)="colorChange($event)" (change)="colorChange($event)"> -->
                   <input type="color" [id]="option" [(ngModel)]="this.optionsService[option]">
-
+                  <b class='colorHeader'>{{this.optionsService.getOptions()[option].label}}</b>
 
                 </ng-container>
+
+                <ng-container *ngIf="this.optionsService.getOptions()[option].type=='colorslider'">
+                  <b><label class="rangeLabel">{{this.optionsService.getOptions()[option].label}}
+                      ({{this.optionsService.getOptions()[option].value}})</label></b><br>
+    
+                  <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+    
+                  <input type="range" [id]="option" [name]="option" class="range"
+                    [min]="this.optionsService.getOptions()[option].min"
+                    [max]="this.optionsService.getOptions()[option].max"
+                    [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
+                    ng-model-options="{ getterSetter: true }">
+    
+                  <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
+    
+                </ng-container>
+
               </ng-container>
+
 
             </ng-container>
 

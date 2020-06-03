@@ -55,8 +55,8 @@ export class Hills {
 
         for (this.x = Math.round(-w / 2); this.x <= w / 2; this.x++) {
 
-            var paths = [];
-            var paths2 = [];
+            const paths = [];
+            const paths2 = [];
 
             let x2 = this.x;
             let y2 = 0;
@@ -90,8 +90,8 @@ export class Hills {
 
             }
 
-            var ribbon = BABYLON.MeshBuilder.CreateRibbon("ribbon", { pathArray: [paths, paths2] }, this.scene);
-            let mat = new BABYLON.StandardMaterial("myMaterial", this.scene);
+            const ribbon = BABYLON.MeshBuilder.CreateRibbon('ribbon', { pathArray: [paths, paths2] }, this.scene);
+            const mat = new BABYLON.StandardMaterial('myMaterial', this.scene);
             mat.backFaceCulling = false;
             ribbon.material = mat;
             this.objects.push(ribbon);

@@ -11,7 +11,7 @@ import { OptionsService } from '../../services/options/options.service';
 })
 
 export class TitleComponent  {
-  @Input('title') title: string;
+  // @Input('title') title: string;
 
   subscription: Subscription;
 

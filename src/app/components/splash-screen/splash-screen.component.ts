@@ -11,6 +11,7 @@ import { MessageService } from '../../services/message/message.service';
 })
 
 export class SplashScreenComponent {
+  // tslint:disable-next-line: no-input-rename
   @Input('title') title: string;
 
   constructor(
