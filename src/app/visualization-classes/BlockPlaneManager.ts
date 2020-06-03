@@ -27,10 +27,10 @@ export class BlockPlaneManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
 
-        this.optionsService.smoothingConstant = 7;
-        this.optionsService.sampleGain = 4;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 7;
+        // this.optionsService.sampleGain = 4;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
 
         this.scene.registerBeforeRender(this.beforeRender);
     }

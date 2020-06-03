@@ -32,10 +32,10 @@ export class WaveRibbon {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = Math.PI / 3;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1500;
 
-        this.optionsService.smoothingConstant = 1;
-        this.optionsService.sampleGain = 1;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 1;
+        // this.optionsService.sampleGain = 1;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
 
     }
 

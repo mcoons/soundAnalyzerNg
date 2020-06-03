@@ -9,8 +9,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 
 import { WindowRefService } from './services/window-ref/window-ref.service';
-import { OptionsService } from './services/options/options.service';
-import { MessageService } from './services/message/message.service';
+// import { OptionsService } from './services/options/options.service';
+// import { MessageService } from './services/message/message.service';
 
 import { AppComponent } from './app.component';
 import { Canvas2DComponent } from './components/canvas2-d/canvas2-d.component';
@@ -39,7 +39,7 @@ import { MyPlayerComponent } from './components/my-player/my-player.component';
       MatExpansionModule
    ],
    providers: [
-      // WindowRefService,
+      WindowRefService,
       // OptionsService,
       // MessageService
    ],

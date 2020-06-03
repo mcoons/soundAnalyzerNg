@@ -39,10 +39,10 @@ export class SpherePlaneManagerSPS {
 
         this.scene.registerBeforeRender(this.beforeRender);
 
-        this.optionsService.smoothingConstant = 5;
-        this.optionsService.sampleGain = 4;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 5;
+        // this.optionsService.sampleGain = 4;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
         this.hl = new BABYLON.HighlightLayer('hl1', this.scene);
 
     }

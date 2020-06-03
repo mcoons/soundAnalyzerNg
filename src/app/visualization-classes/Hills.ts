@@ -39,10 +39,10 @@ export class Hills {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = Math.PI / 4;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
 
-        this.optionsService.smoothingConstant = 1;
-        this.optionsService.sampleGain = 1;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 1;
+        // this.optionsService.sampleGain = 1;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
 
     }
 

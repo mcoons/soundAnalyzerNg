@@ -42,10 +42,10 @@ export class Rings {
 
         this.scene.registerBeforeRender(this.beforeRender);
 
-        this.optionsService.smoothingConstant = 5;
-        this.optionsService.sampleGain = 10;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 5;
+        // this.optionsService.sampleGain = 10;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
     }
 
     beforeRender = () => {

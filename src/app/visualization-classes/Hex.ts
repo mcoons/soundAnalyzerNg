@@ -48,10 +48,10 @@ export class Hex {
         this.scene.registerBeforeRender(this.beforeRender);
         // this.scene.registerAfterRender(this.afterRender);
 
-        this.optionsService.smoothingConstant = 5;
-        this.optionsService.sampleGain = 4;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 5;
+        // this.optionsService.sampleGain = 4;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
 
     }
 

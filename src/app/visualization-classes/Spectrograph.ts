@@ -40,10 +40,10 @@ export class Spectrograph {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .85;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
 
-        this.optionsService.smoothingConstant = 1;
-        this.optionsService.sampleGain = 1;
-        this.messageService.announceMessage('sampleGain');
-        this.messageService.announceMessage('smoothingConstant');
+        // this.optionsService.smoothingConstant = 1;
+        // this.optionsService.sampleGain = 1;
+        // this.messageService.announceMessage('sampleGain');
+        // this.messageService.announceMessage('smoothingConstant');
 
         this.groundVertices = this.ground.getVerticesData(BABYLON.VertexBuffer.PositionKind);
     }
