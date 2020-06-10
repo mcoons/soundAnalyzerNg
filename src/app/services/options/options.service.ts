@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Subscription, Observable, fromEvent } from 'rxjs';
 
 import { MessageService } from '../message/message.service';
-import { EngineService } from '../engine/engine.service';
+import { StorageService } from '../storage/storage.service';
+// import { EngineService } from '../engine/engine.service';
 import { InvokeFunctionExpr } from '@angular/compiler';
 
 @Injectable({
@@ -39,14 +40,9 @@ export class OptionsService {
     'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'None'
   ];
 
-  constructor(public messageService: MessageService) {
-    this.resizeObservable$ = fromEvent(window, 'resize');
-    this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
-      this.windowResize();
-    });
-  }
 
-  private options = {
+
+   options = {
 
     // general options
     showTitle: {
@@ -91,6 +87,9 @@ export class OptionsService {
       label: 'Show Wireframe',
       value: false
     },
+
+
+
     // visual options
     blockPlaneManager: {
       group: '3DVisual',
@@ -98,7 +97,17 @@ export class OptionsService {
       label: 'Block Plane',
       value: 0,
       checked: false,
-      colorOptions: true
+      colorOptions: true,
+      sampleGain: 10,
+      smoothingConstant: 5,
+      randomizeColors: true,
+      minColor: '#0000ff',
+      midColor: '#000000',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: 1.00,
+      cradius: 1000
     },
     blockSpiralManager: {
       group: '3DVisual',
@@ -106,7 +115,17 @@ export class OptionsService {
       label: 'Block Spiral',
       value: 1,
       checked: false,
-      colorOptions: true
+      colorOptions: true,
+      sampleGain: 10,
+      smoothingConstant: 5,
+      randomizeColors: true,
+      minColor: '#0000ff',
+      midColor: '#000000',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: 1.00,
+      cradius: 1000
     },
     equationManager: {
       group: '3DVisual',
@@ -114,7 +133,17 @@ export class OptionsService {
       label: 'Equation',
       value: 2,
       checked: true,
-      colorOptions: true
+      colorOptions: true,
+      sampleGain: 10,
+      smoothingConstant: 5,
+      randomizeColors: true,
+      minColor: '#0000ff',
+      midColor: '#000000',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .01,
+      cradius: 1000
     },
     cubeManager: {
       group: '3DVisual',
@@ -122,7 +151,17 @@ export class OptionsService {
       label: 'Cube',
       value: 3,
       checked: false,
-      colorOptions: false
+      colorOptions: false,
+      sampleGain: 10,
+      smoothingConstant: 5,
+      randomizeColors: true,
+      minColor: '#0000ff',
+      midColor: '#000000',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 1.57,
+      cbeta: 1.57,
+      cradius: 1000
     },
     starManager: {
       group: '3DVisual',
@@ -130,7 +169,17 @@ export class OptionsService {
       label: 'Stars',
       value: 4,
       checked: false,
-      colorOptions: false
+      colorOptions: false,
+      sampleGain: 10,
+      smoothingConstant: 5,
+      randomizeColors: true,
+      minColor: '#0000ff',
+      midColor: '#000000',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .01,
+      cradius: 800
     },
     spectrograph: {
       group: '3DVisual',
@@ -138,7 +187,17 @@ export class OptionsService {
       label: 'Spectrograph',
       value: 5,
       checked: false,
-      colorOptions: false
+      colorOptions: false,
+      sampleGain: 10,
+      smoothingConstant: 5,
+      randomizeColors: true,
+      minColor: '#0000ff',
+      midColor: '#000000',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .85,
+      cradius: 1000
     },
     spherePlaneManagerSPS: {
       group: '3DVisual',
@@ -146,7 +205,17 @@ export class OptionsService {
       label: 'Sphere Plane',
       value: 6,
       checked: false,
-      colorOptions: true
+      colorOptions: true,
+      sampleGain: 10,
+      smoothingConstant: 5,
+      randomizeColors: true,
+      minColor: '#0000ff',
+      midColor: '#000000',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .81,
+      cradius: 1200
     },
     rings: {
       group: '3DVisual',
@@ -154,23 +223,35 @@ export class OptionsService {
       label: 'Rings',
       value: 7,
       checked: false,
-      colorOptions: true
+      colorOptions: true,
+      sampleGain: 10,
+      smoothingConstant: 5,
+      randomizeColors: true,
+      minColor: '#0000ff',
+      midColor: '#000000',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .81,
+      cradius: 1900
     },
-    // hills: {
-    //   group: '3DVisual',
-    //   type: 'radio',
-    //   label: 'Hills',
-    //   value: 8,
-    //   checked: false,
-    //   colorOptions: true
-    // },
     hex: {
       group: '3DVisual',
       type: 'radio',
       label: 'Hex',
       value: 8,
       checked: false,
-      colorOptions: true
+      colorOptions: true,
+      sampleGain: 10,
+      smoothingConstant: 5,
+      randomizeColors: true,
+      minColor: '#0000ff',
+      midColor: '#000000',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .91,
+      cradius: 1400
     },
     waveRibbon: {
       group: '3DVisual',
@@ -178,53 +259,72 @@ export class OptionsService {
       label: 'WaveRibbon',
       value: 9,
       checked: false,
-      colorOptions: false
+      colorOptions: false,
+      sampleGain: 10,
+      smoothingConstant: 5,
+      randomizeColors: true,
+      minColor: '#0000ff',
+      midColor: '#000000',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .85,
+      cradius: 1000
     },
+
+
+
     sampleGain: {
       group: '3DVisual',
       type: 'slider',
       label: 'Visual Effect Strength',
-      value: 3,
+      value: 10,
       min: 1,
       max: 20,
-      step: 1
+      step: 1,
+      visualCustom: true
     },
     smoothingConstant: {
       group: '3DVisual',
       type: 'slider',
       label: 'Smoothing Constant',
-      value: 7,
+      value: 5,
       min: 1,
       max: 9.9,
-      step: .1
+      step: .1,
+      visualCustom: true
     },
+
+
+
     randomizeColors: {
       group: '3DVisual',
       type: 'checkbox',
       label: 'Animate Colors',
       value: true,
+      visualCustom: true
     },
     minColor: {
       group: '3DVisual',
       type: 'color',
       label: 'Minimum Color',
-      value: '#0000ff'
+      value: '#0000ff',
+      visualCustom: true
     },
     midColor: {
       group: '3DVisual',
       type: 'color',
       label: 'Middle Color',
-      value: '#000000'
+      value: '#000000',
+      visualCustom: true
     },
-
     maxColor: {
       group: '3DVisual',
       type: 'color',
       label: 'Maximum Color',
-      value: '#ff0000'
+      value: '#ff0000',
+      visualCustom: true
     },
-
-
     midLoc: {
       group: '3DVisual',
       type: 'colorslider',
@@ -232,8 +332,18 @@ export class OptionsService {
       value: 128,
       min: 20,
       max: 235,
-      step: 5
+      step: 5,
+      visualCustom: true
     },
+
+
+
+
+
+
+
+
+
 
 
     // key highlight options
@@ -352,34 +462,38 @@ export class OptionsService {
 
 
     // move to state ?????
-    showPanel: {
-      group: 'Hidden',
-      type: 'checkbox',
-      label: 'Show Panel',
-      value: false
-    },
-    showPlayer: {
-      group: 'Hidden',
-      type: 'checkbox',
-      label: 'Show Player',
-      value: false
-    },
-    showSplash: {
-      group: 'Hidden',
-      type: 'checkbox',
-      label: 'Show Splash',
-      value: true
-    },
-    currentVisual: {
-      group: 'Hidden',
-      type: 'numeric',
-      label: 'Current Scene',
-      value: 2
-    }
+    // showPanel: {
+    //   group: 'Hidden',
+    //   type: 'checkbox',
+    //   label: 'Show Panel',
+    //   value: false
+    // },
+    // showPlayer: {
+    //   group: 'Hidden',
+    //   type: 'checkbox',
+    //   label: 'Show Player',
+    //   value: false
+    // },
+    // showSplash: {
+    //   group: 'Hidden',
+    //   type: 'checkbox',
+    //   label: 'Show Splash',
+    //   value: true
+    // },
+    // currentVisual: {
+    //   group: 'Hidden',
+    //   type: 'numeric',
+    //   label: 'Current Scene',
+    //   value: 2
+    // }
 
   };
 
-  private state = {
+   state = {
+    showPanel: { value: false },
+    showPlayer: { value: false },
+    showSplash: { value: true },
+    currentVisual: { value: 2 },
     windowHeight: { value: 0 },
     playerHeight: { value: 0 },
     pixelRatio: { value: 0 },
@@ -400,16 +514,41 @@ export class OptionsService {
       min: 0,
       max: 10,
       step: 1,
-      value: 7
+      value: 5
     }
   };
+
+  constructor(
+    public messageService: MessageService,
+    public storageService: StorageService,
+    // public engineService: EngineService
+    ) {
+    // this.engineService = engineService;
+
+    this.resizeObservable$ = fromEvent(window, 'resize');
+    this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
+      this.windowResize();
+    });
+
+    const lOptions = storageService.loadOptions();
+    if (lOptions.showTitle) {
+      console.log('found showtitle');
+      this.options = lOptions;
+      this.updateCustomOptions(this.state.currentVisual.value);
+    } else {
+      console.log('local options error');
+
+    }
+    // } === 'local storage error')
+
+  }
 
   colors(yy) {
     let r;
     let g;
     let b;
 
-    let midLoc = this.midLoc;
+    const midLoc = this.midLoc;
 
     const colorSets = [
       {
@@ -528,31 +667,94 @@ export class OptionsService {
     this.options[itemName].value = !this.options[itemName].value;
     this.windowResize();
     this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
+    this.storageService.saveOptions(this.options);
   }
 
   toggleState(itemName: string) {
     this.state[itemName].value = !this.state[itemName].value;
     this.windowResize();
     this.announceChange('Item was changed: ' + itemName + ' to ' + this.state[itemName].value);
+    this.storageService.saveOptions(this.options);
   }
 
   toggleVisualRadio(itemName: string, index: number) {
     this.visuals.forEach(v => {
       this.options[v].checked = (itemName === v);
     });
+
+    this.updateCustomOptions(index);
+    this.storageService.saveOptions(this.options);
   }
+
+  updateCustomOptions(visualIndex){
+
+    this.options.sampleGain.value =
+    this.options[this.visuals[visualIndex]].sampleGain;
+
+    this.options.smoothingConstant.value =
+    this.options[this.visuals[visualIndex]].smoothingConstant;
+
+    this.options.sampleGain.value =
+    this.options[this.visuals[visualIndex]].sampleGain;
+
+    this.options.randomizeColors.value =
+    this.options[this.visuals[visualIndex]].randomizeColors;
+
+    this.options.minColor.value =
+    this.options[this.visuals[visualIndex]].minColor;
+
+    this.options.midColor.value =
+    this.options[this.visuals[visualIndex]].midColor;
+
+    this.options.maxColor.value =
+    this.options[this.visuals[visualIndex]].maxColor;
+
+    this.options.midLoc.value =
+    this.options[this.visuals[visualIndex]].midLoc;
+
+
+
+    // this.engineService.camera.alpha = 
+    // this.options[this.visuals[visualIndex]].calpha;
+
+    // this.engineService.camera.beta = 
+    // this.options[this.visuals[visualIndex]].cbeta;
+
+    // this.engineService.camera.radius = 
+    // this.options[this.visuals[visualIndex]].radius;
+
+
+
+
+
+    this.announceChange('smoothingConstant');
+    this.announceChange('sampleGain');
+
+
+  }
+
+
+
+
+
+
+
+
 
   toggleNoteRadio(itemName: string, index: number) {
     this.notes.forEach(n => {
       this.options[n].checked = (itemName === n);
     });
+    this.storageService.saveOptions(this.options);
   }
 
   setOption(itemName: string, value) {
     this.options[itemName].value = value;
     this.windowResize();
     this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
+    this.storageService.saveOptions(this.options);
   }
+
 
   getOptions() {
     return this.options;
@@ -564,6 +766,7 @@ export class OptionsService {
 
   updateState(itemName: string, value) {
     this.state[itemName].value = value;
+    this.announceChange('State was changed: ' + itemName + ' to ' + this.state[itemName].value);
   }
 
   getState() {
@@ -594,6 +797,7 @@ export class OptionsService {
 
   set showTitle(value: boolean) {
     this.options.showTitle.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get showWaveform() {
@@ -602,6 +806,7 @@ export class OptionsService {
 
   set showWaveform(value) {
     this.options.showWaveform.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get waveformDelay(): number {
@@ -610,6 +815,7 @@ export class OptionsService {
 
   set waveformDelay(value: number) {
     this.options.waveformDelay.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get waveformMultiplier(): number {
@@ -618,6 +824,7 @@ export class OptionsService {
 
   set waveformMultiplier(value: number) {
     this.options.waveformMultiplier.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get showBars(): boolean {
@@ -626,6 +833,7 @@ export class OptionsService {
 
   set showBars(value: boolean) {
     this.options.showBars.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get showWireframe() {
@@ -634,6 +842,7 @@ export class OptionsService {
 
   set showWireframe(value) {
     this.options.showWireframe.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get renderPlayer(): boolean {
@@ -642,6 +851,7 @@ export class OptionsService {
 
   set renderPlayer(value: boolean) {
     this.state.renderPlayer.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get showTrackTitle(): boolean {
@@ -650,6 +860,7 @@ export class OptionsService {
 
   set showTrackTitle(value: boolean) {
     this.state.showTrackTitle.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get volume(): number {
@@ -658,6 +869,7 @@ export class OptionsService {
 
   set volume(value: number) {
     this.state.volume.value = value as number;
+    this.storageService.saveOptions(this.options);
   }
 
   get sampleGain(): number {
@@ -666,6 +878,8 @@ export class OptionsService {
 
   set sampleGain(value: number) {
     this.options.sampleGain.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].sampleGain = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get smoothingConstant(): number {
@@ -674,38 +888,44 @@ export class OptionsService {
 
   set smoothingConstant(value: number) {
     this.options.smoothingConstant.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].smoothingConstant = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get showPanel(): boolean {
-    return this.options.showPanel.value;
+    return this.state.showPanel.value;
   }
 
   set showPanel(value: boolean) {
-    this.options.showPanel.value = value;
+    this.state.showPanel.value = value;
+    // this.storageService.saveOptions(this.options);
   }
 
   get showPlayer(): boolean {
-    return this.options.showPlayer.value;
+    return this.state.showPlayer.value;
   }
 
   set showPlayer(value: boolean) {
-    this.options.showPlayer.value = value;
+    this.state.showPlayer.value = value;
+    // this.storageService.saveOptions(this.options);
   }
 
   get showSplash(): boolean {
-    return this.options.showSplash.value;
+    return this.state.showSplash.value;
   }
 
   set showSplash(value: boolean) {
-    this.options.showSplash.value = value;
+    this.state.showSplash.value = value;
+    // this.storageService.saveOptions(this.options);
   }
 
   get currentVisual(): number {
-    return this.options.currentVisual.value;
+    return this.state.currentVisual.value;
   }
 
   set currentVisual(value: number) {
-    this.options.currentVisual.value = value;
+    this.state.currentVisual.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get blockPlaneManager(): boolean {
@@ -714,6 +934,7 @@ export class OptionsService {
 
   set blockPlaneManager(value: boolean) {
     this.options.blockPlaneManager.checked = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get blockSpiralManager(): boolean {
@@ -722,6 +943,7 @@ export class OptionsService {
 
   set blockSpiralManager(value: boolean) {
     this.options.blockSpiralManager.checked = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get spectrograph(): boolean {
@@ -730,6 +952,7 @@ export class OptionsService {
 
   set spectrograph(value: boolean) {
     this.options.spectrograph.checked = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get equationManager(): boolean {
@@ -738,6 +961,7 @@ export class OptionsService {
 
   set equationManager(value: boolean) {
     this.options.equationManager.checked = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get cubeManager(): boolean {
@@ -746,6 +970,7 @@ export class OptionsService {
 
   set cubeManager(value: boolean) {
     this.options.cubeManager.checked = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get starManager(): boolean {
@@ -754,6 +979,7 @@ export class OptionsService {
 
   set starManager(value: boolean) {
     this.options.starManager.checked = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get randomizeColors(): boolean {
@@ -762,6 +988,8 @@ export class OptionsService {
 
   set randomizeColors(value: boolean) {
     this.options.randomizeColors.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].randomizeColors = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get minColor(): string {
@@ -770,6 +998,9 @@ export class OptionsService {
 
   set minColor(value: string) {
     this.options.minColor.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].minColor = value;
+
+    this.storageService.saveOptions(this.options);
   }
 
 
@@ -779,6 +1010,8 @@ export class OptionsService {
 
   set midColor(value: string) {
     this.options.midColor.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].midColor = value;
+    this.storageService.saveOptions(this.options);
   }
 
 
@@ -788,6 +1021,8 @@ export class OptionsService {
 
   set maxColor(value: string) {
     this.options.maxColor.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].maxColor = value;
+    this.storageService.saveOptions(this.options);
   }
 
 
@@ -797,6 +1032,8 @@ export class OptionsService {
 
   set midLoc(value: number) {
     this.options.midLoc.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].midLoc = value;
+    this.storageService.saveOptions(this.options);
   }
 
 
@@ -806,6 +1043,7 @@ export class OptionsService {
 
   set currentTrack(value: number) {
     this.state.currentTrack.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get input(): string {
@@ -814,6 +1052,7 @@ export class OptionsService {
 
   set input(value: string) {
     this.state.input.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get playing(): boolean {
@@ -822,6 +1061,7 @@ export class OptionsService {
 
   set playing(value: boolean) {
     this.state.playing.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
   get microphone(): boolean {
@@ -830,6 +1070,7 @@ export class OptionsService {
 
   set microphone(value: boolean) {
     this.state.microphone.value = value;
+    this.storageService.saveOptions(this.options);
   }
 
 }

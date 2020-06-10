@@ -208,6 +208,7 @@
         <!-- Player -->
 
         <ng-container *ngIf="this.optionsService.microphone === false">
+          
           <div>
             <button class="playerButton" (click)="this.previousTrack()"><i
                 class="material-icons">skip_previous</i></button>
@@ -219,10 +220,15 @@
           <div>
             <i id="vdownicon" class="material-icons md-18">volume_mute</i>
 
-            <input type="range" class="volume-slider" [min]="this.optionsService.getState().volume.min"
-              [max]="this.optionsService.getState().volume.max" [step]="this.optionsService.getState().volume.step"
-              [(ngModel)]="this.optionsService.volume" ng-model-options="{ getterSetter: true }"
-              (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
+            <input type="range" 
+            class="volume-slider" 
+              [min]="this.optionsService.getState().volume.min"
+              [max]="this.optionsService.getState().volume.max" 
+              [step]="this.optionsService.getState().volume.step"
+              [(ngModel)]="this.optionsService.volume" 
+              ng-model-options="{ getterSetter: true }"
+              (input)="onSliderChangeVolume($event)" 
+              (change)="onSliderChangeVolume($event)">
 
             <i id="vupicon" class="material-icons md-18">volume_up</i>
           </div>

@@ -96,7 +96,7 @@ export class EquationManager {
             thing.position.y = radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta);
 
             this.mat = new BABYLON.StandardMaterial('matSpiral', this.scene);
-            this.mat.specularColor = new BABYLON.Color3(.2, .2, .2);
+            this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
             this.mat.backFaceCulling = true;
             thing.material = this.mat;
 

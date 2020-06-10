@@ -1,5 +1,5 @@
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, Inject } from '@angular/core';
 
 import { OptionsService } from '../../services/options/options.service';
 import { MessageService } from '../../services/message/message.service';
@@ -15,23 +15,22 @@ export class SplashScreenComponent {
   @Input('title') title: string;
 
   constructor(
-    public optionsService: OptionsService,
+    @Inject(OptionsService) private optionsService: OptionsService,
     public messageService: MessageService
   ) { }
 
   splashScreenOK() {
-    this.optionsService.toggleOption('showPlayer');
-    // this.optionsService.toggleOption('showBars');
-    // this.optionsService.toggleOption('showWaveform');
-    this.optionsService.toggleOption('showSplash');
+    // this.optionsService.toggleOption('showPlayer');
+    // this.optionsService.toggleOption('showSplash');
+    this.optionsService.toggleState('showPlayer');
+    this.optionsService.toggleState('showSplash');
     this.optionsService.currentVisual = 8;
     this.optionsService.toggleVisualRadio('hex', 8);
-    // this.optionsService.toggleVisualRadio('blockPlaneManager', 0);
 
     this.messageService.announceMessage('scene change');
 
     setTimeout(() => {
-      this.optionsService.toggleOption('showPanel');
+      this.optionsService.toggleState('showPanel');
       this.optionsService.toggleState('renderPlayer');
     }, 5);
   }

@@ -19,7 +19,7 @@ describe('AppComponent', () => {
   it(`should have as title 'soundanalyzerng'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('Music Visualyzer Ng');
+    expect(app.title).toEqual('MP3 Visualyzer Ng');
   });
 
   // it('should render title in a h1 tag', () => {

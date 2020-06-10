@@ -166,7 +166,7 @@ export class Rings {
         const box5 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 10, height: 200 }, this.scene);
 
         // for (let theta = Math.PI / 2; theta <= 2 * Math.PI + Math.PI / 2 - Math.PI / 100; theta += Math.PI / 100) {
-        for (let theta = Math.PI / 2; theta <= 2 * Math.PI + Math.PI / 2; theta += Math.PI / 200) {
+        for (let theta = Math.PI / 2; theta <= 2 * Math.PI + Math.PI / 2; theta += Math.PI / 100) {
             gtheta = theta;
             this.ring5SPS.addShape(box5, 1, { positionFunction: ring5PositionFunction });
         }
@@ -178,8 +178,8 @@ export class Rings {
         box5.dispose();
 
         this.ring5SPS.updateParticle = (particle) => {
-            const myTheta = particle.idx * Math.PI / 200 + Math.PI / 2;
-            let yy = this.audioService.fr256DataArray[particle.idx <= 200 ? particle.idx : 200 - (particle.idx - 200)];
+            const myTheta = particle.idx * Math.PI / 100 + Math.PI / 2;
+            let yy = this.audioService.fr128DataArray[particle.idx <= 100 ? particle.idx : 100 - (particle.idx - 100)];
             yy = yy * .8;
             // yy = (yy / 255 * yy / 255) * 255;
             // console.log(yy);
@@ -217,18 +217,18 @@ export class Rings {
 
         // Ensure working with new values for flat surface by computing and obtaining its worldMatrix
         this.glass.computeWorldMatrix(true);
-        var glass_worldMatrix = this.glass.getWorldMatrix();
+        const glassWorldMatrix = this.glass.getWorldMatrix();
 
         // Obtain normals for plane and assign one of them as the normal
-        var glass_vertexData = this.glass.getVerticesData('normal');
-        var glassNormal = new BABYLON.Vector3(glass_vertexData[0], glass_vertexData[1], glass_vertexData[2]);
+        const glassVertexData = this.glass.getVerticesData('normal');
+        let glassNormal = new BABYLON.Vector3(glassVertexData[0], glassVertexData[1], glassVertexData[2]);
         // Use worldMatrix to transform normal into its current world value
-        glassNormal = BABYLON.Vector3.TransformNormal(glassNormal, glass_worldMatrix);
+        glassNormal = BABYLON.Vector3.TransformNormal(glassNormal, glassWorldMatrix);
 
         // Create reflector using the position and reflected normal of the flat surface
-        var reflector = BABYLON.Plane.FromPositionAndNormal(this.glass.position, glassNormal.scale(-1));
+        const reflector = BABYLON.Plane.FromPositionAndNormal(this.glass.position, glassNormal.scale(-1));
 
-        var mirrorMaterial = new BABYLON.StandardMaterial('MirrorMat', this.scene);
+        const mirrorMaterial = new BABYLON.StandardMaterial('MirrorMat', this.scene);
         mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture('mirror', 512, this.scene, true);
         (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).mirrorPlane = reflector;
         (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).renderList = [this.ring1SPS.mesh, this.ring5SPS.mesh];

@@ -33,7 +33,7 @@ export class WaveRibbon {
         this.ground.material.specularColor = new BABYLON.Color3(0, 0, 0); // black is no shine
         // this.ground.material.wireframe = true;
 
-        this.ground.scaling = new BABYLON.Vector3(350, .25, 750);
+        this.ground.scaling = new BABYLON.Vector3(350, .25, 350);
 
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -50, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.7124;
@@ -51,7 +51,8 @@ export class WaveRibbon {
     update() {
 
         const h = this.audioService.tdBufferLength ;  // dataset length + 1
-        const w = this.audioService.tdHistoryArraySize;  // history length + 1
+        // const w = this.audioService.tdHistoryArraySize;  // history length + 1
+        const w = 150;
 
         let yVertexDataIndex = 1;  // 0 for x, 1 for y
         this.colorsBuffer = [];
@@ -59,9 +60,10 @@ export class WaveRibbon {
         for (let x = 0; x < w; x++) {
             const currentData = this.audioService.tdHistory[x];
             for (let y = 0; y < h; y++) {
+                let yy = y;
 
-                const r = currentData[y];
-                const g = 128 * y / 576;
+                const r = currentData[yy];
+                const g = 128 * yy / 576;
                 const b = 255 - 128 * y / 350;
 
                 // set color for 3D babylonjs canvas
@@ -71,7 +73,8 @@ export class WaveRibbon {
                 this.colorsBuffer.push(1);
 
                 // set y value of ground vertex data
-                this.groundVertices[yVertexDataIndex] = currentData[y]*2;
+                this.groundVertices[yVertexDataIndex] = currentData[y] * 3 - 350;
+                // this.groundVertices[yVertexDataIndex] = currentData[y] ;
 
                 yVertexDataIndex += 3;
             }

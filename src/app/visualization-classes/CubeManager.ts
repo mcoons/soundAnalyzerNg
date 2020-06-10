@@ -4,6 +4,7 @@ import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
+import { map } from './utilities.js';
 
 export class CubeManager {
 
@@ -28,11 +29,6 @@ export class CubeManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = Math.PI / 2;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
 
-        // this.optionsService.smoothingConstant = 7;
-        // this.optionsService.sampleGain = 1;
-        // this.messageService.announceMessage('sampleGain');
-        // this.messageService.announceMessage('smoothingConstant');
-
         this.scene.registerBeforeRender(this.beforeRender);
     }
 
@@ -48,14 +44,15 @@ export class CubeManager {
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = true;
-        this.mat.specularColor = new BABYLON.Color3(.1, .1, .1);
-        this.mat.ambientColor = new BABYLON.Color3(.25, .25, .25);
+        // this.mat.specularColor = new BABYLON.Color3(.1, .1, .1);
+        // this.mat.ambientColor = new BABYLON.Color3(.25, .25, .25);
 
         const myPositionFunction = (particle, i, s) => {
             particle.position.x = (x - 4.5) * 80;  // 80
             particle.position.y = (y - 3) * 80;  // 80
             particle.position.z = (z - 3.5) * 80;  // 80
             particle.color = new BABYLON.Color4(.5, .5, .5, .1);
+            // particle.hasVertexAlpha = true;
         };
 
         this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
@@ -87,9 +84,22 @@ export class CubeManager {
             particle.scaling.y = yy / 160;
             particle.scaling.z = yy / 160;
 
-            const r = (128 - yy) / 255;
-            const b = yy / 255;
-            const g = (128 - yy) / 255;
+            // const r = (128 - yy) / 255;
+            // const b = yy / 255;
+            // const g = (128 - yy) / 255;
+
+            // const r = yy * map(particle.position.x, -360, 360, 50, 200 ) / 255 / 255;
+            // const g = yy * map(particle.position.y, -240, 400, 50, 200 ) / 255 / 255;
+            // const b = yy * map(particle.position.z, -280, 280, 50, 255 ) / 255 / 255;
+
+            const r = yy * map(particle.position.x, -360, 360, .2, .9 ) / 255;
+            const g = yy * map(particle.position.y, -240, 400, .2, .9 ) / 255;
+            const b = yy * map(particle.position.z, -280, 280, .2, .9 ) / 255;
+
+
+            // x = -360 .. 360   r = map(x, -360, 360, 50, 200 )/255
+            // y = -240 .. 400   g = map(x, -240, 400, 50, 200 )/255
+            // z = -280 .. 280   b = map(x, -280, 280, 50, 200 )/255
 
             particle.color = new BABYLON.Color4(r, g, b, (yy / 255) * (yy / 255));
         };
