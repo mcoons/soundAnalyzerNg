@@ -8,17 +8,14 @@ TODO
 _______________________________________________________________________
 
 Save option to local settings per visual (ie visual 1 camera pos and smoothing constant)
-    randomizeColors (Animate Color) changes not saved in localStorage
-    possibly randomizeColors not using custom visual value but could just be above issue
+Save camera position per visual to options
+Save last viewed visual for after splash screen
 
 Colored Cube is messed up with normals or culling
-Lower padding/margin on option panel notes
 
-Minimizing Options Window is broken
 Implement Star Zooming
 Implement camera animation option true/false
 Implement Randomization of soundtracks
-Save camera position per visual to options
 
 
 Fix playlist selection button highlight when canceling coming from mic

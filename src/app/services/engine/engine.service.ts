@@ -90,9 +90,6 @@ export class EngineService {
       WaveRibbon
     ];
 
-
-
-
   }
 
   public createScene(canvas: ElementRef<HTMLCanvasElement>): void {
@@ -179,10 +176,25 @@ export class EngineService {
     this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
   }
 
+  saveCamera() {
+
+    this.optionsService.options[this.optionsService.visuals[this.managerClassIndex]].calpha
+    = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha;
+
+    this.optionsService.options[this.optionsService.visuals[this.managerClassIndex]].cbeta
+    = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta;
+
+    this.optionsService.options[this.optionsService.visuals[this.managerClassIndex]].cradius
+    = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius;
+
+  }
+
   selectScene(index) {
     if (this.managerClassIndex === index) {
       return;
     }
+
+    this.saveCamera();
 
     if (this.currentManager) {
       this.currentManager.remove();
@@ -198,7 +210,7 @@ export class EngineService {
     this.currentManager = new this.managerClasses[index](this.scene, this.audioService, this.optionsService, this.messageService, this);
     this.currentManager.create();
 
-    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha=
+    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
     this.optionsService.options[this.optionsService.visuals[index]].calpha;
 
     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta =
