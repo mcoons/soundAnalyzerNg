@@ -7,10 +7,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { MatExpansionModule } from '@angular/material/expansion';
 
-
+import { AudioModule } from './audio/audio.module';
 import { WindowRefService } from './services/window-ref/window-ref.service';
-// import { OptionsService } from './services/options/options.service';
-// import { MessageService } from './services/message/message.service';
+
 
 import { AppComponent } from './app.component';
 import { Canvas2DComponent } from './components/canvas2-d/canvas2-d.component';
@@ -18,7 +17,7 @@ import { Canvas3DComponent } from './components/canvas3-d/canvas3-d.component';
 import { OptionsPanelComponent } from './components/options-panel/options-panel.component';
 import { TitleComponent } from './components/title/title.component';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
-import { MyPlayerComponent } from './components/my-player/my-player.component';
+// import { MyPlayerComponent } from './components/my-player/my-player.component';
 
 @NgModule({
    declarations: [
@@ -28,7 +27,7 @@ import { MyPlayerComponent } from './components/my-player/my-player.component';
       OptionsPanelComponent,
       TitleComponent,
       SplashScreenComponent,
-      MyPlayerComponent
+      // MyPlayerComponent
    ],
    imports: [
       BrowserModule,
@@ -36,12 +35,12 @@ import { MyPlayerComponent } from './components/my-player/my-player.component';
       BrowserAnimationsModule,
       FormsModule,
       TooltipModule,
-      MatExpansionModule
+      MatExpansionModule,
+      AudioModule
    ],
    providers: [
       WindowRefService,
-      // OptionsService,
-      // MessageService
+
    ],
    bootstrap: [
       AppComponent

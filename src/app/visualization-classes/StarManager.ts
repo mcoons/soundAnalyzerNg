@@ -261,9 +261,34 @@ export class StarManager {
     ////////////////////////////////////////////////////////
 
     update() {
+
+        const setStar = (n: number, show: boolean) => {
+            this.objects[n * 5 + 0].mesh.setEnabled(show);
+            this.objects[n * 5 + 1].mesh.setEnabled(show);
+            this.objects[n * 5 + 2].mesh.setEnabled(show);
+            this.objects[n * 5 + 3].mesh.setEnabled(show);
+            this.objects[n * 5 + 4].mesh.setEnabled(show);
+        }
+
+        const zoomStar = (n: number) => {
+            for (let index = 0; index < 8; index++) {
+                setStar(index, (index === n));
+            }
+        }
+
+        // zoomStar(7);
+
         this.objects.forEach((sObject, index) => {
             sObject.update(index);
         });
+
+
+
+
+
+
+
+
     }
 
     remove() {

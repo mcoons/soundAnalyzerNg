@@ -70,7 +70,7 @@ export class AppComponent implements OnInit {
   }
 
   togglePanel() {
-    this.optionsService.toggleOption('showPanel');
+    this.optionsService.toggleState('showPanel');
   }
 
 }

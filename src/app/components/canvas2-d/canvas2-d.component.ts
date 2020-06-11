@@ -57,20 +57,22 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     this.optionsService.windowResize();
 
 
-    if (this.optionsService.getOptions().showBars.value === true) {
-      this.draw2DBars();
-    }
+    if (this.optionsService.showSplash === false) {
 
-    this.waveformDelayCounter++;
-    if (this.waveformDelayCounter >= this.optionsService.getOptions().waveformDelay.value) {
-      this.waveformDelayCounter = 0;
-      this.waveFormDataSource = this.audioService.getTDData();
-    }
+      if (this.optionsService.showBars === true) {
+        this.draw2DBars();
+      }
 
-    if (this.optionsService.getOptions().showWaveform.value === true) {
-      this.drawWaveform();
-    }
+      if (this.optionsService.showWaveform === true) {
+        this.waveformDelayCounter++;
+        if (this.waveformDelayCounter >= this.optionsService.waveformDelay) {
+          this.waveformDelayCounter = 0;
+          this.waveFormDataSource = this.audioService.getTDData();
+        }
 
+        this.drawWaveform();
+      }
+    }
     window.requestAnimationFrame(this.render2DFrame);
   }
 
@@ -219,7 +221,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     }
 
     // const width = this.canvas.width - 50;
-    const width = 1024;
+    const width = 512;
 
     const PI = Math.PI;
     const TwoPI = PI * 2;
@@ -227,14 +229,14 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     const PId32 = PI / 32;
 
     this.ctx.lineWidth = 3;
-    this.ctx.moveTo(this.canvas.width / 2 - 512, 120);
+    this.ctx.moveTo(this.canvas.width / 2 - 256, 120);
     this.ctx.beginPath();
     for (let i = 0; i < width; i++) {
 
       const multiplier = Math.sin(map(i, 0, width - 1, 0, PI));
       const y = (this.waveFormDataSource[i] - 128) * multiplier * this.optionsService.waveformMultiplier;
 
-      this.ctx.lineTo(i + this.canvas.width / 2 - 512, y + 120);
+      this.ctx.lineTo(i * 2 + this.canvas.width / 2 - 512, y + 120);
     }
 
     this.ctx.strokeStyle = 'white';

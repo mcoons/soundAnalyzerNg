@@ -50,14 +50,15 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   radioChange(e) {
     this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
-    this.optionsService.setOption('currentVisual', e.target.value);
+    // this.optionsService.setOption('currentVisual', e.target.value);
+    this.optionsService.updateState('currentVisual', e.target.value);
   }
 
   colorChange(e) {
     if (e.type !== 'change') {
       return;
     }
-
+    console.log('colorchange');
   }
 
   radioNoteChange(e) {

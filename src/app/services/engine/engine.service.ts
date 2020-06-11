@@ -27,7 +27,7 @@ import { WaveRibbon } from '../../visualization-classes/WaveRibbon';
 export class EngineService {
   private canvas: HTMLCanvasElement;
   private engine: BABYLON.Engine;
-  private camera: BABYLON.ArcRotateCamera;
+  camera: BABYLON.ArcRotateCamera;
   private scene: BABYLON.Scene;
   private managerClasses;
   private managerClassIndex;
@@ -46,6 +46,13 @@ export class EngineService {
   finalHexGround;
   hexMat;
   groundMat;
+  hexParent;
+  groundCover;
+  // groundParent;
+  tube1;
+  tube2;
+  matGroundCover;
+  tubeMat;
 
   public constructor(
     private ngZone: NgZone,
@@ -65,7 +72,7 @@ export class EngineService {
       message => {
         // console.log('Engine: Message received from service is :  ' + message);
 
-        this.selectScene(this.optionsService.getOptions().currentVisual.value);
+        this.selectScene(this.optionsService.currentVisual);
       });
 
     // this.managerClassIndex = this.optionsService.getOptions().currentVisual.value;
@@ -82,10 +89,6 @@ export class EngineService {
       Hex,
       WaveRibbon
     ];
-
-
-
-
 
   }
 
@@ -173,28 +176,50 @@ export class EngineService {
     this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
   }
 
+  saveCamera() {
+
+    this.optionsService.options[this.optionsService.visuals[this.managerClassIndex]].calpha
+    = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha;
+
+    this.optionsService.options[this.optionsService.visuals[this.managerClassIndex]].cbeta
+    = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta;
+
+    this.optionsService.options[this.optionsService.visuals[this.managerClassIndex]].cradius
+    = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius;
+
+  }
+
   selectScene(index) {
     if (this.managerClassIndex === index) {
       return;
     }
 
+    this.saveCamera();
+
     if (this.currentManager) {
       this.currentManager.remove();
     }
 
-    this.scene.materials.forEach(m => {
-      m.dispose(true, true, true);
-    });
 
     this.currentManager = null;
-    this.scene.materials.forEach(m => {
-      m.dispose(true, true, true);
-    });
+    // this.scene.materials.forEach(m => {
+    //   m.dispose(true, true, true);
+    // });
 
     this.managerClassIndex = index;
     this.currentManager = new this.managerClasses[index](this.scene, this.audioService, this.optionsService, this.messageService, this);
     this.currentManager.create();
 
+    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
+    this.optionsService.options[this.optionsService.visuals[index]].calpha;
+
+    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta =
+    this.optionsService.options[this.optionsService.visuals[index]].cbeta;
+
+    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius =
+    this.optionsService.options[this.optionsService.visuals[index]].cradius;
+    // console.log((this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha);
+    // console.log(this.optionsService.options[this.optionsService.visuals[index]].calpha);
   }
 
   fixDpi = () => {
@@ -256,62 +281,7 @@ export class EngineService {
 
   createHexObj() {
 
-    // interface Mesh {
-    //   pointsInside(point: BABYLON.Vector3);
-    // }
-
-
-    // BABYLON.Mesh.prototype.pointIsInside = function (point) {
-    //   var boundInfo = this.getBoundingInfo();
-    //   var max = boundInfo.maximum;
-    //   var min = boundInfo.minimum;
-    //   var diameter = 2 * boundInfo.boundingSphere.radius;
-    //   if (point.x < min.x || point.x > max.x) {
-    //     return false;
-    //   }
-    //   if (point.y < min.y || point.y > max.y) {
-    //     return false;
-    //   }
-    //   if (point.z < min.z || point.z > max.z) {
-    //     return false;
-    //   }
-
-
-    //   var pointFound = false;
-    //   var d = 0;
-    //   var hitCount = 0;
-    //   var gap = 0;
-    //   var distance = 0;
-    //   var ray = new BABYLON.Ray(BABYLON.Vector3.Zero(), BABYLON.Axis.X, diameter);;
-    //   var pickInfo;
-    //   var direction = BABYLON.Vector3.Zero();
-
-
-    //   while (d < 2 && !pointFound) {
-    //     hitCount = 0;
-    //     direction = BABYLON.Axis.X.scale(2 * (0.5 - d));
-    //     ray.origin = point;
-    //     ray.direction = direction;
-    //     ray.distance = diameter;
-    //     pickInfo = ray.intersectsMesh(this);
-    //     while (pickInfo.hit) {
-    //       hitCount++;
-    //       pickInfo.pickedPoint.addToRef(direction.scale(0.00000001), point);
-    //       ray.origin = point;
-    //       pickInfo = ray.intersectsMesh(this);
-    //     }
-    //     if ((hitCount % 2) === 1) {
-    //       pointFound = true;
-    //     }
-    //     else if ((hitCount % 2) === 0 && hitCount > 0) {
-    //       pointFound = true;
-    //     }
-    //     d++;
-    //   }
-
-    //   return pointFound;
-    // };
-
+    this.hexParent = new BABYLON.TransformNode('root');
 
     let x: number;
     let x2: number;
@@ -329,6 +299,8 @@ export class EngineService {
 
     this.hexMat = new BABYLON.StandardMaterial(`material`, this.scene);
     this.hexMat.bumpTexture = new BABYLON.Texture('../../assets/images/normal8.jpg', this.scene);
+    this.hexMat.bumpTexture.uScale = 5;
+    this.hexMat.bumpTexture.vScale = 5;
 
     // const groundBox = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 750, tessellation: 88, height: 48 }, this.scene);
     const groundBox = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 880, tessellation: 6, height: 48 }, this.scene);
@@ -365,10 +337,6 @@ export class EngineService {
         if (d <= 13.3) {
           this.hexSPS.addShape(hex, 1, { positionFunction: innerPositionFunction });
         }
-        // if (groundBox.pointIsInside(new BABYLON.Vector3(x2, 0, z))) {
-        //   this.hexSPS.addShape(hex, 1, { positionFunction: innerPositionFunction });
-        // }
-
       }
     }
 
@@ -379,6 +347,7 @@ export class EngineService {
     this.hexMesh.scaling.x = .8;
     this.hexMesh.scaling.y = .8;
     this.hexMesh.scaling.z = .8;
+    this.hexMesh.parent = this.hexParent;
 
     const spsCSG = BABYLON.CSG.FromMesh(this.hexMesh);
     const holyGroundCSG = groundCSG.subtract(spsCSG);
@@ -388,8 +357,8 @@ export class EngineService {
 
     // this.finalHexGround.material = this.groundMat;
 
-    this.finalHexGround.setEnabled(false);
-    this.hexMesh.setEnabled(false);
+    // this.finalHexGround.setEnabled(false);
+    // this.hexMesh.setEnabled(false);
 
     hex.dispose();
 
@@ -405,6 +374,86 @@ export class EngineService {
       particle.scaling.x = .9;
       particle.scaling.z = .9;
     };
+
+    this.matGroundCover = new BABYLON.StandardMaterial('mat1', this.scene);
+    this.matGroundCover.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse1.jpg', this.scene);
+    this.matGroundCover.bumpTexture = new BABYLON.Texture('../../assets/mats/normal1.jpg', this.scene);
+    (this.matGroundCover.diffuseTexture as BABYLON.Texture).vScale = 2;
+    (this.matGroundCover.bumpTexture as BABYLON.Texture).vScale = 2;
+    (this.matGroundCover.diffuseTexture as BABYLON.Texture).uScale = 100;
+    (this.matGroundCover.bumpTexture as BABYLON.Texture).uScale = 100;
+
+    const matGround = new BABYLON.StandardMaterial('mat1', this.scene);
+    matGround.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse2.jpg', this.scene);
+    matGround.bumpTexture = new BABYLON.Texture('../../assets/mats/normal2.jpg', this.scene);
+    // matGround.diffuseTexture.vScale = 2;
+    // matGround.bumpTexture.vScale = 2;
+    (matGround.diffuseTexture as BABYLON.Texture).uScale = 10;
+    (matGround.diffuseTexture as BABYLON.Texture).vScale = 10;
+    (matGround.bumpTexture as BABYLON.Texture).uScale = 10;
+    (matGround.bumpTexture as BABYLON.Texture).vScale = 10;
+
+    this.finalHexGround.material = matGround;
+    this.finalHexGround.parent = this.hexParent;
+
+    const path = [];
+    const segLength = 100;
+    // const numSides = 44;
+    const numSides = 6;
+
+    const mat = new BABYLON.StandardMaterial('mat1', this.scene);
+    mat.diffuseColor = new BABYLON.Color3(1, 1, 1);
+    mat.backFaceCulling = false;
+
+    for (let i = -1; i <= 0; i++) {
+        let xx = (i / 2) * segLength;
+        const yy = 0;
+        const zz = 0;
+        path.push(new BABYLON.Vector3(xx, yy, zz));
+    }
+
+    // this.groundCover = BABYLON.Mesh.CreateTube('tube', path, 378, numSides, null, 0, this.scene);
+    this.groundCover = BABYLON.Mesh.CreateTube('tube', path, 441, numSides, null, 0, this.scene);
+    this.groundCover.rotation.z = Math.PI / 2;
+    this.groundCover.rotation.y = Math.PI / 6;
+    
+    this.groundCover.material = this.matGroundCover;
+    this.groundCover.convertToFlatShadedMesh();
+    // this.groundCover.scaling.y = 1.13;
+    this.groundCover.position.y = 6;
+
+    this.groundCover.parent = this.hexParent;
+
+    this.tubeMat = new BABYLON.StandardMaterial('mat1', this.scene);
+    this.tubeMat.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse3.jpg', this.scene);
+    this.tubeMat.bumpTexture = new BABYLON.Texture('../../assets/mats/normal3.jpg', this.scene);
+    // this.tubeMat.diffuseTexture.vScale = 50;
+    (this.tubeMat.diffuseTexture as BABYLON.Texture).uScale = 50;
+    // this.tubeMat.bumpTexture.vScale = 2;
+    // this.tubeMat.bumpTexture.uScale = 100;
+
+    // this.tube1 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 750, thickness: 13, tessellation: 44 }, this.scene);
+    this.tube1 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 880, thickness: 13, tessellation: 6 }, this.scene);
+    this.tube1.material = mat;
+    this.tube1.position.y = 7.5;
+    this.tube1.parent = this.hexParent;
+    // this.tube1.scaling.x = 1.13;
+    this.tube1.scaling.y = .5;
+    this.tube1.material = this.tubeMat;
+    this.tube1.rotation.y = Math.PI / 6;
+
+
+    // this.tube2 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 750, thickness: 13, tessellation: 44 }, this.scene);
+    this.tube2 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 880, thickness: 13, tessellation: 6 }, this.scene);
+    this.tube2.material = mat;
+    this.tube2.position.y = -48;
+    this.tube2.parent = this.hexParent;
+    // this.tube2.scaling.x = 1.13;
+    this.tube2.material = this.tubeMat;
+    this.tube2.rotation.y = Math.PI/6;
+
+    this.hexParent.setEnabled(false);
+
 
   }
 }

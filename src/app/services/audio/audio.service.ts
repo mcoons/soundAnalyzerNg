@@ -79,7 +79,7 @@ export class AudioService {
 
   tdHistory = [];
 
-  tdHistoryArraySize = 50;
+  tdHistoryArraySize = 150;
 
   sample1: Uint8Array = new Uint8Array(576);
   sample1Normalized: Uint8Array = new Uint8Array(576);
@@ -194,7 +194,7 @@ export class AudioService {
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
     // this.tdAnalyser.fftSize = 16384;
-    this.tdAnalyser.fftSize = 2048;
+    this.tdAnalyser.fftSize = 1024;
     this.tdAnalyser.minDecibels = this.minDecibels;
     this.tdAnalyser.maxDecibels = this.maxDecibels;
     this.tdAnalyser.smoothingTimeConstant = this.smoothingConstant;
@@ -239,7 +239,7 @@ export class AudioService {
     for (let index = 0; index < 151; index++) {
 
       let frTemp = [];
-      frTemp = Array(550).fill(0);
+      frTemp = Array(572).fill(0);
       this.sample1BufferHistory.push(frTemp);
     }
 
@@ -269,7 +269,10 @@ export class AudioService {
     //     this.analyzeData();
     //   }
     // }, 10);
+    this.setGain();
 
+    this.smoothingConstant = this.optionsService.smoothingConstant / 10;
+    this.setSmoothingConstant();
 
   }
 
@@ -302,31 +305,31 @@ export class AudioService {
       this.sample1[index + 512] = (this.soundArrays[1])[index + 64];   // 128 buckets
     }
 
-    const averageBuckets = (s, e) => {
-      let total = 0;
-      for (let i = s; i <= e; i++) {
-        total += this.fr16384DataArray[i];
-      }
-      return total / (e - s + 1);
-    };
+    // const averageBuckets = (s, e) => {
+    //   let total = 0;
+    //   for (let i = s; i <= e; i++) {
+    //     total += this.fr16384DataArray[i];
+    //   }
+    //   return total / (e - s + 1);
+    // };
 
-    const windowSize = 64;   // will be 64
-    const windowCount = 8;  // will be 8
+    // const windowSize = 64;   // will be 64
+    // const windowCount = 8;  // will be 8
 
-    let targetIndex = 0;
-    let startIndex = 0;
-    let endIndex = 0;
+    // let targetIndex = 0;
+    // let startIndex = 0;
+    // let endIndex = 0;
 
-    for (let span = 0; span < windowCount; span++) {
+    // for (let span = 0; span < windowCount; span++) {
 
-      for (let seq = 0; seq < windowSize; seq++) {
+    //   for (let seq = 0; seq < windowSize; seq++) {
 
-        endIndex = startIndex + Math.pow(2, span) - 1;
-        this.sampleAve[targetIndex] = averageBuckets(startIndex, endIndex);
-        startIndex += Math.pow(2, span);
-        targetIndex++;
-      }
-    }
+    //     endIndex = startIndex + Math.pow(2, span) - 1;
+    //     this.sampleAve[targetIndex] = averageBuckets(startIndex, endIndex);
+    //     startIndex += Math.pow(2, span);
+    //     targetIndex++;
+    //   }
+    // }
 
 
 

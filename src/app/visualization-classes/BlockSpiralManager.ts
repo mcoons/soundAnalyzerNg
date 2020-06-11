@@ -66,7 +66,7 @@ export class BlockSpiralManager {
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = false;
-        this.mat.specularColor = new BABYLON.Color3(.5, .5, .5);
+        this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
         this.mat.ambientColor = new BABYLON.Color3(.6, .6, .6);
 
         const myPositionFunction = (particle, i, s) => {
