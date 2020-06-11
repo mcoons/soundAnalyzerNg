@@ -198,15 +198,16 @@ export class EngineService {
     this.currentManager = new this.managerClasses[index](this.scene, this.audioService, this.optionsService, this.messageService, this);
     this.currentManager.create();
 
-    // this.camera.alpha =
-    // this.optionsService.options[this.optionsService.visuals[index]].calpha;
+    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha=
+    this.optionsService.options[this.optionsService.visuals[index]].calpha;
 
-    // this.camera.beta =
-    // this.optionsService.options[this.optionsService.visuals[index]].cbeta;
+    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta =
+    this.optionsService.options[this.optionsService.visuals[index]].cbeta;
 
-    // this.camera.radius =
-    // this.optionsService.options[this.optionsService.visuals[index]].radius;
-
+    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius =
+    this.optionsService.options[this.optionsService.visuals[index]].cradius;
+    // console.log((this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha);
+    // console.log(this.optionsService.options[this.optionsService.visuals[index]].calpha);
   }
 
   fixDpi = () => {

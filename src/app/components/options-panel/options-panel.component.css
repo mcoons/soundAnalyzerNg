@@ -144,7 +144,7 @@ input[type=range] {
 .mat-expansion-panel-body  {
     background-color: lightgray;
     color: black;
-    padding: 5px !important;
+    padding: 5px 0 0 0 !important;
 }
 
 .active {
@@ -155,3 +155,7 @@ input[type=range] {
     margin-top: 5px;
     margin-left: 5px;
 }
+
+/* .noteLabel {
+    margin-right: 0;
+} */

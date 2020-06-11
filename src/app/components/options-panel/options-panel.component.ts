@@ -58,7 +58,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     if (e.type !== 'change') {
       return;
     }
-
+    console.log('colorchange');
   }
 
   radioNoteChange(e) {

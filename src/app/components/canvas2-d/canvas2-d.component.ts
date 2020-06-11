@@ -57,20 +57,22 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     this.optionsService.windowResize();
 
 
-    if (this.optionsService.getOptions().showBars.value === true) {
-      this.draw2DBars();
-    }
+    if (this.optionsService.showSplash === false) {
 
-    this.waveformDelayCounter++;
-    if (this.waveformDelayCounter >= this.optionsService.getOptions().waveformDelay.value) {
-      this.waveformDelayCounter = 0;
-      this.waveFormDataSource = this.audioService.getTDData();
-    }
+      if (this.optionsService.showBars === true) {
+        this.draw2DBars();
+      }
 
-    if (this.optionsService.getOptions().showWaveform.value === true) {
-      this.drawWaveform();
-    }
+      if (this.optionsService.showWaveform === true) {
+        this.waveformDelayCounter++;
+        if (this.waveformDelayCounter >= this.optionsService.waveformDelay) {
+          this.waveformDelayCounter = 0;
+          this.waveFormDataSource = this.audioService.getTDData();
+        }
 
+        this.drawWaveform();
+      }
+    }
     window.requestAnimationFrame(this.render2DFrame);
   }
 

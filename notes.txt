@@ -14,7 +14,7 @@ Save option to local settings per visual (ie visual 1 camera pos and smoothing c
 Colored Cube is messed up with normals or culling
 Lower padding/margin on option panel notes
 
-
+Minimizing Options Window is broken
 Implement Star Zooming
 Implement camera animation option true/false
 Implement Randomization of soundtracks
