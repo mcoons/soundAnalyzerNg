@@ -14,10 +14,8 @@ export class SpherePlaneManagerSPS {
     private messageService: MessageService;
 
     private innerSPS;
-    // private outerSPS;
     private mat;
     private mesh1;
-    // private mesh2;
     hl;
 
     private rotation = 0;
@@ -28,38 +26,36 @@ export class SpherePlaneManagerSPS {
         this.optionsService = optionsService;
         this.messageService = messageService;
 
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .81; // 1
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1200;
-
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
         (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.2;
         (this.scene.lights[2] as BABYLON.PointLight).intensity = 0.2;
 
         this.scene.registerBeforeRender(this.beforeRender);
 
-        // this.optionsService.smoothingConstant = 5;
-        // this.optionsService.sampleGain = 4;
-        // this.messageService.announceMessage('sampleGain');
-        // this.messageService.announceMessage('smoothingConstant');
         this.hl = new BABYLON.HighlightLayer('hl1', this.scene);
 
+        this.setDefaults();
+    }
+
+    setDefaults() {
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .81; // 1
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1200;
     }
 
     beforeRender = () => {
 
         this.innerSPS.setParticles();
-        // this.outerSPS.setParticles();
 
-        this.rotation += Math.PI / 500;
-        if (this.rotation >= Math.PI * 2) {
-            this.rotation = 0;
+        if (this.optionsService.animateCamera) {
+            this.rotation += Math.PI / 500;
+            if (this.rotation >= Math.PI * 2) {
+                this.rotation = 0;
+            }
+
+            this.innerSPS.mesh.rotation.y = this.rotation;
         }
-
-        this.innerSPS.mesh.rotation.y = this.rotation;
-        this.mat.wireframe = this.optionsService.showWireframe;
-
     }
 
     create() {
@@ -71,8 +67,6 @@ export class SpherePlaneManagerSPS {
         const width = 100;
         const depth = 15;
         const height = 20;
-
-        // let gtheta;
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = false;
@@ -119,7 +113,6 @@ export class SpherePlaneManagerSPS {
             particle.scale.x = yy / 20 + .5;
             particle.scale.y = yy / 20 + .5;
             particle.scale.z = yy / 20 + .5;
-            // this.hl.addMesh(particle, BABYLON.Color3.Green());
 
         };
 
@@ -129,9 +122,7 @@ export class SpherePlaneManagerSPS {
 
     remove() {
         this.innerSPS.mesh.dispose();
-        // this.outerSPS.mesh.dispose();
         this.mesh1.dispose();
-        // this.mesh2.dispose();
         this.scene.unregisterBeforeRender(this.beforeRender);
 
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.8;

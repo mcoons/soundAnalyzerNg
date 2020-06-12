@@ -23,8 +23,12 @@
     z-index:500;
 }
 
+.player, .volume {
+    text-align: center;;
+}
 
-#glowContainer {
+
+#glowContainer{
     height: 100%;
     margin: 5px;
     margin-top:0;
@@ -64,17 +68,21 @@ input[type=range] {
 } */
 
 #listBtnContainer {
+    padding: 5px;
+}
+
+.btnContainer  {
     display: -webkit-box;
     display: -ms-flexbox;
-    display: flex;
+    display: inline-flex;
     -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-around;
     width: 100%;
 }
 
 .playlistButton {
-    width: 60px;
+    width: 90px;
     margin-bottom: 10px;
     border-radius: 5px;
     border-top: 1px solid rgb(206, 206, 206);

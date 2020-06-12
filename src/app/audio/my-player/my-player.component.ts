@@ -81,6 +81,9 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         if (message === 'volume change') {
           this.onSliderChangeVolume(null);
         }
+        if (message === 'randomize list') {
+          this.randomizeList();
+        }
         // console.log('Audio Player: Message received from service is :  ' + message);
       });
 
@@ -172,6 +175,42 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
+  }
+
+  randomizeList() {
+
+    function shuffle(array) {
+      let currentIndex = array.length;
+      let temporaryValue;
+      let randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+    }
+
+    if (!this.audio.paused) {
+      this.playPause();
+    }
+
+    shuffle(this.playList);
+
+    this.optionsService.updateState('playlist', this.playList);
+    this.selectTrack(0);
+    this.optionsService.updateState('currentTrack', 0);
+    this.setPlaySource();
+    this.playPause();
   }
 
   setPlaySource() {

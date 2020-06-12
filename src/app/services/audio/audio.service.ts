@@ -243,14 +243,11 @@ export class AudioService {
       this.sample1BufferHistory.push(frTemp);
     }
 
-
     for (let index = 0; index < this.tdHistoryArraySize; index++) {
-
       let tdTemp = [];
       tdTemp = Array(this.tdBufferLength).fill(0);
       this.tdHistory.push(tdTemp);
     }
-
 
     this.soundArrays = [
       this.fr64DataArray,  // 0

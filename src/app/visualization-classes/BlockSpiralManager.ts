@@ -25,10 +25,7 @@ export class BlockSpiralManager {
         this.messageService = messageService;
         this.engineService = engineService;
 
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -50, 0);
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
+        this.setDefaults();
 
         // this.optionsService.smoothingConstant = 9;
         // this.optionsService.sampleGain = 10;
@@ -38,16 +35,23 @@ export class BlockSpiralManager {
         this.scene.registerBeforeRender(this.beforeRender);
     }
 
+    setDefaults(){
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -50, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
+    }
 
     beforeRender = () => {
         this.SPS.setParticles();
-        this.mat.wireframe = this.optionsService.showWireframe;
 
-        this.rotation += Math.PI / 1000;
-        if (this.rotation >= Math.PI * 2) {
-            this.rotation = 0;
+        if (this.optionsService.animateCamera) {
+            this.rotation += Math.PI / 1000;
+            if (this.rotation >= Math.PI * 2) {
+                this.rotation = 0;
+            }
+            this.SPS.mesh.rotation.y = this.rotation;
         }
-        this.SPS.mesh.rotation.y = this.rotation;
 
         this.engineService.highlightLayer.removeMesh(this.mesh);
         this.engineService.highlightLayer.addMesh(this.mesh,

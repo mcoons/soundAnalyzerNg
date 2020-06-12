@@ -40,6 +40,10 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
+  randomizeList() {
+    this.messageService.announceMessage('randomize list');
+  }
+
   toggleItem(e) {
     this.optionsService.toggleOption(e.target.name);
   }
@@ -50,7 +54,6 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   radioChange(e) {
     this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
-    // this.optionsService.setOption('currentVisual', e.target.value);
     this.optionsService.updateState('currentVisual', e.target.value);
   }
 

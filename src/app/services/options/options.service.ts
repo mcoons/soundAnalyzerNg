@@ -4,8 +4,6 @@ import { Subscription, Observable, fromEvent } from 'rxjs';
 
 import { MessageService } from '../message/message.service';
 import { StorageService } from '../storage/storage.service';
-// import { EngineService } from '../engine/engine.service';
-import { InvokeFunctionExpr } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +29,6 @@ export class OptionsService {
     'spectrograph',
     'spherePlaneManagerSPS',
     'rings',
-    // 'hills',
     'hex',
     'waveRibbon'
   ];
@@ -39,8 +36,6 @@ export class OptionsService {
   notes = [
     'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'None'
   ];
-
-
 
    options = {
 
@@ -81,13 +76,6 @@ export class OptionsService {
       max: 10,
       step: .1
     },
-    showWireframe: {
-      group: 'Hidden',
-      type: 'checkbox',
-      label: 'Show Wireframe',
-      value: false
-    },
-
 
 
     // visual options
@@ -98,11 +86,13 @@ export class OptionsService {
       value: 0,
       checked: false,
       colorOptions: true,
+      cameraOptions: false,
       sampleGain: 10,
       smoothingConstant: 5,
-      randomizeColors: true,
+      animateCamera: false,
+      customColors: false,
       minColor: '#0000ff',
-      midColor: '#000000',
+      midColor: '#00ff00',
       maxColor: '#ff0000',
       midLoc: 128,
       calpha: 4.72,
@@ -116,11 +106,13 @@ export class OptionsService {
       value: 1,
       checked: false,
       colorOptions: true,
+      cameraOptions: true,
       sampleGain: 10,
       smoothingConstant: 5,
-      randomizeColors: true,
+      animateCamera: true,
+      customColors: false,
       minColor: '#0000ff',
-      midColor: '#000000',
+      midColor: '#00ff00',
       maxColor: '#ff0000',
       midLoc: 128,
       calpha: 4.72,
@@ -134,11 +126,13 @@ export class OptionsService {
       value: 2,
       checked: true,
       colorOptions: true,
+      cameraOptions: true,
       sampleGain: 10,
       smoothingConstant: 5,
-      randomizeColors: true,
+      animateCamera: true,
+      customColors: false,
       minColor: '#0000ff',
-      midColor: '#000000',
+      midColor: '#00ff00',
       maxColor: '#ff0000',
       midLoc: 128,
       calpha: 4.72,
@@ -152,11 +146,13 @@ export class OptionsService {
       value: 3,
       checked: false,
       colorOptions: false,
+      cameraOptions: false,
       sampleGain: 10,
       smoothingConstant: 5,
-      randomizeColors: true,
+      animateCamera: false,
+      customColors: false,
       minColor: '#0000ff',
-      midColor: '#000000',
+      midColor: '#00ff00',
       maxColor: '#ff0000',
       midLoc: 128,
       calpha: 1.57,
@@ -170,11 +166,13 @@ export class OptionsService {
       value: 4,
       checked: false,
       colorOptions: false,
+      cameraOptions: false,
       sampleGain: 10,
       smoothingConstant: 5,
-      randomizeColors: true,
+      animateCamera: false,
+      customColors: false,
       minColor: '#0000ff',
-      midColor: '#000000',
+      midColor: '#00ff00',
       maxColor: '#ff0000',
       midLoc: 128,
       calpha: 4.72,
@@ -188,11 +186,13 @@ export class OptionsService {
       value: 5,
       checked: false,
       colorOptions: false,
+      cameraOptions: false,
       sampleGain: 10,
       smoothingConstant: 5,
-      randomizeColors: true,
+      animateCamera: false,
+      customColors: false,
       minColor: '#0000ff',
-      midColor: '#000000',
+      midColor: '#00ff00',
       maxColor: '#ff0000',
       midLoc: 128,
       calpha: 4.72,
@@ -206,11 +206,13 @@ export class OptionsService {
       value: 6,
       checked: false,
       colorOptions: true,
+      cameraOptions: true,
       sampleGain: 10,
       smoothingConstant: 5,
-      randomizeColors: true,
+      animateCamera: true,
+      customColors: false,
       minColor: '#0000ff',
-      midColor: '#000000',
+      midColor: '#00ff00',
       maxColor: '#ff0000',
       midLoc: 128,
       calpha: 4.72,
@@ -224,11 +226,13 @@ export class OptionsService {
       value: 7,
       checked: false,
       colorOptions: true,
+      cameraOptions: false,
       sampleGain: 10,
       smoothingConstant: 5,
-      randomizeColors: true,
+      animateCamera: false,
+      customColors: false,
       minColor: '#0000ff',
-      midColor: '#000000',
+      midColor: '#00ff00',
       maxColor: '#ff0000',
       midLoc: 128,
       calpha: 4.72,
@@ -242,11 +246,13 @@ export class OptionsService {
       value: 8,
       checked: false,
       colorOptions: true,
+      cameraOptions: true,
       sampleGain: 10,
       smoothingConstant: 5,
-      randomizeColors: true,
+      animateCamera: true,
+      customColors: false,
       minColor: '#0000ff',
-      midColor: '#000000',
+      midColor: '#00ff00',
       maxColor: '#ff0000',
       midLoc: 128,
       calpha: 4.72,
@@ -260,20 +266,19 @@ export class OptionsService {
       value: 9,
       checked: false,
       colorOptions: false,
+      cameraOptions: false,
       sampleGain: 10,
       smoothingConstant: 5,
-      randomizeColors: true,
+      animateCamera: false,
+      customColors: false,
       minColor: '#0000ff',
-      midColor: '#000000',
+      midColor: '#00ff00',
       maxColor: '#ff0000',
       midLoc: 128,
       calpha: 4.72,
       cbeta: .85,
       cradius: 1000
     },
-
-
-
     sampleGain: {
       group: '3DVisual',
       type: 'slider',
@@ -295,12 +300,18 @@ export class OptionsService {
       visualCustom: true
     },
 
-
-
-    randomizeColors: {
+    animateCamera: {
       group: '3DVisual',
       type: 'checkbox',
-      label: 'Animate Colors',
+      label: 'Animate Camera',
+      value: true,
+      cameraCustom: true
+    },
+
+    customColors: {
+      group: '3DVisual',
+      type: 'checkbox',
+      label: 'Custom Colors',
       value: true,
       visualCustom: true
     },
@@ -336,16 +347,6 @@ export class OptionsService {
       visualCustom: true
     },
 
-
-
-
-
-
-
-
-
-
-
     // key highlight options
     currentNote: {
       group: 'Hidden',
@@ -374,7 +375,7 @@ export class OptionsService {
       type: 'numeric',
       label: 'C#',
       hertz: 34.648,
-      value: 39,  ///////////////
+      value: 39,
       checked: false
     },
     D: {
@@ -390,7 +391,7 @@ export class OptionsService {
       type: 'numeric',
       label: 'D#',
       hertz: 38.891,
-      value: 52,  //////////////
+      value: 52,
       checked: false
     },
     E: {
@@ -414,7 +415,7 @@ export class OptionsService {
       type: 'numeric',
       label: 'F#',
       hertz: 46.249,
-      value: 69,  ///////////////
+      value: 69,
       checked: false
     },
     G: {
@@ -430,7 +431,7 @@ export class OptionsService {
       type: 'numeric',
       label: 'G#',
       hertz: 51.913,
-      value: 77,  ///////////////
+      value: 77,
       checked: false
     },
     A: {
@@ -457,35 +458,6 @@ export class OptionsService {
       value: 92,
       checked: false
     },
-
-
-
-
-    // move to state ?????
-    // showPanel: {
-    //   group: 'Hidden',
-    //   type: 'checkbox',
-    //   label: 'Show Panel',
-    //   value: false
-    // },
-    // showPlayer: {
-    //   group: 'Hidden',
-    //   type: 'checkbox',
-    //   label: 'Show Player',
-    //   value: false
-    // },
-    // showSplash: {
-    //   group: 'Hidden',
-    //   type: 'checkbox',
-    //   label: 'Show Splash',
-    //   value: true
-    // },
-    // currentVisual: {
-    //   group: 'Hidden',
-    //   type: 'numeric',
-    //   label: 'Current Scene',
-    //   value: 2
-    // }
 
   };
 
@@ -521,10 +493,7 @@ export class OptionsService {
   constructor(
     public messageService: MessageService,
     public storageService: StorageService,
-    // public engineService: EngineService
     ) {
-    // this.engineService = engineService;
-
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
       this.windowResize();
@@ -532,14 +501,20 @@ export class OptionsService {
 
     const lOptions = storageService.loadOptions();
     if (lOptions.showTitle) {
-      console.log('found showtitle');
-      this.options = lOptions;
+      // console.log('found showtitle');
+      // this.options = lOptions;
+
+      for (const [key, value] of Object.entries(lOptions)) {
+        console.log(`${key}: ${value}`);
+        this.options[key] = value;
+      }
+
+
+
       this.updateCustomOptions(this.state.currentVisual.value);
     } else {
       console.log('local options error');
-
     }
-    // } === 'local storage error')
 
   }
 
@@ -628,37 +603,47 @@ export class OptionsService {
         return (val.substring(5));
       }
 
-      // return val;
     };
 
-    if (this.options.randomizeColors.value === true) {
-      // tslint:disable-next-line: max-line-length
-      r = colorSets[this.startingColorSet].r + (colorSets[this.endingColorSet].r - colorSets[this.startingColorSet].r) * this.colorTime;
-      // tslint:disable-next-line: max-line-length
-      g = colorSets[this.startingColorSet].g + (colorSets[this.endingColorSet].g - colorSets[this.startingColorSet].g) * this.colorTime;
-      // tslint:disable-next-line: max-line-length
-      b = colorSets[this.startingColorSet].b + (colorSets[this.endingColorSet].b - colorSets[this.startingColorSet].b) * this.colorTime;
+    if (this.options.customColors.value === false) {
+      r = colorSets[this.startingColorSet].r +
+      (colorSets[this.endingColorSet].r - colorSets[this.startingColorSet].r) *
+      this.colorTime;
+      g = colorSets[this.startingColorSet].g +
+      (colorSets[this.endingColorSet].g - colorSets[this.startingColorSet].g) *
+      this.colorTime;
+      b = colorSets[this.startingColorSet].b +
+      (colorSets[this.endingColorSet].b - colorSets[this.startingColorSet].b) *
+      this.colorTime;
     } else {
 
       if (yy <= midLoc) {
-        // tslint:disable-next-line: max-line-length
-        r = parseInt(getOptionColor('minColor', 'r'), 16) + (parseInt(getOptionColor('midColor', 'r'), 16) - parseInt(getOptionColor('minColor', 'r'), 16)) * yy / midLoc;
-        // tslint:disable-next-line: max-line-length
-        g = parseInt(getOptionColor('minColor', 'g'), 16) + (parseInt(getOptionColor('midColor', 'g'), 16) - parseInt(getOptionColor('minColor', 'g'), 16)) * yy / midLoc;
-        // tslint:disable-next-line: max-line-length
-        b = parseInt(getOptionColor('minColor', 'b'), 16) + (parseInt(getOptionColor('midColor', 'b'), 16) - parseInt(getOptionColor('minColor', 'b'), 16)) * yy / midLoc;
-        // console.log('test');
-        // console.log(parseInt( getOptionColor('minColor', 'g'), 16));
-      } else {
-        // tslint:disable-next-line: max-line-length
-        r = parseInt(getOptionColor('midColor', 'r'), 16) + (parseInt(getOptionColor('maxColor', 'r'), 16) - parseInt(getOptionColor('midColor', 'r'), 16)) * (yy - midLoc) / (255 - midLoc);
-        // tslint:disable-next-line: max-line-length
-        g = parseInt(getOptionColor('midColor', 'g'), 16) + (parseInt(getOptionColor('maxColor', 'g'), 16) - parseInt(getOptionColor('midColor', 'g'), 16)) * (yy - midLoc) / (255 - midLoc);
-        // tslint:disable-next-line: max-line-length
-        b = parseInt(getOptionColor('midColor', 'b'), 16) + (parseInt(getOptionColor('maxColor', 'b'), 16) - parseInt(getOptionColor('midColor', 'b'), 16)) * (yy - midLoc) / (255 - midLoc);
-        // console.log('test');
-        // console.log(parseInt( getOptionColor('minColor', 'g'), 16));
-      }
+        r = parseInt(getOptionColor('minColor', 'r'), 16) +
+            (parseInt(getOptionColor('midColor', 'r'), 16) -
+             parseInt(getOptionColor('minColor', 'r'), 16)) *
+            yy / midLoc;
+        g = parseInt(getOptionColor('minColor', 'g'), 16) +
+            (parseInt(getOptionColor('midColor', 'g'), 16) -
+             parseInt(getOptionColor('minColor', 'g'), 16)) *
+            yy / midLoc;
+        b = parseInt(getOptionColor('minColor', 'b'), 16) +
+            (parseInt(getOptionColor('midColor', 'b'), 16) -
+             parseInt(getOptionColor('minColor', 'b'), 16)) *
+            yy / midLoc;
+     } else {
+        r = parseInt(getOptionColor('midColor', 'r'), 16) +
+            (parseInt(getOptionColor('maxColor', 'r'), 16) -
+             parseInt(getOptionColor('midColor', 'r'), 16)) *
+            (yy - midLoc) / (255 - midLoc);
+        g = parseInt(getOptionColor('midColor', 'g'), 16) +
+            (parseInt(getOptionColor('maxColor', 'g'), 16) -
+             parseInt(getOptionColor('midColor', 'g'), 16)) *
+            (yy - midLoc) / (255 - midLoc);
+        b = parseInt(getOptionColor('midColor', 'b'), 16) +
+            (parseInt(getOptionColor('maxColor', 'b'), 16) -
+             parseInt(getOptionColor('midColor', 'b'), 16)) *
+            (yy - midLoc) / (255 - midLoc);
+     }
     }
     return { r, g, b };
   }
@@ -686,7 +671,7 @@ export class OptionsService {
     this.storageService.saveOptions(this.options);
   }
 
-  updateCustomOptions(visualIndex){
+  updateCustomOptions(visualIndex) {
 
     this.options.sampleGain.value =
     this.options[this.visuals[visualIndex]].sampleGain;
@@ -697,8 +682,11 @@ export class OptionsService {
     this.options.sampleGain.value =
     this.options[this.visuals[visualIndex]].sampleGain;
 
-    this.options.randomizeColors.value =
-    this.options[this.visuals[visualIndex]].randomizeColors;
+    this.options.animateCamera.value =
+    this.options[this.visuals[visualIndex]].animateCamera;
+
+    this.options.customColors.value =
+    this.options[this.visuals[visualIndex]].customColors;
 
     this.options.minColor.value =
     this.options[this.visuals[visualIndex]].minColor;
@@ -712,34 +700,10 @@ export class OptionsService {
     this.options.midLoc.value =
     this.options[this.visuals[visualIndex]].midLoc;
 
-
-
-    // this.engineService.camera.alpha = 
-    // this.options[this.visuals[visualIndex]].calpha;
-
-    // this.engineService.camera.beta = 
-    // this.options[this.visuals[visualIndex]].cbeta;
-
-    // this.engineService.camera.radius = 
-    // this.options[this.visuals[visualIndex]].radius;
-
-
-
-
-
     this.announceChange('smoothingConstant');
     this.announceChange('sampleGain');
 
-
   }
-
-
-
-
-
-
-
-
 
   toggleNoteRadio(itemName: string, index: number) {
     this.notes.forEach(n => {
@@ -754,7 +718,6 @@ export class OptionsService {
     this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
     this.storageService.saveOptions(this.options);
   }
-
 
   getOptions() {
     return this.options;
@@ -836,15 +799,6 @@ export class OptionsService {
     this.storageService.saveOptions(this.options);
   }
 
-  get showWireframe() {
-    return this.options.showWireframe.value;
-  }
-
-  set showWireframe(value) {
-    this.options.showWireframe.value = value;
-    this.storageService.saveOptions(this.options);
-  }
-
   get renderPlayer(): boolean {
     return this.state.renderPlayer.value;
   }
@@ -898,7 +852,6 @@ export class OptionsService {
 
   set showPanel(value: boolean) {
     this.state.showPanel.value = value;
-    // this.storageService.saveOptions(this.options);
   }
 
   get showPlayer(): boolean {
@@ -907,7 +860,6 @@ export class OptionsService {
 
   set showPlayer(value: boolean) {
     this.state.showPlayer.value = value;
-    // this.storageService.saveOptions(this.options);
   }
 
   get showSplash(): boolean {
@@ -916,7 +868,6 @@ export class OptionsService {
 
   set showSplash(value: boolean) {
     this.state.showSplash.value = value;
-    // this.storageService.saveOptions(this.options);
   }
 
   get currentVisual(): number {
@@ -982,13 +933,23 @@ export class OptionsService {
     this.storageService.saveOptions(this.options);
   }
 
-  get randomizeColors(): boolean {
-    return this.options.randomizeColors.value;
+  get customColors(): boolean {
+    return this.options.customColors.value;
   }
 
-  set randomizeColors(value: boolean) {
-    this.options.randomizeColors.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].randomizeColors = value;
+  set customColors(value: boolean) {
+    this.options.customColors.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].customColors = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get animateCamera(): boolean {
+    return this.options.animateCamera.value;
+  }
+
+  set animateCamera(value: boolean) {
+    this.options.animateCamera.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].animateCamera = value;
     this.storageService.saveOptions(this.options);
   }
 
