@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { WindowRefService } from '../../services/window-ref/window-ref.service';
 
 import { TitleComponent } from './title.component';
 
@@ -8,7 +9,10 @@ describe('TitleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TitleComponent ]
+      declarations: [ TitleComponent ],
+      providers: [
+        WindowRefService
+      ]
     })
     .compileComponents();
   }));

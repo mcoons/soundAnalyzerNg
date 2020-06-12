@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { WindowRefService } from '../../services/window-ref/window-ref.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MyPlayerComponent } from './my-player.component';
 
@@ -8,7 +10,13 @@ describe('MyPlayerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MyPlayerComponent ]
+      declarations: [ MyPlayerComponent ],
+      providers: [
+        WindowRefService
+      ],
+      imports: [
+        BrowserAnimationsModule
+      ]
     })
     .compileComponents();
   }));

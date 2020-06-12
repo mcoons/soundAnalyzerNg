@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { WindowRefService } from '../../services/window-ref/window-ref.service';
 
 import { Canvas2DComponent } from './canvas2-d.component';
 
@@ -8,7 +9,10 @@ describe('Canvas2DComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ Canvas2DComponent ]
+      declarations: [ Canvas2DComponent ],
+      providers: [
+        WindowRefService
+      ]
     })
     .compileComponents();
   }));
