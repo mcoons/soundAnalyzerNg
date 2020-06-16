@@ -15,12 +15,14 @@ export class Rings {
     private messageService: MessageService;
 
     private ring1SPS;
+    private ring3SPS;
     private ring5SPS;
 
     private mat;
-    private mat5;
+    // private mat5;
 
     private mesh1;
+    private mesh3;
     private mesh5;
 
     glass;
@@ -31,9 +33,9 @@ export class Rings {
         this.optionsService = optionsService;
         this.messageService = messageService;
 
-        (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
-        (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.2;
-        (this.scene.lights[2] as BABYLON.PointLight).intensity = 0.2;
+        // (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
+        // (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.4;
+        // (this.scene.lights[2] as BABYLON.PointLight).intensity = 0.4;
 
         this.scene.registerBeforeRender(this.beforeRender);
 
@@ -49,38 +51,34 @@ export class Rings {
 
     beforeRender = () => {
         this.ring1SPS.setParticles();
+        this.ring3SPS.setParticles();
         this.ring5SPS.setParticles();
     }
 
     create() {
 
         const radius1 = 100;
-        const radius5 = 400;
+        const radius3 = 500;
+        const radius5 = 300;
         const width1 = 150;
         const depth1 = 4;
         const height1 = 10;
 
         let gtheta;
-        this.mat = new BABYLON.MultiMaterial('mm', this.scene);
-        this.mat5 = new BABYLON.MultiMaterial('mm', this.scene);
+        this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
+        this.mat.diffuseTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
+        this.mat.backFaceCulling = false;
+        this.mat.opacityTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
+        this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
+
+        this.mat.diffuseTexture.hasAlpha = true;
+        (this.mat.diffuseTexture as BABYLON.Texture).vScale = 1 / 5;
+        (this.mat.opacityTexture as BABYLON.Texture).vScale = 1 / 5;
+
 
         // BUILD RING1 SPS ////////////////////////////////
 
         const ring1PositionFunction = (particle, i, s) => {
-            const myMaterial = new BABYLON.StandardMaterial(`material${i}`, this.scene);
-            myMaterial.diffuseTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
-            myMaterial.backFaceCulling = false;
-            myMaterial.opacityTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
-            myMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-            myMaterial.ambientColor = new BABYLON.Color3(1, 1, 1);
-            myMaterial.emissiveColor = new BABYLON.Color3(1, 1, 1);
-
-            myMaterial.diffuseTexture.hasAlpha = true;
-            (myMaterial.diffuseTexture as BABYLON.Texture).vScale = 1 / 5;
-            (myMaterial.opacityTexture as BABYLON.Texture).vScale = 1 / 5;
-
-            this.mat.subMaterials.push(myMaterial);
-            particle.materialIndex = i;
 
             particle.position.x = radius1 * Math.cos(gtheta);
             particle.position.z = radius1 * Math.sin(gtheta);
@@ -91,7 +89,7 @@ export class Rings {
 
         this.ring1SPS = new BABYLON.SolidParticleSystem('ring1SPS', this.scene, { updatable: true, enableMultiMaterial: true });
 
-        const box1 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 10, height: 200 }, this.scene);
+        const box1 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 10, height: 1 }, this.scene);
 
         for (let theta = Math.PI / 2; theta < 2 * Math.PI + Math.PI / 2 - Math.PI / 50; theta += Math.PI / 50) {
             gtheta = theta;
@@ -108,45 +106,59 @@ export class Rings {
             const myTheta = particle.idx * Math.PI / 50 + Math.PI / 2;
             let yy = this.audioService.fr64DataArray[particle.idx < 50 ? particle.idx : 50 - (particle.idx - 50)];
 
-            // yy = (yy / 255) * (yy / 255) * 255;
-            // console.log(yy);
+            particle.color.r = this.optionsService.colors(yy).r / 255;
+            particle.color.g = this.optionsService.colors(yy).g / 255;
+            particle.color.b = this.optionsService.colors(yy).b / 255;
+
+            particle.scale.y = yy / 3;
+            particle.position.y = (particle.scale.y) / 2;
+
+        };
+
+        // BUILD RING3 SPS ////////////////////////////////
+
+        const ring3PositionFunction = (particle, i, s) => {
+
+            particle.position.x = radius3 * Math.cos(gtheta);
+            particle.position.z = radius3 * Math.sin(gtheta);
+            particle.position.y = 100;
+            particle.rotation.y = Math.PI / 2 - gtheta;
+            particle.color = new BABYLON.Color4(.5, .5, .5, 1);
+        };
+
+        this.ring3SPS = new BABYLON.SolidParticleSystem('ring3SPS', this.scene, { updatable: true, enableMultiMaterial: true });
+
+        const box3 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 10, height: 1 }, this.scene);
+
+        for (let theta = Math.PI / 2; theta < 2 * Math.PI + Math.PI / 2 - Math.PI / 200; theta += Math.PI / 200) {
+            gtheta = theta;
+            this.ring3SPS.addShape(box3, 1, { positionFunction: ring3PositionFunction });
+        }
+
+        this.mesh3 = this.ring3SPS.buildMesh();
+        this.mesh3.material = this.mat;
+
+        // dispose the model
+        box3.dispose();
+
+        this.ring3SPS.updateParticle = (particle) => {
+            const myTheta = particle.idx * Math.PI / 200 + Math.PI / 2;
+            let yy = this.audioService.fr256DataArray[particle.idx < 200 ? particle.idx : 200 - (particle.idx - 200)];
 
             particle.color.r = this.optionsService.colors(yy).r / 255;
             particle.color.g = this.optionsService.colors(yy).g / 255;
             particle.color.b = this.optionsService.colors(yy).b / 255;
 
-            this.mat.subMaterials[particle.idx].ambientColor.r = this.optionsService.colors(yy).r / 255;
-            this.mat.subMaterials[particle.idx].ambientColor.g = this.optionsService.colors(yy).g / 255;
-            this.mat.subMaterials[particle.idx].ambientColor.b = this.optionsService.colors(yy).b / 255;
+            particle.scale.y = yy;
+            particle.position.y = (particle.scale.y) / 2;
 
-            this.mat.subMaterials[particle.idx].emissiveColor.r = this.optionsService.colors(yy).r / 255;
-            this.mat.subMaterials[particle.idx].emissiveColor.g = this.optionsService.colors(yy).g / 255;
-            this.mat.subMaterials[particle.idx].emissiveColor.b = this.optionsService.colors(yy).b / 255;
-
-            // 0 = full     .2 = none
-            const yo = map(yy, 0, 255, .2, 0);
-            (this.mat.subMaterials[particle.idx].diffuseTexture as BABYLON.Texture).vOffset = yo;
-            (this.mat.subMaterials[particle.idx].opacityTexture as BABYLON.Texture).vOffset = yo;
         };
+
 
 
         // // BUILD RING5 SPS ////////////////////////////////
 
         const ring5PositionFunction = (particle, i, s) => {
-            const myMaterial = new BABYLON.StandardMaterial(`material${i}`, this.scene);
-            myMaterial.diffuseTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
-            myMaterial.backFaceCulling = false;
-            myMaterial.opacityTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
-            myMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-            myMaterial.ambientColor = new BABYLON.Color3(1, 1, 1);
-            myMaterial.emissiveColor = new BABYLON.Color3(1, 1, 1);
-
-            myMaterial.diffuseTexture.hasAlpha = true;
-            (myMaterial.diffuseTexture as BABYLON.Texture).vScale = 1 / 5;
-            (myMaterial.opacityTexture as BABYLON.Texture).vScale = 1 / 5;
-
-            this.mat5.subMaterials.push(myMaterial);
-            particle.materialIndex = i;
 
             particle.position.x = radius5 * Math.cos(gtheta);
             particle.position.z = radius5 * Math.sin(gtheta);
@@ -157,16 +169,15 @@ export class Rings {
 
         this.ring5SPS = new BABYLON.SolidParticleSystem('ring5SPS', this.scene, { updatable: true, enableMultiMaterial: true });
 
-        const box5 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 10, height: 200 }, this.scene);
+        const box5 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 10, height: 1 }, this.scene);
 
-        // for (let theta = Math.PI / 2; theta <= 2 * Math.PI + Math.PI / 2 - Math.PI / 100; theta += Math.PI / 100) {
         for (let theta = Math.PI / 2; theta <= 2 * Math.PI + Math.PI / 2; theta += Math.PI / 100) {
             gtheta = theta;
             this.ring5SPS.addShape(box5, 1, { positionFunction: ring5PositionFunction });
         }
 
         this.mesh5 = this.ring5SPS.buildMesh();
-        this.mesh5.material = this.mat5;
+        this.mesh5.material = this.mat;
 
         // dispose the model
         box5.dispose();
@@ -174,24 +185,14 @@ export class Rings {
         this.ring5SPS.updateParticle = (particle) => {
             const myTheta = particle.idx * Math.PI / 100 + Math.PI / 2;
             let yy = this.audioService.fr128DataArray[particle.idx <= 100 ? particle.idx : 100 - (particle.idx - 100)];
-            // yy = (yy / 255) * (yy / 255) * 255;
 
             particle.color.r = this.optionsService.colors(yy).r / 255;
             particle.color.g = this.optionsService.colors(yy).g / 255;
             particle.color.b = this.optionsService.colors(yy).b / 255;
 
-            this.mat5.subMaterials[particle.idx].ambientColor.r = this.optionsService.colors(yy).r / 255;
-            this.mat5.subMaterials[particle.idx].ambientColor.g = this.optionsService.colors(yy).g / 255;
-            this.mat5.subMaterials[particle.idx].ambientColor.b = this.optionsService.colors(yy).b / 255;
+            particle.scale.y = yy/2;
+            particle.position.y = (particle.scale.y) / 2;
 
-            this.mat5.subMaterials[particle.idx].emissiveColor.r = this.optionsService.colors(yy).r / 255;
-            this.mat5.subMaterials[particle.idx].emissiveColor.g = this.optionsService.colors(yy).g / 255;
-            this.mat5.subMaterials[particle.idx].emissiveColor.b = this.optionsService.colors(yy).b / 255;
-
-            // 0 = full     .2 = none
-            const yo = map(yy, 0, 255, .2, 0);
-            (this.mat5.subMaterials[particle.idx].diffuseTexture as BABYLON.Texture).vOffset = yo;
-            (this.mat5.subMaterials[particle.idx].opacityTexture as BABYLON.Texture).vOffset = yo;
         };
 
         this.ring5SPS.mesh.rotation.y = Math.PI;
@@ -218,10 +219,10 @@ export class Rings {
         const mirrorMaterial = new BABYLON.StandardMaterial('MirrorMat', this.scene);
         mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture('mirror', 512, this.scene, true);
         (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).mirrorPlane = reflector;
-        (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).renderList = [this.ring1SPS.mesh, this.ring5SPS.mesh];
+        (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).renderList = [this.ring1SPS.mesh, this.ring3SPS.mesh, this.ring5SPS.mesh];
         mirrorMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
         mirrorMaterial.backFaceCulling = true; // not working??
-        mirrorMaterial.specularColor  = new BABYLON.Color3(0, 0, 0);
+        mirrorMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
 
         this.glass.material = mirrorMaterial;
 
@@ -231,9 +232,11 @@ export class Rings {
 
     remove() {
         this.ring1SPS.mesh.dispose();
+        this.ring3SPS.mesh.dispose();
         this.ring5SPS.mesh.dispose();
 
         this.mesh1.dispose();
+        this.mesh3.dispose();
         this.mesh5.dispose();
 
         this.glass.dispose();
