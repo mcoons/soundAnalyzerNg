@@ -126,6 +126,8 @@ export class EngineService {
     this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
     this.scene.ambientColor = new BABYLON.Color3(.5, .5, .5);
 
+    var postProcess = new BABYLON.FxaaPostProcess('fxaa', 1.0, null, null, this.engine, true);
+
     this.highlightLayer = new BABYLON.HighlightLayer('hl1', this.scene);
 
     this.glowLayer = new BABYLON.GlowLayer('glow', this.scene);
