@@ -22,10 +22,7 @@ export class BlockPlaneManager {
         this.optionsService = optionsService;
         this.messageService = messageService;
 
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
+        this.setDefaults();
 
         // this.optionsService.smoothingConstant = 7;
         // this.optionsService.sampleGain = 4;
@@ -35,9 +32,15 @@ export class BlockPlaneManager {
         this.scene.registerBeforeRender(this.beforeRender);
     }
 
+    setDefaults(){
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
+    }
+
     beforeRender = () => {
         this.SPS.setParticles();
-        this.mat.wireframe = this.optionsService.showWireframe;
     }
 
     create() {

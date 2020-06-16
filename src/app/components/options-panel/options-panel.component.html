@@ -35,7 +35,7 @@
 
             </ng-container>
 
-            
+
 
             <ng-container *ngIf="this.optionsService.showWaveform === true">
               <ng-container *ngIf="this.optionsService.getOptions()[option].type=='waveslider'">
@@ -155,17 +155,21 @@
             </ng-container>
 
             <ng-container
+              *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && this.optionsService.getOptions()[option].label!='Custom Colors' && this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].cameraOptions === true">
+              <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
+              <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
+            </ng-container>
+
+            <ng-container
               *ngIf="this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].colorOptions === true">
 
-              <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox'">
-                <input type="checkbox" [id]="option" [name]="option"
-                  [(ngModel)]="this.optionsService[option]">
-
-
+              <ng-container
+                *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && this.optionsService.getOptions()[option].label!='Animate Camera'">
+                <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
                 <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
               </ng-container>
 
-              <ng-container *ngIf="this.optionsService.randomizeColors === false">
+              <ng-container *ngIf="this.optionsService.customColors === true">
                 <ng-container *ngIf="this.optionsService.getOptions()[option].type=='color'">
                   <input type="color" [id]="option" [(ngModel)]="this.optionsService[option]">
                   <b class='colorHeader'>{{this.optionsService.getOptions()[option].label}}</b>
@@ -175,17 +179,17 @@
                 <ng-container *ngIf="this.optionsService.getOptions()[option].type=='colorslider'">
                   <b><label class="rangeLabel">{{this.optionsService.getOptions()[option].label}}
                       ({{this.optionsService.getOptions()[option].value}})</label></b><br>
-    
+
                   <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
-    
+
                   <input type="range" [id]="option" [name]="option" class="range"
                     [min]="this.optionsService.getOptions()[option].min"
                     [max]="this.optionsService.getOptions()[option].max"
                     [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
                     ng-model-options="{ getterSetter: true }">
-    
+
                   <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
-    
+
                 </ng-container>
 
               </ng-container>
@@ -209,7 +213,7 @@
 
         <ng-container *ngIf="this.optionsService.microphone === false">
 
-          <div>
+          <div class="player">
             <button class="playerButton" (click)="this.previousTrack()"><i
                 class="material-icons">skip_previous</i></button>
             <button class="playerButton" (click)="this.playPause()"><i
@@ -217,18 +221,13 @@
             <button class="playerButton" (click)="this.nextTrack()"><i class="material-icons">skip_next</i></button>
           </div>
 
-          <div>
+          <div class="volume">
             <i id="vdownicon" class="material-icons md-18">volume_mute</i>
 
-            <input type="range" 
-            class="volume-slider" 
-              [min]="this.optionsService.getState().volume.min"
-              [max]="this.optionsService.getState().volume.max" 
-              [step]="this.optionsService.getState().volume.step"
-              [(ngModel)]="this.optionsService.volume" 
-              ng-model-options="{ getterSetter: true }"
-              (input)="onSliderChangeVolume($event)" 
-              (change)="onSliderChangeVolume($event)">
+            <input type="range" class="volume-slider" [min]="this.optionsService.getState().volume.min"
+              [max]="this.optionsService.getState().volume.max" [step]="this.optionsService.getState().volume.step"
+              [(ngModel)]="this.optionsService.volume" ng-model-options="{ getterSetter: true }"
+              (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
 
             <i id="vupicon" class="material-icons md-18">volume_up</i>
           </div>
@@ -237,12 +236,17 @@
 
 
         <div id="listBtnContainer">
-          <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'site'}"
-            (click)="siteListSelection()">Site</button>
-          <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'local'}"
-            (click)="localListSelection()">Local</button>
-          <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'mic'}"
-            (click)="this.audioService.enableMic()">Mic</button>
+          <div class="btnContainer">
+            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'site'}"
+              (click)="siteListSelection()">Site Music</button>
+            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'local'}"
+              (click)="localListSelection()">Local Music</button>
+          </div>
+          <div class="btnContainer">
+            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'mic'}"
+              (click)="this.audioService.enableMic()">Mic</button>
+            <button class="playlistButton" (click)="randomizeList()">Randomize</button>
+          </div>
         </div>
 
         <ng-container *ngIf="this.optionsService.microphone === false">

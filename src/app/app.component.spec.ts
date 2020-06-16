@@ -1,4 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
+import { WindowRefService } from './services/window-ref/window-ref.service';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -7,6 +8,9 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      providers: [
+        WindowRefService
+      ]
     }).compileComponents();
   }));
 

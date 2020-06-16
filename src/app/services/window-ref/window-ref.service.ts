@@ -1,4 +1,4 @@
-import { WindowMock } from '../../mock/window.mock';
+import { WindowMock } from './window.mock';
 
 const getWindow = (): Window => window != null ? window : new WindowMock();
 

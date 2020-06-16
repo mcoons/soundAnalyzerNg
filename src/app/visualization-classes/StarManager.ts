@@ -41,16 +41,20 @@ export class StarManager {
 
         this.currentProcedure = this.createStarGroupRandom5;
 
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 800;
-
         // this.optionsService.smoothingConstant = 8;
         // this.optionsService.sampleGain = 10;
         // this.messageService.announceMessage('sampleGain');
         // this.messageService.announceMessage('smoothingConstant');
 
+        this.setDefaults();
+
+    }
+
+    setDefaults() {
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 800;
     }
 
     create() {

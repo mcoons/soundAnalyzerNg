@@ -7,9 +7,9 @@ import { Subscription } from 'rxjs';
 
 import { AudioService } from '../../services/audio/audio.service';
 
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {TooltipPosition} from '@angular/material/tooltip';
-import {MatExpansionModule} from '@angular/material/expansion';
+// import {MatTooltipModule} from '@angular/material/tooltip';
+// import {TooltipPosition} from '@angular/material/tooltip';
+// import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @Component({
@@ -40,6 +40,10 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
+  randomizeList() {
+    this.messageService.announceMessage('randomize list');
+  }
+
   toggleItem(e) {
     this.optionsService.toggleOption(e.target.name);
   }
@@ -50,7 +54,6 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   radioChange(e) {
     this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
-    // this.optionsService.setOption('currentVisual', e.target.value);
     this.optionsService.updateState('currentVisual', e.target.value);
   }
 

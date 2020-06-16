@@ -31,28 +31,25 @@ export class Rings {
         this.optionsService = optionsService;
         this.messageService = messageService;
 
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .81; // 1
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1900;
-
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
         (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.2;
         (this.scene.lights[2] as BABYLON.PointLight).intensity = 0.2;
 
         this.scene.registerBeforeRender(this.beforeRender);
 
-        // this.optionsService.smoothingConstant = 5;
-        // this.optionsService.sampleGain = 10;
-        // this.messageService.announceMessage('sampleGain');
-        // this.messageService.announceMessage('smoothingConstant');
+        this.setDefaults();
+    }
+
+    setDefaults() {
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .81; // 1
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1900;
     }
 
     beforeRender = () => {
         this.ring1SPS.setParticles();
         this.ring5SPS.setParticles();
-
-        this.mat.wireframe = this.optionsService.showWireframe;
     }
 
     create() {
@@ -62,9 +59,6 @@ export class Rings {
         const width1 = 150;
         const depth1 = 4;
         const height1 = 10;
-
-
-
 
         let gtheta;
         this.mat = new BABYLON.MultiMaterial('mm', this.scene);
@@ -114,7 +108,7 @@ export class Rings {
             const myTheta = particle.idx * Math.PI / 50 + Math.PI / 2;
             let yy = this.audioService.fr64DataArray[particle.idx < 50 ? particle.idx : 50 - (particle.idx - 50)];
 
-            yy = (yy / 255 * yy / 255) * 200;
+            // yy = (yy / 255) * (yy / 255) * 255;
             // console.log(yy);
 
             particle.color.r = this.optionsService.colors(yy).r / 255;
@@ -180,9 +174,7 @@ export class Rings {
         this.ring5SPS.updateParticle = (particle) => {
             const myTheta = particle.idx * Math.PI / 100 + Math.PI / 2;
             let yy = this.audioService.fr128DataArray[particle.idx <= 100 ? particle.idx : 100 - (particle.idx - 100)];
-            yy = yy * .8;
-            // yy = (yy / 255 * yy / 255) * 255;
-            // console.log(yy);
+            // yy = (yy / 255) * (yy / 255) * 255;
 
             particle.color.r = this.optionsService.colors(yy).r / 255;
             particle.color.g = this.optionsService.colors(yy).g / 255;
@@ -210,11 +202,6 @@ export class Rings {
         this.glass.rotation.x = Math.PI / 2;
         this.glass.position.y = -5;
 
-
-        // Position and Rotate flat surface
-        // this.glass.position = new BABYLON.Vector3(0, 0, 4);
-        // this.glass.rotation = new BABYLON.Vector3(Math.PI / 4, Math.PI / 6, Math.PI / 8);
-
         // Ensure working with new values for flat surface by computing and obtaining its worldMatrix
         this.glass.computeWorldMatrix(true);
         const glassWorldMatrix = this.glass.getWorldMatrix();
@@ -237,7 +224,6 @@ export class Rings {
         mirrorMaterial.specularColor  = new BABYLON.Color3(0, 0, 0);
 
         this.glass.material = mirrorMaterial;
-
 
     }
 

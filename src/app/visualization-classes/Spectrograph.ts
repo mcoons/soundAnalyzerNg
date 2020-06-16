@@ -31,21 +31,19 @@ export class Spectrograph {
         this.ground.material = new BABYLON.StandardMaterial('gmat', this.scene);
         this.ground.material.backFaceCulling = false;
         this.ground.material.specularColor = new BABYLON.Color3(0, 0, 0); // black is no shine
-        // this.ground.material.wireframe = true;
 
         this.ground.scaling = new BABYLON.Vector3(350, .25, 350);
 
+        this.groundVertices = this.ground.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+
+        this.setDefaults();
+    }
+
+    setDefaults() {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -50, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.7124;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .85;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
-
-        // this.optionsService.smoothingConstant = 1;
-        // this.optionsService.sampleGain = 1;
-        // this.messageService.announceMessage('sampleGain');
-        // this.messageService.announceMessage('smoothingConstant');
-
-        this.groundVertices = this.ground.getVerticesData(BABYLON.VertexBuffer.PositionKind);
     }
 
     update() {
@@ -76,8 +74,6 @@ export class Spectrograph {
                 yVertexDataIndex += 3;
             }
         }
-
-        this.ground.material.wireframe = this.optionsService.showWireframe;
 
         // update the 3D babylon ground plane
         this.ground.updateVerticesData(BABYLON.VertexBuffer.PositionKind, this.groundVertices);

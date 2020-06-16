@@ -12,56 +12,56 @@ function buildPalettes(palette, paletteGlow, paletteRed, paletteGreen, paletteBl
     for (let g = 0; g <= 255; g++) {
 
         // add to full scectrum ROYGBIV palettes [0..1529] - in all loops below
-        addToPalette(r, g, b, palette, 1, false, scene);
+        addToPalette(r, g, b, palette, 1, scene);
         addToGlowPalette(r, g, b, paletteGlow, scene);
-        addToMetallicPalette(r, g, b, paletteMetallic, 1, false, scene);
+        addToMetallicPalette(r, g, b, paletteMetallic, 1, scene);
 
         // add to single color palettes [0..255] - in this loop only
-        addToPalette(g, 0, 0, paletteRed, 1, false, scene);
-        addToPalette(0, g, 0, paletteGreen, 1, false, scene);
-        addToPalette(0, 0, g, paletteBlue, 1, false, scene);
-        addToPalette(g, g, g, paletteGray, 1, false, scene);
+        addToPalette(g, 0, 0, paletteRed, 1, scene);
+        addToPalette(0, g, 0, paletteGreen, 1, scene);
+        addToPalette(0, 0, g, paletteBlue, 1, scene);
+        addToPalette(g, g, g, paletteGray, 1, scene);
     }
     g--;
 
     for (r = 254; r >= 0; r--) {
-        addToPalette(r, g, b, palette, 1, false, scene);
+        addToPalette(r, g, b, palette, 1, scene);
         addToGlowPalette(r, g, b, paletteGlow, scene);
-        addToMetallicPalette(r, g, b, paletteMetallic, 1, false, scene);
+        addToMetallicPalette(r, g, b, paletteMetallic, 1, scene);
     }
     r++;
 
     for (b = 1; b <= 255; b++) {
-        addToPalette(r, g, b, palette, 1, false, scene);
+        addToPalette(r, g, b, palette, 1, scene);
         addToGlowPalette(r, g, b, paletteGlow, scene);
-        addToMetallicPalette(r, g, b, paletteMetallic, 1, false, scene);
+        addToMetallicPalette(r, g, b, paletteMetallic, 1, scene);
     }
     b--;
 
     for (g = 254; g >= 0; g--) {
-        addToPalette(r, g, b, palette, 1, false, scene);
+        addToPalette(r, g, b, palette, 1, scene);
         addToGlowPalette(r, g, b, paletteGlow, scene);
-        addToMetallicPalette(r, g, b, paletteMetallic, 1, false, scene);
+        addToMetallicPalette(r, g, b, paletteMetallic, 1, scene);
     }
     g++;
 
     for (r = 1; r <= 255; r++) {
-        addToPalette(r, g, b, palette, 1, false, scene);
+        addToPalette(r, g, b, palette, 1, scene);
         addToGlowPalette(r, g, b, paletteGlow, scene);
-        addToMetallicPalette(r, g, b, paletteMetallic, 1, false, scene);
+        addToMetallicPalette(r, g, b, paletteMetallic, 1, scene);
     }
     r--;
 
     for (b = 254; b > 0; b--) {
-        addToPalette(r, g, b, palette, 1, false, scene);
+        addToPalette(r, g, b, palette, 1, scene);
         addToGlowPalette(r, g, b, paletteGlow, scene);
-        addToMetallicPalette(r, g, b, paletteMetallic, 1, false, scene);
+        addToMetallicPalette(r, g, b, paletteMetallic, 1, scene);
     }
     b++;
 }
 
 // add a palette object to a given palette
-function addToPalette(r, g, b, palette, saturation = .6, wireframe = false, scene) {
+function addToPalette(r, g, b, palette, saturation = .6, scene) {
 
     let mat = new BABYLON.StandardMaterial("material(" + r + "," + g + "," + b + ")", scene);
 
@@ -73,11 +73,9 @@ function addToPalette(r, g, b, palette, saturation = .6, wireframe = false, scen
 
     mat.diffuseColor = color;
     mat.specularColor = new BABYLON.Color3(r / 255 * .1, g / 255 * .1, b / 255 * .1);
-    // mat.specularColor = new BABYLON.Color3(.25, .25, .25);
     mat.ambientColor = new BABYLON.Color3(r / 255 * .25, g / 255 * .25, b / 255 * .25);
     mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
     mat.backFaceCulling = false;
-    mat.wireframe = wireframe;
 
     palette.push({
         r,
@@ -88,7 +86,7 @@ function addToPalette(r, g, b, palette, saturation = .6, wireframe = false, scen
     });
 }
 
-function addToMetallicPalette(r, g, b, palette, saturation = .6, wireframe = false, scene) {
+function addToMetallicPalette(r, g, b, palette, saturation = .6, scene) {
 
     r = r * saturation;
     g = g * saturation;
@@ -96,16 +94,7 @@ function addToMetallicPalette(r, g, b, palette, saturation = .6, wireframe = fal
 
     var color = new BABYLON.Color4(r / 255, g / 255, b / 255, 1, false);
 
-    // let mat = new BABYLON.StandardMaterial("mat", scene);
     let mat = new BABYLON.PBRMetallicRoughnessMaterial("mat", scene);
-
-    // mat.diffuseColor = color;
-    // mat.specularColor = new BABYLON.Color3(r / 255 * .1, g / 255 * .1, b / 255 * .1);
-    // // mat.specularColor = new BABYLON.Color3(.25, .25, .25);
-    // mat.ambientColor = new BABYLON.Color3(r / 255 * .25, g / 255 * .25, b / 255 * .25);
-    // mat.emissiveColor = new BABYLON.Color3(0, 0, 0);
-    // mat.backFaceCulling = false;
-    // mat.wireframe = wireframe;
 
     mat.metallic = 1.0;
     mat.roughness = 1.0;
@@ -128,7 +117,6 @@ function addToGlowPalette(r, g, b, palette, scene) {
     let mat = new BABYLON.StandardMaterial("mat", scene);
     mat.diffuseColor = color;
     mat.specularColor = new BABYLON.Color3(r / 255 * .1, g / 255 * .1, b / 255 * .1);
-    // mat.specularColor = new BABYLON.Color3(.25, .25, .25);
     mat.ambientColor = new BABYLON.Color3(r / 255 * .25, g / 255 * .25, b / 255 * .25);
     mat.emissiveColor = new BABYLON.Color3(r / 255 * .85, g / 255 * .85, b / 255 * .85);
     mat.backFaceCulling = true;
@@ -155,9 +143,6 @@ function getBiasedGlowMaterial(colorBias, scene) {
     mat.specularColor = new BABYLON.Color3(r * .1, g * .1, b * .1);
     mat.ambientColor = new BABYLON.Color3(r * .25, g * .25, b * .25);
     mat.emissiveColor = new BABYLON.Color3(r, g, b);
-    // mat.emissiveColor = new BABYLON.Color3(1, 1, 1);
-    // mat.alpha = .5;
-
     
     mat.sideOrientation = BABYLON.Mesh.DOUBLESIDE;
     mat.backFaceCulling = false;
@@ -294,7 +279,7 @@ function colors(yy) {
         // return val;
     };
 
-    if (this.optionsService.randomizeColors === true) {
+    if (this.optionsService.customColors === true) {
         // tslint:disable-next-line: max-line-length
         r = colorSets[this.startingColorSet].r + (colorSets[this.endingColorSet].r - colorSets[this.startingColorSet].r) * this.colorTime;
         // tslint:disable-next-line: max-line-length
