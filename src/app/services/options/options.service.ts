@@ -77,7 +77,6 @@ export class OptionsService {
       step: .1
     },
 
-
     // visual options
     blockPlaneManager: {
       group: '3DVisual',
@@ -509,8 +508,6 @@ export class OptionsService {
         this.options[key] = value;
       }
 
-
-
       this.updateCustomOptions(this.state.currentVisual.value);
     } else {
       console.log('local options error');
@@ -526,66 +523,18 @@ export class OptionsService {
     const midLoc = this.midLoc;
 
     const colorSets = [
-      {
-        r: 128 - yy / 2,
-        g: yy,
-        b: 200 - yy * 2
-      },
-      {
-        r: yy,
-        g: 128 - yy / 2,
-        b: 200 - yy * 2
-      },
-      {
-        r: 128 - yy / 2,
-        g: 200 - yy * 2,
-        b: yy
-      },
-      {
-        r: 200 - yy * 2,
-        g: yy,
-        b: 128 - yy / 2
-      },
-      {
-        r: yy,
-        g: 200 - yy * 2,
-        b: 128 - yy / 2
-      },
-      {
-        r: 200 - yy * 2,
-        g: 128 - yy / 2,
-        b: yy
-      },
-      {
-        r: 255 - (128 - yy / 2),
-        g: 255 - yy,
-        b: 255 - (200 - yy * 2)
-      },
-      {
-        r: 255 - yy,
-        g: 255 - (128 - yy / 2),
-        b: 255 - (200 - yy * 2)
-      },
-      {
-        r: 255 - (128 - yy / 2),
-        g: 255 - (200 - yy * 2),
-        b: 255 - yy
-      },
-      {
-        r: 255 - (200 - yy * 2),
-        g: 255 - yy,
-        b: 255 - (128 - yy / 2)
-      },
-      {
-        r: 255 - yy,
-        g: 255 - (200 - yy * 2),
-        b: 255 - (128 - yy / 2)
-      },
-      {
-        r: 255 - (200 - yy * 2),
-        g: 255 - (128 - yy / 2),
-        b: 255 - yy
-      }
+      { r: 128 - yy / 2, g: yy, b: 200 - yy * 2 },
+      { r: yy, g: 128 - yy / 2, b: 200 - yy * 2 },
+      { r: 128 - yy / 2, g: 200 - yy * 2, b: yy },
+      { r: 200 - yy * 2, g: yy, b: 128 - yy / 2 },
+      { r: yy, g: 200 - yy * 2, b: 128 - yy / 2 },
+      { r: 200 - yy * 2, g: 128 - yy / 2, b: yy },
+      { r: 255 - (128 - yy / 2), g: 255 - yy, b: 255 - (200 - yy * 2) },
+      { r: 255 - yy, g: 255 - (128 - yy / 2), b: 255 - (200 - yy * 2) },
+      { r: 255 - (128 - yy / 2), g: 255 - (200 - yy * 2), b: 255 - yy },
+      { r: 255 - (200 - yy * 2), g: 255 - yy, b: 255 - (128 - yy / 2) },
+      { r: 255 - yy, g: 255 - (200 - yy * 2), b: 255 - (128 - yy / 2) },
+      { r: 255 - (200 - yy * 2), g: 255 - (128 - yy / 2), b: 255 - yy }
     ];
 
     const getOptionColor = (name, c) => {
@@ -751,7 +700,6 @@ export class OptionsService {
     this.updateState('pixelRatio', window.devicePixelRatio);
     this.updateState('playerTopHTML', playerDiv.offsetTop);
     this.updateState('playerTopCanvas', playerDiv.offsetTop * window.devicePixelRatio);
-
   }
 
   get showTitle(): boolean {

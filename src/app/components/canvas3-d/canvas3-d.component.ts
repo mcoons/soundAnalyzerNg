@@ -13,10 +13,10 @@ import { EngineService } from '../../services/engine/engine.service';
 
 export class Canvas3DComponent implements AfterViewInit, OnDestroy {
   @ViewChild('rendererCanvas', { static: true })
-  public rendererCanvas: ElementRef<HTMLCanvasElement>;
+  private rendererCanvas: ElementRef<HTMLCanvasElement>;
 
-  canvas;
-  subscription: Subscription;
+  private canvas;
+  private subscription: Subscription;
 
   constructor(
     public messageService: MessageService,

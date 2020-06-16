@@ -19,8 +19,8 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
   private canvas: HTMLCanvasElement;
   private subscription: Subscription;
 
-  waveformDelayCounter = 0;
-  waveFormDataSource;
+  private waveformDelayCounter = 0;
+  private waveFormDataSource;
 
   constructor(
     public optionsService: OptionsService,
@@ -56,9 +56,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     this.fixDpi();
     this.optionsService.windowResize();
 
-
     if (this.optionsService.showSplash === false) {
-
       if (this.optionsService.showBars === true) {
         this.draw2DBars();
       }
@@ -69,7 +67,6 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
           this.waveformDelayCounter = 0;
           this.waveFormDataSource = this.audioService.getTDData();
         }
-
         this.drawWaveform();
       }
     }

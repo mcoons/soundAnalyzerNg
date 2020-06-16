@@ -65,13 +65,11 @@ export class EngineService {
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
       this.engine.resize();
-
     });
 
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         // console.log('Engine: Message received from service is :  ' + message);
-
         this.selectScene(this.optionsService.currentVisual);
       });
 
@@ -89,24 +87,36 @@ export class EngineService {
       WaveRibbon
     ];
 
+    // interval to increment random color lerping
+
     setInterval( () => {
+      let randnum;
       this.optionsService.colorTime += this.optionsService.colorTimeInc;
 
       if (this.optionsService.colorTime >= 1) {
         this.optionsService.colorTime = 1;
         this.optionsService.colorTimeInc *= -1;
-        this.optionsService.startingColorSet = Math.floor(Math.random() * 11);
+        do {
+          randnum =  Math.floor(Math.random() * 11);
+        } while (randnum === this.optionsService.startingColorSet ||
+                 randnum === this.optionsService.endingColorSet);
+        this.optionsService.startingColorSet = randnum;
       }
 
       if (this.optionsService.colorTime <= 0) {
         this.optionsService.colorTime = 0;
         this.optionsService.colorTimeInc *= -1;
-        this.optionsService.endingColorSet = Math.floor(Math.random() * 11);
+        do {
+          randnum =  Math.floor(Math.random() * 11);
+        } while (randnum === this.optionsService.startingColorSet ||
+                 randnum === this.optionsService.endingColorSet);
+        this.optionsService.endingColorSet = randnum;
       }
 
     }, 16);
 
   }
+
 
   public createScene(canvas: ElementRef<HTMLCanvasElement>): void {
     this.canvas = canvas.nativeElement;
@@ -157,20 +167,6 @@ export class EngineService {
     // because it could trigger heavy changeDetection cycles.
     this.ngZone.runOutsideAngular(() => {
       const rendererLoopCallback = () => {
-
-        // this.optionsService.colorTime += this.optionsService.colorTimeInc;
-
-        // if (this.optionsService.colorTime >= 1) {
-        //   this.optionsService.colorTime = 1;
-        //   this.optionsService.colorTimeInc *= -1;
-        //   this.optionsService.startingColorSet = Math.floor(Math.random() * 11);
-        // }
-
-        // if (this.optionsService.colorTime <= 0) {
-        //   this.optionsService.colorTime = 0;
-        //   this.optionsService.colorTimeInc *= -1;
-        //   this.optionsService.endingColorSet = Math.floor(Math.random() * 11);
-        // }
 
         this.resizeCanvas();
         this.currentManager.update();

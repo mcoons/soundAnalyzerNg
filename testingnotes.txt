@@ -1,0 +1,5 @@
+
+
+To test a single component
+
+ng test --include src/app/components/canvas2-d/canvas2-d.component.spec.ts
