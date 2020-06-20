@@ -65,7 +65,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
         this.waveformDelayCounter++;
         if (this.waveformDelayCounter >= this.optionsService.waveformDelay) {
           this.waveformDelayCounter = 0;
-          this.waveFormDataSource = this.audioService.getTDData();
+          this.waveFormDataSource = this.audioService.tdDataArray;
         }
         this.drawWaveform();
       }
@@ -92,7 +92,8 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
   }
 
   draw2DBars() {
-    const dataSource = this.audioService.getSample();
+    // const dataSource = this.audioService.getSample();
+    const dataSource = this.audioService.sample1;
     if (dataSource == null) {
       return;
     }

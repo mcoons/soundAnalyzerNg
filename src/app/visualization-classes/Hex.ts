@@ -13,14 +13,14 @@ export class Hex {
     private messageService: MessageService;
     private engineService: EngineService;
 
-    private SPS;
-    private mat;
-    private mesh1;
-    groundMat;
-    groundCSG;
-    spsCSG;
-    holyGroundCSG;
-    finalGround;
+    // private SPS;
+    // private mat;
+    // private mesh1;
+    // groundMat;
+    // groundCSG;
+    // spsCSG;
+    // holyGroundCSG;
+    // finalGround;
 
     private rotation = 0;
 
@@ -32,8 +32,6 @@ export class Hex {
         this.messageService = messageService;
         this.engineService = engineService;
 
-
-
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
         (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.2;
         (this.scene.lights[2] as BABYLON.PointLight).intensity = 0.2;
@@ -44,7 +42,10 @@ export class Hex {
     }
 
     setDefaults() {
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -20, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = -20;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
+
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .91; // 1
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1400;

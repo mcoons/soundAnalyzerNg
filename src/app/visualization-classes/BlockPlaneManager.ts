@@ -17,6 +17,7 @@ export class BlockPlaneManager {
     private mat;
 
     constructor(scene, audioService, optionsService, messageService, engineService) {
+
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
@@ -24,16 +25,15 @@ export class BlockPlaneManager {
 
         this.setDefaults();
 
-        // this.optionsService.smoothingConstant = 7;
-        // this.optionsService.sampleGain = 4;
-        // this.messageService.announceMessage('sampleGain');
-        // this.messageService.announceMessage('smoothingConstant');
-
         this.scene.registerBeforeRender(this.beforeRender);
     }
 
-    setDefaults(){
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
+    setDefaults() {
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
+
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
@@ -48,7 +48,7 @@ export class BlockPlaneManager {
         let x: number;
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
-        this.mat.backFaceCulling = true;
+        this.mat.backFaceCulling = false;
         this.mat.specularColor = new BABYLON.Color3(.1, .1, .1);
         this.mat.ambientColor = new BABYLON.Color3(.25, .25, .25);
 
@@ -62,18 +62,18 @@ export class BlockPlaneManager {
 
         this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
 
-        const box = BABYLON.MeshBuilder.CreateBox(('box'), {
-            width: 25,
-            depth: 50
-        }, this.scene);
-
-        for (z = (this.audioService.getSample().length / 64); z >= 0; z--) {  // 8
+        for (z = (this.audioService.sample1.length / 64); z >= 0; z--) {  // 8
             for (x = 0; x < 64; x++) { // 9 * 64 = 576
+                const box = BABYLON.MeshBuilder.CreateBox(('box'), {
+                    width: 25,
+                    depth: 50
+                }, this.scene);
+
                 this.SPS.addShape(box, 1, { positionFunction: myPositionFunction });
+                box.dispose();
             }
         }
 
-        box.dispose();
 
         this.mesh = this.SPS.buildMesh();
         this.mesh.material = this.mat;
@@ -82,20 +82,20 @@ export class BlockPlaneManager {
 
         this.SPS.updateParticle = (particle) => {
 
-            let yy = this.audioService.getSample()[particle.idx];
-            yy = (yy / 200 * yy / 200) * 255;
+            let y = this.audioService.sample1[particle.idx];
+            y = (y / 200 * y / 200) * 255;
 
-            particle.scaling.y = yy * .2 + .01;
+            particle.scaling.y = y * .2 + .1;
             particle.position.y = particle.scaling.y / 2;
 
-            particle.color.r = this.optionsService.colors(yy).r / 255;
-            particle.color.g = this.optionsService.colors(yy).g / 255;
-            particle.color.b = this.optionsService.colors(yy).b / 255;
+            particle.color.r = this.optionsService.colors(y).r / 255;
+            particle.color.g = this.optionsService.colors(y).g / 255;
+            particle.color.b = this.optionsService.colors(y).b / 255;
 
         };
     }
 
-    update() {    }
+    update() { }
 
     remove() {
         this.SPS.mesh.dispose();

@@ -27,7 +27,11 @@ export class WaveRibbon {
     }
 
     setDefaults() {
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -50, 0);
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -50, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
+
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.7124;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .85;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
@@ -71,6 +75,7 @@ export class WaveRibbon {
                 this.colorsBuffer.push(1);
 
                 // set y value of ground vertex data
+                // this.groundVertices[yVertexDataIndex-1] = 0;
                 this.groundVertices[yVertexDataIndex] = currentData[y] * 3 - 350;
                 // this.groundVertices[yVertexDataIndex] = currentData[y] ;
 

@@ -43,7 +43,11 @@ export class Rings {
     }
 
     setDefaults() {
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
+        
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .81; // 1
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1900;

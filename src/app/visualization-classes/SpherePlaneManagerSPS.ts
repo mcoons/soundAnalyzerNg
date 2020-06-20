@@ -16,7 +16,7 @@ export class SpherePlaneManagerSPS {
     private innerSPS;
     private mat;
     private mesh1;
-    hl;
+    // hl;
 
     private rotation = 0;
 
@@ -32,13 +32,17 @@ export class SpherePlaneManagerSPS {
 
         this.scene.registerBeforeRender(this.beforeRender);
 
-        this.hl = new BABYLON.HighlightLayer('hl1', this.scene);
+        // this.hl = new BABYLON.HighlightLayer('hl1', this.scene);
 
         this.setDefaults();
     }
 
     setDefaults() {
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
+
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .81; // 1
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1200;
@@ -74,14 +78,14 @@ export class SpherePlaneManagerSPS {
         // BUILD INNER SPS ////////////////////////////////
 
         const innerPositionFunction = (particle, i, s) => {
-            particle.position.x = (x) * 35;
+            particle.position.x = x * 35;
             particle.position.y = 0;
-            particle.position.z = (z) * 35;
+            particle.position.z = z * 35;
             particle.color = new BABYLON.Color4(.5, .5, .5, 1);
         };
 
         this.innerSPS = new BABYLON.SolidParticleSystem('innerSPS', this.scene, { updatable: true });
-        const sphere = BABYLON.MeshBuilder.CreateSphere('s', { diameter: 6, segments: 8 }, this.scene);
+        const sphere = BABYLON.MeshBuilder.CreateSphere('s', { diameter: 6, segments: 2, updatable: true }, this.scene);
 
         for (z = -15; z < 15; z++) {
             for (x = -15; x < 15; x++) {
@@ -103,16 +107,19 @@ export class SpherePlaneManagerSPS {
         sphere.dispose();
 
         this.innerSPS.updateParticle = (particle) => {
-            let yy = this.audioService.getSample()[555 - particle.idx];
+            // let yy = this.audioService.getSample()[555 - particle.idx];
+            // let yy = this.audioService.sample1[555 - particle.idx];
+            let yy = this.audioService.sample1[particle.idx];
             yy = (yy / 200 * yy / 200) * 255;
 
             particle.color.r = this.optionsService.colors(yy).r / 255;
             particle.color.g = this.optionsService.colors(yy).g / 255;
             particle.color.b = this.optionsService.colors(yy).b / 255;
 
-            particle.scale.x = yy / 20 + .5;
-            particle.scale.y = yy / 20 + .5;
-            particle.scale.z = yy / 20 + .5;
+            const s = yy / 20 + .5;
+            particle.scale.x = s;
+            particle.scale.y = s;
+            particle.scale.z = s;
 
         };
 
