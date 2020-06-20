@@ -23,7 +23,6 @@ export class AudioService {
   minDecibels = -100;
   maxDecibels = 0;  // -30;
   smoothingConstant = .9;
-  maxAverages = 50;
 
   fr64Analyser: any;
   fr64DataArray: Uint8Array = new Uint8Array(64);
@@ -70,22 +69,12 @@ export class AudioService {
   tdDataArray;
   tdDataArrayNormalized: any;
 
-  highTD = 0;
-  lowTD = 256;
-
-  lastHigh = 0;
-
-  highFreq = 0;
-
   tdHistory = [];
 
   tdHistoryArraySize = 150;
 
   sample1: Uint8Array = new Uint8Array(576);
-  sample1Normalized: Uint8Array = new Uint8Array(576);
   sample1BufferHistory = [];
-
-  sampleAve: Uint8Array = new Uint8Array(576);
 
   soundArrays: any;
   analyzersArray: any;
@@ -193,7 +182,6 @@ export class AudioService {
     this.fr16384Analyser.smoothingTimeConstant = this.smoothingConstant * .4;
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
-    // this.tdAnalyser.fftSize = 16384;
     this.tdAnalyser.fftSize = 1024;
     this.tdAnalyser.minDecibels = this.minDecibels;
     this.tdAnalyser.maxDecibels = this.maxDecibels;
@@ -202,8 +190,6 @@ export class AudioService {
     this.tdDataLength = this.tdBufferLength;
     this.tdDataArray = new Uint8Array(this.tdBufferLength);
     this.tdDataArrayNormalized = new Uint8Array(this.tdBufferLength);
-
-    // this.tdHistory = Array(this.tdHistoryArraySize).fill(0);
 
     this.clearSampleArrays();
 
@@ -261,11 +247,6 @@ export class AudioService {
       this.fr16384DataArray // 8
     ];
 
-    // setInterval( () => {
-    //   if (this.audio != null) {
-    //     this.analyzeData();
-    //   }
-    // }, 10);
     this.setGain();
 
     this.smoothingConstant = this.optionsService.smoothingConstant / 10;
@@ -302,76 +283,15 @@ export class AudioService {
       this.sample1[index + 512] = (this.soundArrays[1])[index + 64];   // 128 buckets
     }
 
-    // const averageBuckets = (s, e) => {
-    //   let total = 0;
-    //   for (let i = s; i <= e; i++) {
-    //     total += this.fr16384DataArray[i];
-    //   }
-    //   return total / (e - s + 1);
-    // };
-
-    // const windowSize = 64;   // will be 64
-    // const windowCount = 8;  // will be 8
-
-    // let targetIndex = 0;
-    // let startIndex = 0;
-    // let endIndex = 0;
-
-    // for (let span = 0; span < windowCount; span++) {
-
-    //   for (let seq = 0; seq < windowSize; seq++) {
-
-    //     endIndex = startIndex + Math.pow(2, span) - 1;
-    //     this.sampleAve[targetIndex] = averageBuckets(startIndex, endIndex);
-    //     startIndex += Math.pow(2, span);
-    //     targetIndex++;
-    //   }
-    // }
-
-
-
-
     this.sample1BufferHistory.push(this.sample1.slice(0));
     if (this.sample1BufferHistory.length > 150) {
       this.sample1BufferHistory.shift();
     }
 
-    // get highest,lowest and average FREQUENCIES for this frame
-    let frCurrentHigh = 0;
-    let frCurrentLow = 255;
-    let frHighIndex = 0;
-
-    this.sample1.forEach((f, i) => {
-      if (f > frCurrentHigh) {
-        frCurrentHigh = f;
-        frHighIndex = i;
-      }
-
-      if (f < frCurrentLow) {
-        frCurrentLow = f;
-      }
-
-    });
-
     //////////////////////////////////////
     // get TIME DOMAIN data for this frame
 
     this.tdAnalyser.getByteTimeDomainData(this.tdDataArray);
-
-    // get the highest for this frame
-    // this.highTD = 0;
-    // this.lowTD = 256;
-    // this.tdDataArray.forEach(d => {
-    //   if (d > this.highTD) {
-    //     this.highTD = d;
-    //   }
-    //   if (d < this.lowTD) {
-    //     this.lowTD = d;
-    //   }
-    // });
-
-    // normalize the data   0..1
-    // this.tdDataArrayNormalized = this.normalizeData(this.tdDataArray);
 
     // TODO: historical data for wave form       TODO:    TODO:
     this.tdHistory.push(this.tdDataArray.slice(0));
@@ -380,79 +300,30 @@ export class AudioService {
     }
   }
 
-  normalizeData(sourceData) {
-    const multiplier = Math.pow(Math.max(...sourceData), -1) || 0;
-    return sourceData.map(n => n * multiplier * 255);
-  }
-
   clearSampleArrays() {
     for (let index = 0; index < 576; index++) {
       this.sample1[index] = 0;
-      this.sampleAve[index] = 0;
-      this.sample1Normalized[index] = 0;
     }
   }
 
-  buildSampleArrays() {
-    this.sample1.fill(0, 0, 575);
-  }
-
-  // getNormalizedSample() {
-  //   return this.sample1Normalized;
+  // buildSampleArrays() {
+  //   this.sample1.fill(0, 0, 575);
   // }
-
-  getSample() {
-    if (this.sample1) {
-      return [...this.sample1];
-    } else {
-      return null;
-    }
-  }
-
-
-  getSampleAve() {
-    if (this.sampleAve) {
-      return [...this.sampleAve];
-    } else {
-      return null;
-    }
-  }
-
-  getSample512() {
-    if (this.fr512DataArray) {
-      return [...this.fr512DataArray];
-    } else {
-      return null;
-    }
-  }
-
-
-  getTDData() {
-    if (this.tdDataArray) {
-      return [...this.tdDataArray];
-    } else {
-      return null;
-    }
-  }
 
   setGain() {
     this.gainNode.gain.setValueAtTime(this.optionsService.sampleGain, this.audioCtx.currentTime);
   }
 
   setSmoothingConstant() {
-    // this.analyzersArray.forEach(aa => {
-    //   aa.smoothingTimeConstant = this.optionsService.smoothingConstant / 10;
-    // });
     this.fr64Analyser.smoothingTimeConstant = this.smoothingConstant;
     this.fr128Analyser.smoothingTimeConstant = this.smoothingConstant;
     this.fr256Analyser.smoothingTimeConstant = this.smoothingConstant;
     this.fr512Analyser.smoothingTimeConstant = this.smoothingConstant;
     this.fr1024Analyser.smoothingTimeConstant = this.smoothingConstant;
     this.fr2048Analyser.smoothingTimeConstant = this.smoothingConstant;
-    this.fr4096Analyser.smoothingTimeConstant = this.smoothingConstant * .8;
-    this.fr8192Analyser.smoothingTimeConstant = this.smoothingConstant * .6;
-    this.fr16384Analyser.smoothingTimeConstant = this.smoothingConstant * .4;
-
+    this.fr4096Analyser.smoothingTimeConstant = this.smoothingConstant;
+    this.fr8192Analyser.smoothingTimeConstant = this.smoothingConstant;
+    this.fr16384Analyser.smoothingTimeConstant = this.smoothingConstant;
   }
 
   disableMic() {

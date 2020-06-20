@@ -16,7 +16,7 @@ export class OptionsService {
   resizeSubscription$: Subscription;
 
   colorTime = 0;
-  colorTimeInc = .002;
+  colorTimeInc = .016;
   startingColorSet = 0;
   endingColorSet = 1;
 
@@ -38,6 +38,8 @@ export class OptionsService {
   ];
 
    options = {
+
+    version: 1.0,
 
     // general options
     showTitle: {
@@ -504,7 +506,7 @@ export class OptionsService {
       // this.options = lOptions;
 
       for (const [key, value] of Object.entries(lOptions)) {
-        console.log(`${key}: ${value}`);
+        // console.log(`${key}: ${value}`);
         this.options[key] = value;
       }
 
@@ -597,12 +599,12 @@ export class OptionsService {
     return { r, g, b };
   }
 
-  toggleOption(itemName: string) {
-    this.options[itemName].value = !this.options[itemName].value;
-    this.windowResize();
-    this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
-    this.storageService.saveOptions(this.options);
-  }
+  // toggleOption(itemName: string) {
+  //   this.options[itemName].value = !this.options[itemName].value;
+  //   this.windowResize();
+  //   this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
+  //   this.storageService.saveOptions(this.options);
+  // }
 
   toggleState(itemName: string) {
     this.state[itemName].value = !this.state[itemName].value;
@@ -672,9 +674,9 @@ export class OptionsService {
     return this.options;
   }
 
-  getOption(option) {
-    return this.options[option].value;
-  }
+  // getOption(option) {
+  //   return this.options[option].value;
+  // }
 
   updateState(itemName: string, value) {
     this.state[itemName].value = value;
@@ -760,10 +762,10 @@ export class OptionsService {
     return this.state.showTrackTitle.value;
   }
 
-  set showTrackTitle(value: boolean) {
-    this.state.showTrackTitle.value = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set showTrackTitle(value: boolean) {
+  //   this.state.showTrackTitle.value = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
   get volume(): number {
     return this.state.volume.value;
@@ -798,25 +800,25 @@ export class OptionsService {
     return this.state.showPanel.value;
   }
 
-  set showPanel(value: boolean) {
-    this.state.showPanel.value = value;
-  }
+  // set showPanel(value: boolean) {
+  //   this.state.showPanel.value = value;
+  // }
 
   get showPlayer(): boolean {
     return this.state.showPlayer.value;
   }
 
-  set showPlayer(value: boolean) {
-    this.state.showPlayer.value = value;
-  }
+  // set showPlayer(value: boolean) {
+  //   this.state.showPlayer.value = value;
+  // }
 
   get showSplash(): boolean {
     return this.state.showSplash.value;
   }
 
-  set showSplash(value: boolean) {
-    this.state.showSplash.value = value;
-  }
+  // set showSplash(value: boolean) {
+  //   this.state.showSplash.value = value;
+  // }
 
   get currentVisual(): number {
     return this.state.currentVisual.value;
@@ -827,59 +829,59 @@ export class OptionsService {
     this.storageService.saveOptions(this.options);
   }
 
-  get blockPlaneManager(): boolean {
-    return this.options.blockPlaneManager.checked;
-  }
+  // get blockPlaneManager(): boolean {
+  //   return this.options.blockPlaneManager.checked;
+  // }
 
-  set blockPlaneManager(value: boolean) {
-    this.options.blockPlaneManager.checked = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set blockPlaneManager(value: boolean) {
+  //   this.options.blockPlaneManager.checked = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get blockSpiralManager(): boolean {
-    return this.options.blockSpiralManager.checked;
-  }
+  // get blockSpiralManager(): boolean {
+  //   return this.options.blockSpiralManager.checked;
+  // }
 
-  set blockSpiralManager(value: boolean) {
-    this.options.blockSpiralManager.checked = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set blockSpiralManager(value: boolean) {
+  //   this.options.blockSpiralManager.checked = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get spectrograph(): boolean {
-    return this.options.spectrograph.checked;
-  }
+  // get spectrograph(): boolean {
+  //   return this.options.spectrograph.checked;
+  // }
 
-  set spectrograph(value: boolean) {
-    this.options.spectrograph.checked = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set spectrograph(value: boolean) {
+  //   this.options.spectrograph.checked = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get equationManager(): boolean {
-    return this.options.equationManager.checked;
-  }
+  // get equationManager(): boolean {
+  //   return this.options.equationManager.checked;
+  // }
 
-  set equationManager(value: boolean) {
-    this.options.equationManager.checked = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set equationManager(value: boolean) {
+  //   this.options.equationManager.checked = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get cubeManager(): boolean {
-    return this.options.cubeManager.checked;
-  }
+  // get cubeManager(): boolean {
+  //   return this.options.cubeManager.checked;
+  // }
 
-  set cubeManager(value: boolean) {
-    this.options.cubeManager.checked = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set cubeManager(value: boolean) {
+  //   this.options.cubeManager.checked = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get starManager(): boolean {
-    return this.options.starManager.checked;
-  }
+  // get starManager(): boolean {
+  //   return this.options.starManager.checked;
+  // }
 
-  set starManager(value: boolean) {
-    this.options.starManager.checked = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set starManager(value: boolean) {
+  //   this.options.starManager.checked = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
   get customColors(): boolean {
     return this.options.customColors.value;
@@ -950,10 +952,10 @@ export class OptionsService {
     return this.state.currentTrack.value;
   }
 
-  set currentTrack(value: number) {
-    this.state.currentTrack.value = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set currentTrack(value: number) {
+  //   this.state.currentTrack.value = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
   get input(): string {
     return this.state.input.value;

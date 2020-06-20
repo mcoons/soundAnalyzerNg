@@ -113,7 +113,7 @@ export class EngineService {
         this.optionsService.endingColorSet = randnum;
       }
 
-    }, 16);
+    }, 128);
 
   }
 
@@ -350,7 +350,8 @@ export class EngineService {
     hex.dispose();
 
     this.hexSPS.updateParticle = (particle) => {
-      let yy = this.audioService.getSample()[555 - particle.idx];
+      // let yy = this.audioService.getSample()[555 - particle.idx];
+      let yy = this.audioService.sample1[555 - particle.idx];
       yy = (yy / 255 * yy / 255) * 255;
 
       particle.color.r = this.optionsService.colors(yy).r / 255;

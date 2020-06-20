@@ -30,7 +30,10 @@ export class CubeManager {
     }
 
     setDefaults() {
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -40, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = -40;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
+
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = Math.PI / 2;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = Math.PI / 2;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
@@ -49,7 +52,6 @@ export class CubeManager {
         this.mat.backFaceCulling = true;
         this.mat.forceDepthWrite = true;
         this.mat.specularColor = new BABYLON.Color3(.1, .1, .1);
-        // this.mat.ambientColor = new BABYLON.Color3(.25, .25, .25);
 
         const myPositionFunction = (particle, i, s) => {
             particle.position.x = (x - 4.5) * 80;  // 80

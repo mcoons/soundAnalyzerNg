@@ -44,9 +44,9 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     this.messageService.announceMessage('randomize list');
   }
 
-  toggleItem(e) {
-    this.optionsService.toggleOption(e.target.name);
-  }
+  // toggleItem(e) {
+  //   this.optionsService.toggleOption(e.target.name);
+  // }
 
   updateItem(e) {
     this.messageService.announceMessage(e.target.id);
@@ -57,12 +57,12 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     this.optionsService.updateState('currentVisual', e.target.value);
   }
 
-  colorChange(e) {
-    if (e.type !== 'change') {
-      return;
-    }
-    console.log('colorchange');
-  }
+  // colorChange(e) {
+  //   if (e.type !== 'change') {
+  //     return;
+  //   }
+  //   // console.log('colorchange');
+  // }
 
   radioNoteChange(e) {
     this.optionsService.toggleNoteRadio(e.target.id, e.target.value);
@@ -100,9 +100,9 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     this.messageService.announceMessage('volume change');
   }
 
-  setVolume(volume) {
-    this.messageService.announceMessage('volume change');
-  }
+  // setVolume(volume) {
+  //   this.messageService.announceMessage('volume change');
+  // }
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed

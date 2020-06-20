@@ -27,16 +27,14 @@ export class BlockSpiralManager {
 
         this.setDefaults();
 
-        // this.optionsService.smoothingConstant = 9;
-        // this.optionsService.sampleGain = 10;
-        // this.messageService.announceMessage('sampleGain');
-        // this.messageService.announceMessage('smoothingConstant');
-
         this.scene.registerBeforeRender(this.beforeRender);
     }
 
     setDefaults(){
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -50, 0);
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = -50;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
+
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
@@ -102,7 +100,8 @@ export class BlockSpiralManager {
         this.mesh.scaling.z = 3;
 
         this.SPS.updateParticle = (particle) => {
-            let y = (this.audioService.sample1[particle.idx]);
+
+            let y = this.audioService.sample1[particle.idx];
             y = (y / 255 * y / 255) * 255;
 
             particle.scaling.y = .05 + y / 17;
@@ -111,18 +110,11 @@ export class BlockSpiralManager {
             particle.color.r = this.optionsService.colors(y).r / 255;
             particle.color.g = this.optionsService.colors(y).g / 255;
             particle.color.b = this.optionsService.colors(y).b / 255;
+
         };
     }
 
-    update() {
-        // const PI = Math.PI;
-        // const TwoPI = PI * 2;
-
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha += .001;
-        // if ((this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha >= TwoPI) {
-        //     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha -= TwoPI;
-        // }
-    }
+    update() { }
 
     remove() {
         this.SPS.mesh.dispose();

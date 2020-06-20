@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TooltipModule } from 'ng2-tooltip-directive';
+// import { TooltipModule } from 'ng2-tooltip-directive';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { AudioModule } from './audio/audio.module';
@@ -34,7 +34,7 @@ import { SplashScreenComponent } from './components/splash-screen/splash-screen.
       NgbModule,
       BrowserAnimationsModule,
       FormsModule,
-      TooltipModule,
+      // TooltipModule,
       MatExpansionModule,
       AudioModule
    ],
