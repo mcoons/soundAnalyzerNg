@@ -10,16 +10,9 @@ _______________________________________________________________________
 Save last viewed visual to storage for after splash screen
 
 Implement Star Zooming
-Implement Randomization of soundtracks
-
+Implement 2D history layer in the back.
 
 Fix playlist selection button highlight when canceling coming from mic
-
-
-Move PI const out of create/update
-Implement dataset selection option for lowend devices
-Rewrite 3d classes to use current dataset/sizes changes
-Update audio to only update for current selected dataset
 
 
 Check for CSS cross browser changes

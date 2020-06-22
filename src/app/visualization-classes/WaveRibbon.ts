@@ -16,7 +16,7 @@ export class WaveRibbon {
     private groundVertices;
     private colorsBuffer;
 
-    constructor(scene, audioService, optionsService, messageService, engineService) {
+    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
         this.scene = scene;
         this.audioService = audioService;

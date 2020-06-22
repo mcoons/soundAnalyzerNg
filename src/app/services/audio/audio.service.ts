@@ -283,9 +283,14 @@ export class AudioService {
       this.sample1[index + 512] = (this.soundArrays[1])[index + 64];   // 128 buckets
     }
 
-    this.sample1BufferHistory.push(this.sample1.slice(0));
+    // this.sample1BufferHistory.push(this.sample1.slice(0));
+    this.sample1BufferHistory[this.sample1BufferHistory.length] = this.sample1.slice(0);
+  
     if (this.sample1BufferHistory.length > 150) {
-      this.sample1BufferHistory.shift();
+      // this.sample1BufferHistory.shift();
+      this.sample1BufferHistory.reverse();
+      this.sample1BufferHistory.pop();
+      this.sample1BufferHistory.reverse();
     }
 
     //////////////////////////////////////

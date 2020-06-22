@@ -15,29 +15,30 @@ export class OptionsService {
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
 
-  colorTime = 0;
-  colorTimeInc = .016;
-  startingColorSet = 0;
-  endingColorSet = 1;
+  // colorTime = 0;
+  // colorTimeInc = .016;
+  // startingColorSet = 0;
+  // endingColorSet = 1;
 
   visuals = [
     'blockPlaneManager',
     'blockSpiralManager',
     'equationManager',
     'cubeManager',
+    'singleSPS',
     'starManager',
     'spectrograph',
     'spherePlaneManagerSPS',
     'rings',
     'hex',
-    'waveRibbon'
+    'waveRibbon',
   ];
 
   notes = [
     'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'None'
   ];
 
-   options = {
+  options = {
 
     version: 1.0,
 
@@ -140,6 +141,7 @@ export class OptionsService {
       cbeta: .01,
       cradius: 1000
     },
+
     cubeManager: {
       group: '3DVisual',
       type: 'radio',
@@ -160,11 +162,31 @@ export class OptionsService {
       cbeta: 1.57,
       cradius: 1000
     },
+    singleSPS: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'SingleSPS',
+      value: 4,
+      checked: true,
+      colorOptions: true,
+      cameraOptions: true,
+      sampleGain: 10,
+      smoothingConstant: 5,
+      animateCamera: true,
+      customColors: false,
+      minColor: '#0000ff',
+      midColor: '#00ff00',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .01,
+      cradius: 1000
+    },
     starManager: {
       group: '3DVisual',
       type: 'radio',
       label: 'Stars',
-      value: 4,
+      value: 5,
       checked: false,
       colorOptions: false,
       cameraOptions: false,
@@ -184,7 +206,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Spectrograph',
-      value: 5,
+      value: 6,
       checked: false,
       colorOptions: false,
       cameraOptions: false,
@@ -204,7 +226,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Sphere Plane',
-      value: 6,
+      value: 7,
       checked: false,
       colorOptions: true,
       cameraOptions: true,
@@ -224,7 +246,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Rings',
-      value: 7,
+      value: 8,
       checked: false,
       colorOptions: true,
       cameraOptions: false,
@@ -244,7 +266,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Hex',
-      value: 8,
+      value: 9,
       checked: false,
       colorOptions: true,
       cameraOptions: true,
@@ -264,7 +286,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'WaveRibbon',
-      value: 9,
+      value: 10,
       checked: false,
       colorOptions: false,
       cameraOptions: false,
@@ -462,7 +484,7 @@ export class OptionsService {
 
   };
 
-   state = {
+  state = {
     showPanel: { value: false },
     showPlayer: { value: false },
     showSplash: { value: true },
@@ -494,7 +516,7 @@ export class OptionsService {
   constructor(
     public messageService: MessageService,
     public storageService: StorageService,
-    ) {
+  ) {
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
       this.windowResize();
@@ -517,94 +539,94 @@ export class OptionsService {
 
   }
 
-  colors(yy) {
-    let r;
-    let g;
-    let b;
+  // colors(yy) {
+  //   let r;
+  //   let g;
+  //   let b;
 
-    const midLoc = this.midLoc;
+  //   const midLoc = this.midLoc;
 
-    const colorSets = [
-      { r: 128 - yy / 2, g: yy, b: 200 - yy * 2 },
-      { r: yy, g: 128 - yy / 2, b: 200 - yy * 2 },
-      { r: 128 - yy / 2, g: 200 - yy * 2, b: yy },
-      { r: 200 - yy * 2, g: yy, b: 128 - yy / 2 },
-      { r: yy, g: 200 - yy * 2, b: 128 - yy / 2 },
-      { r: 200 - yy * 2, g: 128 - yy / 2, b: yy },
-      { r: 255 - (128 - yy / 2), g: 255 - yy, b: 255 - (200 - yy * 2) },
-      { r: 255 - yy, g: 255 - (128 - yy / 2), b: 255 - (200 - yy * 2) },
-      { r: 255 - (128 - yy / 2), g: 255 - (200 - yy * 2), b: 255 - yy },
-      { r: 255 - (200 - yy * 2), g: 255 - yy, b: 255 - (128 - yy / 2) },
-      { r: 255 - yy, g: 255 - (200 - yy * 2), b: 255 - (128 - yy / 2) },
-      { r: 255 - (200 - yy * 2), g: 255 - (128 - yy / 2), b: 255 - yy }
-    ];
+  //   const colorSets = [
+  //     { r: 128 - yy / 2, g: yy, b: 200 - yy * 2 },
+  //     { r: yy, g: 128 - yy / 2, b: 200 - yy * 2 },
+  //     { r: 128 - yy / 2, g: 200 - yy * 2, b: yy },
+  //     { r: 200 - yy * 2, g: yy, b: 128 - yy / 2 },
+  //     { r: yy, g: 200 - yy * 2, b: 128 - yy / 2 },
+  //     { r: 200 - yy * 2, g: 128 - yy / 2, b: yy },
+  //     { r: 255 - (128 - yy / 2), g: 255 - yy, b: 255 - (200 - yy * 2) },
+  //     { r: 255 - yy, g: 255 - (128 - yy / 2), b: 255 - (200 - yy * 2) },
+  //     { r: 255 - (128 - yy / 2), g: 255 - (200 - yy * 2), b: 255 - yy },
+  //     { r: 255 - (200 - yy * 2), g: 255 - yy, b: 255 - (128 - yy / 2) },
+  //     { r: 255 - yy, g: 255 - (200 - yy * 2), b: 255 - (128 - yy / 2) },
+  //     { r: 255 - (200 - yy * 2), g: 255 - (128 - yy / 2), b: 255 - yy }
+  //   ];
 
-    const getOptionColor = (name, c) => {
-      const val = this.options[name].value;
+  //   const getOptionColor = (name, c) => {
+  //     const val = this.options[name].value;
 
-      if (c === 'r') {
-        return (val.substring(1, 3));
-      }
+  //     if (c === 'r') {
+  //       return (val.substring(1, 3));
+  //     }
 
-      if (c === 'g') {
-        return (val.substring(3, 5));
-      }
+  //     if (c === 'g') {
+  //       return (val.substring(3, 5));
+  //     }
 
-      if (c === 'b') {
-        return (val.substring(5));
-      }
+  //     if (c === 'b') {
+  //       return (val.substring(5));
+  //     }
 
-    };
+  //   };
 
-    if (this.options.customColors.value === false) {
-      r = colorSets[this.startingColorSet].r +
-      (colorSets[this.endingColorSet].r - colorSets[this.startingColorSet].r) *
-      this.colorTime;
-      g = colorSets[this.startingColorSet].g +
-      (colorSets[this.endingColorSet].g - colorSets[this.startingColorSet].g) *
-      this.colorTime;
-      b = colorSets[this.startingColorSet].b +
-      (colorSets[this.endingColorSet].b - colorSets[this.startingColorSet].b) *
-      this.colorTime;
-    } else {
+  //   if (this.options.customColors.value === false) {
+  //     r = colorSets[this.startingColorSet].r +
+  //     (colorSets[this.endingColorSet].r - colorSets[this.startingColorSet].r) *
+  //     this.colorTime;
+  //     g = colorSets[this.startingColorSet].g +
+  //     (colorSets[this.endingColorSet].g - colorSets[this.startingColorSet].g) *
+  //     this.colorTime;
+  //     b = colorSets[this.startingColorSet].b +
+  //     (colorSets[this.endingColorSet].b - colorSets[this.startingColorSet].b) *
+  //     this.colorTime;
+  //   } else {
 
-      if (yy <= midLoc) {
-        r = parseInt(getOptionColor('minColor', 'r'), 16) +
-            (parseInt(getOptionColor('midColor', 'r'), 16) -
-             parseInt(getOptionColor('minColor', 'r'), 16)) *
-            yy / midLoc;
-        g = parseInt(getOptionColor('minColor', 'g'), 16) +
-            (parseInt(getOptionColor('midColor', 'g'), 16) -
-             parseInt(getOptionColor('minColor', 'g'), 16)) *
-            yy / midLoc;
-        b = parseInt(getOptionColor('minColor', 'b'), 16) +
-            (parseInt(getOptionColor('midColor', 'b'), 16) -
-             parseInt(getOptionColor('minColor', 'b'), 16)) *
-            yy / midLoc;
-     } else {
-        r = parseInt(getOptionColor('midColor', 'r'), 16) +
-            (parseInt(getOptionColor('maxColor', 'r'), 16) -
-             parseInt(getOptionColor('midColor', 'r'), 16)) *
-            (yy - midLoc) / (255 - midLoc);
-        g = parseInt(getOptionColor('midColor', 'g'), 16) +
-            (parseInt(getOptionColor('maxColor', 'g'), 16) -
-             parseInt(getOptionColor('midColor', 'g'), 16)) *
-            (yy - midLoc) / (255 - midLoc);
-        b = parseInt(getOptionColor('midColor', 'b'), 16) +
-            (parseInt(getOptionColor('maxColor', 'b'), 16) -
-             parseInt(getOptionColor('midColor', 'b'), 16)) *
-            (yy - midLoc) / (255 - midLoc);
-     }
-    }
-    return { r, g, b };
-  }
-
-  // toggleOption(itemName: string) {
-  //   this.options[itemName].value = !this.options[itemName].value;
-  //   this.windowResize();
-  //   this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
-  //   this.storageService.saveOptions(this.options);
+  //     if (yy <= midLoc) {
+  //       r = parseInt(getOptionColor('minColor', 'r'), 16) +
+  //           (parseInt(getOptionColor('midColor', 'r'), 16) -
+  //            parseInt(getOptionColor('minColor', 'r'), 16)) *
+  //           yy / midLoc;
+  //       g = parseInt(getOptionColor('minColor', 'g'), 16) +
+  //           (parseInt(getOptionColor('midColor', 'g'), 16) -
+  //            parseInt(getOptionColor('minColor', 'g'), 16)) *
+  //           yy / midLoc;
+  //       b = parseInt(getOptionColor('minColor', 'b'), 16) +
+  //           (parseInt(getOptionColor('midColor', 'b'), 16) -
+  //            parseInt(getOptionColor('minColor', 'b'), 16)) *
+  //           yy / midLoc;
+  //    } else {
+  //       r = parseInt(getOptionColor('midColor', 'r'), 16) +
+  //           (parseInt(getOptionColor('maxColor', 'r'), 16) -
+  //            parseInt(getOptionColor('midColor', 'r'), 16)) *
+  //           (yy - midLoc) / (255 - midLoc);
+  //       g = parseInt(getOptionColor('midColor', 'g'), 16) +
+  //           (parseInt(getOptionColor('maxColor', 'g'), 16) -
+  //            parseInt(getOptionColor('midColor', 'g'), 16)) *
+  //           (yy - midLoc) / (255 - midLoc);
+  //       b = parseInt(getOptionColor('midColor', 'b'), 16) +
+  //           (parseInt(getOptionColor('maxColor', 'b'), 16) -
+  //            parseInt(getOptionColor('midColor', 'b'), 16)) *
+  //           (yy - midLoc) / (255 - midLoc);
+  //    }
+  //   }
+  //   return { r, g, b };
   // }
+
+  toggleOption(itemName: string) {
+    this.options[itemName].value = !this.options[itemName].value;
+    this.windowResize();
+    this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
+    this.storageService.saveOptions(this.options);
+  }
 
   toggleState(itemName: string) {
     this.state[itemName].value = !this.state[itemName].value;
@@ -625,31 +647,31 @@ export class OptionsService {
   updateCustomOptions(visualIndex) {
 
     this.options.sampleGain.value =
-    this.options[this.visuals[visualIndex]].sampleGain;
+      this.options[this.visuals[visualIndex]].sampleGain;
 
     this.options.smoothingConstant.value =
-    this.options[this.visuals[visualIndex]].smoothingConstant;
+      this.options[this.visuals[visualIndex]].smoothingConstant;
 
     this.options.sampleGain.value =
-    this.options[this.visuals[visualIndex]].sampleGain;
+      this.options[this.visuals[visualIndex]].sampleGain;
 
     this.options.animateCamera.value =
-    this.options[this.visuals[visualIndex]].animateCamera;
+      this.options[this.visuals[visualIndex]].animateCamera;
 
     this.options.customColors.value =
-    this.options[this.visuals[visualIndex]].customColors;
+      this.options[this.visuals[visualIndex]].customColors;
 
     this.options.minColor.value =
-    this.options[this.visuals[visualIndex]].minColor;
+      this.options[this.visuals[visualIndex]].minColor;
 
     this.options.midColor.value =
-    this.options[this.visuals[visualIndex]].midColor;
+      this.options[this.visuals[visualIndex]].midColor;
 
     this.options.maxColor.value =
-    this.options[this.visuals[visualIndex]].maxColor;
+      this.options[this.visuals[visualIndex]].maxColor;
 
     this.options.midLoc.value =
-    this.options[this.visuals[visualIndex]].midLoc;
+      this.options[this.visuals[visualIndex]].midLoc;
 
     this.announceChange('smoothingConstant');
     this.announceChange('sampleGain');
@@ -674,9 +696,9 @@ export class OptionsService {
     return this.options;
   }
 
-  // getOption(option) {
-  //   return this.options[option].value;
-  // }
+  getOption(option) {
+    return this.options[option].value;
+  }
 
   updateState(itemName: string, value) {
     this.state[itemName].value = value;
@@ -762,10 +784,10 @@ export class OptionsService {
     return this.state.showTrackTitle.value;
   }
 
-  // set showTrackTitle(value: boolean) {
-  //   this.state.showTrackTitle.value = value;
-  //   this.storageService.saveOptions(this.options);
-  // }
+  set showTrackTitle(value: boolean) {
+    this.state.showTrackTitle.value = value;
+    this.storageService.saveOptions(this.options);
+  }
 
   get volume(): number {
     return this.state.volume.value;

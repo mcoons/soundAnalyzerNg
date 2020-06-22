@@ -17,7 +17,7 @@ export class CubeManager {
     private mesh;
     private mat;
 
-    constructor(scene, audioService, optionsService, messageService, engineService) {
+    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
         this.scene = scene;
         this.audioService = audioService;

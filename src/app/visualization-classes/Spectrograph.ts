@@ -16,7 +16,7 @@ export class Spectrograph {
     private groundVertices;
     private colorsBuffer;
 
-    constructor(scene, audioService, optionsService, messageService, engineService) {
+    constructor(scene, audioService, optionsService, messageService, engineService, colorService) {
 
         this.scene = scene;
         this.audioService = audioService;

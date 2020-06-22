@@ -4,6 +4,7 @@ import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
+import { ColorsService } from '../services/colors/colors.service';
 
 export class Hex {
 
@@ -12,6 +13,7 @@ export class Hex {
     private optionsService: OptionsService;
     private messageService: MessageService;
     private engineService: EngineService;
+    private colorsService: ColorsService;
 
     // private SPS;
     // private mat;
@@ -25,12 +27,13 @@ export class Hex {
     private rotation = 0;
 
 
-    constructor(scene, audioService, optionsService, messageService, engineService) {
+    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
         this.messageService = messageService;
         this.engineService = engineService;
+        this.colorsService = colorsService;
 
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
         (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.2;

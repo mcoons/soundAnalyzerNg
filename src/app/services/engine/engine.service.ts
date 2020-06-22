@@ -10,6 +10,7 @@ import { MessageService } from '../message/message.service';
 import { AudioService } from '../audio/audio.service';
 import { OptionsService } from '../options/options.service';
 import { StorageService } from '../storage/storage.service';
+import { ColorsService } from '../colors/colors.service';
 
 import { BlockPlaneManager } from '../../visualization-classes/BlockPlaneManager';
 import { SpherePlaneManagerSPS } from '../../visualization-classes/SpherePlaneManagerSPS';
@@ -21,6 +22,7 @@ import { Spectrograph } from '../../visualization-classes/Spectrograph';
 import { Rings } from '../../visualization-classes/Rings';
 import { Hex } from '../../visualization-classes/Hex';
 import { WaveRibbon } from '../../visualization-classes/WaveRibbon';
+import { SingleSPS } from '../../visualization-classes/SingleSPS';
 
 
 @Injectable({ providedIn: 'root' })
@@ -59,7 +61,8 @@ export class EngineService {
     public messageService: MessageService,
     public audioService: AudioService,
     public optionsService: OptionsService,
-    public storageService: StorageService
+    public storageService: StorageService,
+    public colorsService: ColorsService
   ) {
 
     this.resizeObservable$ = fromEvent(window, 'resize');
@@ -79,41 +82,45 @@ export class EngineService {
       BlockSpiralManager,
       EquationManager,
       CubeManager,
+      SingleSPS,
       StarManager,
       Spectrograph,
       SpherePlaneManagerSPS,
       Rings,
       Hex,
-      WaveRibbon
+      WaveRibbon,
     ];
 
     // interval to increment random color lerping
 
-    setInterval( () => {
-      let randnum;
-      this.optionsService.colorTime += this.optionsService.colorTimeInc;
+    // setInterval( () => {
+    //   let randnum;
+    //   this.optionsService.colorTime += this.optionsService.colorTimeInc;
 
-      if (this.optionsService.colorTime >= 1) {
-        this.optionsService.colorTime = 1;
-        this.optionsService.colorTimeInc *= -1;
-        do {
-          randnum =  Math.floor(Math.random() * 11);
-        } while (randnum === this.optionsService.startingColorSet ||
-                 randnum === this.optionsService.endingColorSet);
-        this.optionsService.startingColorSet = randnum;
-      }
+    //   if (this.optionsService.colorTime >= 1) {
+    //     this.optionsService.colorTime = 1;
+    //     this.optionsService.colorTimeInc *= -1;
+    //     do {
+    //       randnum =  Math.floor(Math.random() * 11);
+    //     } while (randnum === this.optionsService.startingColorSet ||
+    //              randnum === this.optionsService.endingColorSet);
+    //     this.optionsService.startingColorSet = randnum;
+    //   }
 
-      if (this.optionsService.colorTime <= 0) {
-        this.optionsService.colorTime = 0;
-        this.optionsService.colorTimeInc *= -1;
-        do {
-          randnum =  Math.floor(Math.random() * 11);
-        } while (randnum === this.optionsService.startingColorSet ||
-                 randnum === this.optionsService.endingColorSet);
-        this.optionsService.endingColorSet = randnum;
-      }
+    //   if (this.optionsService.colorTime <= 0) {
+    //     this.optionsService.colorTime = 0;
+    //     this.optionsService.colorTimeInc *= -1;
+    //     do {
+    //       randnum =  Math.floor(Math.random() * 11);
+    //     } while (randnum === this.optionsService.startingColorSet ||
+    //              randnum === this.optionsService.endingColorSet);
+    //     this.optionsService.endingColorSet = randnum;
+    //   }
 
-    }, 128);
+    // }, 128);
+
+    console.log('from engine');
+    console.log(colorsService);
 
   }
 
@@ -126,7 +133,7 @@ export class EngineService {
     this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
     this.scene.ambientColor = new BABYLON.Color3(.5, .5, .5);
 
-    var postProcess = new BABYLON.FxaaPostProcess('fxaa', 1.0, null, null, this.engine, true);
+    // var postProcess = new BABYLON.FxaaPostProcess('fxaa', 1.0, null, null, this.engine, true);
 
     this.highlightLayer = new BABYLON.HighlightLayer('hl1', this.scene);
 
@@ -160,7 +167,7 @@ export class EngineService {
     const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(-1, -1, 0), this.scene);
     // light.intensity = 1.5;
     // tslint:disable-next-line: max-line-length
-    this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService, this.optionsService, this.messageService);
+    this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
     this.currentManager.create();
   }
 
@@ -219,7 +226,7 @@ export class EngineService {
     this.currentManager = null;
 
     this.managerClassIndex = index;
-    this.currentManager = new this.managerClasses[index](this.scene, this.audioService, this.optionsService, this.messageService, this);
+    this.currentManager = new this.managerClasses[index](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
     this.currentManager.create();
 
     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
@@ -354,9 +361,9 @@ export class EngineService {
       let yy = this.audioService.sample1[555 - particle.idx];
       yy = (yy / 255 * yy / 255) * 255;
 
-      particle.color.r = this.optionsService.colors(yy).r / 255;
-      particle.color.g = this.optionsService.colors(yy).g / 255;
-      particle.color.b = this.optionsService.colors(yy).b / 255;
+      particle.color.r = this.colorsService.colors(yy).r / 255;
+      particle.color.g = this.colorsService.colors(yy).g / 255;
+      particle.color.b = this.colorsService.colors(yy).b / 255;
 
       particle.position.y = -24.5 + yy / 3;
       particle.scaling.x = .9;
