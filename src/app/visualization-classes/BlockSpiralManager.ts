@@ -40,7 +40,7 @@ export class BlockSpiralManager {
 
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = 1.00;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 340;
     }
 
     beforeRender = () => {

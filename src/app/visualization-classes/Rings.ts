@@ -30,9 +30,7 @@ export class Rings {
     glass;
 
     constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
-        console.log('from rings');
-        console.log(colorsService);
-        
+
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
@@ -49,7 +47,6 @@ export class Rings {
     }
 
     setDefaults() {
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
@@ -138,9 +135,9 @@ export class Rings {
 
         this.ring3SPS = new BABYLON.SolidParticleSystem('ring3SPS', this.scene, { updatable: true, enableMultiMaterial: true });
 
-        const box3 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 10, height: 1 }, this.scene);
+        const box3 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 7, height: 1 }, this.scene);
 
-        for (let theta = Math.PI / 2; theta < 2 * Math.PI + Math.PI / 2 - Math.PI / 200; theta += Math.PI / 200) {
+        for (let theta = Math.PI / 2; theta < 2 * Math.PI + Math.PI / 2 - Math.PI / 550; theta += Math.PI / 550) {
             gtheta = theta;
             this.ring3SPS.addShape(box3, 1, { positionFunction: ring3PositionFunction });
         }
@@ -152,14 +149,14 @@ export class Rings {
         box3.dispose();
 
         this.ring3SPS.updateParticle = (particle) => {
-            const myTheta = particle.idx * Math.PI / 200 + Math.PI / 2;
-            let yy = this.audioService.fr256DataArray[particle.idx < 200 ? particle.idx : 200 - (particle.idx - 200)];
+            const myTheta = particle.idx * Math.PI / 550 + Math.PI / 2;
+            let yy = this.audioService.sample1[particle.idx + 20 < 570 ? particle.idx + 20 : 570 - (particle.idx + 20 - 570)];
 
             particle.color.r = this.colorsService.colors(yy).r / 255;
             particle.color.g = this.colorsService.colors(yy).g / 255;
             particle.color.b = this.colorsService.colors(yy).b / 255;
 
-            particle.scale.y = yy;
+            particle.scale.y = yy/2;
             particle.position.y = (particle.scale.y) / 2;
 
         };

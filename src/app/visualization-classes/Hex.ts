@@ -15,17 +15,7 @@ export class Hex {
     private engineService: EngineService;
     private colorsService: ColorsService;
 
-    // private SPS;
-    // private mat;
-    // private mesh1;
-    // groundMat;
-    // groundCSG;
-    // spsCSG;
-    // holyGroundCSG;
-    // finalGround;
-
     private rotation = 0;
-
 
     constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
         this.scene = scene;

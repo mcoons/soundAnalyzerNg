@@ -21,7 +21,7 @@ export class AudioService {
   lastVolume;
 
   minDecibels = -100;
-  maxDecibels = 0;  // -30;
+  maxDecibels = -30;  // -30;
   smoothingConstant = .9;
 
   fr64Analyser: any;

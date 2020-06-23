@@ -52,7 +52,7 @@ export class WaveRibbon {
 
     update() {
 
-        const h = this.audioService.tdBufferLength ;  // dataset length + 1
+        const h = this.audioService.tdBufferLength;  // dataset length + 1
         // const w = this.audioService.tdHistoryArraySize;  // history length + 1
         const w = 150;
 
@@ -75,9 +75,7 @@ export class WaveRibbon {
                 this.colorsBuffer.push(1);
 
                 // set y value of ground vertex data
-                // this.groundVertices[yVertexDataIndex-1] = 0;
                 this.groundVertices[yVertexDataIndex] = currentData[y] * 3 - 350;
-                // this.groundVertices[yVertexDataIndex] = currentData[y] ;
 
                 yVertexDataIndex += 3;
             }

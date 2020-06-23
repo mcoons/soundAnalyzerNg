@@ -38,7 +38,7 @@ export class EngineService {
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
 
-  private showAxis = false;
+  private showAxis = true;
 
   glowLayer;
   highlightLayer;
@@ -90,37 +90,6 @@ export class EngineService {
       Hex,
       WaveRibbon,
     ];
-
-    // interval to increment random color lerping
-
-    // setInterval( () => {
-    //   let randnum;
-    //   this.optionsService.colorTime += this.optionsService.colorTimeInc;
-
-    //   if (this.optionsService.colorTime >= 1) {
-    //     this.optionsService.colorTime = 1;
-    //     this.optionsService.colorTimeInc *= -1;
-    //     do {
-    //       randnum =  Math.floor(Math.random() * 11);
-    //     } while (randnum === this.optionsService.startingColorSet ||
-    //              randnum === this.optionsService.endingColorSet);
-    //     this.optionsService.startingColorSet = randnum;
-    //   }
-
-    //   if (this.optionsService.colorTime <= 0) {
-    //     this.optionsService.colorTime = 0;
-    //     this.optionsService.colorTimeInc *= -1;
-    //     do {
-    //       randnum =  Math.floor(Math.random() * 11);
-    //     } while (randnum === this.optionsService.startingColorSet ||
-    //              randnum === this.optionsService.endingColorSet);
-    //     this.optionsService.endingColorSet = randnum;
-    //   }
-
-    // }, 128);
-
-    console.log('from engine');
-    console.log(colorsService);
 
   }
 

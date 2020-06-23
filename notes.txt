@@ -7,8 +7,7 @@ https://github.com/mcoons/soundAnalyzerNg
 TODO
 _______________________________________________________________________
 
-Save last viewed visual to storage for after splash screen
-
+Separate default options from current/player options;
 Implement Star Zooming
 Implement 2D history layer in the back.
 

@@ -23,7 +23,6 @@ export class EquationManager {
     private mesh;
     private mat;
 
-
     private PI;
     private TwoPI;
     private PId2;
@@ -34,9 +33,6 @@ export class EquationManager {
     private radius;
 
     constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
-
-        console.log('from eqMan');
-        console.log(colorsService);
 
         this.scene = scene;
         this.audioService = audioService;

@@ -110,8 +110,6 @@ export class SpherePlaneManagerSPS {
         sphere.dispose();
 
         this.innerSPS.updateParticle = (particle) => {
-            // let yy = this.audioService.getSample()[555 - particle.idx];
-            // let yy = this.audioService.sample1[555 - particle.idx];
             let yy = this.audioService.sample1[particle.idx];
             yy = (yy / 200 * yy / 200) * 255;
 
@@ -119,7 +117,7 @@ export class SpherePlaneManagerSPS {
             particle.color.g = this.colorsService.colors(yy).g / 255;
             particle.color.b = this.colorsService.colors(yy).b / 255;
 
-            const s = yy / 20 + .5;
+            const s = yy / 30 + .5;
             particle.scale.x = s;
             particle.scale.y = s;
             particle.scale.z = s;

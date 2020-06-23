@@ -32,7 +32,6 @@ export class BlockPlaneManager {
     }
 
     setDefaults() {
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
@@ -76,7 +75,6 @@ export class BlockPlaneManager {
                 box.dispose();
             }
         }
-
 
         this.mesh = this.SPS.buildMesh();
         this.mesh.material = this.mat;

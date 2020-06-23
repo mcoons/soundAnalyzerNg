@@ -15,11 +15,6 @@ export class OptionsService {
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
 
-  // colorTime = 0;
-  // colorTimeInc = .016;
-  // startingColorSet = 0;
-  // endingColorSet = 1;
-
   visuals = [
     'blockPlaneManager',
     'blockSpiralManager',
@@ -38,7 +33,7 @@ export class OptionsService {
     'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'None'
   ];
 
-  options = {
+  baseOptions = {
 
     version: 1.0,
 
@@ -89,7 +84,7 @@ export class OptionsService {
       checked: false,
       colorOptions: true,
       cameraOptions: false,
-      sampleGain: 10,
+      sampleGain: 1,
       smoothingConstant: 5,
       animateCamera: false,
       customColors: false,
@@ -109,7 +104,7 @@ export class OptionsService {
       checked: false,
       colorOptions: true,
       cameraOptions: true,
-      sampleGain: 10,
+      sampleGain: 1,
       smoothingConstant: 5,
       animateCamera: true,
       customColors: false,
@@ -129,7 +124,7 @@ export class OptionsService {
       checked: true,
       colorOptions: true,
       cameraOptions: true,
-      sampleGain: 10,
+      sampleGain: 1,
       smoothingConstant: 5,
       animateCamera: true,
       customColors: false,
@@ -150,7 +145,7 @@ export class OptionsService {
       checked: false,
       colorOptions: false,
       cameraOptions: false,
-      sampleGain: 10,
+      sampleGain: 1,
       smoothingConstant: 5,
       animateCamera: false,
       customColors: false,
@@ -170,7 +165,7 @@ export class OptionsService {
       checked: true,
       colorOptions: true,
       cameraOptions: true,
-      sampleGain: 10,
+      sampleGain: 1,
       smoothingConstant: 5,
       animateCamera: true,
       customColors: false,
@@ -190,7 +185,7 @@ export class OptionsService {
       checked: false,
       colorOptions: false,
       cameraOptions: false,
-      sampleGain: 10,
+      sampleGain: 1,
       smoothingConstant: 5,
       animateCamera: false,
       customColors: false,
@@ -210,7 +205,7 @@ export class OptionsService {
       checked: false,
       colorOptions: false,
       cameraOptions: false,
-      sampleGain: 10,
+      sampleGain: 1,
       smoothingConstant: 5,
       animateCamera: false,
       customColors: false,
@@ -230,7 +225,7 @@ export class OptionsService {
       checked: false,
       colorOptions: true,
       cameraOptions: true,
-      sampleGain: 10,
+      sampleGain: 1,
       smoothingConstant: 5,
       animateCamera: true,
       customColors: false,
@@ -250,7 +245,7 @@ export class OptionsService {
       checked: false,
       colorOptions: true,
       cameraOptions: false,
-      sampleGain: 10,
+      sampleGain: 1,
       smoothingConstant: 5,
       animateCamera: false,
       customColors: false,
@@ -270,7 +265,7 @@ export class OptionsService {
       checked: false,
       colorOptions: true,
       cameraOptions: true,
-      sampleGain: 10,
+      sampleGain: 1,
       smoothingConstant: 5,
       animateCamera: true,
       customColors: false,
@@ -290,7 +285,7 @@ export class OptionsService {
       checked: false,
       colorOptions: false,
       cameraOptions: false,
-      sampleGain: 10,
+      sampleGain: 1,
       smoothingConstant: 5,
       animateCamera: false,
       customColors: false,
@@ -306,9 +301,9 @@ export class OptionsService {
       group: '3DVisual',
       type: 'slider',
       label: 'Visual Effect Strength',
-      value: 10,
+      value: 1,
       min: 1,
-      max: 20,
+      max: 10,
       step: 1,
       visualCustom: true
     },
@@ -484,6 +479,8 @@ export class OptionsService {
 
   };
 
+  options = JSON.parse(JSON.stringify(this.baseOptions));
+
   state = {
     showPanel: { value: false },
     showPlayer: { value: false },
@@ -524,12 +521,20 @@ export class OptionsService {
 
     const lOptions = storageService.loadOptions();
     if (lOptions.showTitle) {
-      // console.log('found showtitle');
-      // this.options = lOptions;
 
       for (const [key, value] of Object.entries(lOptions)) {
-        // console.log(`${key}: ${value}`);
-        this.options[key] = value;
+        if (key in this.baseOptions) {
+          // console.log(`${key}: ${value}`);
+          if (typeof value === 'object' && value !== null) {
+
+            for (const [ikey, ivalue] of Object.entries(value)) {
+              this.options[key][ikey] = ivalue;
+            }
+
+          } else {
+            this.options[key] = value;
+          }
+        } 
       }
 
       this.updateCustomOptions(this.state.currentVisual.value);
@@ -538,88 +543,6 @@ export class OptionsService {
     }
 
   }
-
-  // colors(yy) {
-  //   let r;
-  //   let g;
-  //   let b;
-
-  //   const midLoc = this.midLoc;
-
-  //   const colorSets = [
-  //     { r: 128 - yy / 2, g: yy, b: 200 - yy * 2 },
-  //     { r: yy, g: 128 - yy / 2, b: 200 - yy * 2 },
-  //     { r: 128 - yy / 2, g: 200 - yy * 2, b: yy },
-  //     { r: 200 - yy * 2, g: yy, b: 128 - yy / 2 },
-  //     { r: yy, g: 200 - yy * 2, b: 128 - yy / 2 },
-  //     { r: 200 - yy * 2, g: 128 - yy / 2, b: yy },
-  //     { r: 255 - (128 - yy / 2), g: 255 - yy, b: 255 - (200 - yy * 2) },
-  //     { r: 255 - yy, g: 255 - (128 - yy / 2), b: 255 - (200 - yy * 2) },
-  //     { r: 255 - (128 - yy / 2), g: 255 - (200 - yy * 2), b: 255 - yy },
-  //     { r: 255 - (200 - yy * 2), g: 255 - yy, b: 255 - (128 - yy / 2) },
-  //     { r: 255 - yy, g: 255 - (200 - yy * 2), b: 255 - (128 - yy / 2) },
-  //     { r: 255 - (200 - yy * 2), g: 255 - (128 - yy / 2), b: 255 - yy }
-  //   ];
-
-  //   const getOptionColor = (name, c) => {
-  //     const val = this.options[name].value;
-
-  //     if (c === 'r') {
-  //       return (val.substring(1, 3));
-  //     }
-
-  //     if (c === 'g') {
-  //       return (val.substring(3, 5));
-  //     }
-
-  //     if (c === 'b') {
-  //       return (val.substring(5));
-  //     }
-
-  //   };
-
-  //   if (this.options.customColors.value === false) {
-  //     r = colorSets[this.startingColorSet].r +
-  //     (colorSets[this.endingColorSet].r - colorSets[this.startingColorSet].r) *
-  //     this.colorTime;
-  //     g = colorSets[this.startingColorSet].g +
-  //     (colorSets[this.endingColorSet].g - colorSets[this.startingColorSet].g) *
-  //     this.colorTime;
-  //     b = colorSets[this.startingColorSet].b +
-  //     (colorSets[this.endingColorSet].b - colorSets[this.startingColorSet].b) *
-  //     this.colorTime;
-  //   } else {
-
-  //     if (yy <= midLoc) {
-  //       r = parseInt(getOptionColor('minColor', 'r'), 16) +
-  //           (parseInt(getOptionColor('midColor', 'r'), 16) -
-  //            parseInt(getOptionColor('minColor', 'r'), 16)) *
-  //           yy / midLoc;
-  //       g = parseInt(getOptionColor('minColor', 'g'), 16) +
-  //           (parseInt(getOptionColor('midColor', 'g'), 16) -
-  //            parseInt(getOptionColor('minColor', 'g'), 16)) *
-  //           yy / midLoc;
-  //       b = parseInt(getOptionColor('minColor', 'b'), 16) +
-  //           (parseInt(getOptionColor('midColor', 'b'), 16) -
-  //            parseInt(getOptionColor('minColor', 'b'), 16)) *
-  //           yy / midLoc;
-  //    } else {
-  //       r = parseInt(getOptionColor('midColor', 'r'), 16) +
-  //           (parseInt(getOptionColor('maxColor', 'r'), 16) -
-  //            parseInt(getOptionColor('midColor', 'r'), 16)) *
-  //           (yy - midLoc) / (255 - midLoc);
-  //       g = parseInt(getOptionColor('midColor', 'g'), 16) +
-  //           (parseInt(getOptionColor('maxColor', 'g'), 16) -
-  //            parseInt(getOptionColor('midColor', 'g'), 16)) *
-  //           (yy - midLoc) / (255 - midLoc);
-  //       b = parseInt(getOptionColor('midColor', 'b'), 16) +
-  //           (parseInt(getOptionColor('maxColor', 'b'), 16) -
-  //            parseInt(getOptionColor('midColor', 'b'), 16)) *
-  //           (yy - midLoc) / (255 - midLoc);
-  //    }
-  //   }
-  //   return { r, g, b };
-  // }
 
   toggleOption(itemName: string) {
     this.options[itemName].value = !this.options[itemName].value;
@@ -646,8 +569,8 @@ export class OptionsService {
 
   updateCustomOptions(visualIndex) {
 
-    this.options.sampleGain.value =
-      this.options[this.visuals[visualIndex]].sampleGain;
+    // this.options.sampleGain.value =
+    //   this.options[this.visuals[visualIndex]].sampleGain;
 
     this.options.smoothingConstant.value =
       this.options[this.visuals[visualIndex]].smoothingConstant;
