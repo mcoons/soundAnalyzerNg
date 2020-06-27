@@ -13,6 +13,24 @@ Implement 2D history layer in the back.
 
 Fix playlist selection button highlight when canceling coming from mic
 
+Add camera positioning to Exploding SPS (remove use interaction?)
+
+Flesh out Exploding SPS options in panel
+
+Remove single visuals?
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Check for CSS cross browser changes
 

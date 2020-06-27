@@ -121,7 +121,7 @@ export class OptionsService {
       type: 'radio',
       label: 'Equation',
       value: 2,
-      checked: true,
+      checked: false,
       colorOptions: true,
       cameraOptions: true,
       sampleGain: 1,
@@ -160,7 +160,7 @@ export class OptionsService {
     singleSPS: {
       group: '3DVisual',
       type: 'radio',
-      label: 'SingleSPS',
+      label: 'Exploding SPS',
       value: 4,
       checked: true,
       colorOptions: true,
@@ -175,7 +175,7 @@ export class OptionsService {
       midLoc: 128,
       calpha: 4.72,
       cbeta: .01,
-      cradius: 1000
+      cradius: 300
     },
     starManager: {
       group: '3DVisual',
@@ -534,7 +534,7 @@ export class OptionsService {
           } else {
             this.options[key] = value;
           }
-        } 
+        }
       }
 
       this.updateCustomOptions(this.state.currentVisual.value);

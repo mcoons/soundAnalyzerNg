@@ -24,8 +24,8 @@ export class SplashScreenComponent {
     // this.optionsService.toggleOption('showSplash');
     this.optionsService.toggleState('showPlayer');
     this.optionsService.toggleState('showSplash');
-    this.optionsService.currentVisual = 8;
-    this.optionsService.toggleVisualRadio('hex', 8);
+    this.optionsService.currentVisual = 4;
+    this.optionsService.toggleVisualRadio('singleSPS', 4);
 
     this.messageService.announceMessage('scene change');
 

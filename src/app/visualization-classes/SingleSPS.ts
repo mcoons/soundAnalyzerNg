@@ -6,7 +6,7 @@ import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
 import { map } from '../visualization-classes/utilities.js';
-import { prepareSyntheticListenerFunctionName } from '@angular/compiler/src/render3/util';
+// import { prepareSyntheticListenerFunctionName } from '@angular/compiler/src/render3/util';
 
 export class SingleSPS {
 
@@ -28,6 +28,7 @@ export class SingleSPS {
 
     private PI;
     private TwoPI;
+    private TwoPId576;
     private PId2;
     private PId32;
     private loopMax;
@@ -48,6 +49,8 @@ export class SingleSPS {
     private expTimeout = null;
     private conTimeout = null;
 
+    private theta;
+
     constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
         this.scene = scene;
@@ -62,22 +65,22 @@ export class SingleSPS {
 
         this.cameraMoveDir = .002;
 
-        this.setDefaults();
-
-        this.scene.registerBeforeRender(this.beforeRender);
-
         this.PI = Math.PI;
         this.TwoPI = this.PI * 2;
         this.PId2 = this.PI / 2;
         this.PId32 = this.PI / 32;
+        this.TwoPId576 = 2 * this.PI / 576;
 
         this.scalingDenom = 100;
         this.radius = 40;
         this.rotation = 0;
 
-        this.currentSPS = 0;
-        this.nextSPS = 1;
+        this.currentSPS = 5;
+        this.nextSPS = 6;
 
+        this.setDefaults();
+
+        this.scene.registerBeforeRender(this.beforeRender);
         setTimeout(this.startExpanding, 5000);
 
     }
@@ -116,6 +119,37 @@ export class SingleSPS {
             mainUpdate: () => null
         },
 
+        // Thing1
+        {
+            position: (particle) => {
+                const gtheta = this.PId32 * particle.idx - this.PId2;
+                const radius = 30 + .12 * particle.idx;
+                const x = radius * Math.cos(gtheta);
+                const z = radius * Math.sin(gtheta) * Math.cos(gtheta);
+                const y = (particle.scaling.y / 2 - particle.idx / 10) + 20;
+                return new BABYLON.Vector3(x, y, z);
+            },
+            scaling: (particle, yy) => {
+                return new BABYLON.Vector3(yy / 50, 1, yy / 50);
+            },
+            rotation: (particle, yy) => {
+                return new BABYLON.Vector3(0, 0, 0);
+            },
+            color: (particle, yy) => {
+                const r = this.colorsService.colors(yy).r / 255;
+                const g = this.colorsService.colors(yy).g / 255;
+                const b = this.colorsService.colors(yy).b / 255;
+                const a = 1;
+                return new BABYLON.Color4(r, g, b, a);
+            },
+            spsRotation: () => {
+                return new BABYLON.Vector3(0, -this.rotation, 0);
+            },
+            mainUpdate: () => {
+
+            }
+        },
+
         // Block Spiral
         {
             position: (particle) => {
@@ -148,15 +182,6 @@ export class SingleSPS {
                 return new BABYLON.Vector3(0, this.rotation, 0);
             },
             mainUpdate: () => {
-                // console.log('In mainUpdate');
-                // if (this.optionsService.animateCamera) {
-                //     this.rotation += Math.PI / 1000;
-                //     if (this.rotation >= Math.PI * 2) {
-                //         this.rotation = 0;
-                //     }
-                //     this.SPS.mesh.rotation.y = this.rotation;
-                // }
-
                 this.engineService.highlightLayer.removeMesh(this.mesh);
                 this.engineService.highlightLayer.addMesh(this.mesh,
                     new BABYLON.Color3(this.colorsService.colors(128).r / 255,
@@ -165,35 +190,36 @@ export class SingleSPS {
             }
         },
 
-        // Cube
+        // Thing2
         {
-            position: (particle, yy) => {
-                const x = ((particle.idx % 9) - 4) * 10;
-                const z = ((Math.floor(particle.idx / 9) % 8) - 3.5) * 10;
-                const y = ((Math.floor(particle.idx / 72)) - 3.5) * 10;
+            position: (particle) => {
+                const gtheta = 2 * Math.PI / 576 * particle.idx; // - this.PId2;
+                const radius = (2.5 * Math.sin(6 * (gtheta)));
+
+                const x = 30 * radius * Math.cos(gtheta);
+                const z = 30 * radius * Math.sin(gtheta);
+                const y = 20 * Math.sin(12 * gtheta);
                 return new BABYLON.Vector3(x, y, z);
             },
             scaling: (particle, yy) => {
-                const x = yy / 30;
-                const y = yy / 30;
-                const z = yy / 30;
-                return new BABYLON.Vector3(x, y, z);
+                return new BABYLON.Vector3(.5 + yy / 80, .5 + yy / 80, .5 + yy / 80);
             },
             rotation: (particle, yy) => {
                 return new BABYLON.Vector3(0, 0, 0);
             },
             color: (particle, yy) => {
-                const r = yy * map(particle.position.x, -40, 40, 0, 1) / 255;
-                const g = yy * map(particle.position.y, -35, 35, 0, 1) / 255;
-                const b = yy * map(particle.position.z, -35, 35, 0, 1) / 255;
-                const a = 1 - (yy / 255);
+                const r = this.colorsService.colors(yy).r / 255;
+                const g = this.colorsService.colors(yy).g / 255;
+                const b = this.colorsService.colors(yy).b / 255;
+                const a = 1;
                 return new BABYLON.Color4(r, g, b, a);
             },
             spsRotation: () => {
-                return new BABYLON.Vector3(0, 0, 0);
+                return new BABYLON.Vector3(0, this.rotation, 0);
             },
-            mainUpdate: () => null
+            mainUpdate: () => {
 
+            }
         },
 
         // Equation
@@ -226,7 +252,7 @@ export class SingleSPS {
                 return new BABYLON.Color4(r, g, b, a);
             },
             spsRotation: () => {
-                return new BABYLON.Vector3(0, -this.rotation, 0);
+                return new BABYLON.Vector3(0, 2 * this.rotation, 0);
             },
             mainUpdate: () => {
                 // if (this.optionsService.animateCamera) {
@@ -249,36 +275,155 @@ export class SingleSPS {
             }
         },
 
+        // Thing3
+        {
+            position: (particle) => {
+                let x;
+                let z;
+                let y;
+                const gtheta = this.TwoPId576 * particle.idx;
+                // const radius = Math.sqrt(Math.abs (9 * Math.sin(2.5 * gtheta  ) ) )
+                const radius = Math.sqrt(Math.abs(10 * Math.sin(2 * gtheta)));
+                if (particle.idx % 2) {
+                    x = 30 * radius * Math.cos(gtheta);
+                    z = 30 * radius * Math.sin(gtheta);
+                } else {
+                    x = -30 * radius * Math.cos(gtheta);
+                    z = -30 * radius * Math.sin(gtheta);
+                }
+
+                if (particle.idx % 2) {
+                    y = 20 * Math.sin(4 * gtheta);
+                } else {
+                    y = 20 * Math.sin(-4 * gtheta);
+                }
+                // y = 0;
+                return new BABYLON.Vector3(x, y, z);
+            },
+            scaling: (particle, yy) => {
+                return new BABYLON.Vector3(.5 + yy / 60, .5 + yy / 60, .5 + yy / 60);
+            },
+            rotation: (particle, yy) => {
+                return new BABYLON.Vector3(0, 0, 0);
+            },
+            color: (particle, yy) => {
+                const r = this.colorsService.colors(yy).r / 255;
+                const g = this.colorsService.colors(yy).g / 255;
+                const b = this.colorsService.colors(yy).b / 255;
+                const a = 1;
+                return new BABYLON.Color4(r, g, b, a);
+            },
+            spsRotation: () => {
+                return new BABYLON.Vector3(0, -this.rotation, 0);
+                // return new BABYLON.Vector3(0, 0, 0);
+            },
+            mainUpdate: () => {
+
+            }
+        },
+
+        // Cube
+        {
+            position: (particle, yy) => {
+                const z = ((particle.idx % 8) - 3.5) * 20;
+                const x = ((Math.floor(particle.idx / 8) % 9) - 4) * 20;
+                const y = ((Math.floor(particle.idx / 72)) - 3.5) * 20;
+                return new BABYLON.Vector3(x, y, z);
+            },
+            scaling: (particle, yy) => {
+                const x = yy / 20;
+                const y = yy / 20;
+                const z = yy / 20;
+                return new BABYLON.Vector3(x, y, z);
+            },
+            rotation: (particle, yy) => {
+                return new BABYLON.Vector3(0, 0, 0);
+            },
+            color: (particle, yy) => {
+                const r = yy * map(particle.position.x, -80, 80, 0, 1) / 255;
+                const g = yy * map(particle.position.y, -70, 70, 0, 1) / 255;
+                const b = yy * map(particle.position.z, -70, 70, 0, 1) / 255;
+                // const a = 1 - (yy / 255);
+                const a = 1 - ((yy / 255) * (yy / 255)) + .1;
+                return new BABYLON.Color4(r, g, b, a);
+            },
+            spsRotation: () => {
+                return new BABYLON.Vector3(0, 0, 0);
+            },
+            mainUpdate: () => null
+
+        },
+
+
+
+        // // Thing
+        // {
+        //     position: (particle) => {
+        //         const gtheta = this.PId32 * particle.idx;
+        //         const radius = 20 + .12 * particle.idx;
+        //         const x = radius * Math.cos(gtheta);
+        //         const z = radius * Math.sin(gtheta);
+        //         const y = (particle.scaling.y / 2 - particle.idx / 16) + 20;
+        //         return new BABYLON.Vector3(x, y, z);
+        //     },
+        //     scaling: (particle, yy) => {
+        //         return new BABYLON.Vector3(1, 1, 1);
+        //     },
+        //     rotation: (particle, yy) => {
+        //         return new BABYLON.Vector3(0, 0, 0);
+        //     },
+        //     color: (particle, yy) => {
+        //         return new BABYLON.Color4(.5, .5, .5, 1);
+        //     },
+        //     spsRotation: () => {
+        //         return new BABYLON.Vector3(0, 0, 0);
+        //     },
+        //     mainUpdate: () => {
+
+        //     }
+        // }
+
+
     ];
 
     private startExpanding = () => {
+        // console.log('start expanding');
+        this.theta = -Math.PI / 2;
         this.expanding = true;
         this.expTimer = 0;
+
         this.expInt = setInterval(() => {
-            this.expTimer += .01;
+            this.theta += Math.PI / 100;
+            this.expTimer = (Math.sin(this.theta) / 2 + .5);
         }, 20);
 
         this.expTimeout = setTimeout(() => {
+            // console.log('expTmeout contracting = false');
             clearInterval(this.expInt);
-            this.expanding = false;
             this.startContracting();
         }, 2000);
     }
 
     private startContracting = () => {
+        // console.log('start contracting');
+        this.theta = -Math.PI / 2;
+        this.expanding = false;
         this.contracting = true;
         this.conTimer = 0;
+
         this.conInt = setInterval(() => {
-            this.conTimer += .01;
-        }, 30);
+            this.theta += Math.PI / 100;
+            this.conTimer = (Math.sin(this.theta) / 2 + .5);
+        }, 50);
 
         this.conTimeout = setTimeout(() => {
+            // console.log('conTmeout - contracting = false');
             clearInterval(this.conInt);
             this.contracting = false;
             this.currentSPS = this.nextSPS;
             this.nextSPS = this.nextSPS === this.SPSFunctions.length - 1 ? 0 : this.nextSPS + 1;
-            this.expTimeout = setTimeout(this.startExpanding, 15000);
-        }, 3000);
+            this.expTimeout = setTimeout(this.startExpanding, 30000);
+        }, 5000);
     }
 
     beforeRender = () => {
@@ -290,7 +435,7 @@ export class SingleSPS {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
 
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.712;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
     }
@@ -322,6 +467,9 @@ export class SingleSPS {
 
         this.mesh = this.SPS.buildMesh();
         this.mesh.material = this.mat;
+        this.mesh.scaling.x = 3;
+        this.mesh.scaling.y = 3;
+        this.mesh.scaling.z = 3;
         this.SPS.mesh.hasVertexAlpha = true;
 
         // //////////////////////////
@@ -359,36 +507,52 @@ export class SingleSPS {
                     this.SPSFunctions[this.nextSPS].rotation(particle, y),
                     this.expTimer);
 
-                this.SPS.rotation = BABYLON.Vector3.Lerp(
-                    this.SPSFunctions[this.currentSPS].spsRotation(),
-                    this.SPSFunctions[this.nextSPS].spsRotation(),
-                    this.expTimer);
-
             } else
-                if (this.contracting) {
+            if (this.contracting) {
+
+                try {
                     particle.position = BABYLON.Vector3.Lerp(
                         particle.expLoc,
                         this.SPSFunctions[this.nextSPS].position(particle, y),
                         this.conTimer);
-
-                    particle.color = this.SPSFunctions[this.nextSPS].color(particle, y);
-                    particle.scaling = this.SPSFunctions[this.nextSPS].scaling(particle, y);
-                    particle.rotation = this.SPSFunctions[this.nextSPS].rotation(particle, y);
-
-                    this.SPS.mesh.rotation = this.SPSFunctions[this.nextSPS].spsRotation();
-
-                } else {
-                    if ('expLoc' in particle) {
-                        delete particle.expLoc;
-                    }
-
-                    particle.scaling = this.SPSFunctions[this.currentSPS].scaling(particle, y);
-                    particle.position = this.SPSFunctions[this.currentSPS].position(particle, y);
-                    particle.color = this.SPSFunctions[this.currentSPS].color(particle, y);
-                    particle.rotation = this.SPSFunctions[this.currentSPS].rotation(particle, y);
-
-                    this.SPS.mesh.rotation = this.SPSFunctions[this.currentSPS].spsRotation();
+                } catch (err) {
+                    // tslint:disable-next-line: no-unused-expression
+                    null;
+                    // console.log(err);
+                    // console.log(particle);
+                    // console.log(particle.expLoc);
+                    // console.log(this.conTimer);
+                    // console.log(this.currentSPS);
+                    // console.log(this.nextSPS);
+                    // console.log(this.SPSFunctions[this.nextSPS].position(particle, y));
                 }
+
+                particle.scaling = this.SPSFunctions[this.nextSPS].scaling(particle, y);
+
+                const color = this.SPSFunctions[this.nextSPS].color(particle, y);
+                particle.color.r = color.r;
+                particle.color.g = color.g;
+                particle.color.b = color.b;
+                particle.color.a = color.a;
+
+                this.SPSFunctions[this.nextSPS].rotation(particle, y);
+
+            } else {
+                if ('expLoc' in particle) {
+                    delete particle.expLoc;
+                }
+
+                particle.scaling = this.SPSFunctions[this.currentSPS].scaling(particle, y);
+                particle.position = this.SPSFunctions[this.currentSPS].position(particle, y);
+                const color = this.SPSFunctions[this.currentSPS].color(particle, y);
+                particle.color.r = color.r;
+                particle.color.g = color.g;
+                particle.color.b = color.b;
+                particle.color.a = color.a;
+
+                particle.rotation = this.SPSFunctions[this.currentSPS].rotation(particle, y);
+
+            }
         };
     }
 
@@ -396,6 +560,18 @@ export class SingleSPS {
         this.rotation += Math.PI / 1000;
         if (this.rotation >= Math.PI * 2) {
             this.rotation = 0;
+        }
+
+        if (this.expanding) {
+            this.SPS.mesh.rotation = BABYLON.Vector3.Lerp(
+                this.SPSFunctions[this.currentSPS].spsRotation(),
+                this.SPSFunctions[this.nextSPS].spsRotation(),
+                this.expTimer);
+        } else
+        if (this.contracting) {
+            this.SPS.mesh.rotation = this.SPSFunctions[this.nextSPS].spsRotation();
+        } else {
+            this.SPS.mesh.rotation = this.SPSFunctions[this.currentSPS].spsRotation();
         }
 
         this.SPSFunctions[this.currentSPS].mainUpdate();

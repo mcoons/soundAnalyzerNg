@@ -93,11 +93,13 @@ export class SpherePlaneManagerSPS {
         for (z = -15; z < 15; z++) {
             for (x = -15; x < 15; x++) {
                 const d = Math.sqrt((x * x) + (z * z));
-                if (d <= 13.3) {
+                if (d <= 13.46) {
                     this.innerSPS.addShape(sphere, 1, { positionFunction: innerPositionFunction });
                 }
             }
         }
+
+        console.log(this.innerSPS.nbParticles);
 
         this.mesh1 = this.innerSPS.buildMesh();
         this.mesh1.material = this.mat;

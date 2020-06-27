@@ -103,12 +103,12 @@ export class EquationManager {
 
         this.SPS.updateParticle = (particle) => {
 
-            let ringIndex = particle.idx % 64;
-            let ring = Math.floor(particle.idx / 64);
+            const ringIndex = particle.idx % 64;
+            const ring = Math.floor(particle.idx / 64);
 
-            let theta = ringIndex * Math.PI / 32;
+            const theta = ringIndex * Math.PI / 32;
 
-            let musicIndex = particle.idx;
+            const musicIndex = particle.idx;
 
             let y = this.audioService.sample1[musicIndex];
             y = (y / 200 * y / 200) * 255;

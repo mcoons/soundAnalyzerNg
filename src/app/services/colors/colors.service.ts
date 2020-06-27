@@ -67,17 +67,17 @@ export class ColorsService {
 
     const midLoc = this.optionsService.midLoc;
 
-    const minVal = this.optionsService.options['minColor'].value;
+    const minVal = this.optionsService.options.minColor.value;
     const minR = parseInt(minVal.substring(1, 3), 16);
     const minG = parseInt(minVal.substring(3, 5), 16);
     const minB = parseInt(minVal.substring(5), 16);
 
-    const midVal = this.optionsService.options['midColor'].value;
+    const midVal = this.optionsService.options.midColor.value;
     const midR = parseInt(midVal.substring(1, 3), 16);
     const midG = parseInt(midVal.substring(3, 5), 16);
     const midB = parseInt(midVal.substring(5), 16);
 
-    const maxVal = this.optionsService.options['maxColor'].value;
+    const maxVal = this.optionsService.options.maxColor.value;
     const maxR = parseInt(maxVal.substring(1, 3), 16);
     const maxG = parseInt(maxVal.substring(3, 5), 16);
     const maxB = parseInt(maxVal.substring(5), 16);

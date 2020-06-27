@@ -195,6 +195,7 @@ export class EngineService {
     this.currentManager = null;
 
     this.managerClassIndex = index;
+    // tslint:disable-next-line: max-line-length
     this.currentManager = new this.managerClasses[index](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
     this.currentManager.create();
 

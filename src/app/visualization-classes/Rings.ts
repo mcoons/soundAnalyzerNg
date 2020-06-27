@@ -111,7 +111,7 @@ export class Rings {
 
         this.ring1SPS.updateParticle = (particle) => {
             const myTheta = particle.idx * Math.PI / 50 + Math.PI / 2;
-            let yy = this.audioService.fr64DataArray[particle.idx < 50 ? particle.idx : 50 - (particle.idx - 50)];
+            const yy = this.audioService.fr64DataArray[particle.idx < 50 ? particle.idx : 50 - (particle.idx - 50)];
 
             particle.color.r = this.colorsService.colors(yy).r / 255;
             particle.color.g = this.colorsService.colors(yy).g / 255;
@@ -150,13 +150,13 @@ export class Rings {
 
         this.ring3SPS.updateParticle = (particle) => {
             const myTheta = particle.idx * Math.PI / 550 + Math.PI / 2;
-            let yy = this.audioService.sample1[particle.idx + 20 < 570 ? particle.idx + 20 : 570 - (particle.idx + 20 - 570)];
+            const yy = this.audioService.sample1[particle.idx + 20 < 570 ? particle.idx + 20 : 570 - (particle.idx + 20 - 570)];
 
             particle.color.r = this.colorsService.colors(yy).r / 255;
             particle.color.g = this.colorsService.colors(yy).g / 255;
             particle.color.b = this.colorsService.colors(yy).b / 255;
 
-            particle.scale.y = yy/2;
+            particle.scale.y = yy / 2;
             particle.position.y = (particle.scale.y) / 2;
 
         };
@@ -191,7 +191,7 @@ export class Rings {
 
         this.ring5SPS.updateParticle = (particle) => {
             const myTheta = particle.idx * Math.PI / 100 + Math.PI / 2;
-            let yy = this.audioService.fr128DataArray[particle.idx <= 100 ? particle.idx : 100 - (particle.idx - 100)];
+            const yy = this.audioService.fr128DataArray[particle.idx <= 100 ? particle.idx : 100 - (particle.idx - 100)];
 
             particle.color.r = this.colorsService.colors(yy).r / 255;
             particle.color.g = this.colorsService.colors(yy).g / 255;
@@ -226,6 +226,7 @@ export class Rings {
         const mirrorMaterial = new BABYLON.StandardMaterial('MirrorMat', this.scene);
         mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture('mirror', 512, this.scene, true);
         (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).mirrorPlane = reflector;
+        // tslint:disable-next-line: max-line-length
         (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).renderList = [this.ring1SPS.mesh, this.ring3SPS.mesh, this.ring5SPS.mesh];
         mirrorMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
         mirrorMaterial.backFaceCulling = true; // not working??
