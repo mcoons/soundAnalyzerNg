@@ -21,7 +21,7 @@ export class AudioService {
   lastVolume;
 
   minDecibels = -100;
-  maxDecibels = 0;  // -30;
+  maxDecibels = -30;  // -30;
   smoothingConstant = .9;
 
   fr64Analyser: any;
@@ -125,13 +125,11 @@ export class AudioService {
     this.fr64Analyser.maxDecibels = this.maxDecibels;
     this.fr64Analyser.smoothingTimeConstant = this.smoothingConstant;
 
-
     this.fr128Analyser = this.audioCtx.createAnalyser();
     this.fr128Analyser.fftSize = 256;
     this.fr128Analyser.minDecibels = this.minDecibels;
     this.fr128Analyser.maxDecibels = this.maxDecibels;
     this.fr128Analyser.smoothingTimeConstant = this.smoothingConstant;
-
 
     this.fr256Analyser = this.audioCtx.createAnalyser();
     this.fr256Analyser.fftSize = 512;
@@ -139,13 +137,11 @@ export class AudioService {
     this.fr256Analyser.maxDecibels = this.maxDecibels;
     this.fr256Analyser.smoothingTimeConstant = this.smoothingConstant;
 
-
     this.fr512Analyser = this.audioCtx.createAnalyser();
     this.fr512Analyser.fftSize = 1024;
     this.fr512Analyser.minDecibels = this.minDecibels;
     this.fr512Analyser.maxDecibels = this.maxDecibels;
     this.fr512Analyser.smoothingTimeConstant = this.smoothingConstant;
-
 
     this.fr1024Analyser = this.audioCtx.createAnalyser();
     this.fr1024Analyser.fftSize = 2048;
@@ -153,13 +149,11 @@ export class AudioService {
     this.fr1024Analyser.maxDecibels = this.maxDecibels;
     this.fr1024Analyser.smoothingTimeConstant = this.smoothingConstant;
 
-
     this.fr2048Analyser = this.audioCtx.createAnalyser();
     this.fr2048Analyser.fftSize = 4096;
     this.fr2048Analyser.minDecibels = this.minDecibels;
     this.fr2048Analyser.maxDecibels = this.maxDecibels;
     this.fr2048Analyser.smoothingTimeConstant = this.smoothingConstant;
-
 
     this.fr4096Analyser = this.audioCtx.createAnalyser();
     this.fr4096Analyser.fftSize = 8192;
@@ -167,13 +161,11 @@ export class AudioService {
     this.fr4096Analyser.maxDecibels = this.maxDecibels;
     this.fr4096Analyser.smoothingTimeConstant = this.smoothingConstant * .8;
 
-
     this.fr8192Analyser = this.audioCtx.createAnalyser();
     this.fr8192Analyser.fftSize = 16384;
     this.fr8192Analyser.minDecibels = this.minDecibels;
     this.fr8192Analyser.maxDecibels = this.maxDecibels;
     this.fr8192Analyser.smoothingTimeConstant = this.smoothingConstant * .6;
-
 
     this.fr16384Analyser = this.audioCtx.createAnalyser();
     this.fr16384Analyser.fftSize = 32768;
@@ -283,9 +275,14 @@ export class AudioService {
       this.sample1[index + 512] = (this.soundArrays[1])[index + 64];   // 128 buckets
     }
 
-    this.sample1BufferHistory.push(this.sample1.slice(0));
+    // this.sample1BufferHistory.push(this.sample1.slice(0));
+    this.sample1BufferHistory[this.sample1BufferHistory.length] = this.sample1.slice(0);
+
     if (this.sample1BufferHistory.length > 150) {
-      this.sample1BufferHistory.shift();
+      // this.sample1BufferHistory.shift();
+      this.sample1BufferHistory.reverse();
+      this.sample1BufferHistory.pop();
+      this.sample1BufferHistory.reverse();
     }
 
     //////////////////////////////////////
@@ -417,7 +414,7 @@ export class AudioService {
 //                                                                                    64-128 of 2048
 //                                                                                    64-128 of 4096
 //                                                                                    64-128 of 8182
-//                                                                                    0-128 of 16384
+//                                                                                   0-128 of 16384
 
 //                                                                             32*9  =  288
 

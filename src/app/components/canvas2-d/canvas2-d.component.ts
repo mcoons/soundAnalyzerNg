@@ -62,11 +62,12 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       }
 
       if (this.optionsService.showWaveform === true) {
-        this.waveformDelayCounter++;
-        if (this.waveformDelayCounter >= this.optionsService.waveformDelay) {
-          this.waveformDelayCounter = 0;
+        // this.waveformDelayCounter++;
+        // console.log(this.waveformDelayCounter)
+        // if (this.waveformDelayCounter >= this.optionsService.waveformDelay) {
+          // this.waveformDelayCounter = 0;
           this.waveFormDataSource = this.audioService.tdDataArray;
-        }
+        // }
         this.drawWaveform();
       }
     }

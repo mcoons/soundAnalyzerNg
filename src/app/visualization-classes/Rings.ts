@@ -4,6 +4,7 @@ import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
+import { ColorsService } from '../services/colors/colors.service';
 
 import { map } from './utilities.js';
 
@@ -13,6 +14,7 @@ export class Rings {
     private audioService: AudioService;
     private optionsService: OptionsService;
     private messageService: MessageService;
+    private colorsService: ColorsService;
 
     private ring1SPS;
     private ring3SPS;
@@ -27,11 +29,13 @@ export class Rings {
 
     glass;
 
-    constructor(scene, audioService, optionsService, messageService, engineService) {
+    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
         this.messageService = messageService;
+        this.colorsService = colorsService;
 
         // (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
         // (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.4;
@@ -43,11 +47,10 @@ export class Rings {
     }
 
     setDefaults() {
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
-        
+
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .81; // 1
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1900;
@@ -108,11 +111,11 @@ export class Rings {
 
         this.ring1SPS.updateParticle = (particle) => {
             const myTheta = particle.idx * Math.PI / 50 + Math.PI / 2;
-            let yy = this.audioService.fr64DataArray[particle.idx < 50 ? particle.idx : 50 - (particle.idx - 50)];
+            const yy = this.audioService.fr64DataArray[particle.idx < 50 ? particle.idx : 50 - (particle.idx - 50)];
 
-            particle.color.r = this.optionsService.colors(yy).r / 255;
-            particle.color.g = this.optionsService.colors(yy).g / 255;
-            particle.color.b = this.optionsService.colors(yy).b / 255;
+            particle.color.r = this.colorsService.colors(yy).r / 255;
+            particle.color.g = this.colorsService.colors(yy).g / 255;
+            particle.color.b = this.colorsService.colors(yy).b / 255;
 
             particle.scale.y = yy / 3;
             particle.position.y = (particle.scale.y) / 2;
@@ -132,9 +135,9 @@ export class Rings {
 
         this.ring3SPS = new BABYLON.SolidParticleSystem('ring3SPS', this.scene, { updatable: true, enableMultiMaterial: true });
 
-        const box3 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 10, height: 1 }, this.scene);
+        const box3 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 7, height: 1 }, this.scene);
 
-        for (let theta = Math.PI / 2; theta < 2 * Math.PI + Math.PI / 2 - Math.PI / 200; theta += Math.PI / 200) {
+        for (let theta = Math.PI / 2; theta < 2 * Math.PI + Math.PI / 2 - Math.PI / 550; theta += Math.PI / 550) {
             gtheta = theta;
             this.ring3SPS.addShape(box3, 1, { positionFunction: ring3PositionFunction });
         }
@@ -146,14 +149,14 @@ export class Rings {
         box3.dispose();
 
         this.ring3SPS.updateParticle = (particle) => {
-            const myTheta = particle.idx * Math.PI / 200 + Math.PI / 2;
-            let yy = this.audioService.fr256DataArray[particle.idx < 200 ? particle.idx : 200 - (particle.idx - 200)];
+            const myTheta = particle.idx * Math.PI / 550 + Math.PI / 2;
+            const yy = this.audioService.sample1[particle.idx + 20 < 570 ? particle.idx + 20 : 570 - (particle.idx + 20 - 570)];
 
-            particle.color.r = this.optionsService.colors(yy).r / 255;
-            particle.color.g = this.optionsService.colors(yy).g / 255;
-            particle.color.b = this.optionsService.colors(yy).b / 255;
+            particle.color.r = this.colorsService.colors(yy).r / 255;
+            particle.color.g = this.colorsService.colors(yy).g / 255;
+            particle.color.b = this.colorsService.colors(yy).b / 255;
 
-            particle.scale.y = yy;
+            particle.scale.y = yy / 2;
             particle.position.y = (particle.scale.y) / 2;
 
         };
@@ -188,13 +191,13 @@ export class Rings {
 
         this.ring5SPS.updateParticle = (particle) => {
             const myTheta = particle.idx * Math.PI / 100 + Math.PI / 2;
-            let yy = this.audioService.fr128DataArray[particle.idx <= 100 ? particle.idx : 100 - (particle.idx - 100)];
+            const yy = this.audioService.fr128DataArray[particle.idx <= 100 ? particle.idx : 100 - (particle.idx - 100)];
 
-            particle.color.r = this.optionsService.colors(yy).r / 255;
-            particle.color.g = this.optionsService.colors(yy).g / 255;
-            particle.color.b = this.optionsService.colors(yy).b / 255;
+            particle.color.r = this.colorsService.colors(yy).r / 255;
+            particle.color.g = this.colorsService.colors(yy).g / 255;
+            particle.color.b = this.colorsService.colors(yy).b / 255;
 
-            particle.scale.y = yy/2;
+            particle.scale.y = yy / 2;
             particle.position.y = (particle.scale.y) / 2;
 
         };
@@ -223,6 +226,7 @@ export class Rings {
         const mirrorMaterial = new BABYLON.StandardMaterial('MirrorMat', this.scene);
         mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture('mirror', 512, this.scene, true);
         (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).mirrorPlane = reflector;
+        // tslint:disable-next-line: max-line-length
         (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).renderList = [this.ring1SPS.mesh, this.ring3SPS.mesh, this.ring5SPS.mesh];
         mirrorMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
         mirrorMaterial.backFaceCulling = true; // not working??

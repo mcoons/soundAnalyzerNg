@@ -17,7 +17,7 @@ export class CubeManager {
     private mesh;
     private mat;
 
-    constructor(scene, audioService, optionsService, messageService, engineService) {
+    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
         this.scene = scene;
         this.audioService = audioService;
@@ -69,9 +69,9 @@ export class CubeManager {
             height: 30
         }, this.scene);
 
-        for ( y = 0; y <= 8; y++) { // 9 * 64 = 576
-            for ( x = 0; x <= 9; x++) { // 9 * 64 = 576
-                for ( z = 0; z <= 7; z++) {
+        for (y = 0; y <= 8; y++) { // 9 * 64 = 576
+            for (x = 0; x <= 9; x++) { // 9 * 64 = 576
+                for (z = 0; z <= 7; z++) {
                     this.SPS.addShape(box, 1, { positionFunction: myPositionFunction });
                 }
             }
@@ -90,15 +90,15 @@ export class CubeManager {
             particle.scaling.y = yy / 160;
             particle.scaling.z = yy / 160;
 
-            const r = yy * map(particle.position.x, -360, 360, .2, .9 ) / 255;
-            const g = yy * map(particle.position.y, -240, 400, .2, .9 ) / 255;
-            const b = yy * map(particle.position.z, -280, 280, .2, .9 ) / 255;
+            const r = yy * map(particle.position.x, -360, 360, .2, .9) / 255;
+            const g = yy * map(particle.position.y, -240, 400, .2, .9) / 255;
+            const b = yy * map(particle.position.z, -280, 280, .2, .9) / 255;
 
             particle.color = new BABYLON.Color4(r, g, b, ((yy / 255) * (yy / 255)) / 2);
         };
     }
 
-    update() {    }
+    update() { }
 
     remove() {
         this.SPS.mesh.dispose();

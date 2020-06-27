@@ -4,6 +4,7 @@ import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
+import { ColorsService } from '../services/colors/colors.service';
 
 
 export class SpherePlaneManagerSPS {
@@ -12,6 +13,7 @@ export class SpherePlaneManagerSPS {
     private audioService: AudioService;
     private optionsService: OptionsService;
     private messageService: MessageService;
+    private colorsService: ColorsService;
 
     private innerSPS;
     private mat;
@@ -20,11 +22,12 @@ export class SpherePlaneManagerSPS {
 
     private rotation = 0;
 
-    constructor(scene, audioService, optionsService, messageService, engineService) {
+    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
         this.messageService = messageService;
+        this.colorsService = colorsService;
 
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
         (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.2;
@@ -90,11 +93,13 @@ export class SpherePlaneManagerSPS {
         for (z = -15; z < 15; z++) {
             for (x = -15; x < 15; x++) {
                 const d = Math.sqrt((x * x) + (z * z));
-                if (d <= 13.3) {
+                if (d <= 13.46) {
                     this.innerSPS.addShape(sphere, 1, { positionFunction: innerPositionFunction });
                 }
             }
         }
+
+        console.log(this.innerSPS.nbParticles);
 
         this.mesh1 = this.innerSPS.buildMesh();
         this.mesh1.material = this.mat;
@@ -107,16 +112,14 @@ export class SpherePlaneManagerSPS {
         sphere.dispose();
 
         this.innerSPS.updateParticle = (particle) => {
-            // let yy = this.audioService.getSample()[555 - particle.idx];
-            // let yy = this.audioService.sample1[555 - particle.idx];
             let yy = this.audioService.sample1[particle.idx];
             yy = (yy / 200 * yy / 200) * 255;
 
-            particle.color.r = this.optionsService.colors(yy).r / 255;
-            particle.color.g = this.optionsService.colors(yy).g / 255;
-            particle.color.b = this.optionsService.colors(yy).b / 255;
+            particle.color.r = this.colorsService.colors(yy).r / 255;
+            particle.color.g = this.colorsService.colors(yy).g / 255;
+            particle.color.b = this.colorsService.colors(yy).b / 255;
 
-            const s = yy / 20 + .5;
+            const s = yy / 30 + .5;
             particle.scale.x = s;
             particle.scale.y = s;
             particle.scale.z = s;

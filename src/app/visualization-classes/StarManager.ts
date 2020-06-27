@@ -27,7 +27,7 @@ export class StarManager {
 
     masterTransform;
 
-    constructor(scene, audioService, optionsService, messageService, engineService) {
+    constructor(scene, audioService, optionsService, messageService, engineService, colorService) {
 
         this.scene = scene;
 
@@ -54,7 +54,7 @@ export class StarManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
-        
+
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 800;
@@ -275,13 +275,13 @@ export class StarManager {
             this.objects[n * 5 + 2].mesh.setEnabled(show);
             this.objects[n * 5 + 3].mesh.setEnabled(show);
             this.objects[n * 5 + 4].mesh.setEnabled(show);
-        }
+        };
 
         const zoomStar = (n: number) => {
             for (let index = 0; index < 8; index++) {
                 setStar(index, (index === n));
             }
-        }
+        };
 
         // zoomStar(7);
 

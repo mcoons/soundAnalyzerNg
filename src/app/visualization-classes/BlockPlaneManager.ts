@@ -4,6 +4,7 @@ import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
+import { ColorsService } from '../services/colors/colors.service';
 
 export class BlockPlaneManager {
 
@@ -11,17 +12,19 @@ export class BlockPlaneManager {
     private audioService: AudioService;
     private optionsService: OptionsService;
     private messageService: MessageService;
+    private colorsService: ColorsService;
 
     private SPS;
     private mesh;
     private mat;
 
-    constructor(scene, audioService, optionsService, messageService, engineService) {
+    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
         this.messageService = messageService;
+        this.colorsService = colorsService;
 
         this.setDefaults();
 
@@ -29,7 +32,6 @@ export class BlockPlaneManager {
     }
 
     setDefaults() {
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
@@ -74,7 +76,6 @@ export class BlockPlaneManager {
             }
         }
 
-
         this.mesh = this.SPS.buildMesh();
         this.mesh.material = this.mat;
         this.mesh.scaling.x = .4;
@@ -88,9 +89,9 @@ export class BlockPlaneManager {
             particle.scaling.y = y * .2 + .1;
             particle.position.y = particle.scaling.y / 2;
 
-            particle.color.r = this.optionsService.colors(y).r / 255;
-            particle.color.g = this.optionsService.colors(y).g / 255;
-            particle.color.b = this.optionsService.colors(y).b / 255;
+            particle.color.r = this.colorsService.colors(y).r / 255;
+            particle.color.g = this.colorsService.colors(y).g / 255;
+            particle.color.b = this.colorsService.colors(y).b / 255;
 
         };
     }
