@@ -38,7 +38,7 @@ export class EngineService {
   resizeObservable$: Observable<Event>;
   resizeSubscription$: Subscription;
 
-  private showAxis = true;
+  private showAxis = false;
 
   glowLayer;
   highlightLayer;
