@@ -35,7 +35,7 @@ export class OptionsService {
 
   baseOptions = {
 
-    version: 1.0,
+    version: 3,
 
     // general options
     showTitle: {
@@ -81,7 +81,7 @@ export class OptionsService {
       type: 'radio',
       label: 'Block Plane',
       value: 0,
-      checked: false,
+      checked: true,
       colorOptions: true,
       cameraOptions: false,
       sampleGain: 1,
@@ -162,7 +162,7 @@ export class OptionsService {
       type: 'radio',
       label: 'Exploding SPS',
       value: 4,
-      checked: true,
+      checked: false,
       colorOptions: true,
       cameraOptions: true,
       sampleGain: 1,
@@ -174,8 +174,17 @@ export class OptionsService {
       maxColor: '#ff0000',
       midLoc: 128,
       calpha: 4.72,
-      cbeta: .01,
-      cradius: 300
+      cbeta: 1.57,
+      cradius: 1000
+    },
+    singleSPSDelay: {
+      group: '3DVisual',
+      type: 'slider',
+      label: 'Change Delay (sec)',
+      value: 10,
+      min: 5,
+      max: 60,
+      step: 5,
     },
     starManager: {
       group: '3DVisual',
@@ -317,7 +326,6 @@ export class OptionsService {
       step: .1,
       visualCustom: true
     },
-
     animateCamera: {
       group: '3DVisual',
       type: 'checkbox',
@@ -485,7 +493,7 @@ export class OptionsService {
     showPanel: { value: false },
     showPlayer: { value: false },
     showSplash: { value: true },
-    currentVisual: { value: 2 },
+    currentVisual: { value: 0 },
     windowHeight: { value: 0 },
     playerHeight: { value: 0 },
     pixelRatio: { value: 0 },
@@ -520,28 +528,31 @@ export class OptionsService {
     });
 
     const lOptions = storageService.loadOptions();
-    if (lOptions.showTitle) {
+    if (lOptions.version) {
+      if (lOptions.version !== this.baseOptions.version) {
+        storageService.deleteOptions();
+        alert('Options have changed.  Clearing saved settings.');
+      } else {
+        // load user options
+        for (const [key, value] of Object.entries(lOptions)) {
+          if (key in this.baseOptions) {
+            // console.log(`${key}: ${value}`);
+            if (typeof value === 'object' && value !== null) {
 
-      for (const [key, value] of Object.entries(lOptions)) {
-        if (key in this.baseOptions) {
-          // console.log(`${key}: ${value}`);
-          if (typeof value === 'object' && value !== null) {
+              for (const [ikey, ivalue] of Object.entries(value)) {
+                this.options[key][ikey] = ivalue;
+              }
 
-            for (const [ikey, ivalue] of Object.entries(value)) {
-              this.options[key][ikey] = ivalue;
+            } else {
+              this.options[key] = value;
             }
-
-          } else {
-            this.options[key] = value;
           }
         }
+        this.updateCustomOptions(this.state.currentVisual.value);
       }
-
-      this.updateCustomOptions(this.state.currentVisual.value);
     } else {
       console.log('local options error');
     }
-
   }
 
   toggleOption(itemName: string) {
@@ -568,9 +579,6 @@ export class OptionsService {
   }
 
   updateCustomOptions(visualIndex) {
-
-    // this.options.sampleGain.value =
-    //   this.options[this.visuals[visualIndex]].sampleGain;
 
     this.options.smoothingConstant.value =
       this.options[this.visuals[visualIndex]].smoothingConstant;
@@ -740,6 +748,16 @@ export class OptionsService {
     this.options[this.visuals[this.state.currentVisual.value]].smoothingConstant = value;
     this.storageService.saveOptions(this.options);
   }
+
+  get singleSPSDelay(): number {
+    return this.options.singleSPSDelay.value;
+  }
+
+  set singleSPSDelay(value: number) {
+    this.options.singleSPSDelay.value = value;
+    this.storageService.saveOptions(this.options);
+  }
+
 
   get showPanel(): boolean {
     return this.state.showPanel.value;

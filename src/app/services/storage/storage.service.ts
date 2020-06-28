@@ -21,4 +21,8 @@ export class StorageService {
     this.windowRefService.localStore.setItem('options', JSON.stringify(options));
   }
 
+  deleteOptions() {
+    this.windowRefService.localStore.removeItem('options');
+  }
+
 }

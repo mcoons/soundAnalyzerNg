@@ -81,7 +81,7 @@ export class SingleSPS {
         this.setDefaults();
 
         this.scene.registerBeforeRender(this.beforeRender);
-        setTimeout(this.startExpanding, 5000);
+        setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
 
     }
 
@@ -422,7 +422,7 @@ export class SingleSPS {
             this.contracting = false;
             this.currentSPS = this.nextSPS;
             this.nextSPS = this.nextSPS === this.SPSFunctions.length - 1 ? 0 : this.nextSPS + 1;
-            this.expTimeout = setTimeout(this.startExpanding, 30000);
+            this.expTimeout = setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
         }, 5000);
     }
 
