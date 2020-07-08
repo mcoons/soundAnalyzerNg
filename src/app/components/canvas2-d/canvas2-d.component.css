@@ -1,5 +1,5 @@
 
-canvas {
+#canvas2d {
     pointer-events: none;
     position: absolute;
     top: 0;
@@ -9,3 +9,32 @@ canvas {
         touch-action: none;
     z-index: 20;
 }
+
+#backgroundCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    border: 4px solid green;
+    /* background-color: "#ff0000"; */
+    touch-action: none;
+    pointer-events: none;
+}
+
+#tmp {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 5000;
+    left: 5000;
+    z-index: 0;
+    /* border: 4px solid green; */
+    /* background-color: "#ff0000"; */
+    touch-action: none;
+    pointer-events: none;
+    filter: grayscale(95%);
+    filter: hue-rotate(180deg);
+}
+

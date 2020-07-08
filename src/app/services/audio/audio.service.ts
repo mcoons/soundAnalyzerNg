@@ -83,6 +83,7 @@ export class AudioService {
     public optionsService: OptionsService,
     public messageService: MessageService,
     private windowRef: WindowRefService) {
+    console.log('Audio Service Constructor');
 
     messageService.messageAnnounced$.subscribe(
       message => {
@@ -105,6 +106,7 @@ export class AudioService {
   }
 
   public setAudio = (audio: HTMLAudioElement) => {
+    console.log('In Set Audio');
 
     if (audio == null) {
       return;
@@ -292,9 +294,15 @@ export class AudioService {
 
     // TODO: historical data for wave form       TODO:    TODO:
     this.tdHistory.push(this.tdDataArray.slice(0));
+
     if (this.tdHistory.length > this.tdHistoryArraySize) {
       this.tdHistory.shift();
     }
+
+
+
+
+
   }
 
   clearSampleArrays() {

@@ -7,6 +7,7 @@ import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
 
 export class BlockSpiralManager {
+
     private scene: BABYLON.Scene;
     private audioService: AudioService;
     private optionsService: OptionsService;
@@ -18,6 +19,9 @@ export class BlockSpiralManager {
     private mesh;
     private mat;
     private rotation = 0;
+
+    private y;
+    private c;
 
     constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
@@ -104,15 +108,17 @@ export class BlockSpiralManager {
 
         this.SPS.updateParticle = (particle) => {
 
-            let y = this.audioService.sample1[particle.idx];
-            y = (y / 255 * y / 255) * 255;
+            this.y = this.audioService.sample1[particle.idx];
+            this.y = (this.y / 255 * this.y / 255) * 255;
 
-            particle.scaling.y = .05 + y / 17;
+            particle.scaling.y = .5 + this.y / 17;
             particle.position.y = particle.scaling.y / 2 - particle.idx / 16; // + 30;
 
-            particle.color.r = this.colorsService.colors(y).r / 255;
-            particle.color.g = this.colorsService.colors(y).g / 255;
-            particle.color.b = this.colorsService.colors(y).b / 255;
+            this.c = this.colorsService.colors(this.y);
+
+            particle.color.r = this.c.r / 255;
+            particle.color.g = this.c.g / 255;
+            particle.color.b = this.c.b / 255;
 
         };
     }
@@ -122,7 +128,10 @@ export class BlockSpiralManager {
     remove() {
         this.SPS.mesh.dispose();
         this.mesh.dispose();
+        this.SPS.dispose();
+        this.SPS = null; // tells the GC the reference can be cleaned up also
         this.scene.unregisterBeforeRender(this.beforeRender);
     }
+
 
 }

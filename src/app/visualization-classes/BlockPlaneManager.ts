@@ -18,8 +18,11 @@ export class BlockPlaneManager {
     private mesh;
     private mat;
 
-    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+    private y;
+    private c;
 
+    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+        console.log('Block Plane Class Constructor');
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
@@ -46,6 +49,7 @@ export class BlockPlaneManager {
     }
 
     create() {
+        console.log('in Block Plane Create');
         let z: number;
         let x: number;
 
@@ -83,25 +87,32 @@ export class BlockPlaneManager {
 
         this.SPS.updateParticle = (particle) => {
 
-            let y = this.audioService.sample1[particle.idx];
-            y = (y / 200 * y / 200) * 255;
+            this.y = this.audioService.sample1[particle.idx];
+            this.y = (this.y / 200 * this.y / 200) * 255;
 
-            particle.scaling.y = y * .2 + .1;
+            particle.scaling.y = this.y * .1 + .4;
             particle.position.y = particle.scaling.y / 2;
 
-            particle.color.r = this.colorsService.colors(y).r / 255;
-            particle.color.g = this.colorsService.colors(y).g / 255;
-            particle.color.b = this.colorsService.colors(y).b / 255;
+            this.c = this.colorsService.colors(this.y);
+
+            particle.color.r = this.c.r / 255;
+            particle.color.g = this.c.g / 255;
+            particle.color.b = this.c.b / 255;
 
         };
     }
 
-    update() { }
+    update() {
+    }
 
     remove() {
+        console.log('Block Plane Manager - In Remove');
         this.SPS.mesh.dispose();
         this.mesh.dispose();
+        this.SPS.dispose();
+        this.SPS = null; // tells the GC the reference can be cleaned up also
         this.scene.unregisterBeforeRender(this.beforeRender);
     }
+
 
 }

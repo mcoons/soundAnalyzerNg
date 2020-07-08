@@ -7,6 +7,11 @@ https://github.com/mcoons/soundAnalyzerNg
 TODO
 _______________________________________________________________________
 
+Understand and fix resize events - fixDPI doesnt need to be run each frame
+Add OnResize events to canvas 
+getElementById needs replaced
+
+
 Separate default options from current/player options;
 Implement Star Zooming
 Implement 2D history layer in the back.
@@ -99,3 +104,16 @@ BiquadFilterNode
 1920x1200, 1680x1050, 1280x800, and 1024x640
 
 // tslint:disable-next-line: max-line-length
+
+
+
+
+
+
+
+
+
+
+
+
+

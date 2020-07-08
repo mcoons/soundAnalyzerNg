@@ -7,6 +7,7 @@ import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
 
 import { map } from './utilities.js';
+// import { timeStamp } from 'console';
 
 export class Rings {
 
@@ -27,6 +28,26 @@ export class Rings {
     private mesh3;
     private mesh5;
 
+    private PI;
+    private TwoPI;
+    private PId2;
+    private PId32;
+    private PId50;
+    private PId550;
+    private PId100;
+
+    private c1;
+    private y1;
+    private myTheta1;
+
+    private c3;
+    private y3;
+    private myTheta3;
+
+    private c5;
+    private y5;
+    private myTheta5;
+
     glass;
 
     constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
@@ -37,9 +58,13 @@ export class Rings {
         this.messageService = messageService;
         this.colorsService = colorsService;
 
-        // (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
-        // (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.4;
-        // (this.scene.lights[2] as BABYLON.PointLight).intensity = 0.4;
+        this.PI = Math.PI;
+        this.TwoPI = this.PI * 2;
+        this.PId2 = this.PI / 2;
+        this.PId32 = this.PI / 32;
+        this.PId50 = this.PI / 50;
+        this.PId550 = this.PI / 550;
+        this.PId100 = this.PI / 100;
 
         this.scene.registerBeforeRender(this.beforeRender);
 
@@ -67,11 +92,12 @@ export class Rings {
         const radius1 = 100;
         const radius3 = 500;
         const radius5 = 300;
-        const width1 = 150;
-        const depth1 = 4;
-        const height1 = 10;
+        // const width1 = 150;
+        // const depth1 = 4;
+        // const height1 = 10;
 
         let gtheta;
+
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.diffuseTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
         this.mat.backFaceCulling = false;
@@ -86,11 +112,10 @@ export class Rings {
         // BUILD RING1 SPS ////////////////////////////////
 
         const ring1PositionFunction = (particle, i, s) => {
-
             particle.position.x = radius1 * Math.cos(gtheta);
             particle.position.z = radius1 * Math.sin(gtheta);
             particle.position.y = 100;
-            particle.rotation.y = Math.PI / 2 - gtheta;
+            particle.rotation.y = this.PId2 - gtheta;
             particle.color = new BABYLON.Color4(.5, .5, .5, 1);
         };
 
@@ -98,7 +123,7 @@ export class Rings {
 
         const box1 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 10, height: 1 }, this.scene);
 
-        for (let theta = Math.PI / 2; theta < 2 * Math.PI + Math.PI / 2 - Math.PI / 50; theta += Math.PI / 50) {
+        for (let theta = this.PId2; theta < this.TwoPI + this.PId2 - this.PId50; theta += this.PId50) {
             gtheta = theta;
             this.ring1SPS.addShape(box1, 1, { positionFunction: ring1PositionFunction });
         }
@@ -110,26 +135,25 @@ export class Rings {
         box1.dispose();
 
         this.ring1SPS.updateParticle = (particle) => {
-            const myTheta = particle.idx * Math.PI / 50 + Math.PI / 2;
-            const yy = this.audioService.fr64DataArray[particle.idx < 50 ? particle.idx : 50 - (particle.idx - 50)];
+            this.myTheta1 = particle.idx * this.PId50 + this.PId2;
+            this.y1 = this.audioService.fr64DataArray[particle.idx < 50 ? particle.idx : 50 - (particle.idx - 50)];
 
-            particle.color.r = this.colorsService.colors(yy).r / 255;
-            particle.color.g = this.colorsService.colors(yy).g / 255;
-            particle.color.b = this.colorsService.colors(yy).b / 255;
+            this.c1 = this.colorsService.colors(this.y1);
+            particle.color.r = this.c1.r / 255;
+            particle.color.g = this.c1.g / 255;
+            particle.color.b = this.c1.b / 255;
 
-            particle.scale.y = yy / 3;
+            particle.scale.y = this.y1 / 3;
             particle.position.y = (particle.scale.y) / 2;
-
         };
 
         // BUILD RING3 SPS ////////////////////////////////
 
         const ring3PositionFunction = (particle, i, s) => {
-
             particle.position.x = radius3 * Math.cos(gtheta);
             particle.position.z = radius3 * Math.sin(gtheta);
             particle.position.y = 100;
-            particle.rotation.y = Math.PI / 2 - gtheta;
+            particle.rotation.y = this.PId2 - gtheta;
             particle.color = new BABYLON.Color4(.5, .5, .5, 1);
         };
 
@@ -137,7 +161,7 @@ export class Rings {
 
         const box3 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 7, height: 1 }, this.scene);
 
-        for (let theta = Math.PI / 2; theta < 2 * Math.PI + Math.PI / 2 - Math.PI / 550; theta += Math.PI / 550) {
+        for (let theta = this.PId2; theta < this.TwoPI + this.PId2 - this.PId550; theta += this.PId550) {
             gtheta = theta;
             this.ring3SPS.addShape(box3, 1, { positionFunction: ring3PositionFunction });
         }
@@ -149,28 +173,25 @@ export class Rings {
         box3.dispose();
 
         this.ring3SPS.updateParticle = (particle) => {
-            const myTheta = particle.idx * Math.PI / 550 + Math.PI / 2;
-            const yy = this.audioService.sample1[particle.idx + 20 < 570 ? particle.idx + 20 : 570 - (particle.idx + 20 - 570)];
+            this.myTheta3 = particle.idx * this.PId550 + this.PId2;
+            this.y3 = this.audioService.sample1[particle.idx + 20 < 570 ? particle.idx + 20 : 570 - (particle.idx + 20 - 570)];
 
-            particle.color.r = this.colorsService.colors(yy).r / 255;
-            particle.color.g = this.colorsService.colors(yy).g / 255;
-            particle.color.b = this.colorsService.colors(yy).b / 255;
+            this.c3 = this.colorsService.colors(this.y3);
+            particle.color.r = this.c3.r / 255;
+            particle.color.g = this.c3.g / 255;
+            particle.color.b = this.c3.b / 255;
 
-            particle.scale.y = yy / 2;
+            particle.scale.y = this.y3 / 2;
             particle.position.y = (particle.scale.y) / 2;
-
         };
-
-
 
         // // BUILD RING5 SPS ////////////////////////////////
 
         const ring5PositionFunction = (particle, i, s) => {
-
             particle.position.x = radius5 * Math.cos(gtheta);
             particle.position.z = radius5 * Math.sin(gtheta);
             particle.position.y = 100;
-            particle.rotation.y = Math.PI / 2 - gtheta;
+            particle.rotation.y = this.PId2 - gtheta;
             particle.color = new BABYLON.Color4(.5, .5, .5, 1);
         };
 
@@ -178,7 +199,7 @@ export class Rings {
 
         const box5 = BABYLON.MeshBuilder.CreatePlane('myPlane', { width: 10, height: 1 }, this.scene);
 
-        for (let theta = Math.PI / 2; theta <= 2 * Math.PI + Math.PI / 2; theta += Math.PI / 100) {
+        for (let theta = this.PId2; theta <= this.TwoPI + this.PId2; theta += this.PId100) {
             gtheta = theta;
             this.ring5SPS.addShape(box5, 1, { positionFunction: ring5PositionFunction });
         }
@@ -190,24 +211,24 @@ export class Rings {
         box5.dispose();
 
         this.ring5SPS.updateParticle = (particle) => {
-            const myTheta = particle.idx * Math.PI / 100 + Math.PI / 2;
-            const yy = this.audioService.fr128DataArray[particle.idx <= 100 ? particle.idx : 100 - (particle.idx - 100)];
+            this.myTheta5 = particle.idx * this.PId100 + this.PId2;
+            this.y5 = this.audioService.fr128DataArray[particle.idx <= 100 ? particle.idx : 100 - (particle.idx - 100)];
 
-            particle.color.r = this.colorsService.colors(yy).r / 255;
-            particle.color.g = this.colorsService.colors(yy).g / 255;
-            particle.color.b = this.colorsService.colors(yy).b / 255;
+            this.c5 = this.colorsService.colors(this.y5);
+            particle.color.r = this.c5.r / 255;
+            particle.color.g = this.c5.g / 255;
+            particle.color.b = this.c5.b / 255;
 
-            particle.scale.y = yy / 2;
+            particle.scale.y = this.y5 / 2;
             particle.position.y = (particle.scale.y) / 2;
-
         };
 
-        this.ring5SPS.mesh.rotation.y = Math.PI;
+        this.ring5SPS.mesh.rotation.y = this.PI;
 
         // CREATE A MIRROR
 
         this.glass = BABYLON.MeshBuilder.CreatePlane('plane', { size: 1000000 }, this.scene);
-        this.glass.rotation.x = Math.PI / 2;
+        this.glass.rotation.x = this.PId2;
         this.glass.position.y = -5;
 
         // Ensure working with new values for flat surface by computing and obtaining its worldMatrix
@@ -233,19 +254,25 @@ export class Rings {
         mirrorMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
 
         this.glass.material = mirrorMaterial;
-
     }
 
     update() { }
 
     remove() {
         this.ring1SPS.mesh.dispose();
-        this.ring3SPS.mesh.dispose();
-        this.ring5SPS.mesh.dispose();
-
         this.mesh1.dispose();
+        this.ring1SPS.dispose();
+        this.ring1SPS = null; // tells the GC the reference can be cleaned up also
+
+        this.ring3SPS.mesh.dispose();
         this.mesh3.dispose();
+        this.ring3SPS.dispose();
+        this.ring3SPS = null; // tells the GC the reference can be cleaned up also
+
+        this.ring5SPS.mesh.dispose();
         this.mesh5.dispose();
+        this.ring5SPS.dispose();
+        this.ring5SPS = null; // tells the GC the reference can be cleaned up also
 
         this.glass.dispose();
 
@@ -255,5 +282,4 @@ export class Rings {
         (this.scene.lights[1] as BABYLON.PointLight).intensity = 1.0;
         (this.scene.lights[2] as BABYLON.PointLight).intensity = 1.0;
     }
-
 }

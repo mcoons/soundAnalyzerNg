@@ -1,10 +1,10 @@
 
-import { Component, OnDestroy, AfterViewInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, AfterViewInit, ViewChild, ElementRef, Inject, NgZone } from '@angular/core';
+// import { Subscription } from 'rxjs';
 
 import { OptionsService } from '../../services/options/options.service';
 import { AudioService } from '../../services/audio/audio.service';
-import { MessageService } from '../../services/message/message.service';
+// import { MessageService } from '../../services/message/message.service';
 
 import { map } from '../../visualization-classes/utilities.js';
 
@@ -14,69 +14,91 @@ import { map } from '../../visualization-classes/utilities.js';
   styleUrls: ['./canvas2-d.component.css']
 })
 export class Canvas2DComponent implements OnDestroy, AfterViewInit {
+  @ViewChild('canvas2d', { static: true }) canvas2d: ElementRef<HTMLCanvasElement>;
 
   private ctx: CanvasRenderingContext2D;
-  private canvas: HTMLCanvasElement;
-  private subscription: Subscription;
+  // private subscription: Subscription;
 
-  private waveformDelayCounter = 0;
+  // private waveformDelayCounter = 0;
   private waveFormDataSource;
 
-  constructor(
-    public optionsService: OptionsService,
-    public audioService: AudioService,
-    public messageService: MessageService) {
+  private playerDiv;
 
-    this.subscription = messageService.messageAnnounced$.subscribe(
-      message => {
-        // console.log('Canvas2D: Message received from service is :  ' + message);
-      });
-  }
+  constructor(
+    @Inject(OptionsService) public optionsService: OptionsService,
+    @Inject(AudioService) public audioService: AudioService,
+    private ngZone: NgZone,
+    // @Inject(MessageService) public messageService: MessageService
+  ) { }
 
   ngAfterViewInit(): void {
-    this.canvas = document.getElementById('canvas2d') as HTMLCanvasElement;
-    this.ctx = this.canvas.getContext('2d');
-    this.canvas.style.width = this.canvas.width.toString();
-    this.canvas.style.height = this.canvas.height.toString();
+    this.ctx = this.canvas2d.nativeElement.getContext('2d');
+    this.canvas2d.nativeElement.style.width = this.canvas2d.nativeElement.width.toString();
+    this.canvas2d.nativeElement.style.height = this.canvas2d.nativeElement.height.toString();
     this.ctx.globalAlpha = .5;
 
-    window.requestAnimationFrame(this.render2DFrame);
+    // window.requestAnimationFrame(this.render2DFrame);
+    this.animate();
   }
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 
-  render2DFrame = () => {
-    if (this.audioService.audio != null) {
-      this.audioService.analyzeData();
-    }
+  animate(): void {
+    this.ngZone.runOutsideAngular(() => {
 
-    this.fixDpi();
-    this.optionsService.windowResize();
-
-    if (this.optionsService.showSplash === false) {
-      if (this.optionsService.showBars === true) {
-        this.draw2DBars();
-      }
-
-      if (this.optionsService.showWaveform === true) {
-        // this.waveformDelayCounter++;
-        // console.log(this.waveformDelayCounter)
-        // if (this.waveformDelayCounter >= this.optionsService.waveformDelay) {
-          // this.waveformDelayCounter = 0;
-          this.waveFormDataSource = this.audioService.tdDataArray;
+      const render2DFrame = () => {
+        // if (this.audioService.audio != null) {
+        //   this.audioService.analyzeData();
         // }
-        this.drawWaveform();
-      }
-    }
-    window.requestAnimationFrame(this.render2DFrame);
+    
+        this.fixDpi();
+        this.optionsService.windowResize();
+    
+        if (this.optionsService.showSplash === false) {
+          if (this.optionsService.showBars === true) {
+            this.draw2DBars();
+          }
+    
+          if (this.optionsService.showWaveform === true) {
+            this.waveFormDataSource = this.audioService.tdDataArray;
+            this.drawWaveform();
+          }
+        }
+        window.requestAnimationFrame(render2DFrame);
+      };
+
+      render2DFrame();
+
+    });
   }
+
+  // render2DFrame = () => {
+  //   if (this.audioService.audio != null) {
+  //     this.audioService.analyzeData();
+  //   }
+
+  //   this.fixDpi();
+  //   this.optionsService.windowResize();
+
+  //   if (this.optionsService.showSplash === false) {
+  //     if (this.optionsService.showBars === true) {
+  //       this.draw2DBars();
+  //     }
+
+  //     if (this.optionsService.showWaveform === true) {
+  //       this.waveFormDataSource = this.audioService.tdDataArray;
+  //       this.drawWaveform();
+  //     }
+  //   }
+  //   window.requestAnimationFrame(this.render2DFrame);
+  // }
 
   fixDpi = () => {
     const dpi = window.devicePixelRatio;
-    const styles = window.getComputedStyle(this.canvas);
+    const styles = window.getComputedStyle(this.canvas2d.nativeElement);
 
     // create a style object that returns width and height
     const style = {
@@ -88,19 +110,18 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       }
     };
     // set the correct canvas attributes for device dpi
-    this.canvas.setAttribute('width', (style.width() * dpi).toString());
-    this.canvas.setAttribute('height', (style.height() * dpi).toString());
+    this.canvas2d.nativeElement.setAttribute('width', (style.width() * dpi).toString());
+    this.canvas2d.nativeElement.setAttribute('height', (style.height() * dpi).toString());
   }
 
   draw2DBars() {
-    // const dataSource = this.audioService.getSample();
     const dataSource = this.audioService.sample1;
     if (dataSource == null) {
       return;
     }
 
-    const WIDTH = this.canvas.width - 50;
-    const HEIGHT = this.canvas.height;
+    const WIDTH = this.canvas2d.nativeElement.width - 50;
+    const HEIGHT = this.canvas2d.nativeElement.height;
     const barWidth = (WIDTH / dataSource.length); // - 1; // -80
 
     this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -115,21 +136,6 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
       this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
       this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight - 30, barWidth, barHeight);
-
-      // if (i%10 === 0) {
-      //   this.ctx.fillStyle = 'rgba(255,255,255 ,.7)';
-      //   this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight -10, barWidth, barHeight);
-      // }
-
-      // if (i%100 === 0) {
-      //   this.ctx.fillStyle = 'rgba(255,0,0 ,.7)';
-      //   this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight -10, barWidth, barHeight);
-      // }
-
-      // if (i % 64 === 0) {
-      //   this.ctx.fillStyle = 'rgba(0,255,0 ,.7)';
-      //   this.ctx.fillRect(x + 25, (this.getTopOfPlayer()+10), barWidth, -20);
-      // }
 
       const ch = this.optionsService.getOptions().currentNote.value;
       if (ch !== 'None') {
@@ -153,65 +159,6 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       x += barWidth; // + 1;
     }
 
-    ////////////////////////////
-
-    // dataSource = this.audioService.getSample512();
-    // barWidth = (WIDTH / dataSource.length);
-    // x = 0;
-    // for (let i = 0; i < dataSource.length; i++) { // -80
-    //   const barHeight = dataSource[i] * .5 + 1;
-
-    //   const r = barHeight * 2 - 1;
-    //   const g = 255 * i / 576;
-    //   const b = 255 - 128 * i / 550;
-
-    //   this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
-    //   this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight - 210, barWidth, barHeight);
-
-    //   x += barWidth; // + 1;
-    // }
-
-    ////////////////////////////
-
-    // dataSource = this.audioService.getSampleAve();
-    // barWidth = (WIDTH / dataSource.length);
-    // x = 0;
-    // for (let i = 0; i < dataSource.length; i++) { // -80
-    //   const barHeight = dataSource[i] * .5 + 1;
-
-    //   const r = barHeight * 2 - 1;
-    //   const g = 255 * i / 576;
-    //   const b = 255 - 128 * i / 550;
-
-    //   this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
-    //   this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight - 120, barWidth, barHeight);
-
-    //   x += barWidth; // + 1;
-    // }
-
-
-
-    // dataSource = this.audioService.fr1024DataArray;
-    // barWidth = (WIDTH / dataSource.length);
-    // x = 0;
-    // for (let i = 0; i < dataSource.length; i++) { // -80
-    //   const barHeight = dataSource[i] * .5 + 1;
-
-    //   const r = barHeight * 2 - 1;
-    //   const g = 255 * i / 576;
-    //   const b = 255 - 128 * i / 550;
-
-    //   this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
-    //   this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight -230, barWidth, barHeight);
-
-    //   x += barWidth; // + 1;
-    // }
-
-
-
-
-
-
   }
 
   drawWaveform() {
@@ -219,7 +166,6 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       return;
     }
 
-    // const width = this.canvas.width - 50;
     const width = 512;
 
     const PI = Math.PI;
@@ -228,14 +174,14 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     const PId32 = PI / 32;
 
     this.ctx.lineWidth = 3;
-    this.ctx.moveTo(this.canvas.width / 2 - 256, 120);
+    this.ctx.moveTo(this.canvas2d.nativeElement.width / 2 - 256, 120);
     this.ctx.beginPath();
     for (let i = 0; i < width; i++) {
 
       const multiplier = Math.sin(map(i, 0, width - 1, 0, PI));
       const y = (this.waveFormDataSource[i] - 128) * multiplier * this.optionsService.waveformMultiplier;
 
-      this.ctx.lineTo(i * 2 + this.canvas.width / 2 - 512, y + 120);
+      this.ctx.lineTo(i * 2 + this.canvas2d.nativeElement.width / 2 - 512, y + 120);
     }
 
     this.ctx.strokeStyle = 'white';
@@ -244,12 +190,14 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
   }
 
   getTopOfPlayer(): number {
-    const playerDiv = document.getElementById('playerDIV') as HTMLElement;
+    // console.log(this.canvas2d.nativeElement);
+    // console.log(this.playerDiv);
+    this.playerDiv = document.getElementById('playerDiv');
 
-    if (playerDiv.offsetTop * window.devicePixelRatio <= this.canvas.height) {
-      return playerDiv.offsetTop * window.devicePixelRatio - 60;
+    if (this.playerDiv.offsetTop * window.devicePixelRatio <= this.canvas2d.nativeElement.height) {
+      return this.playerDiv.offsetTop * window.devicePixelRatio - 60;
     } else {
-      return this.canvas.height - 60;
+      return this.canvas2d.nativeElement.height - 60;
     }
   }
 

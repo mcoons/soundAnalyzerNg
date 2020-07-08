@@ -189,9 +189,9 @@ function map(x, oMin, oMax, nMin, nMax) {
 }
 
 // log text to the console overlay DIV
-function logToScreen(htmlToRender) {
-    document.getElementById("consoleElement").innerHTML = htmlToRender;
-}
+// function logToScreen(htmlToRender) {
+//     document.getElementById("consoleElement").innerHTML = htmlToRender;
+// }
 
 function colors(yy) {
     let r;
@@ -366,5 +366,5 @@ export {
     buildPalettes,
     getBiasedGlowMaterial,
     map,
-    logToScreen
+    // logToScreen
 };

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, AfterViewInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 // import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import * as moment from 'moment';
@@ -40,9 +40,13 @@ import { MessageService } from '../../services/message/message.service';
 })
 
 export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('fileInput', { static: true }) fileInput: ElementRef<HTMLInputElement>;
+  @ViewChild('audio', { static: true }) audio: ElementRef<HTMLAudioElement>;
+  // @ViewChild('playerDiv', { static: false }) playerDiv: ElementRef<HTMLDivElement>;
 
-  audio: HTMLAudioElement;
-  fileInput;
+
+  // audio: HTMLAudioElement;
+  // fileInput;
   subscription: Subscription;
   siteTracks = [];
   userTracks = [];
@@ -51,9 +55,9 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   currentTime = 0;
 
   constructor(
-    public optionsService: OptionsService,
-    public audioService: AudioService,
-    public messageService: MessageService,
+    @Inject(OptionsService) public optionsService: OptionsService,
+    @Inject(AudioService) public audioService: AudioService,
+    @Inject(MessageService) public messageService: MessageService,
     // private sanitizer: DomSanitizer
   ) {
 
@@ -67,7 +71,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
           this.loadSiteTracks();
         }
         if (message === 'local list selection') {
-          this.fileInput.click();
+          this.fileInput.nativeElement.click();
         }
         if (message === 'playPause') {
           this.playPause();
@@ -155,18 +159,20 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.audio = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
-    this.fileInput = document.getElementById('fileInput');
+    // this.audio.nativeElement = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
+    // this.fileInput.nativeElement = document.getElementById('fileInput');
+    // console.log('myPlayer - this.playerDiv');
+    // console.log(this.playerDiv);
 
-    this.audio.onended = () => {
+    this.audio.nativeElement.onended = () => {
       this.nextTrack();
     };
 
-    this.audio.ontimeupdate = () => {
+    this.audio.nativeElement.ontimeupdate = () => {
       this.timeUpdate();
     };
 
-    this.audioService.setAudio(this.audio);
+    this.audioService.setAudio(this.audio.nativeElement);
     this.optionsService.windowResize();
     this.setPlaySource();
     this.playPause();
@@ -200,7 +206,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       return array;
     }
 
-    if (!this.audio.paused) {
+    if (!this.audio.nativeElement.paused) {
       this.playPause();
     }
 
@@ -214,14 +220,14 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   setPlaySource() {
-    this.audio.src = this.playList[this.optionsService.currentTrack].link;
+    this.audio.nativeElement.src = this.playList[this.optionsService.currentTrack].link;
     this.currentTime = 0;
     this.duration = 0;
   }
 
   playPause() {
-    if (this.audio.paused) {
-      this.audio.play()
+    if (this.audio.nativeElement.paused) {
+      this.audio.nativeElement.play()
         .then(() => {
           this.optionsService.updateState('playing', true);
           this.getDuration();
@@ -230,20 +236,20 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
           console.log('Audio Failed Playing');
         });
     } else {
-      this.audio.pause();
+      this.audio.nativeElement.pause();
       this.optionsService.updateState('playing', false);
     }
   }
 
   selectTrack(index: number) {
-    this.audio.pause();
+    this.audio.nativeElement.pause();
     this.optionsService.updateState('currentTrack', index);
     this.setPlaySource();
     this.playPause();
   }
 
   previousTrack() {
-    this.audio.pause();
+    this.audio.nativeElement.pause();
     let ct = this.optionsService.currentTrack;
     ct--;
     if (ct < 0) {
@@ -255,7 +261,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   nextTrack() {
-    this.audio.pause();
+    this.audio.nativeElement.pause();
     let ct = this.optionsService.currentTrack;
     ct++;
     if (ct > this.playList.length - 1) {
@@ -267,7 +273,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onSliderChangeVolume(e) {
-    this.audio.volume = this.optionsService.volume  / 10;
+    this.audio.nativeElement.volume = this.optionsService.volume  / 10;
     // this.messageService.announceMessage('volume change');
 
   }
@@ -277,7 +283,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   seekTo(seconds) {
-    this.audio.currentTime = seconds;
+    this.audio.nativeElement.currentTime = seconds;
     this.currentTime = seconds;
   }
 
@@ -287,15 +293,15 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getDuration() {
-    this.duration = this.audio.duration || 0;
+    this.duration = this.audio.nativeElement.duration || 0;
   }
 
   timeUpdate() {
-    this.currentTime = this.audio.currentTime;
+    this.currentTime = this.audio.nativeElement.currentTime;
   }
 
   loadSiteTracks() {
-    this.audio.pause();
+    this.audio.nativeElement.pause();
     this.optionsService.updateState('currentTrack', 0);
     this.playList = this.siteTracks;
     this.optionsService.updateState('playlist', this.playList);
@@ -308,7 +314,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.userTracks.length === 0) {
       return;
     }
-    this.audio.pause();
+    this.audio.nativeElement.pause();
     this.optionsService.updateState('currentTrack', 0);
     this.playList = this.userTracks;
     this.optionsService.updateState('playlist', this.playList);

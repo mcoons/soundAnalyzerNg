@@ -15,10 +15,15 @@ export class SpherePlaneManagerSPS {
     private messageService: MessageService;
     private colorsService: ColorsService;
 
-    private innerSPS;
+    private SPS;
     private mat;
     private mesh1;
     // hl;
+
+
+    private c;
+    private y;
+    private s;
 
     private rotation = 0;
 
@@ -53,7 +58,7 @@ export class SpherePlaneManagerSPS {
 
     beforeRender = () => {
 
-        this.innerSPS.setParticles();
+        this.SPS.setParticles();
 
         if (this.optionsService.animateCamera) {
             this.rotation += Math.PI / 500;
@@ -61,7 +66,7 @@ export class SpherePlaneManagerSPS {
                 this.rotation = 0;
             }
 
-            this.innerSPS.mesh.rotation.y = this.rotation;
+            this.SPS.mesh.rotation.y = this.rotation;
         }
     }
 
@@ -87,21 +92,21 @@ export class SpherePlaneManagerSPS {
             particle.color = new BABYLON.Color4(.5, .5, .5, 1);
         };
 
-        this.innerSPS = new BABYLON.SolidParticleSystem('innerSPS', this.scene, { updatable: true });
+        this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
         const sphere = BABYLON.MeshBuilder.CreateSphere('s', { diameter: 6, segments: 2, updatable: true }, this.scene);
 
         for (z = -15; z < 15; z++) {
             for (x = -15; x < 15; x++) {
                 const d = Math.sqrt((x * x) + (z * z));
                 if (d <= 13.46) {
-                    this.innerSPS.addShape(sphere, 1, { positionFunction: innerPositionFunction });
+                    this.SPS.addShape(sphere, 1, { positionFunction: innerPositionFunction });
                 }
             }
         }
 
-        console.log(this.innerSPS.nbParticles);
+        console.log(this.SPS.nbParticles);
 
-        this.mesh1 = this.innerSPS.buildMesh();
+        this.mesh1 = this.SPS.buildMesh();
         this.mesh1.material = this.mat;
         this.mesh1.scaling.x = .8;
         this.mesh1.scaling.y = .8;
@@ -111,18 +116,21 @@ export class SpherePlaneManagerSPS {
         // dispose the model
         sphere.dispose();
 
-        this.innerSPS.updateParticle = (particle) => {
-            let yy = this.audioService.sample1[particle.idx];
-            yy = (yy / 200 * yy / 200) * 255;
+        this.SPS.updateParticle = (particle) => {
+            this.y = this.audioService.sample1[particle.idx];
+            this.y = (this.y / 200 * this.y / 200) * 255;
 
-            particle.color.r = this.colorsService.colors(yy).r / 255;
-            particle.color.g = this.colorsService.colors(yy).g / 255;
-            particle.color.b = this.colorsService.colors(yy).b / 255;
+            this.c = this.colorsService.colors(this.y);
 
-            const s = yy / 30 + .5;
-            particle.scale.x = s;
-            particle.scale.y = s;
-            particle.scale.z = s;
+            particle.color.r = this.c.r / 255;
+            particle.color.g = this.c.g / 255;
+            particle.color.b = this.c.b / 255;
+
+            this.s = this.y / 30 + .5;
+
+            particle.scale.x = this.s;
+            particle.scale.y = this.s;
+            particle.scale.z = this.s;
 
         };
 
@@ -131,8 +139,11 @@ export class SpherePlaneManagerSPS {
     update() { }
 
     remove() {
-        this.innerSPS.mesh.dispose();
+        this.SPS.mesh.dispose();
         this.mesh1.dispose();
+        this.SPS.dispose();
+        this.SPS = null; // tells the GC the reference can be cleaned up also
+
         this.scene.unregisterBeforeRender(this.beforeRender);
 
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.8;
