@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { WindowRefService } from '../window-ref/window-ref.service';
 
 @Injectable({
@@ -6,7 +6,9 @@ import { WindowRefService } from '../window-ref/window-ref.service';
 })
 export class StorageService {
 
-  constructor(private windowRefService: WindowRefService) { }
+  constructor(@Inject(WindowRefService) private windowRefService: WindowRefService) {
+    console.log('Storage Service Constructor');
+   }
 
   loadOptions() {
     const retrievedOptions = this.windowRefService.localStore.getItem('options');

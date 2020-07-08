@@ -16,16 +16,15 @@ export class SplashScreenComponent {
 
   constructor(
     @Inject(OptionsService) private optionsService: OptionsService,
-    public messageService: MessageService
-  ) { }
+    @Inject(MessageService) public messageService: MessageService
+  ) {     console.log('In Splash Component constructor');
+}
 
   splashScreenOK() {
-    // this.optionsService.toggleOption('showPlayer');
-    // this.optionsService.toggleOption('showSplash');
     this.optionsService.toggleState('showPlayer');
     this.optionsService.toggleState('showSplash');
     this.optionsService.currentVisual = 0;
-    this.optionsService.toggleVisualRadio('blockPlaneManager', 4);
+    this.optionsService.toggleVisualRadio('blockPlaneManager', 0);
 
     this.messageService.announceMessage('scene change');
 

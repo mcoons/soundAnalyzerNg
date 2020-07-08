@@ -1,5 +1,5 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Subscription, Observable, fromEvent } from 'rxjs';
 
 import { MessageService } from '../message/message.service';
@@ -12,8 +12,8 @@ export class OptionsService {
 
   env = 'prod'; // dev or prod
 
-  resizeObservable$: Observable<Event>;
-  resizeSubscription$: Subscription;
+  resizeObservable: Observable<Event>;
+  resizeSubscription: Subscription;
 
   visuals = [
     'blockPlaneManager',
@@ -56,15 +56,15 @@ export class OptionsService {
       label: 'Show Waveform',
       value: false
     },
-    waveformDelay: {
-      group: 'General',
-      type: 'waveslider',
-      label: 'Waveform Delay',
-      value: 1,
-      min: 1,
-      max: 5,
-      step: 1
-    },
+    // waveformDelay: {
+    //   group: 'General',
+    //   type: 'waveslider',
+    //   label: 'Waveform Delay',
+    //   value: 1,
+    //   min: 1,
+    //   max: 5,
+    //   step: 1
+    // },
     waveformMultiplier: {
       group: 'General',
       type: 'waveslider',
@@ -519,11 +519,13 @@ export class OptionsService {
   };
 
   constructor(
-    public messageService: MessageService,
-    public storageService: StorageService,
+    @Inject(MessageService) public messageService: MessageService,
+    @Inject(StorageService) public storageService: StorageService,
   ) {
-    this.resizeObservable$ = fromEvent(window, 'resize');
-    this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
+    console.log('Options Service Constructor');
+
+    this.resizeObservable = fromEvent(window, 'resize');
+    this.resizeSubscription = this.resizeObservable.subscribe(evt => {
       this.windowResize();
     });
 
@@ -645,7 +647,7 @@ export class OptionsService {
   }
 
   windowResize() {
-    const playerDiv = document.getElementById('playerDIV') as HTMLElement;
+    const playerDiv = document.getElementById('playerDiv') as HTMLElement;
     if (playerDiv == null) {
       return;
     }
@@ -790,6 +792,7 @@ export class OptionsService {
   set currentVisual(value: number) {
     this.state.currentVisual.value = value;
     this.storageService.saveOptions(this.options);
+
   }
 
   // get blockPlaneManager(): boolean {

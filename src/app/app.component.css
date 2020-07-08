@@ -1,3 +1,4 @@
+
 #main, #optionsContainer  {
     padding:0px;
     height: 100vh;
@@ -38,7 +39,6 @@
             align-items: center;    
     z-index: 500;
     text-align: center;
-
 }
 
 button {

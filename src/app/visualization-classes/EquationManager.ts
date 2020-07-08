@@ -32,6 +32,15 @@ export class EquationManager {
     private scalingDenom;
     private radius;
 
+    private y;
+    private c;
+
+    private ringIndex;
+    private ring;
+    private theta;
+    private musicIndex;
+
+
     constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
         this.scene = scene;
@@ -103,25 +112,28 @@ export class EquationManager {
 
         this.SPS.updateParticle = (particle) => {
 
-            const ringIndex = particle.idx % 64;
-            const ring = Math.floor(particle.idx / 64);
+            this.ringIndex = particle.idx % 64;
+            this.ring = Math.floor(particle.idx / 64);
 
-            const theta = ringIndex * Math.PI / 32;
+            this.theta = this.ringIndex * Math.PI / 32;
 
-            const musicIndex = particle.idx;
+            this.musicIndex = particle.idx;
 
-            let y = this.audioService.sample1[musicIndex];
-            y = (y / 200 * y / 200) * 255;
+            this.y = this.audioService.sample1[this.musicIndex];
+            this.y = (this.y / 200 * this.y / 200) * 255;
 
-            particle.position.x = (1 + .15 * ring) * this.radius * Math.cos(theta + this.thetaDelta);
-            particle.position.z = (1 + .15 * ring) * this.radius * Math.sin(theta + this.thetaDelta);
-            particle.position.y = (1 - .15 * ring) * this.radius * Math.sin(theta + this.thetaDelta) * Math.cos(theta + this.thetaDelta);
+            particle.position.x = (1 + .15 * this.ring) * this.radius * Math.cos(this.theta + this.thetaDelta);
+            particle.position.z = (1 + .15 * this.ring) * this.radius * Math.sin(this.theta + this.thetaDelta);
+            // tslint:disable-next-line: max-line-length
+            particle.position.y = (1 - .15 * this.ring) * this.radius * Math.sin(this.theta + this.thetaDelta) * Math.cos(this.theta + this.thetaDelta);
 
-            particle.color.r = this.colorsService.colors(y).r / 255;
-            particle.color.g = this.colorsService.colors(y).g / 255;
-            particle.color.b = this.colorsService.colors(y).b / 255;
+            this.c = this.colorsService.colors(this.y);
 
-            particle.scaling.y = 1 + y / this.scalingDenom;
+            particle.color.r = this.c.r / 255;
+            particle.color.g = this.c.g / 255;
+            particle.color.b = this.c.b / 255;
+
+            particle.scaling.y = 1 + this.y / this.scalingDenom;
 
         };
 
@@ -151,11 +163,11 @@ export class EquationManager {
     }
 
     remove() {
-
         this.SPS.mesh.dispose();
         this.mesh.dispose();
+        this.SPS.dispose();
+        this.SPS = null; // tells the GC the reference can be cleaned up also
         this.scene.unregisterBeforeRender(this.beforeRender);
-
     }
 
 }

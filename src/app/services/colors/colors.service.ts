@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, OnDestroy } from '@angular/core';
 
 // import { MessageService } from '../message/message.service';
 // import { AudioService } from '../audio/audio.service';
@@ -8,56 +8,50 @@ import { OptionsService } from '../options/options.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ColorsService {
-
-  // private audioService: AudioService;
-  // private optionsService: OptionsService;
-  // private messageService: MessageService;
-  // private engineService: EngineService;
+export class ColorsService implements OnDestroy {
 
   colorTime = 0;
   colorTimeInc = .016;
   startingColorSet = 0;
   endingColorSet = 1;
+  randnum;
+
+  private interval;
 
   constructor(
-    // public audioService: AudioService,
-    private optionsService: OptionsService
-    // public messageService: MessageService,
-    // public engineService: EngineService
+    @Inject(OptionsService) private optionsService: OptionsService
   ) {
-    // this.audioService = audioService;
-    // this.optionsService = optionsService;
-    // this.messageService = messageService;
-    // this.engineService = engineService;
+    console.log('Color Service Constructor');
 
-    setInterval(() => {
-      let randnum;
+    this.interval = setInterval(() => {
       this.colorTime += this.colorTimeInc;
 
       if (this.colorTime >= 1) {
         this.colorTime = 1;
         this.colorTimeInc *= -1;
         do {
-          randnum = Math.floor(Math.random() * 11);
-        } while (randnum === this.startingColorSet ||
-          randnum === this.endingColorSet);
-        this.startingColorSet = randnum;
+          this.randnum = Math.floor(Math.random() * 11);
+        } while (this.randnum === this.startingColorSet ||
+          this.randnum === this.endingColorSet);
+        this.startingColorSet = this.randnum;
       }
 
       if (this.colorTime <= 0) {
         this.colorTime = 0;
         this.colorTimeInc *= -1;
         do {
-          randnum = Math.floor(Math.random() * 11);
-        } while (randnum === this.startingColorSet ||
-          randnum === this.endingColorSet);
-        this.endingColorSet = randnum;
+          this.randnum = Math.floor(Math.random() * 11);
+        } while (this.randnum === this.startingColorSet ||
+          this.randnum === this.endingColorSet);
+        this.endingColorSet = this.randnum;
       }
 
-    }, 128);
+    }, 500);  // 128
   }
 
+  ngOnDestroy() {
+    clearInterval( this.interval );
+  }
 
 
   colors(yy) {
@@ -97,23 +91,6 @@ export class ColorsService {
       { r: 255 - (200 - yy * 2), g: 255 - (128 - yy / 2), b: 255 - yy }
     ];
 
-    // const getOptionColor = (name, c) => {
-    //   const val = this.optionsService.options[name].value;
-
-    //   if (c === 'r') {
-    //     return (val.substring(1, 3));
-    //   }
-
-    //   if (c === 'g') {
-    //     return (val.substring(3, 5));
-    //   }
-
-    //   if (c === 'b') {
-    //     return (val.substring(5));
-    //   }
-
-    // };
-
     if (this.optionsService.options.customColors.value === false) {
       r = colorSets[this.startingColorSet].r +
         (colorSets[this.endingColorSet].r - colorSets[this.startingColorSet].r) *
@@ -126,34 +103,6 @@ export class ColorsService {
         this.colorTime;
     } else {
 
-      // if (yy <= midLoc) {
-      //   r = parseInt(getOptionColor('minColor', 'r'), 16) +
-      //     (parseInt(getOptionColor('midColor', 'r'), 16) -
-      //       parseInt(getOptionColor('minColor', 'r'), 16)) *
-      //     yy / midLoc;
-      //   g = parseInt(getOptionColor('minColor', 'g'), 16) +
-      //     (parseInt(getOptionColor('midColor', 'g'), 16) -
-      //       parseInt(getOptionColor('minColor', 'g'), 16)) *
-      //     yy / midLoc;
-      //   b = parseInt(getOptionColor('minColor', 'b'), 16) +
-      //     (parseInt(getOptionColor('midColor', 'b'), 16) -
-      //       parseInt(getOptionColor('minColor', 'b'), 16)) *
-      //     yy / midLoc;
-      // } else {
-      //   r = parseInt(getOptionColor('midColor', 'r'), 16) +
-      //     (parseInt(getOptionColor('maxColor', 'r'), 16) -
-      //       parseInt(getOptionColor('midColor', 'r'), 16)) *
-      //     (yy - midLoc) / (255 - midLoc);
-      //   g = parseInt(getOptionColor('midColor', 'g'), 16) +
-      //     (parseInt(getOptionColor('maxColor', 'g'), 16) -
-      //       parseInt(getOptionColor('midColor', 'g'), 16)) *
-      //     (yy - midLoc) / (255 - midLoc);
-      //   b = parseInt(getOptionColor('midColor', 'b'), 16) +
-      //     (parseInt(getOptionColor('maxColor', 'b'), 16) -
-      //       parseInt(getOptionColor('midColor', 'b'), 16)) *
-      //     (yy - midLoc) / (255 - midLoc);
-      // }
-
       if (yy <= midLoc) {
         r = minR + (midR - minR) * yy / midLoc;
         g = minG + (midG - minG) * yy / midLoc;
@@ -163,7 +112,6 @@ export class ColorsService {
         g = midG + (maxG - midG) * (yy - midLoc) / (255 - midLoc);
         b = midB + (maxB - midB) * (yy - midLoc) / (255 - midLoc);
       }
-
 
     }
     return { r, g, b };

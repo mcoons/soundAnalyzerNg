@@ -17,6 +17,8 @@ export class CubeManager {
     private mesh;
     private mat;
 
+    private y;
+
     constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
         this.scene = scene;
@@ -83,18 +85,23 @@ export class CubeManager {
         this.SPS.mesh.hasVertexAlpha = true;
 
         this.SPS.updateParticle = (particle) => {
-            let yy = this.audioService.sample1[particle.idx] * 1.05;
-            yy = (yy / 155 * yy / 155) * 255;
+            this.y = this.audioService.sample1[particle.idx] * 1.05;
+            this.y = (this.y / 155 * this.y / 155) * 255;
 
-            particle.scaling.x = yy / 160;
-            particle.scaling.y = yy / 160;
-            particle.scaling.z = yy / 160;
+            particle.scaling.x = this.y / 160;
+            particle.scaling.y = this.y / 160;
+            particle.scaling.z = this.y / 160;
 
-            const r = yy * map(particle.position.x, -360, 360, .2, .9) / 255;
-            const g = yy * map(particle.position.y, -240, 400, .2, .9) / 255;
-            const b = yy * map(particle.position.z, -280, 280, .2, .9) / 255;
+            // const r = this.y * map(particle.position.x, -360, 360, .2, 1) / 255;
+            // const g = this.y * map(particle.position.y, -240, 400, .2, 1) / 255;
+            // const b = this.y * map(particle.position.z, -280, 280, .2, 1) / 255;
 
-            particle.color = new BABYLON.Color4(r, g, b, ((yy / 255) * (yy / 255)) / 2);
+            // particle.color = new BABYLON.Color4(r, g, b, 1 - ((this.y / 255) * (this.y / 255)) / 255);
+            // particle.color = new BABYLON.Color4(r, g, b, 1 - this.y / 255);
+            particle.color.r = this.y * map(particle.position.x, -360, 360, .2, 1) / 255;
+            particle.color.g = this.y * map(particle.position.y, -240, 400, .2, 1) / 255;
+            particle.color.b = this.y * map(particle.position.z, -280, 280, .2, 1) / 255;
+            particle.color.a =  1 - this.y / 255;
         };
     }
 
@@ -103,6 +110,8 @@ export class CubeManager {
     remove() {
         this.SPS.mesh.dispose();
         this.mesh.dispose();
+        this.SPS.dispose();
+        this.SPS = null; // tells the GC the reference can be cleaned up also
         this.scene.unregisterBeforeRender(this.beforeRender);
     }
 }

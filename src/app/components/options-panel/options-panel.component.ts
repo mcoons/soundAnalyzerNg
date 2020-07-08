@@ -1,16 +1,9 @@
 
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-
+import { Component, OnInit, OnDestroy, ViewEncapsulation, Inject } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { OptionsService } from '../../services/options/options.service';
 import { MessageService } from '../../services/message/message.service';
-import { Subscription } from 'rxjs';
-
 import { AudioService } from '../../services/audio/audio.service';
-
-// import {MatTooltipModule} from '@angular/material/tooltip';
-// import {TooltipPosition} from '@angular/material/tooltip';
-// import {MatExpansionModule} from '@angular/material/expansion';
-
 
 @Component({
   selector: 'app-options-panel',
@@ -23,17 +16,18 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   objectKeys = Object.keys;
 
-  private subscription: Subscription;
+  // private subscription: Subscription;
 
   constructor(
-    public optionsService: OptionsService,
-    public audioService: AudioService,
-    private messageService: MessageService) {
+    @Inject(OptionsService) public optionsService: OptionsService,
+    @Inject(AudioService) public audioService: AudioService,
+    @Inject(MessageService) private messageService: MessageService
+  ) {
 
-    this.subscription = messageService.messageAnnounced$.subscribe(
-      message => {
-        // console.log('Options Panel: Message received from service is :  ' + message);
-      });
+    // this.subscription = messageService.messageAnnounced$.subscribe(
+    //   message => {
+    //     // console.log('Options Panel: Message received from service is :  ' + message);
+    //   });
 
   }
 
@@ -55,6 +49,8 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   radioChange(e) {
     this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
     this.optionsService.updateState('currentVisual', e.target.value);
+    this.messageService.announceMessage('scene change');
+
   }
 
   // colorChange(e) {
@@ -106,6 +102,6 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 }

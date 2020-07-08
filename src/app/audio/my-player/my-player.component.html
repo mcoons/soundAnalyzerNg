@@ -1,5 +1,5 @@
 
-<div id="playerDIV"
+<div #playerDiv id="playerDiv"
 [@playerOpenClose]="this.optionsService.renderPlayer == true ? 'playerOpen' : 'playerClosed'">
 <!-- <button id="playerHideBtn" *ngIf = "this.optionsService.getOptions().showSplash.value == false" (click)="this.togglePlayer()"> -->
 <button id="playerHideBtn" *ngIf = "this.optionsService.showSplash == false" (click)="this.togglePlayer()">
@@ -56,11 +56,11 @@
 
   </div>
       <div id="originalFileInputWrapper">
-        <input id="fileInput" (change)="fileChangeEvent($event)" placeholder="Upload file..." type="file"
+        <input #fileInput id="fileInput" (change)="fileChangeEvent($event)" placeholder="Upload file..." type="file"
           accept="audio/mpeg" multiple />
       </div>
   
       <div id="originalAudioWrapper">
-        <audio id="audio" class="button" autoplay controls>The Audio Element is not supported on this device!</audio>
+        <audio #audio id="audio" class="button" autoplay controls>The Audio Element is not supported on this device!</audio>
       </div>
 </div>

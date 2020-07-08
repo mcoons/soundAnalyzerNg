@@ -1,15 +1,8 @@
 
-import { Component, OnInit } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
+import { Component, Inject } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 import { OptionsService } from './services/options/options.service';
-import { MessageService } from './services/message/message.service';
 
 @Component({
   selector: 'app-root',
@@ -51,22 +44,15 @@ import { MessageService } from './services/message/message.service';
   ]
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent  {
   private _title = 'MP3 Visualyzer Ng';
 
-  constructor(public optionsService: OptionsService, public messageService: MessageService) {
-
-    messageService.messageAnnounced$.subscribe(
-      message => {
-        // console.log('Audio Player: Message received from service is :  ' + message);
-      });
-  }
+  constructor(
+    @Inject(OptionsService) public optionsService: OptionsService
+  ) { }
 
   get title() {
     return this._title;
-  }
-
-  ngOnInit() {
   }
 
   togglePanel() {

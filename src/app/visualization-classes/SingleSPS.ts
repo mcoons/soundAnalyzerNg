@@ -6,9 +6,9 @@ import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
 import { map } from '../visualization-classes/utilities.js';
-// import { prepareSyntheticListenerFunctionName } from '@angular/compiler/src/render3/util';
+import { Inject, OnDestroy } from '@angular/core';
 
-export class SingleSPS {
+export class SingleSPS implements OnDestroy {
 
     private scene: BABYLON.Scene;
     private audioService: AudioService;
@@ -50,6 +50,7 @@ export class SingleSPS {
     private conTimeout = null;
 
     private theta;
+    ptsOnSphere = [];
 
     constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
@@ -80,10 +81,13 @@ export class SingleSPS {
 
         this.setDefaults();
 
+        this.genPointsOnSphere(576);
+
         this.scene.registerBeforeRender(this.beforeRender);
         setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
 
     }
+
 
     SPSFunctions = [
 
@@ -98,20 +102,14 @@ export class SingleSPS {
                 return new BABYLON.Vector3(x, y, z);
             },
             scaling: (particle, yy) => {
-                const x = 2.5;
-                const y = 15 * yy / 255 + .5;
-                const z = 9;
-                return new BABYLON.Vector3(x, y, z);
+                return new BABYLON.Vector3(2.5, 15 * yy / 255 + .5, 9);
             },
             rotation: (particle, yy) => {
                 return new BABYLON.Vector3(0, 0, 0);
             },
             color: (particle, yy) => {
-                const r = this.colorsService.colors(yy).r / 255;
-                const g = this.colorsService.colors(yy).g / 255;
-                const b = this.colorsService.colors(yy).b / 255;
-                const a = 1;
-                return new BABYLON.Color4(r, g, b, a);
+                const c = this.colorsService.colors(yy);
+                return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
             },
             spsRotation: () => {
                 return new BABYLON.Vector3(0, 0, 0);
@@ -136,11 +134,8 @@ export class SingleSPS {
                 return new BABYLON.Vector3(0, 0, 0);
             },
             color: (particle, yy) => {
-                const r = this.colorsService.colors(yy).r / 255;
-                const g = this.colorsService.colors(yy).g / 255;
-                const b = this.colorsService.colors(yy).b / 255;
-                const a = 1;
-                return new BABYLON.Color4(r, g, b, a);
+                const c = this.colorsService.colors(yy);
+                return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
             },
             spsRotation: () => {
                 return new BABYLON.Vector3(0, -this.rotation, 0);
@@ -172,11 +167,8 @@ export class SingleSPS {
                 return new BABYLON.Vector3(0, -gtheta, 0);
             },
             color: (particle, yy) => {
-                const r = this.colorsService.colors(yy).r / 255;
-                const g = this.colorsService.colors(yy).g / 255;
-                const b = this.colorsService.colors(yy).b / 255;
-                const a = 1;
-                return new BABYLON.Color4(r, g, b, a);
+                const c = this.colorsService.colors(yy);
+                return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
             },
             spsRotation: () => {
                 return new BABYLON.Vector3(0, this.rotation, 0);
@@ -208,11 +200,8 @@ export class SingleSPS {
                 return new BABYLON.Vector3(0, 0, 0);
             },
             color: (particle, yy) => {
-                const r = this.colorsService.colors(yy).r / 255;
-                const g = this.colorsService.colors(yy).g / 255;
-                const b = this.colorsService.colors(yy).b / 255;
-                const a = 1;
-                return new BABYLON.Color4(r, g, b, a);
+                const c = this.colorsService.colors(yy);
+                return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
             },
             spsRotation: () => {
                 return new BABYLON.Vector3(0, this.rotation, 0);
@@ -236,38 +225,19 @@ export class SingleSPS {
                 return new BABYLON.Vector3(x, y, z);
             },
             scaling: (particle, yy) => {
-                const x = 5;
-                const z = 5;
-                const y = 20 * yy / 255 + 1;
-                return new BABYLON.Vector3(x, y, z);
+                return new BABYLON.Vector3(5, 20 * yy / 255 + 1, 5);
             },
             rotation: (particle, yy) => {
                 return new BABYLON.Vector3(0, 0, 0);
             },
             color: (particle, yy) => {
-                const r = this.colorsService.colors(yy).r / 255;
-                const g = this.colorsService.colors(yy).g / 255;
-                const b = this.colorsService.colors(yy).b / 255;
-                const a = 1;
-                return new BABYLON.Color4(r, g, b, a);
+                const c = this.colorsService.colors(yy);
+                return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
             },
             spsRotation: () => {
                 return new BABYLON.Vector3(0, 2 * this.rotation, 0);
             },
             mainUpdate: () => {
-                // if (this.optionsService.animateCamera) {
-                //     this.cameraBeta = Math.PI * (Math.sin(this.cameraDelta) / 2 + .5);
-
-                //     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = this.cameraBeta;
-
-                //     this.cameraDelta += .001;
-                //     if (this.cameraDelta > this.TwoPI) {
-                //         this.cameraDelta -= this.TwoPI;
-                //     }
-                // }
-
-                // this.mesh.rotation.y += .01;
-
                 this.thetaDelta += .011;
                 if (this.thetaDelta > this.TwoPI) {
                     this.thetaDelta -= this.TwoPI;
@@ -282,7 +252,6 @@ export class SingleSPS {
                 let z;
                 let y;
                 const gtheta = this.TwoPId576 * particle.idx;
-                // const radius = Math.sqrt(Math.abs (9 * Math.sin(2.5 * gtheta  ) ) )
                 const radius = Math.sqrt(Math.abs(10 * Math.sin(2 * gtheta)));
                 if (particle.idx % 2) {
                     x = 30 * radius * Math.cos(gtheta);
@@ -297,7 +266,6 @@ export class SingleSPS {
                 } else {
                     y = 20 * Math.sin(-4 * gtheta);
                 }
-                // y = 0;
                 return new BABYLON.Vector3(x, y, z);
             },
             scaling: (particle, yy) => {
@@ -307,15 +275,11 @@ export class SingleSPS {
                 return new BABYLON.Vector3(0, 0, 0);
             },
             color: (particle, yy) => {
-                const r = this.colorsService.colors(yy).r / 255;
-                const g = this.colorsService.colors(yy).g / 255;
-                const b = this.colorsService.colors(yy).b / 255;
-                const a = 1;
-                return new BABYLON.Color4(r, g, b, a);
+                const c = this.colorsService.colors(yy);
+                return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
             },
             spsRotation: () => {
                 return new BABYLON.Vector3(0, -this.rotation, 0);
-                // return new BABYLON.Vector3(0, 0, 0);
             },
             mainUpdate: () => {
 
@@ -331,10 +295,7 @@ export class SingleSPS {
                 return new BABYLON.Vector3(x, y, z);
             },
             scaling: (particle, yy) => {
-                const x = yy / 20;
-                const y = yy / 20;
-                const z = yy / 20;
-                return new BABYLON.Vector3(x, y, z);
+                return new BABYLON.Vector3(yy / 20, yy / 20, yy / 20);
             },
             rotation: (particle, yy) => {
                 return new BABYLON.Vector3(0, 0, 0);
@@ -343,7 +304,6 @@ export class SingleSPS {
                 const r = yy * map(particle.position.x, -80, 80, 0, 1) / 255;
                 const g = yy * map(particle.position.y, -70, 70, 0, 1) / 255;
                 const b = yy * map(particle.position.z, -70, 70, 0, 1) / 255;
-                // const a = 1 - (yy / 255);
                 const a = 1 - ((yy / 255) * (yy / 255)) + .1;
                 return new BABYLON.Color4(r, g, b, a);
             },
@@ -354,7 +314,55 @@ export class SingleSPS {
 
         },
 
+        // Sphere
+        {
+            position: (particle) => {
+                return this.ptsOnSphere[particle.idx].position;
+            },
+            scaling: (particle, yy) => {
+                return new BABYLON.Vector3(.5 + yy / 60, .5 + yy / 60, .5 + yy / 30);
+            },
+            rotation: (particle, yy) => {
+                return this.ptsOnSphere[particle.idx].rotation;
+            },
+            color: (particle, yy) => {
+                const c = this.colorsService.colors(yy);
+                return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
+            },
+            spsRotation: () => {
+                return new BABYLON.Vector3(Math.PI / 2, this.rotation, 0);
+            },
+            mainUpdate: () => {
 
+            }
+        },
+
+        // Pole
+        {
+            position: (particle) => {
+                return new BABYLON.Vector3(
+                    Math.sin((particle.idx / 576) * Math.PI * 4) * 40,
+                    (particle.idx - 576 / 2) / 3,
+                    Math.cos((particle.idx / 576) * Math.PI * 4) * 40
+                );
+            },
+            scaling: (particle, yy) => {
+                return new BABYLON.Vector3(yy / 10 + 1, .2, yy / 10 + 1);
+            },
+            rotation: (particle, yy) => {
+                return new BABYLON.Vector3(0, Math.sin((particle.idx / 576) * Math.PI * 4), 0);
+            },
+            color: (particle, yy) => {
+                const c = this.colorsService.colors(yy);
+                return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
+            },
+            spsRotation: () => {
+                return new BABYLON.Vector3(0, this.rotation * 3, 0);
+            },
+            mainUpdate: () => {
+
+            }
+        }
 
         // // Thing
         // {
@@ -424,6 +432,11 @@ export class SingleSPS {
             this.nextSPS = this.nextSPS === this.SPSFunctions.length - 1 ? 0 : this.nextSPS + 1;
             this.expTimeout = setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
         }, 5000);
+    }
+
+
+    ngOnDestroy() {
+        this.remove();
     }
 
     beforeRender = () => {
@@ -496,63 +509,62 @@ export class SingleSPS {
                     this.SPSFunctions[this.nextSPS].scaling(particle, y),
                     this.expTimer);
 
+                particle.rotation = BABYLON.Vector3.Lerp(
+                    this.SPSFunctions[this.currentSPS].rotation(particle, y),
+                    this.SPSFunctions[this.nextSPS].rotation(particle, y),
+                    this.expTimer);
 
                 particle.color = BABYLON.Color4.Lerp(
                     this.SPSFunctions[this.currentSPS].color(particle, y),
                     this.SPSFunctions[this.nextSPS].color(particle, y),
                     this.expTimer);
 
-                particle.rotation = BABYLON.Vector3.Lerp(
-                    this.SPSFunctions[this.currentSPS].rotation(particle, y),
-                    this.SPSFunctions[this.nextSPS].rotation(particle, y),
-                    this.expTimer);
-
             } else
-            if (this.contracting) {
+                if (this.contracting) {
 
-                try {
-                    particle.position = BABYLON.Vector3.Lerp(
-                        particle.expLoc,
-                        this.SPSFunctions[this.nextSPS].position(particle, y),
-                        this.conTimer);
-                } catch (err) {
-                    // tslint:disable-next-line: no-unused-expression
-                    null;
-                    // console.log(err);
-                    // console.log(particle);
-                    // console.log(particle.expLoc);
-                    // console.log(this.conTimer);
-                    // console.log(this.currentSPS);
-                    // console.log(this.nextSPS);
-                    // console.log(this.SPSFunctions[this.nextSPS].position(particle, y));
+                    try {
+                        particle.position = BABYLON.Vector3.Lerp(
+                            particle.expLoc,
+                            this.SPSFunctions[this.nextSPS].position(particle, y),
+                            this.conTimer);
+                    } catch (err) {
+                        // tslint:disable-next-line: no-unused-expression
+                        null;
+                        // console.log(err);
+                        // console.log(particle);
+                        // console.log(particle.expLoc);
+                        // console.log(this.conTimer);
+                        // console.log(this.currentSPS);
+                        // console.log(this.nextSPS);
+                        // console.log(this.SPSFunctions[this.nextSPS].position(particle, y));
+                    }
+
+                    particle.scaling = this.SPSFunctions[this.nextSPS].scaling(particle, y);
+
+                    this.SPSFunctions[this.nextSPS].rotation(particle, y);
+
+                    const color = this.SPSFunctions[this.nextSPS].color(particle, y);
+                    particle.color.r = color.r;
+                    particle.color.g = color.g;
+                    particle.color.b = color.b;
+                    particle.color.a = color.a;
+
+                } else {
+                    if ('expLoc' in particle) {
+                        delete particle.expLoc;
+                    }
+
+                    particle.scaling = this.SPSFunctions[this.currentSPS].scaling(particle, y);
+                    particle.position = this.SPSFunctions[this.currentSPS].position(particle, y);
+                    particle.rotation = this.SPSFunctions[this.currentSPS].rotation(particle, y);
+
+                    const color = this.SPSFunctions[this.currentSPS].color(particle, y);
+                    particle.color.r = color.r;
+                    particle.color.g = color.g;
+                    particle.color.b = color.b;
+                    particle.color.a = color.a;
+
                 }
-
-                particle.scaling = this.SPSFunctions[this.nextSPS].scaling(particle, y);
-
-                const color = this.SPSFunctions[this.nextSPS].color(particle, y);
-                particle.color.r = color.r;
-                particle.color.g = color.g;
-                particle.color.b = color.b;
-                particle.color.a = color.a;
-
-                this.SPSFunctions[this.nextSPS].rotation(particle, y);
-
-            } else {
-                if ('expLoc' in particle) {
-                    delete particle.expLoc;
-                }
-
-                particle.scaling = this.SPSFunctions[this.currentSPS].scaling(particle, y);
-                particle.position = this.SPSFunctions[this.currentSPS].position(particle, y);
-                const color = this.SPSFunctions[this.currentSPS].color(particle, y);
-                particle.color.r = color.r;
-                particle.color.g = color.g;
-                particle.color.b = color.b;
-                particle.color.a = color.a;
-
-                particle.rotation = this.SPSFunctions[this.currentSPS].rotation(particle, y);
-
-            }
         };
     }
 
@@ -568,11 +580,11 @@ export class SingleSPS {
                 this.SPSFunctions[this.nextSPS].spsRotation(),
                 this.expTimer);
         } else
-        if (this.contracting) {
-            this.SPS.mesh.rotation = this.SPSFunctions[this.nextSPS].spsRotation();
-        } else {
-            this.SPS.mesh.rotation = this.SPSFunctions[this.currentSPS].spsRotation();
-        }
+            if (this.contracting) {
+                this.SPS.mesh.rotation = this.SPSFunctions[this.nextSPS].spsRotation();
+            } else {
+                this.SPS.mesh.rotation = this.SPSFunctions[this.currentSPS].spsRotation();
+            }
 
         this.SPSFunctions[this.currentSPS].mainUpdate();
     }
@@ -584,7 +596,45 @@ export class SingleSPS {
         clearTimeout(this.expTimeout);
         this.SPS.mesh.dispose();
         this.mesh.dispose();
+        this.SPS.dispose();
+        this.SPS = null; // tells the GC the reference can be cleaned up also
         this.scene.unregisterBeforeRender(this.beforeRender);
     }
+
+
+    genPointsOnSphere(numberOfPoints) {
+
+        const dlong = Math.PI * (3 - Math.sqrt(5));
+        const dz = 2 / numberOfPoints;
+        let long = 0;
+        let z = 1 - dz / 2;
+        const rScale = 50;
+
+        const master = BABYLON.MeshBuilder.CreateBox(('box'), {
+            height: 1,
+            width: 1,
+            depth: 1
+        }, this.scene);
+
+        const origin = new BABYLON.Vector3(0, 0, 0);
+
+        for (let k = 0; k <= numberOfPoints; k++) {
+            const r = Math.sqrt(1 - z * z);
+            const ptNew = new BABYLON.Vector3(Math.cos(long) * r * rScale, Math.sin(long) * r * rScale, z * rScale);
+
+            master.position = ptNew;
+            master.lookAt(origin);
+            const mr = new BABYLON.Vector3(master.rotation.x, master.rotation.y, master.rotation.z);
+
+            this.ptsOnSphere.push({ position: ptNew, rotation: mr });
+
+            z = z - dz;
+            long = long + dlong;
+        }
+
+        master.dispose();
+
+    }
+
 
 }

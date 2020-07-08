@@ -28,15 +28,15 @@ import { SingleSPS } from '../../visualization-classes/SingleSPS';
 @Injectable({ providedIn: 'root' })
 export class EngineService {
   private canvas: HTMLCanvasElement;
-  private engine: BABYLON.Engine;
-  camera: BABYLON.ArcRotateCamera;
-  private scene: BABYLON.Scene;
+  public engine: BABYLON.Engine;
+  public camera: BABYLON.ArcRotateCamera;
+  public scene: BABYLON.Scene;
   private managerClasses;
   private managerClassIndex;
   private currentManager;
 
-  resizeObservable$: Observable<Event>;
-  resizeSubscription$: Subscription;
+  private resizeObservable$: Observable<Event>;
+  private resizeSubscription$: Subscription;
 
   private showAxis = false;
 
@@ -64,16 +64,28 @@ export class EngineService {
     public storageService: StorageService,
     public colorsService: ColorsService
   ) {
+    console.log('Engine Service Constructor');
+
+    // this.resizeObservable$ = fromEvent(window, 'resize');
+    // this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
+    //   this.engine.resize();
+    // });
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
       this.engine.resize();
+      // this.fixDpi();
+      // this.resizeCanvas();
+
     });
+
 
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         // console.log('Engine: Message received from service is :  ' + message);
-        this.selectScene(this.optionsService.currentVisual);
+        if (message === 'scene change') {
+          this.selectScene(this.optionsService.currentVisual);
+        }
       });
 
     this.managerClassIndex = this.optionsService.currentVisual;
@@ -88,13 +100,15 @@ export class EngineService {
       SpherePlaneManagerSPS,
       Rings,
       Hex,
-      WaveRibbon,
+      WaveRibbon
     ];
 
   }
 
 
   public createScene(canvas: ElementRef<HTMLCanvasElement>): void {
+    console.log('In createScene');
+
     this.canvas = canvas.nativeElement;
     this.engine = new BABYLON.Engine(this.canvas, true, { stencil: true });
 
@@ -141,12 +155,17 @@ export class EngineService {
   }
 
   public animate(): void {
+    console.log('starting animate');
     // We have to run this outside angular zones,
     // because it could trigger heavy changeDetection cycles.
     this.ngZone.runOutsideAngular(() => {
       const rendererLoopCallback = () => {
+        if (this.audioService.audio != null) {
+          this.audioService.analyzeData();
+        }
+        // this.resizeCanvas();
+        this.fixDpi();
 
-        this.resizeCanvas();
         this.currentManager.update();
         this.scene.render();
       };
@@ -166,6 +185,7 @@ export class EngineService {
   }
 
   saveCamera() {
+    console.log('in saveCamera')
 
     this.optionsService.options[this.optionsService.visuals[this.managerClassIndex]].calpha
       = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha;
@@ -181,15 +201,17 @@ export class EngineService {
   }
 
   selectScene(index) {
-    if (this.managerClassIndex === index) {
-      return;
-    }
+    console.log('in selectScene');
+    // if (this.managerClassIndex === index) {
+    //   console.log('returning from selectScene');
+    //   return;
+    // }
 
     this.saveCamera();
 
-    if (this.currentManager) {
-      this.currentManager.remove();
-    }
+    // if (this.currentManager) {
+    this.currentManager.remove();
+    // }
 
 
     this.currentManager = null;
@@ -228,6 +250,7 @@ export class EngineService {
   }
 
   showWorldAxis = (size) => {
+    console.log('in showWorldAxis');
     const makeTextPlane = (text: string, color: string, textSize: number) => {
       const dynamicTexture = new BABYLON.DynamicTexture('DynamicTexture', 50, this.scene, true);
       dynamicTexture.hasAlpha = true;
@@ -265,6 +288,7 @@ export class EngineService {
   }
 
   createHexObj() {
+    console.log('in createHexObj');
 
     this.hexParent = new BABYLON.TransformNode('root');
 
