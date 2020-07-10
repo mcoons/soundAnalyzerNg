@@ -129,7 +129,8 @@
         </mat-expansion-panel-header>
 
         <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.getOptions())">
-          <ng-container *ngIf="this.optionsService.getOptions()[option].group=='3DVisual'">
+          <ng-container *ngIf="this.optionsService.getOptions()[option].group=='3DVisual' ||
+          this.optionsService.getOptions()[option].group=='SPS'">
 
             <ng-container *ngIf="this.optionsService.getOptions()[option].type=='slider'">
               <b><label class="rangeLabel" [for]="option">{{this.optionsService.getOptions()[option].label}}
@@ -154,8 +155,22 @@
               <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
             </ng-container>
 
+
             <ng-container
-              *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && this.optionsService.getOptions()[option].label!='Custom Colors' && this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].cameraOptions === true">
+              *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
+              this.optionsService.getOptions()[option].label!='Custom Colors' && 
+              this.optionsService.getOptions()[option].label!='Animate Camera',
+              ">
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]" ng-model-options="{ getterSetter: true }">
+              <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
+            </ng-container>
+
+            <ng-container
+              *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
+              this.optionsService.getOptions()[option].label!='Custom Colors' && 
+              this.optionsService.getOptions()[option].group!='SPS' && 
+              this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].cameraOptions === true">
               <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
               <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
             </ng-container>
@@ -164,7 +179,9 @@
               *ngIf="this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].colorOptions === true">
 
               <ng-container
-                *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && this.optionsService.getOptions()[option].label!='Animate Camera'">
+                *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
+                this.optionsService.getOptions()[option].label!='Animate Camera' &&
+                this.optionsService.getOptions()[option].group!='SPS'">
                 <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
                 <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
               </ng-container>

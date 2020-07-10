@@ -24,7 +24,7 @@ export class SplashScreenComponent {
     this.optionsService.toggleState('showPlayer');
     this.optionsService.toggleState('showSplash');
     this.optionsService.currentVisual = 0;
-    this.optionsService.toggleVisualRadio('blockPlaneManager', 0);
+    this.optionsService.toggleVisualRadio('singleSPS', 0);
 
     this.messageService.announceMessage('scene change');
 
