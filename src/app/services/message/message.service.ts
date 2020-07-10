@@ -7,9 +7,9 @@ import { Subject } from 'rxjs';
 })
 export class MessageService {
 
-constructor() {
-  console.log('Message Service Constructor');
-}
+  constructor() {
+    console.log('Message Service Constructor');
+  }
 
   // Observable string sources
   private messageAnnouncedSource = new Subject<string>();

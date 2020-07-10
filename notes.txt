@@ -7,33 +7,17 @@ https://github.com/mcoons/soundAnalyzerNg
 TODO
 _______________________________________________________________________
 
-Understand and fix resize events - fixDPI doesnt need to be run each frame
-Add OnResize events to canvas 
-getElementById needs replaced
+Flesh out Exploding SPS options in panel
+Add camera positioning to Exploding SPS (remove use interaction?)
+Fix camera options for things
 
+Add OnResize events to canvas 
 
 Separate default options from current/player options;
 Implement Star Zooming
 Implement 2D history layer in the back.
 
 Fix playlist selection button highlight when canceling coming from mic
-
-Add camera positioning to Exploding SPS (remove use interaction?)
-
-Flesh out Exploding SPS options in panel
-
-Remove single visuals?
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -42,7 +26,6 @@ Check for CSS cross browser changes
 Make the main player size constant
 Add sin() to camera movement on eq visual
 Clean up messaging.
-Implement @ViewChild instead of getElementById
 Pick a library to use and update code - Bootstrap, BootstrapNg, Material 
 Make variables private and assign types where possible
 Do something cool with Title

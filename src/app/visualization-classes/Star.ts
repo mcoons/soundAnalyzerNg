@@ -91,8 +91,8 @@ export class Star extends BaseObject {
         }
 
         this.mesh = BABYLON.MeshBuilder.CreateRibbon('ribbon',
-        { pathArray: this.paths, sideOrientation: BABYLON.Mesh.DOUBLESIDE, updatable: true },
-        this.scene);
+            { pathArray: this.paths, sideOrientation: BABYLON.Mesh.DOUBLESIDE, updatable: true },
+            this.scene);
 
         this.mesh.material = this.material;
 
@@ -170,8 +170,8 @@ export class Star extends BaseObject {
         super.remove();
     }
 
-    setOptions( PinnerStartIndex, PouterStartIndex, PinnerSlices, PouterSlices, PinnerRadius, PouterRadius,
-                Presolution, Preflect, PxRotation, PyRotation, PzRotation) {
+    setOptions(PinnerStartIndex, PouterStartIndex, PinnerSlices, PouterSlices, PinnerRadius, PouterRadius,
+               Presolution, Preflect, PxRotation, PyRotation, PzRotation) {
         // reset other things in here too like color, reset rotations
 
         this.innerSlices = PinnerSlices ? PinnerSlices : this.innerSlices;

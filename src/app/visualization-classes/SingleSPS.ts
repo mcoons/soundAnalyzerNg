@@ -37,13 +37,16 @@ export class SingleSPS implements OnDestroy {
     private scalingDenom;
     private radius;
 
+    private subscription;
+
     private currentSPS;
     private nextSPS;
+    private moreThanOneSPS;
 
     private expanding = false;
     private contracting = false;
-    private expInt;
-    private conInt;
+    private expInterval;
+    private conInterval;
     private expTimer = 0;
     private conTimer = 0;
     private expTimeout = null;
@@ -76,16 +79,26 @@ export class SingleSPS implements OnDestroy {
         this.radius = 40;
         this.rotation = 0;
 
-        this.currentSPS = 5;
-        this.nextSPS = 6;
+        this.subscription = messageService.messageAnnounced$.subscribe(
+            message => {
+                if (message === 'sps change') {
+                    this.updateCurrentNext();
+                }
+            });
+
+        this.currentSPS = -1;
+
+        this.updateCurrentNext();
+        this.moreThanOneSPS = this.optionsService.getSelectedSPSCount() > 1;
 
         this.setDefaults();
 
         this.genPointsOnSphere(576);
 
         this.scene.registerBeforeRender(this.beforeRender);
-        setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
-
+        if (this.moreThanOneSPS) {
+            setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
+        }
     }
 
 
@@ -93,6 +106,7 @@ export class SingleSPS implements OnDestroy {
 
         // Block Plane
         {
+            name: 'blockPlane',
             position: (particle, yy) => {
                 const row = 9 - Math.floor(particle.idx / 64);
                 const column = particle.idx % 64;
@@ -119,6 +133,7 @@ export class SingleSPS implements OnDestroy {
 
         // Thing1
         {
+            name: 'thing1',
             position: (particle) => {
                 const gtheta = this.PId32 * particle.idx - this.PId2;
                 const radius = 30 + .12 * particle.idx;
@@ -147,6 +162,7 @@ export class SingleSPS implements OnDestroy {
 
         // Block Spiral
         {
+            name: 'blockSpiral',
             position: (particle) => {
                 const gtheta = this.PId32 * particle.idx;
                 const radius = 20 + .12 * particle.idx;
@@ -184,6 +200,7 @@ export class SingleSPS implements OnDestroy {
 
         // Thing2
         {
+            name: 'thing2',
             position: (particle) => {
                 const gtheta = 2 * Math.PI / 576 * particle.idx; // - this.PId2;
                 const radius = (2.5 * Math.sin(6 * (gtheta)));
@@ -213,6 +230,7 @@ export class SingleSPS implements OnDestroy {
 
         // Equation
         {
+            name: 'equation',
             position: (particle) => {
                 const ring = Math.floor(particle.idx / 64);
                 const ringIndex = particle.idx % 64;
@@ -247,6 +265,7 @@ export class SingleSPS implements OnDestroy {
 
         // Thing3
         {
+            name: 'thing3',
             position: (particle) => {
                 let x;
                 let z;
@@ -288,6 +307,7 @@ export class SingleSPS implements OnDestroy {
 
         // Cube
         {
+            name: 'cube',
             position: (particle, yy) => {
                 const z = ((particle.idx % 8) - 3.5) * 20;
                 const x = ((Math.floor(particle.idx / 8) % 9) - 4) * 20;
@@ -316,6 +336,7 @@ export class SingleSPS implements OnDestroy {
 
         // Sphere
         {
+            name: 'sphere',
             position: (particle) => {
                 return this.ptsOnSphere[particle.idx].position;
             },
@@ -330,7 +351,7 @@ export class SingleSPS implements OnDestroy {
                 return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
             },
             spsRotation: () => {
-                return new BABYLON.Vector3(Math.PI / 2, this.rotation, 0);
+                return new BABYLON.Vector3(this.PId2, this.rotation, 0);
             },
             mainUpdate: () => {
 
@@ -339,6 +360,7 @@ export class SingleSPS implements OnDestroy {
 
         // Pole
         {
+            name: 'pole',
             position: (particle) => {
                 return new BABYLON.Vector3(
                     Math.sin((particle.idx / 576) * Math.PI * 4) * 40,
@@ -364,7 +386,7 @@ export class SingleSPS implements OnDestroy {
             }
         }
 
-        // // Thing
+        // // Thing Template
         // {
         //     position: (particle) => {
         //         const gtheta = this.PId32 * particle.idx;
@@ -395,45 +417,104 @@ export class SingleSPS implements OnDestroy {
     ];
 
     private startExpanding = () => {
-        // console.log('start expanding');
+        clearInterval(this.conInterval);
+        clearTimeout(this.conTimeout);
+        clearInterval(this.expInterval);
+        clearTimeout(this.expTimeout);
+
+        if (this.optionsService.getSelectedSPSCount() === 1) {
+            return;
+        }
+
+        console.log('start expanding');
         this.theta = -Math.PI / 2;
         this.expanding = true;
+        this.contracting = false;
         this.expTimer = 0;
 
-        this.expInt = setInterval(() => {
+        this.expInterval = setInterval(() => {
             this.theta += Math.PI / 100;
             this.expTimer = (Math.sin(this.theta) / 2 + .5);
         }, 20);
 
         this.expTimeout = setTimeout(() => {
-            // console.log('expTmeout contracting = false');
-            clearInterval(this.expInt);
+            console.log('expTmeout');
+            clearInterval(this.expInterval);
             this.startContracting();
         }, 2000);
     }
 
     private startContracting = () => {
-        // console.log('start contracting');
+
+        if (this.optionsService.getSelectedSPSCount() === 1) {
+            clearInterval(this.conInterval);
+            clearTimeout(this.conTimeout);
+            clearInterval(this.expInterval);
+            clearTimeout(this.expTimeout);
+            return;
+        }
+
+        console.log('start contracting');
         this.theta = -Math.PI / 2;
         this.expanding = false;
         this.contracting = true;
         this.conTimer = 0;
 
-        this.conInt = setInterval(() => {
+        this.conInterval = setInterval(() => {
             this.theta += Math.PI / 100;
             this.conTimer = (Math.sin(this.theta) / 2 + .5);
         }, 50);
 
         this.conTimeout = setTimeout(() => {
-            // console.log('conTmeout - contracting = false');
-            clearInterval(this.conInt);
+            console.log('conTmeout');
+            clearInterval(this.conInterval);
             this.contracting = false;
             this.currentSPS = this.nextSPS;
-            this.nextSPS = this.nextSPS === this.SPSFunctions.length - 1 ? 0 : this.nextSPS + 1;
+            do {
+                this.nextSPS = this.nextSPS === this.SPSFunctions.length - 1 ? 0 : this.nextSPS + 1;
+            } while (!this.optionsService.options[this.SPSFunctions[this.nextSPS].name].value);
+
             this.expTimeout = setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
         }, 5000);
     }
 
+    updateCurrentNext = () => {
+        console.log('in updateCurrentNext');
+        this.currentSPS = this.currentSPS > 0 ? this.currentSPS - 1 : -1;
+        this.calculateCurrent();
+        this.nextSPS = this.currentSPS;
+        this.calculateNext();
+
+        if (this.moreThanOneSPS && this.optionsService.getSelectedSPSCount() === 1) {
+
+            clearInterval(this.conInterval);
+            clearTimeout(this.conTimeout);
+            clearInterval(this.expInterval);
+            clearTimeout(this.expTimeout);
+
+            this.expanding = false;
+            this.contracting = false;
+
+            this.moreThanOneSPS = false;
+
+        } else
+            if (!this.moreThanOneSPS && this.optionsService.getSelectedSPSCount() > 1) {
+                setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
+                this.moreThanOneSPS = true;
+            }
+    }
+
+    calculateCurrent = () => {
+        do {
+            this.currentSPS = this.currentSPS === this.SPSFunctions.length - 1 ? 0 : this.currentSPS + 1;
+        } while (!this.optionsService.options[this.SPSFunctions[this.currentSPS].name].value);
+    }
+
+    calculateNext = () => {
+        do {
+            this.nextSPS = this.nextSPS === this.SPSFunctions.length - 1 ? 0 : this.nextSPS + 1;
+        } while (!this.optionsService.options[this.SPSFunctions[this.nextSPS].name].value);
+    }
 
     ngOnDestroy() {
         this.remove();
@@ -563,7 +644,6 @@ export class SingleSPS implements OnDestroy {
                     particle.color.g = color.g;
                     particle.color.b = color.b;
                     particle.color.a = color.a;
-
                 }
         };
     }
@@ -590,9 +670,10 @@ export class SingleSPS implements OnDestroy {
     }
 
     remove() {
-        clearInterval(this.conInt);
+        this.subscription.unsubscribe();
+        clearInterval(this.conInterval);
         clearTimeout(this.conTimeout);
-        clearInterval(this.expInt);
+        clearInterval(this.expInterval);
         clearTimeout(this.expTimeout);
         this.SPS.mesh.dispose();
         this.mesh.dispose();
@@ -600,7 +681,6 @@ export class SingleSPS implements OnDestroy {
         this.SPS = null; // tells the GC the reference can be cleaned up also
         this.scene.unregisterBeforeRender(this.beforeRender);
     }
-
 
     genPointsOnSphere(numberOfPoints) {
 

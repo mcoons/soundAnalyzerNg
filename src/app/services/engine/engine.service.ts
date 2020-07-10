@@ -12,11 +12,11 @@ import { OptionsService } from '../options/options.service';
 import { StorageService } from '../storage/storage.service';
 import { ColorsService } from '../colors/colors.service';
 
-import { BlockPlaneManager } from '../../visualization-classes/BlockPlaneManager';
+// import { BlockPlaneManager } from '../../visualization-classes/BlockPlaneManager';
 import { SpherePlaneManagerSPS } from '../../visualization-classes/SpherePlaneManagerSPS';
-import { EquationManager } from '../../visualization-classes/EquationManager';
-import { CubeManager } from '../../visualization-classes/CubeManager';
-import { BlockSpiralManager } from '../../visualization-classes/BlockSpiralManager';
+// import { EquationManager } from '../../visualization-classes/EquationManager';
+// import { CubeManager } from '../../visualization-classes/CubeManager';
+// import { BlockSpiralManager } from '../../visualization-classes/BlockSpiralManager';
 import { StarManager } from '../../visualization-classes/StarManager';
 import { Spectrograph } from '../../visualization-classes/Spectrograph';
 import { Rings } from '../../visualization-classes/Rings';
@@ -64,25 +64,15 @@ export class EngineService {
     public storageService: StorageService,
     public colorsService: ColorsService
   ) {
-    console.log('Engine Service Constructor');
-
-    // this.resizeObservable$ = fromEvent(window, 'resize');
-    // this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
-    //   this.engine.resize();
-    // });
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
       this.engine.resize();
-      // this.fixDpi();
-      // this.resizeCanvas();
-
     });
 
 
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
-        // console.log('Engine: Message received from service is :  ' + message);
         if (message === 'scene change') {
           this.selectScene(this.optionsService.currentVisual);
         }
@@ -90,10 +80,6 @@ export class EngineService {
 
     this.managerClassIndex = this.optionsService.currentVisual;
     this.managerClasses = [
-      BlockPlaneManager,
-      BlockSpiralManager,
-      EquationManager,
-      CubeManager,
       SingleSPS,
       StarManager,
       Spectrograph,
@@ -107,7 +93,6 @@ export class EngineService {
 
 
   public createScene(canvas: ElementRef<HTMLCanvasElement>): void {
-    console.log('In createScene');
 
     this.canvas = canvas.nativeElement;
     this.engine = new BABYLON.Engine(this.canvas, true, { stencil: true });
@@ -115,8 +100,6 @@ export class EngineService {
     this.scene = new BABYLON.Scene(this.engine);
     this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
     this.scene.ambientColor = new BABYLON.Color3(.5, .5, .5);
-
-    // var postProcess = new BABYLON.FxaaPostProcess('fxaa', 1.0, null, null, this.engine, true);
 
     this.highlightLayer = new BABYLON.HighlightLayer('hl1', this.scene);
 
@@ -163,7 +146,6 @@ export class EngineService {
         if (this.audioService.audio != null) {
           this.audioService.analyzeData();
         }
-        // this.resizeCanvas();
         this.fixDpi();
 
         this.currentManager.update();
@@ -185,7 +167,6 @@ export class EngineService {
   }
 
   saveCamera() {
-    console.log('in saveCamera')
 
     this.optionsService.options[this.optionsService.visuals[this.managerClassIndex]].calpha
       = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha;
@@ -201,18 +182,10 @@ export class EngineService {
   }
 
   selectScene(index) {
-    console.log('in selectScene');
-    // if (this.managerClassIndex === index) {
-    //   console.log('returning from selectScene');
-    //   return;
-    // }
 
     this.saveCamera();
 
-    // if (this.currentManager) {
     this.currentManager.remove();
-    // }
-
 
     this.currentManager = null;
 
@@ -288,7 +261,6 @@ export class EngineService {
   }
 
   createHexObj() {
-    console.log('in createHexObj');
 
     this.hexParent = new BABYLON.TransformNode('root');
 
@@ -351,7 +323,6 @@ export class EngineService {
     hex.dispose();
 
     this.hexSPS.updateParticle = (particle) => {
-      // let yy = this.audioService.getSample()[555 - particle.idx];
       let yy = this.audioService.sample1[555 - particle.idx];
       yy = (yy / 255 * yy / 255) * 255;
 
@@ -432,4 +403,5 @@ export class EngineService {
     this.hexParent.setEnabled(false);
 
   }
+
 }

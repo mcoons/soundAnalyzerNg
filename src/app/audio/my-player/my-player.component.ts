@@ -42,11 +42,7 @@ import { MessageService } from '../../services/message/message.service';
 export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('fileInput', { static: true }) fileInput: ElementRef<HTMLInputElement>;
   @ViewChild('audio', { static: true }) audio: ElementRef<HTMLAudioElement>;
-  // @ViewChild('playerDiv', { static: false }) playerDiv: ElementRef<HTMLDivElement>;
 
-
-  // audio: HTMLAudioElement;
-  // fileInput;
   subscription: Subscription;
   siteTracks = [];
   userTracks = [];
@@ -64,7 +60,6 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         if (message === 'track change') {
-          // this.selectTrack(this.optionsService.getState().currentTrack.value);
           this.selectTrack(this.optionsService.currentTrack);
         }
         if (message === 'site list selection') {
@@ -88,7 +83,6 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         if (message === 'randomize list') {
           this.randomizeList();
         }
-        // console.log('Audio Player: Message received from service is :  ' + message);
       });
 
     this.siteTracks = [
@@ -159,10 +153,6 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // this.audio.nativeElement = document.getElementsByTagName('audio')[0] as HTMLAudioElement;
-    // this.fileInput.nativeElement = document.getElementById('fileInput');
-    // console.log('myPlayer - this.playerDiv');
-    // console.log(this.playerDiv);
 
     this.audio.nativeElement.onended = () => {
       this.nextTrack();
@@ -273,9 +263,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onSliderChangeVolume(e) {
-    this.audio.nativeElement.volume = this.optionsService.volume  / 10;
-    // this.messageService.announceMessage('volume change');
-
+    this.audio.nativeElement.volume = this.optionsService.volume / 10;
   }
 
   onSliderChangeTime(e) {
@@ -325,7 +313,6 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public fileChangeEvent(fileInput: any) {
 
-    // console.log('entered file change event');
     const newUserTracks = [];
 
     // tslint:disable-next-line: prefer-for-of

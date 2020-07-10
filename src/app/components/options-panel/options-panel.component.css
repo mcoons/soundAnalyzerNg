@@ -1,169 +1,166 @@
 .md-18 {
-    font-size: 18px !important;
+  font-size: 18px !important;
 }
-
 
 #options {
-    margin: 0px;
-    margin-right: 0;
-    margin-top: 0;
-    padding-right: 0;
-    padding-left:0;
-    padding-top:0;
-    padding-bottom:0;
-    background-color: lightgray;
-    color: black;
-    border: 5px solid #F8F2C0;
+  margin: 0px;
+  margin-right: 0;
+  margin-top: 0;
+  padding-right: 0;
+  padding-left: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  background-color: lightgray;
+  color: black;
+  border: 5px solid #F8F2C0;
 
-    -o-border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
-       border-image: -webkit-radial-gradient(#9C8355 20%, #F8F2C0) 20;
-       border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
-    box-shadow: 4px 4px 6px rgba(70, 46, 0, 0.653), 2px 2px 5px black inset;
-    height: 100%;
-    z-index:500;
+  -o-border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
+  border-image: -webkit-radial-gradient(#9C8355 20%, #F8F2C0) 20;
+  border-image: radial-gradient(#9C8355 20%, #F8F2C0) 20;
+  box-shadow: 4px 4px 6px rgba(70, 46, 0, 0.653), 2px 2px 5px black inset;
+  height: 100%;
+  z-index: 500;
 }
 
-.player, .volume {
-    text-align: center;;
+.player,
+.volume {
+  text-align: center;
+  ;
 }
 
-
-#glowContainer{
-    height: 100%;
-    margin: 5px;
-    margin-top:0;
-    margin-right:0;
-    margin-left: 0;
-    margin-bottom: 0;
-    padding: 10px;
-    overflow: auto;
+#glowContainer {
+  height: 100%;
+  margin: 5px;
+  margin-top: 0;
+  margin-right: 0;
+  margin-left: 0;
+  margin-bottom: 0;
+  padding: 10px;
+  overflow: auto;
 }
 
 .optionHeader {
-    color: white;
-    text-decoration: underline;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: center;
-    background-color: darkblue;
+  color: white;
+  text-decoration: underline;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: darkblue;
 }
 
-label, input  {
-    padding: 0;
-    margin: 0;
-    margin-left: 5px !important;
+label,
+input {
+  padding: 0;
+  margin: 0;
+  margin-left: 5px !important;
 }
 
 input[type=range] {
-    padding-bottom: -5px;
-    margin-top: 5px;
+  padding-bottom: -5px;
+  margin-top: 5px;
 }
 
 .rangeLabel {
-    padding-top: -5px !important;
-    margin-top: -5px !important;
+  padding-top: -5px !important;
+  margin-top: -5px !important;
 }
-/* input {
-    margin-left: 5px !important;
-} */
 
 #listBtnContainer {
-    padding: 5px;
+  padding: 5px;
 }
 
-.btnContainer  {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: inline-flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-around;
-    width: 100%;
+.btnContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-around;
+  width: 100%;
 }
 
 .playlistButton {
-    width: 90px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border-top: 1px solid rgb(206, 206, 206);
-    border-left: 1px solid rgb(206, 206, 206);
-    border-right: 1px solid rgb(92, 92, 92);
-    border-bottom: 1px solid rgb(92, 92, 92);
-    background-image: -webkit-linear-gradient(top left, rgb(202, 202, 202),rgb(150, 150, 150) );
-    background-image: linear-gradient(to bottom right, rgb(202, 202, 202),rgb(150, 150, 150) );
-    box-shadow: 2px 2px 3px rgba(100, 100, 100, 0.856),
-    2px 2px 2px white inset, 
+  width: 90px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border-top: 1px solid rgb(206, 206, 206);
+  border-left: 1px solid rgb(206, 206, 206);
+  border-right: 1px solid rgb(92, 92, 92);
+  border-bottom: 1px solid rgb(92, 92, 92);
+  background-image: -webkit-linear-gradient(top left, rgb(202, 202, 202), rgb(150, 150, 150));
+  background-image: linear-gradient(to bottom right, rgb(202, 202, 202), rgb(150, 150, 150));
+  box-shadow: 2px 2px 3px rgba(100, 100, 100, 0.856),
+    2px 2px 2px white inset,
     -2px -2px 2px rgb(105, 105, 105) inset;
 }
 
 .playlistButton:hover {
-    background-image: -webkit-linear-gradient(top left, rgb(223, 223, 223),rgb(167, 167, 167) );
-    background-image: linear-gradient(to bottom right, rgb(223, 223, 223),rgb(167, 167, 167) );
+  background-image: -webkit-linear-gradient(top left, rgb(223, 223, 223), rgb(167, 167, 167));
+  background-image: linear-gradient(to bottom right, rgb(223, 223, 223), rgb(167, 167, 167));
 }
 
 .track {
-    white-space: nowrap;
-    overflow: hidden;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .labelContainer {
-    display: inline-block;
-    overflow: none;
+  display: inline-block;
+  overflow: none;
 }
 
 .playerButton {
-    background-color: Transparent;
-    border: none;
-    color: black;
+  background-color: Transparent;
+  border: none;
+  color: black;
 }
 
-#vupicon, #gupicon {
-    margin-left: 3px;
+#vupicon,
+#gupicon {
+  margin-left: 3px;
 }
 
 #vdownicon {
-    margin-right: -5px;
+  margin-right: -5px;
 }
 
- .mat-expansion-panel, .mat-accordion, .mat-expansion-panel-body   {
-    margin: 0 !important;
-    padding: 0 !important;
-    font-size: 12px;
+.mat-expansion-panel,
+.mat-accordion,
+.mat-expansion-panel-body {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 12px;
 }
 
 .mat-expansion-panel {
-    margin-bottom: 5px !important;
-    /* padding: 5px !important; */
-    background-color: darkgrey;
+  margin-bottom: 5px !important;
+  /* padding: 5px !important; */
+  background-color: darkgrey;
 
 }
 
 .mat-expansion-indicator {
-    line-height: 0;
+  line-height: 0;
 }
 
-.mat-expansion-panel-header, .mat-panel-title {
-    height: 30px !important;
-    /* padding: 0 !important; */
-    margin: 0 !important;
-    background-color: darkgrey;
+.mat-expansion-panel-header,
+.mat-panel-title {
+  height: 30px !important;
+  margin: 0 !important;
+  background-color: darkgrey;
 }
 
-.mat-expansion-panel-body  {
-    background-color: lightgray;
-    color: black;
-    padding: 5px 0 0 0 !important;
+.mat-expansion-panel-body {
+  background-color: lightgray;
+  color: black;
+  padding: 5px 0 0 0 !important;
 }
 
 .active {
-    color: green;
+  color: green;
 }
 
 .colorHeader {
-    margin-top: 5px;
-    margin-left: 5px;
+  margin-top: 5px;
+  margin-left: 5px;
 }
-
-/* .noteLabel {
-    margin-right: 0;
-} */

@@ -18,8 +18,6 @@ export class SpherePlaneManagerSPS {
     private SPS;
     private mat;
     private mesh1;
-    // hl;
-
 
     private c;
     private y;
@@ -39,8 +37,6 @@ export class SpherePlaneManagerSPS {
         (this.scene.lights[2] as BABYLON.PointLight).intensity = 0.2;
 
         this.scene.registerBeforeRender(this.beforeRender);
-
-        // this.hl = new BABYLON.HighlightLayer('hl1', this.scene);
 
         this.setDefaults();
     }
@@ -104,14 +100,11 @@ export class SpherePlaneManagerSPS {
             }
         }
 
-        console.log(this.SPS.nbParticles);
-
         this.mesh1 = this.SPS.buildMesh();
         this.mesh1.material = this.mat;
         this.mesh1.scaling.x = .8;
         this.mesh1.scaling.y = .8;
         this.mesh1.scaling.z = .8;
-
 
         // dispose the model
         sphere.dispose();

@@ -27,7 +27,6 @@ export class WaveRibbon {
     }
 
     setDefaults() {
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, -50, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
@@ -80,7 +79,6 @@ export class WaveRibbon {
                 yVertexDataIndex += 3;
             }
         }
-
 
         // update the 3D babylon ground plane
         this.ground.updateVerticesData(BABYLON.VertexBuffer.PositionKind, this.groundVertices);

@@ -16,10 +16,6 @@ export class OptionsService {
   resizeSubscription: Subscription;
 
   visuals = [
-    'blockPlaneManager',
-    'blockSpiralManager',
-    'equationManager',
-    'cubeManager',
     'singleSPS',
     'starManager',
     'spectrograph',
@@ -27,6 +23,18 @@ export class OptionsService {
     'rings',
     'hex',
     'waveRibbon',
+  ];
+
+  SPSs = [
+    'blockPlane',
+    'thing1',
+    'blockSpiral',
+    'thing2',
+    'equation',
+    'thing3',
+    'cube',
+    'sphere',
+    'pole'
   ];
 
   notes = [
@@ -56,15 +64,6 @@ export class OptionsService {
       label: 'Show Waveform',
       value: false
     },
-    // waveformDelay: {
-    //   group: 'General',
-    //   type: 'waveslider',
-    //   label: 'Waveform Delay',
-    //   value: 1,
-    //   min: 1,
-    //   max: 5,
-    //   step: 1
-    // },
     waveformMultiplier: {
       group: 'General',
       type: 'waveslider',
@@ -75,94 +74,12 @@ export class OptionsService {
       step: .1
     },
 
-    // visual options
-    blockPlaneManager: {
-      group: '3DVisual',
-      type: 'radio',
-      label: 'Block Plane',
-      value: 0,
-      checked: true,
-      colorOptions: true,
-      cameraOptions: false,
-      sampleGain: 1,
-      smoothingConstant: 5,
-      animateCamera: false,
-      customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
-      calpha: 4.72,
-      cbeta: 1.00,
-      cradius: 1000
-    },
-    blockSpiralManager: {
-      group: '3DVisual',
-      type: 'radio',
-      label: 'Block Spiral',
-      value: 1,
-      checked: false,
-      colorOptions: true,
-      cameraOptions: true,
-      sampleGain: 1,
-      smoothingConstant: 5,
-      animateCamera: true,
-      customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
-      calpha: 4.72,
-      cbeta: 1.00,
-      cradius: 1000
-    },
-    equationManager: {
-      group: '3DVisual',
-      type: 'radio',
-      label: 'Equation',
-      value: 2,
-      checked: false,
-      colorOptions: true,
-      cameraOptions: true,
-      sampleGain: 1,
-      smoothingConstant: 5,
-      animateCamera: true,
-      customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
-      calpha: 4.72,
-      cbeta: .01,
-      cradius: 1000
-    },
-
-    cubeManager: {
-      group: '3DVisual',
-      type: 'radio',
-      label: 'Cube',
-      value: 3,
-      checked: false,
-      colorOptions: false,
-      cameraOptions: false,
-      sampleGain: 1,
-      smoothingConstant: 5,
-      animateCamera: false,
-      customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
-      calpha: 1.57,
-      cbeta: 1.57,
-      cradius: 1000
-    },
     singleSPS: {
       group: '3DVisual',
       type: 'radio',
       label: 'Exploding SPS',
-      value: 4,
-      checked: false,
+      value: 0,
+      checked: true,
       colorOptions: true,
       cameraOptions: true,
       sampleGain: 1,
@@ -186,11 +103,73 @@ export class OptionsService {
       max: 60,
       step: 5,
     },
+
+
+
+    blockPlane: {
+      group: 'SPS',
+      type: 'checkbox',
+      label: 'Block Plane',
+      value: true,
+    },
+    thing1: {
+      group: 'SPS',
+      type: 'checkbox',
+      label: 'Thing 1',
+      value: true,
+    },
+    blockSpiral: {
+      group: 'SPS',
+      type: 'checkbox',
+      label: 'Block Spiral',
+      value: true,
+    },
+    thing2: {
+      group: 'SPS',
+      type: 'checkbox',
+      label: 'Thing 2',
+      value: true,
+    },
+    equation: {
+      group: 'SPS',
+      type: 'checkbox',
+      label: 'Equation',
+      value: true,
+    },
+    thing3: {
+      group: 'SPS',
+      type: 'checkbox',
+      label: 'Thing 3',
+      value: true,
+    },
+    cube: {
+      group: 'SPS',
+      type: 'checkbox',
+      label: 'Cube',
+      value: true,
+    },
+    sphere: {
+      group: 'SPS',
+      type: 'checkbox',
+      label: 'Sphere',
+      value: true,
+    },
+    pole: {
+      group: 'SPS',
+      type: 'checkbox',
+      label: 'Pole',
+      value: true,
+    },
+
+
+
+
+
     starManager: {
       group: '3DVisual',
       type: 'radio',
       label: 'Stars',
-      value: 5,
+      value: 1,
       checked: false,
       colorOptions: false,
       cameraOptions: false,
@@ -210,7 +189,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Spectrograph',
-      value: 6,
+      value: 2,
       checked: false,
       colorOptions: false,
       cameraOptions: false,
@@ -230,7 +209,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Sphere Plane',
-      value: 7,
+      value: 3,
       checked: false,
       colorOptions: true,
       cameraOptions: true,
@@ -250,7 +229,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Rings',
-      value: 8,
+      value: 4,
       checked: false,
       colorOptions: true,
       cameraOptions: false,
@@ -270,7 +249,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Hex',
-      value: 9,
+      value: 5,
       checked: false,
       colorOptions: true,
       cameraOptions: true,
@@ -290,7 +269,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'WaveRibbon',
-      value: 10,
+      value: 6,
       checked: false,
       colorOptions: false,
       cameraOptions: false,
@@ -659,6 +638,14 @@ export class OptionsService {
     this.updateState('playerTopCanvas', playerDiv.offsetTop * window.devicePixelRatio);
   }
 
+  public getSelectedSPSCount() {
+    let count = 0;
+    for (let index = 0; index < this.SPSs.length; index++) {
+      count += (this.options[this.SPSs[index]].value ? 1 : 0);
+    }
+    return count;
+  }
+
   get showTitle(): boolean {
     return this.options.showTitle.value;
   }
@@ -760,6 +747,142 @@ export class OptionsService {
     this.storageService.saveOptions(this.options);
   }
 
+  get blockPlane(): boolean {
+    return this.options.blockPlane.value;
+  }
+
+  set blockPlane(value: boolean) {
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+      this.options.blockPlane.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.blockPlane.value = !value;
+      (document.getElementById('blockPlane') as HTMLInputElement).checked = true;
+    }
+  }
+
+  get thing1(): boolean {
+    return this.options.thing1.value;
+  }
+
+  set thing1(value: boolean) {
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+      this.options.thing1.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.thing1.value = !value;
+      (document.getElementById('thing1') as HTMLInputElement).checked = true;
+    }
+  }
+
+  get blockSpiral(): boolean {
+    return this.options.blockSpiral.value;
+  }
+
+  set blockSpiral(value: boolean) {
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+      this.options.blockSpiral.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.blockSpiral.value = !value;
+      (document.getElementById('blockSpiral') as HTMLInputElement).checked = true;
+    }
+  }
+
+  get thing2(): boolean {
+    return this.options.thing2.value;
+  }
+
+  set thing2(value: boolean) {
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+      this.options.thing2.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.thing2.value = !value;
+      (document.getElementById('thing2') as HTMLInputElement).checked = true;
+    }
+  }
+
+  get equation(): boolean {
+    return this.options.equation.value;
+  }
+
+  set equation(value: boolean) {
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+      this.options.equation.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.equation.value = !value;
+      (document.getElementById('equation') as HTMLInputElement).checked = true;
+    }
+  }
+
+
+  get thing3(): boolean {
+    return this.options.thing3.value;
+  }
+
+  set thing3(value: boolean) {
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+      this.options.thing3.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.thing3.value = !value;
+      (document.getElementById('thing3') as HTMLInputElement).checked = true;
+    }
+  }
+
+
+  get cube(): boolean {
+    return this.options.cube.value;
+  }
+
+  set cube(value: boolean) {
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+      this.options.cube.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.cube.value = !value;
+      (document.getElementById('cube') as HTMLInputElement).checked = true;
+    }
+  }
+
+  get sphere(): boolean {
+    return this.options.sphere.value;
+  }
+
+  set sphere(value: boolean) {
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+      this.options.sphere.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.sphere.value = !value;
+      (document.getElementById('sphere') as HTMLInputElement).checked = true;
+    }
+  }
+
+  get pole(): boolean {
+    return this.options.pole.value;
+  }
+
+  set pole(value: boolean) {
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+      this.options.pole.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.pole.value = !value;
+      (document.getElementById('pole') as HTMLInputElement).checked = true;
+    }
+  }
 
   get showPanel(): boolean {
     return this.state.showPanel.value;

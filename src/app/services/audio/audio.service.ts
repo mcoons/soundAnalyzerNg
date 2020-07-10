@@ -87,7 +87,6 @@ export class AudioService {
 
     messageService.messageAnnounced$.subscribe(
       message => {
-        // console.log('Audio Service: Message received from service is :  ' + message);
         if (this.audio != null && message === 'volume change') {
           this.audio.volume = (this.optionsService.volume) / 10;
         }
@@ -95,7 +94,6 @@ export class AudioService {
           this.setGain();
         }
         if (this.audio != null && message === 'smoothingConstant') {
-          // console.log(this.optionsService.smoothingConstant);
           this.smoothingConstant = this.optionsService.smoothingConstant / 10;
           this.setSmoothingConstant();
         }
@@ -106,7 +104,6 @@ export class AudioService {
   }
 
   public setAudio = (audio: HTMLAudioElement) => {
-    console.log('In Set Audio');
 
     if (audio == null) {
       return;
@@ -277,11 +274,9 @@ export class AudioService {
       this.sample1[index + 512] = (this.soundArrays[1])[index + 64];   // 128 buckets
     }
 
-    // this.sample1BufferHistory.push(this.sample1.slice(0));
     this.sample1BufferHistory[this.sample1BufferHistory.length] = this.sample1.slice(0);
 
     if (this.sample1BufferHistory.length > 150) {
-      // this.sample1BufferHistory.shift();
       this.sample1BufferHistory.reverse();
       this.sample1BufferHistory.pop();
       this.sample1BufferHistory.reverse();
@@ -298,11 +293,6 @@ export class AudioService {
     if (this.tdHistory.length > this.tdHistoryArraySize) {
       this.tdHistory.shift();
     }
-
-
-
-
-
   }
 
   clearSampleArrays() {
@@ -310,10 +300,6 @@ export class AudioService {
       this.sample1[index] = 0;
     }
   }
-
-  // buildSampleArrays() {
-  //   this.sample1.fill(0, 0, 575);
-  // }
 
   setGain() {
     this.gainNode.gain.setValueAtTime(this.optionsService.sampleGain, this.audioCtx.currentTime);
@@ -332,8 +318,6 @@ export class AudioService {
   }
 
   disableMic() {
-
-    // console.log('in disable mic');
 
     if (!this.optionsService.microphone) {
       return;
