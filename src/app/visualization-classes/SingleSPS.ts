@@ -81,19 +81,15 @@ export class SingleSPS implements OnDestroy {
 
         this.subscription = messageService.messageAnnounced$.subscribe(
             message => {
-              // console.log('Engine: Message received from service is :  ' + message);
                 if (message === 'sps change') {
-                    console.log('sps change received')
                     this.updateCurrentNext();
                 }
             });
-
 
         this.currentSPS = -1;
 
         this.updateCurrentNext();
         this.moreThanOneSPS = this.optionsService.getSelectedSPSCount() > 1;
-
 
         this.setDefaults();
 
@@ -136,7 +132,7 @@ export class SingleSPS implements OnDestroy {
         },
 
         // Thing1
-        {   
+        {
             name: 'thing1',
             position: (particle) => {
                 const gtheta = this.PId32 * particle.idx - this.PId2;
@@ -390,7 +386,7 @@ export class SingleSPS implements OnDestroy {
             }
         }
 
-        // // Thing
+        // // Thing Template
         // {
         //     position: (particle) => {
         //         const gtheta = this.PId32 * particle.idx;
@@ -476,14 +472,11 @@ export class SingleSPS implements OnDestroy {
             this.currentSPS = this.nextSPS;
             do {
                 this.nextSPS = this.nextSPS === this.SPSFunctions.length - 1 ? 0 : this.nextSPS + 1;
-                // console.log(this.optionsService.options[this.SPSFunctions[this.nextSPS].name])
             } while (!this.optionsService.options[this.SPSFunctions[this.nextSPS].name].value);
 
             this.expTimeout = setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
         }, 5000);
     }
-
-
 
     updateCurrentNext = () => {
         console.log('in updateCurrentNext');
@@ -505,12 +498,10 @@ export class SingleSPS implements OnDestroy {
             this.moreThanOneSPS = false;
 
         } else
-        if (!this.moreThanOneSPS && this.optionsService.getSelectedSPSCount() > 1) {
-            setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
-            this.moreThanOneSPS = true;
-        }
-
-        // this.moreThanOneSPS = this.optionsService.getSelectedSPSCount() > 1;
+            if (!this.moreThanOneSPS && this.optionsService.getSelectedSPSCount() > 1) {
+                setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
+                this.moreThanOneSPS = true;
+            }
     }
 
     calculateCurrent = () => {
@@ -524,8 +515,6 @@ export class SingleSPS implements OnDestroy {
             this.nextSPS = this.nextSPS === this.SPSFunctions.length - 1 ? 0 : this.nextSPS + 1;
         } while (!this.optionsService.options[this.SPSFunctions[this.nextSPS].name].value);
     }
-
-
 
     ngOnDestroy() {
         this.remove();
@@ -655,7 +644,6 @@ export class SingleSPS implements OnDestroy {
                     particle.color.g = color.g;
                     particle.color.b = color.b;
                     particle.color.a = color.a;
-
                 }
         };
     }
@@ -693,7 +681,6 @@ export class SingleSPS implements OnDestroy {
         this.SPS = null; // tells the GC the reference can be cleaned up also
         this.scene.unregisterBeforeRender(this.beforeRender);
     }
-
 
     genPointsOnSphere(numberOfPoints) {
 

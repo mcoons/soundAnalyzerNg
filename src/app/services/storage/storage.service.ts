@@ -8,14 +8,14 @@ export class StorageService {
 
   constructor(@Inject(WindowRefService) private windowRefService: WindowRefService) {
     console.log('Storage Service Constructor');
-   }
+  }
 
   loadOptions() {
     const retrievedOptions = this.windowRefService.localStore.getItem('options');
     if (retrievedOptions) {
       return JSON.parse(retrievedOptions);
     } else {
-      return {error: 'local storage error'};
+      return { error: 'local storage error' };
     }
   }
 

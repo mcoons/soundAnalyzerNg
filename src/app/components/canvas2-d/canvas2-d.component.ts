@@ -1,10 +1,8 @@
 
 import { Component, OnDestroy, AfterViewInit, ViewChild, ElementRef, Inject, NgZone } from '@angular/core';
-// import { Subscription } from 'rxjs';
 
 import { OptionsService } from '../../services/options/options.service';
 import { AudioService } from '../../services/audio/audio.service';
-// import { MessageService } from '../../services/message/message.service';
 
 import { map } from '../../visualization-classes/utilities.js';
 
@@ -17,18 +15,13 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
   @ViewChild('canvas2d', { static: true }) canvas2d: ElementRef<HTMLCanvasElement>;
 
   private ctx: CanvasRenderingContext2D;
-  // private subscription: Subscription;
-
-  // private waveformDelayCounter = 0;
   private waveFormDataSource;
-
   private playerDiv;
 
   constructor(
     @Inject(OptionsService) public optionsService: OptionsService,
     @Inject(AudioService) public audioService: AudioService,
     private ngZone: NgZone,
-    // @Inject(MessageService) public messageService: MessageService
   ) { }
 
   ngAfterViewInit(): void {
@@ -37,7 +30,6 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     this.canvas2d.nativeElement.style.height = this.canvas2d.nativeElement.height.toString();
     this.ctx.globalAlpha = .5;
 
-    // window.requestAnimationFrame(this.render2DFrame);
     this.animate();
   }
 
@@ -50,18 +42,15 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     this.ngZone.runOutsideAngular(() => {
 
       const render2DFrame = () => {
-        // if (this.audioService.audio != null) {
-        //   this.audioService.analyzeData();
-        // }
-    
+
         this.fixDpi();
         this.optionsService.windowResize();
-    
+
         if (this.optionsService.showSplash === false) {
           if (this.optionsService.showBars === true) {
             this.draw2DBars();
           }
-    
+
           if (this.optionsService.showWaveform === true) {
             this.waveFormDataSource = this.audioService.tdDataArray;
             this.drawWaveform();
@@ -74,27 +63,6 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
     });
   }
-
-  // render2DFrame = () => {
-  //   if (this.audioService.audio != null) {
-  //     this.audioService.analyzeData();
-  //   }
-
-  //   this.fixDpi();
-  //   this.optionsService.windowResize();
-
-  //   if (this.optionsService.showSplash === false) {
-  //     if (this.optionsService.showBars === true) {
-  //       this.draw2DBars();
-  //     }
-
-  //     if (this.optionsService.showWaveform === true) {
-  //       this.waveFormDataSource = this.audioService.tdDataArray;
-  //       this.drawWaveform();
-  //     }
-  //   }
-  //   window.requestAnimationFrame(this.render2DFrame);
-  // }
 
   fixDpi = () => {
     const dpi = window.devicePixelRatio;
@@ -190,8 +158,6 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
   }
 
   getTopOfPlayer(): number {
-    // console.log(this.canvas2d.nativeElement);
-    // console.log(this.playerDiv);
     this.playerDiv = document.getElementById('playerDiv');
 
     if (this.playerDiv.offsetTop * window.devicePixelRatio <= this.canvas2d.nativeElement.height) {

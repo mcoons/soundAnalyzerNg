@@ -1,12 +1,12 @@
-
-html, body { 
-    height: 100%; 
+html,
+body {
+  height: 100%;
 }
 
-body { 
-    margin: 0; 
-    font-family: Roboto, "Helvetica Neue", sans-serif; 
-    font-size: 12px;
-    background-color: black;
-    overflow: hidden;
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 12px;
+  background-color: black;
+  overflow: hidden;
 }

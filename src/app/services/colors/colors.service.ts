@@ -1,9 +1,6 @@
 import { Injectable, Inject, OnDestroy } from '@angular/core';
 
-// import { MessageService } from '../message/message.service';
-// import { AudioService } from '../audio/audio.service';
 import { OptionsService } from '../options/options.service';
-// import { EngineService } from '../engine/engine.service';
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +47,7 @@ export class ColorsService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    clearInterval( this.interval );
+    clearInterval(this.interval);
   }
 
 
@@ -118,6 +115,3 @@ export class ColorsService implements OnDestroy {
   }
 
 }
-
-
-

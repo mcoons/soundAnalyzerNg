@@ -10,12 +10,12 @@ describe('Canvas2DComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ Canvas2DComponent ],
+      declarations: [Canvas2DComponent],
       providers: [
         WindowRefService
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,52 +1,52 @@
-
-#main, #optionsContainer  {
-    padding:0px;
-    height: 100vh;
-    margin: 0;
+#main,
+#optionsContainer {
+  padding: 0px;
+  height: 100vh;
+  margin: 0;
 }
 
-.fixed{
-    width: 260px;
+.fixed {
+  width: 260px;
 }
 
 #mainContainer {
-    display:-webkit-box;
-    display:-ms-flexbox;
-    display:flex;
-    margin-bottom: 0;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;    
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 0;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 #splashContainer {
-    position: fixed;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;    
-    z-index: 500;
-    text-align: center;
+  position: fixed;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  z-index: 500;
+  text-align: center;
 }
 
 button {
-    position: absolute;
-    z-index: 30;
-    top: 50%;
-    right: 0px;
-    border: none;
-    color: #F8F2C0;
-    background-color: rgba(176, 176, 176, 0);
+  position: absolute;
+  z-index: 30;
+  top: 50%;
+  right: 0px;
+  border: none;
+  color: #F8F2C0;
+  background-color: rgba(176, 176, 176, 0);
 }

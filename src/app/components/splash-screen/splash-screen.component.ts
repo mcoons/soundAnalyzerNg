@@ -17,8 +17,7 @@ export class SplashScreenComponent {
   constructor(
     @Inject(OptionsService) private optionsService: OptionsService,
     @Inject(MessageService) public messageService: MessageService
-  ) {     console.log('In Splash Component constructor');
-}
+  ) { }
 
   splashScreenOK() {
     this.optionsService.toggleState('showPlayer');

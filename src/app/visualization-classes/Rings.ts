@@ -7,7 +7,6 @@ import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
 
 import { map } from './utilities.js';
-// import { timeStamp } from 'console';
 
 export class Rings {
 
@@ -22,7 +21,6 @@ export class Rings {
     private ring5SPS;
 
     private mat;
-    // private mat5;
 
     private mesh1;
     private mesh3;
@@ -92,9 +90,6 @@ export class Rings {
         const radius1 = 100;
         const radius3 = 500;
         const radius5 = 300;
-        // const width1 = 150;
-        // const depth1 = 4;
-        // const height1 = 10;
 
         let gtheta;
 

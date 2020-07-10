@@ -41,11 +41,6 @@ export class StarManager {
 
         this.currentProcedure = this.createStarGroupRandom5;
 
-        // this.optionsService.smoothingConstant = 8;
-        // this.optionsService.sampleGain = 10;
-        // this.messageService.announceMessage('sampleGain');
-        // this.messageService.announceMessage('smoothingConstant');
-
         this.setDefaults();
 
     }

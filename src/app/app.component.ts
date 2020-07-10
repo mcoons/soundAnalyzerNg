@@ -44,7 +44,7 @@ import { OptionsService } from './services/options/options.service';
   ]
 })
 
-export class AppComponent  {
+export class AppComponent {
   private _title = 'MP3 Visualyzer Ng';
 
   constructor(

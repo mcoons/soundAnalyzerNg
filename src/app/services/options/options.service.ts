@@ -16,10 +16,6 @@ export class OptionsService {
   resizeSubscription: Subscription;
 
   visuals = [
-    // 'blockPlaneManager',
-    // 'blockSpiralManager',
-    // 'equationManager',
-    // 'cubeManager',
     'singleSPS',
     'starManager',
     'spectrograph',
@@ -39,7 +35,7 @@ export class OptionsService {
     'cube',
     'sphere',
     'pole'
-  ]
+  ];
 
   notes = [
     'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'None'
@@ -68,15 +64,6 @@ export class OptionsService {
       label: 'Show Waveform',
       value: false
     },
-    // waveformDelay: {
-    //   group: 'General',
-    //   type: 'waveslider',
-    //   label: 'Waveform Delay',
-    //   value: 1,
-    //   min: 1,
-    //   max: 5,
-    //   step: 1
-    // },
     waveformMultiplier: {
       group: 'General',
       type: 'waveslider',
@@ -87,87 +74,6 @@ export class OptionsService {
       step: .1
     },
 
-    // visual options
-    // blockPlaneManager: {
-    //   group: '3DVisual',
-    //   type: 'radio',
-    //   label: 'Block Plane',
-    //   value: 0,
-    //   checked: true,
-    //   colorOptions: true,
-    //   cameraOptions: false,
-    //   sampleGain: 1,
-    //   smoothingConstant: 5,
-    //   animateCamera: false,
-    //   customColors: false,
-    //   minColor: '#0000ff',
-    //   midColor: '#00ff00',
-    //   maxColor: '#ff0000',
-    //   midLoc: 128,
-    //   calpha: 4.72,
-    //   cbeta: 1.00,
-    //   cradius: 1000
-    // },
-    // blockSpiralManager: {
-    //   group: '3DVisual',
-    //   type: 'radio',
-    //   label: 'Block Spiral',
-    //   value: 1,
-    //   checked: false,
-    //   colorOptions: true,
-    //   cameraOptions: true,
-    //   sampleGain: 1,
-    //   smoothingConstant: 5,
-    //   animateCamera: true,
-    //   customColors: false,
-    //   minColor: '#0000ff',
-    //   midColor: '#00ff00',
-    //   maxColor: '#ff0000',
-    //   midLoc: 128,
-    //   calpha: 4.72,
-    //   cbeta: 1.00,
-    //   cradius: 1000
-    // },
-    // equationManager: {
-    //   group: '3DVisual',
-    //   type: 'radio',
-    //   label: 'Equation',
-    //   value: 2,
-    //   checked: false,
-    //   colorOptions: true,
-    //   cameraOptions: true,
-    //   sampleGain: 1,
-    //   smoothingConstant: 5,
-    //   animateCamera: true,
-    //   customColors: false,
-    //   minColor: '#0000ff',
-    //   midColor: '#00ff00',
-    //   maxColor: '#ff0000',
-    //   midLoc: 128,
-    //   calpha: 4.72,
-    //   cbeta: .01,
-    //   cradius: 1000
-    // },
-    // cubeManager: {
-    //   group: '3DVisual',
-    //   type: 'radio',
-    //   label: 'Cube',
-    //   value: 3,
-    //   checked: false,
-    //   colorOptions: false,
-    //   cameraOptions: false,
-    //   sampleGain: 1,
-    //   smoothingConstant: 5,
-    //   animateCamera: false,
-    //   customColors: false,
-    //   minColor: '#0000ff',
-    //   midColor: '#00ff00',
-    //   maxColor: '#ff0000',
-    //   midLoc: 128,
-    //   calpha: 1.57,
-    //   cbeta: 1.57,
-    //   cradius: 1000
-    // },
     singleSPS: {
       group: '3DVisual',
       type: 'radio',
@@ -737,7 +643,6 @@ export class OptionsService {
     for (let index = 0; index < this.SPSs.length; index++) {
       count += (this.options[this.SPSs[index]].value ? 1 : 0);
     }
-    // console.log(count);
     return count;
   }
 
@@ -842,15 +747,12 @@ export class OptionsService {
     this.storageService.saveOptions(this.options);
   }
 
-
-
-
   get blockPlane(): boolean {
     return this.options.blockPlane.value;
   }
 
   set blockPlane(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value){
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
       this.options.blockPlane.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -865,7 +767,7 @@ export class OptionsService {
   }
 
   set thing1(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value){
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
       this.options.thing1.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -880,7 +782,7 @@ export class OptionsService {
   }
 
   set blockSpiral(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value){
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
       this.options.blockSpiral.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -890,13 +792,12 @@ export class OptionsService {
     }
   }
 
-
   get thing2(): boolean {
     return this.options.thing2.value;
   }
 
   set thing2(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value){
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
       this.options.thing2.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -906,13 +807,12 @@ export class OptionsService {
     }
   }
 
-
   get equation(): boolean {
     return this.options.equation.value;
   }
 
   set equation(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value){
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
       this.options.equation.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -928,7 +828,7 @@ export class OptionsService {
   }
 
   set thing3(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value){
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
       this.options.thing3.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -944,7 +844,7 @@ export class OptionsService {
   }
 
   set cube(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value){
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
       this.options.cube.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -954,14 +854,12 @@ export class OptionsService {
     }
   }
 
-
-
   get sphere(): boolean {
     return this.options.sphere.value;
   }
 
   set sphere(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value){
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
       this.options.sphere.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -971,13 +869,12 @@ export class OptionsService {
     }
   }
 
-
   get pole(): boolean {
     return this.options.pole.value;
   }
 
   set pole(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value){
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
       this.options.pole.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -986,8 +883,6 @@ export class OptionsService {
       (document.getElementById('pole') as HTMLInputElement).checked = true;
     }
   }
-
-
 
   get showPanel(): boolean {
     return this.state.showPanel.value;
