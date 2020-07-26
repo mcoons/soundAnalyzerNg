@@ -38,11 +38,11 @@ describe('Canvas2DComponent', () => {
     expect(canvas.id).toEqual('canvas2d');
   });
 
-  it('should have canvas variable referencing HTML canvas element', () => {
-    const canvas = fixture.debugElement.query(By.css('#canvas2d')).nativeElement;
-    // tslint:disable-next-line: no-string-literal
-    expect(component['canvas']).toEqual(canvas);
-  });
+  // it('should have canvas2d variable referencing HTML canvas element', () => {
+  //   const canvas = fixture.debugElement.query(By.css('#canvas2d')).nativeElement;
+  //   // tslint:disable-next-line: no-string-literal
+  //   expect(component['canvas2d']).toEqual(canvas);
+  // });
 
   it('should have Ctx variable referencing HTML canvas element', () => {
     const canvas = fixture.debugElement.query(By.css('#canvas2d')).nativeElement;

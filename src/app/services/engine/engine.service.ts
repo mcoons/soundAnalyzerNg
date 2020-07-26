@@ -31,9 +31,9 @@ export class EngineService {
   public engine: BABYLON.Engine;
   public camera: BABYLON.ArcRotateCamera;
   public scene: BABYLON.Scene;
-  private managerClasses;
-  private managerClassIndex;
-  private currentManager;
+  private visualClasses;
+  private visualClassIndex;
+  private currentVisual;
 
   private resizeObservable$: Observable<Event>;
   private resizeSubscription$: Subscription;
@@ -74,12 +74,12 @@ export class EngineService {
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         if (message === 'scene change') {
-          this.selectScene(this.optionsService.currentVisual);
+          this.selectVisual(this.optionsService.currentVisual);
         }
       });
 
-    this.managerClassIndex = this.optionsService.currentVisual;
-    this.managerClasses = [
+    this.visualClassIndex = this.optionsService.currentVisual;
+    this.visualClasses = [
       SingleSPS,
       StarManager,
       Spectrograph,
@@ -133,8 +133,8 @@ export class EngineService {
     const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(-1, -1, 0), this.scene);
     // light.intensity = 1.5;
     // tslint:disable-next-line: max-line-length
-    this.currentManager = new this.managerClasses[this.managerClassIndex](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
-    this.currentManager.create();
+    this.currentVisual = new this.visualClasses[this.visualClassIndex](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
+    this.currentVisual.create();
   }
 
   public animate(): void {
@@ -148,7 +148,7 @@ export class EngineService {
         }
         this.fixDpi();
 
-        this.currentManager.update();
+        this.currentVisual.update();
         this.scene.render();
       };
 
@@ -168,31 +168,31 @@ export class EngineService {
 
   saveCamera() {
 
-    this.optionsService.options[this.optionsService.visuals[this.managerClassIndex]].calpha
+    this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].calpha
       = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha;
 
-    this.optionsService.options[this.optionsService.visuals[this.managerClassIndex]].cbeta
+    this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].cbeta
       = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta;
 
-    this.optionsService.options[this.optionsService.visuals[this.managerClassIndex]].cradius
+    this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].cradius
       = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius;
 
     this.storageService.saveOptions(this.optionsService.options);
 
   }
 
-  selectScene(index) {
+  selectVisual(index) {
 
     this.saveCamera();
 
-    this.currentManager.remove();
+    this.currentVisual.remove();
 
-    this.currentManager = null;
+    this.currentVisual = null;
 
-    this.managerClassIndex = index;
+    this.visualClassIndex = index;
     // tslint:disable-next-line: max-line-length
-    this.currentManager = new this.managerClasses[index](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
-    this.currentManager.create();
+    this.currentVisual = new this.visualClasses[index](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
+    this.currentVisual.create();
 
     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
       this.optionsService.options[this.optionsService.visuals[index]].calpha;

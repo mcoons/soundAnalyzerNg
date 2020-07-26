@@ -158,7 +158,7 @@
 
             <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
               this.optionsService.getOptions()[option].label!='Custom Colors' && 
-              this.optionsService.getOptions()[option].label!='Animate Camera',
+              this.optionsService.getOptions()[option].label!='Auto Rotate',
               ">
               &nbsp;&nbsp;&nbsp;&nbsp;
               <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]"
@@ -179,7 +179,7 @@
               *ngIf="this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].colorOptions === true">
 
               <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
-                this.optionsService.getOptions()[option].label!='Animate Camera' &&
+                this.optionsService.getOptions()[option].label!='Auto Rotate' &&
                 this.optionsService.getOptions()[option].group!='SPS'">
                 <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
                 <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>

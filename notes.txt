@@ -60,8 +60,8 @@ angular is wrapped by an express server for prod deployment on Heroku
 To Reduce a Large Heroku Slug Size
     heroku plugins:install heroku-repo
 
-    heroku repo:gc --app your-app-name
-    heroku repo:purge_cache --app your-app-name
+    heroku repo:gc --app soundanalyzerng
+    heroku repo:purge_cache --app soundanalyzerng
 
 Audio Node Mapping
 
@@ -97,6 +97,7 @@ BiquadFilterNode
 
 
 
+M4A does not play
 
 
 

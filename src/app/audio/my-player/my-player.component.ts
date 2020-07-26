@@ -91,52 +91,12 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         link: './assets/tracks/A Good Bass for Gambling.mp3'
       },
       {
-        title: 'Ambient Bongos',
-        link: './assets/tracks/Ambient Bongos.mp3'
-      },
-      {
-        title: 'Arpent',
-        link: './assets/tracks/Arpent.mp3'
-      },
-      {
-        title: 'Barroom Ballet',
-        link: './assets/tracks/Barroom Ballet.mp3'
-      },
-      {
         title: 'Bass Meant Jazz',
         link: './assets/tracks/Bass Meant Jazz.mp3'
       },
       {
-        title: 'Celebration',
-        link: './assets/tracks/Celebration.mp3'
-      },
-      {
-        title: 'City Sunshine',
-        link: './assets/tracks/City Sunshine.mp3'
-      },
-      {
-        title: 'Creepy Hallow',
-        link: './assets/tracks/Creepy Hallow.mp3'
-      },
-      {
-        title: 'Foam Rubber',
-        link: './assets/tracks/Foam Rubber.mp3'
-      },
-      {
         title: 'Funkeriffic',
         link: './assets/tracks/Funkeriffic.mp3'
-      },
-      {
-        title: 'Hippety Hop',
-        link: './assets/tracks/Hippety Hop.mp3'
-      },
-      {
-        title: 'Monsters in Hotel',
-        link: './assets/tracks/Monsters in Hotel.mp3'
-      },
-      {
-        title: 'Ukulele Song',
-        link: './assets/tracks/Ukulele Song.mp3'
       },
       {
         title: 'Shepard Tone',

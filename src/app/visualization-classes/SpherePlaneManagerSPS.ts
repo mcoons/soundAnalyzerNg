@@ -14,6 +14,7 @@ export class SpherePlaneManagerSPS {
     private optionsService: OptionsService;
     private messageService: MessageService;
     private colorsService: ColorsService;
+    private engineService: EngineService;
 
     private SPS;
     private mat;
@@ -31,6 +32,7 @@ export class SpherePlaneManagerSPS {
         this.optionsService = optionsService;
         this.messageService = messageService;
         this.colorsService = colorsService;
+        this.engineService = engineService;
 
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
         (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.2;
@@ -56,7 +58,7 @@ export class SpherePlaneManagerSPS {
 
         this.SPS.setParticles();
 
-        if (this.optionsService.animateCamera) {
+        if (this.optionsService.autoRotate) {
             this.rotation += Math.PI / 500;
             if (this.rotation >= Math.PI * 2) {
                 this.rotation = 0;
@@ -142,6 +144,13 @@ export class SpherePlaneManagerSPS {
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.8;
         (this.scene.lights[1] as BABYLON.PointLight).intensity = 1.0;
         (this.scene.lights[2] as BABYLON.PointLight).intensity = 1.0;
+
+        this.audioService = null;
+        this.optionsService = null;
+        this.messageService = null;
+        this.engineService = null;
+        this.colorsService = null;
+        this.scene = null;
     }
 
 }
