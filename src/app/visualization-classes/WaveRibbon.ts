@@ -1,29 +1,33 @@
 
 import * as BABYLON from 'babylonjs';
 import { AudioService } from '../services/audio/audio.service';
-import { OptionsService } from '../services/options/options.service';
-import { MessageService } from '../services/message/message.service';
-import { EngineService } from '../services/engine/engine.service';
 
 export class WaveRibbon {
 
     private scene: BABYLON.Scene;
     private audioService: AudioService;
-    private optionsService: OptionsService;
-    private messageService: MessageService;
-
     private ground;
-    private groundVertices;
-    private colorsBuffer;
+
+    private myColorArray = [];
+    private myVertexArray = [];
 
     constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
         this.scene = scene;
         this.audioService = audioService;
-        this.optionsService = optionsService;
-        this.messageService = messageService;
 
         this.setDefaults();
+
+        for (let x = 0; x < 64; x++) {
+            let xca = [];
+            let xva = [];
+            for (let y = 0; y < 64; y++) {
+                xca.push([1, 1, 1, 1]);
+                xva.push([x - 32, 0, y - 32]);
+            }
+            this.myColorArray.push(xca);
+            this.myVertexArray.push(xva);
+        }
     }
 
     setDefaults() {
@@ -37,55 +41,58 @@ export class WaveRibbon {
     }
 
     create() {
-        // tslint:disable-next-line: max-line-length
-        this.ground = BABYLON.MeshBuilder.CreateGround('ground1', { width: 2, height: 1, subdivisionsX: this.audioService.tdDataArray.length - 1, subdivisionsY: this.audioService.tdHistoryArraySize - 1, updatable: true }, this.scene); // 550
+        this.ground = BABYLON.MeshBuilder.CreateGround('ground1', { width: 1, height: 1, subdivisionsX: 63, subdivisionsY: 63, updatable: true }, this.scene); // 550
         this.ground.material = new BABYLON.StandardMaterial('gmat', this.scene);
         this.ground.material.backFaceCulling = false;
         this.ground.material.specularColor = new BABYLON.Color3(0, 0, 0); // black is no shine
+        this.ground.material.diffuseColor = new BABYLON.Color3(.8, .8, .8); // black is no shine
 
-        this.ground.scaling = new BABYLON.Vector3(350, .25, 350);
-
-        this.groundVertices = this.ground.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-
+        this.ground.scaling = new BABYLON.Vector3(10, 1, 10);
     }
 
     update() {
 
-        const h = this.audioService.tdBufferLength;  // dataset length + 1
-        // const w = this.audioService.tdHistoryArraySize;  // history length + 1
-        const w = 150;
+        const currentData = this.audioService.fr64DataArray;
 
-        let yVertexDataIndex = 1;  // 0 for x, 1 for y
-        this.colorsBuffer = [];
+        for (let x = 0; x < 32; x++) {
+            for (let y = 0; y < 32; y++) {
 
-        for (let x = 0; x < w; x++) {
-            const currentData = this.audioService.tdHistory[x];
-            for (let y = 0; y < h; y++) {
-                const yy = y;
+                const r = (currentData[y] * 0.8 + currentData[x] * 0.8) / 2;
+                const g = ((128 * y / 576) * 0.8 + (128 * x / 576) * 0.8) / 2;
+                const b = ((255 - 128 * y / 350) * 0.8 + (255 - 128 * y / 350) * 0.8) / 2;
 
-                const r = currentData[yy] * 0.8;
-                const g = (128 * yy / 576) * 0.8;
-                const b = (255 - 128 * y / 350) * 0.8;
+                this.myColorArray[x][y][0] = r / 255;
+                this.myColorArray[x][y][1] = g / 255;
+                this.myColorArray[x][y][2] = b / 255;
 
-                // set color for 3D babylonjs canvas
-                this.colorsBuffer.push(r / 255);
-                this.colorsBuffer.push(g / 255);
-                this.colorsBuffer.push(b / 255);
-                this.colorsBuffer.push(1);
+                this.myColorArray[63 - x][63 - y][0] = r / 255;
+                this.myColorArray[63 - x][63 - y][1] = g / 255;
+                this.myColorArray[63 - x][63 - y][2] = b / 255;
 
-                // set y value of ground vertex data
-                this.groundVertices[yVertexDataIndex] = currentData[y] * 3 - 350;
+                this.myColorArray[63 - x][y][0] = r / 255;
+                this.myColorArray[63 - x][y][1] = g / 255;
+                this.myColorArray[63 - x][y][2] = b / 255;
 
-                yVertexDataIndex += 3;
+                this.myColorArray[x][63 - y][0] = r / 255;
+                this.myColorArray[x][63 - y][1] = g / 255;
+                this.myColorArray[x][63 - y][2] = b / 255;
+
+                this.myVertexArray[x][y][1] = -((currentData[y] * 0.8 + currentData[x] * 0.8) / 2) / 1;
+                this.myVertexArray[63 - x][63 - y][1] = -((currentData[y] * 0.8 + currentData[x] * 0.8) / 2) / 1;
+                this.myVertexArray[63 - x][y][1] = -((currentData[y] * 0.8 + currentData[x] * 0.8) / 2) / 1;
+                this.myVertexArray[x][63 - y][1] = -((currentData[y] * 0.8 + currentData[x] * 0.8) / 2) / 1;
+
             }
         }
 
-        // update the 3D babylon ground plane
-        this.ground.updateVerticesData(BABYLON.VertexBuffer.PositionKind, this.groundVertices);
-        this.ground.setVerticesData(BABYLON.VertexBuffer.ColorKind, this.colorsBuffer);
+        this.ground.setVerticesData(BABYLON.VertexBuffer.ColorKind, this.myColorArray.flat(2));
+        this.ground.updateVerticesData(BABYLON.VertexBuffer.PositionKind, this.myVertexArray.flat(2));
     }
 
     remove() {
         this.ground.dispose();
+
+        this.audioService = null;
+        this.scene = null;
     }
 }

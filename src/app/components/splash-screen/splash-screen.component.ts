@@ -19,7 +19,7 @@ export class SplashScreenComponent {
     @Inject(MessageService) public messageService: MessageService
   ) { }
 
-  splashScreenOK() {
+  splashScreenOK = () => {
     this.optionsService.toggleState('showPlayer');
     this.optionsService.toggleState('showSplash');
     this.optionsService.currentVisual = 0;

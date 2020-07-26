@@ -15,6 +15,7 @@ export class Rings {
     private optionsService: OptionsService;
     private messageService: MessageService;
     private colorsService: ColorsService;
+    private engineService: EngineService;
 
     private ring1SPS;
     private ring3SPS;
@@ -55,6 +56,7 @@ export class Rings {
         this.optionsService = optionsService;
         this.messageService = messageService;
         this.colorsService = colorsService;
+        this.engineService = engineService;
 
         this.PI = Math.PI;
         this.TwoPI = this.PI * 2;
@@ -276,5 +278,12 @@ export class Rings {
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.8;
         (this.scene.lights[1] as BABYLON.PointLight).intensity = 1.0;
         (this.scene.lights[2] as BABYLON.PointLight).intensity = 1.0;
+
+        this.audioService = null;
+        this.optionsService = null;
+        this.messageService = null;
+        this.engineService = null;
+        this.colorsService = null;
+        this.scene = null;
     }
 }

@@ -47,7 +47,7 @@ export class Hex {
     beforeRender = () => {
         this.engineService.hexSPS.setParticles();
 
-        if (this.optionsService.animateCamera) {
+        if (this.optionsService.autoRotate) {
             this.rotation += Math.PI / 500;
             if (this.rotation >= Math.PI * 2) {
                 this.rotation = 0;
@@ -71,6 +71,13 @@ export class Hex {
         (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.8;
         (this.scene.lights[1] as BABYLON.PointLight).intensity = 1.0;
         (this.scene.lights[2] as BABYLON.PointLight).intensity = 1.0;
+
+        this.audioService = null;
+        this.optionsService = null;
+        this.messageService = null;
+        this.engineService = null;
+        this.colorsService = null;
+        this.scene = null;
     }
 
 }

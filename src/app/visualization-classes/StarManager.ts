@@ -4,6 +4,7 @@ import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
+import { ColorsService } from '../services/colors/colors.service';
 
 import {
     Star
@@ -19,6 +20,8 @@ export class StarManager {
     private audioService: AudioService;
     private optionsService: OptionsService;
     private messageService: MessageService;
+    private engineService: EngineService;
+    private colorsService: ColorsService;
 
     private objects;
     private pieResolution;
@@ -27,13 +30,15 @@ export class StarManager {
 
     masterTransform;
 
-    constructor(scene, audioService, optionsService, messageService, engineService, colorService) {
+    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
         this.scene = scene;
 
         this.audioService = audioService;
         this.optionsService = optionsService;
         this.messageService = messageService;
+        this.engineService = engineService;
+        this.colorsService = colorsService;
 
         this.pieResolution = 256;
         this.objects = [];
@@ -293,6 +298,13 @@ export class StarManager {
         this.starMasters = [];
 
         this.masterTransform.dispose();
+
+        this.audioService = null;
+        this.optionsService = null;
+        this.messageService = null;
+        this.engineService = null;
+        this.colorsService = null;
+        this.scene = null;
     }
 
     /***  FOR REFERENCE ONLY ***/

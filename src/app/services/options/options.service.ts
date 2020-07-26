@@ -34,7 +34,9 @@ export class OptionsService {
     'thing3',
     'cube',
     'sphere',
-    'pole'
+    'pole',
+    'heart',
+    'sineLoop'
   ];
 
   notes = [
@@ -43,7 +45,7 @@ export class OptionsService {
 
   baseOptions = {
 
-    version: 3,
+    version: 3.2,
 
     // general options
     showTitle: {
@@ -84,7 +86,7 @@ export class OptionsService {
       cameraOptions: true,
       sampleGain: 1,
       smoothingConstant: 5,
-      animateCamera: true,
+      autoRotate: true,
       customColors: false,
       minColor: '#0000ff',
       midColor: '#00ff00',
@@ -103,6 +105,16 @@ export class OptionsService {
       max: 60,
       step: 5,
     },
+    singleSPSExplosionSize: {
+      group: '3DVisual',
+      type: 'slider',
+      label: 'Explosion Size',
+      value: 10,
+      min: 0,
+      max: 150,
+      step: 10,
+    },
+
 
 
 
@@ -161,6 +173,20 @@ export class OptionsService {
       value: true,
     },
 
+    heart: {
+      group: 'SPS',
+      type: 'checkbox',
+      label: 'Heart',
+      value: true,
+    },
+
+    sineLoop: {
+      group: 'SPS',
+      type: 'checkbox',
+      label: 'Sine Loop',
+      value: true,
+    },
+
 
 
 
@@ -175,7 +201,7 @@ export class OptionsService {
       cameraOptions: false,
       sampleGain: 1,
       smoothingConstant: 5,
-      animateCamera: false,
+      autoRotate: false,
       customColors: false,
       minColor: '#0000ff',
       midColor: '#00ff00',
@@ -195,7 +221,7 @@ export class OptionsService {
       cameraOptions: false,
       sampleGain: 1,
       smoothingConstant: 5,
-      animateCamera: false,
+      autoRotate: false,
       customColors: false,
       minColor: '#0000ff',
       midColor: '#00ff00',
@@ -215,7 +241,7 @@ export class OptionsService {
       cameraOptions: true,
       sampleGain: 1,
       smoothingConstant: 5,
-      animateCamera: true,
+      autoRotate: true,
       customColors: false,
       minColor: '#0000ff',
       midColor: '#00ff00',
@@ -235,7 +261,7 @@ export class OptionsService {
       cameraOptions: false,
       sampleGain: 1,
       smoothingConstant: 5,
-      animateCamera: false,
+      autoRotate: false,
       customColors: false,
       minColor: '#0000ff',
       midColor: '#00ff00',
@@ -255,7 +281,7 @@ export class OptionsService {
       cameraOptions: true,
       sampleGain: 1,
       smoothingConstant: 5,
-      animateCamera: true,
+      autoRotate: true,
       customColors: false,
       minColor: '#0000ff',
       midColor: '#00ff00',
@@ -275,7 +301,7 @@ export class OptionsService {
       cameraOptions: false,
       sampleGain: 1,
       smoothingConstant: 5,
-      animateCamera: false,
+      autoRotate: false,
       customColors: false,
       minColor: '#0000ff',
       midColor: '#00ff00',
@@ -305,10 +331,10 @@ export class OptionsService {
       step: .1,
       visualCustom: true
     },
-    animateCamera: {
+    autoRotate: {
       group: '3DVisual',
       type: 'checkbox',
-      label: 'Animate Camera',
+      label: 'Auto Rotate',
       value: true,
       cameraCustom: true
     },
@@ -567,8 +593,8 @@ export class OptionsService {
     this.options.sampleGain.value =
       this.options[this.visuals[visualIndex]].sampleGain;
 
-    this.options.animateCamera.value =
-      this.options[this.visuals[visualIndex]].animateCamera;
+    this.options.autoRotate.value =
+      this.options[this.visuals[visualIndex]].autoRotate;
 
     this.options.customColors.value =
       this.options[this.visuals[visualIndex]].customColors;
@@ -747,6 +773,16 @@ export class OptionsService {
     this.storageService.saveOptions(this.options);
   }
 
+
+  get singleSPSExplosionSize(): number {
+    return this.options.singleSPSExplosionSize.value;
+  }
+
+  set singleSPSExplosionSize(value: number) {
+    this.options.singleSPSExplosionSize.value = value;
+    this.storageService.saveOptions(this.options);
+  }
+
   get blockPlane(): boolean {
     return this.options.blockPlane.value;
   }
@@ -884,6 +920,43 @@ export class OptionsService {
     }
   }
 
+  get heart(): boolean {
+    return this.options.heart.value;
+  }
+
+  set heart(value: boolean) {
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+      this.options.heart.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.heart.value = !value;
+      (document.getElementById('heart') as HTMLInputElement).checked = true;
+    }
+  }
+
+
+  get sineLoop(): boolean {
+    return this.options.sineLoop.value;
+  }
+
+  set sineLoop(value: boolean) {
+    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+      this.options.sineLoop.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.sineLoop.value = !value;
+      (document.getElementById('sineLoop') as HTMLInputElement).checked = true;
+    }
+  }
+
+
+
+
+
+
+
   get showPanel(): boolean {
     return this.state.showPanel.value;
   }
@@ -982,13 +1055,13 @@ export class OptionsService {
     this.storageService.saveOptions(this.options);
   }
 
-  get animateCamera(): boolean {
-    return this.options.animateCamera.value;
+  get autoRotate(): boolean {
+    return this.options.autoRotate.value;
   }
 
-  set animateCamera(value: boolean) {
-    this.options.animateCamera.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].animateCamera = value;
+  set autoRotate(value: boolean) {
+    this.options.autoRotate.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].autoRotate = value;
     this.storageService.saveOptions(this.options);
   }
 
