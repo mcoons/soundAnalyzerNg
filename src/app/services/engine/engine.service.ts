@@ -5,6 +5,8 @@ import { Subscription, Observable, fromEvent } from 'rxjs';
 
 import * as BABYLON from 'babylonjs';
 import 'babylonjs-materials';
+import * as MESHWRITER from 'meshwriter';
+
 
 import { MessageService } from '../message/message.service';
 import { AudioService } from '../audio/audio.service';
@@ -38,7 +40,7 @@ export class EngineService {
   private resizeObservable$: Observable<Event>;
   private resizeSubscription$: Subscription;
 
-  private showAxis = false;
+  private showAxis = true;
 
   glowLayer;
   highlightLayer;
@@ -54,6 +56,11 @@ export class EngineService {
   private tube2;
   private matGroundCover;
   private tubeMat;
+
+  Writer;
+  titleText;
+  titleSPS;
+  titleMat;
 
   public constructor(
     private ngZone: NgZone,
@@ -89,6 +96,11 @@ export class EngineService {
       WaveRibbon
     ];
 
+
+
+    // setInterval( () => {
+    //   console.log(this.camera);
+    // }, 5000);
   }
 
 
@@ -117,6 +129,7 @@ export class EngineService {
     this.camera.lowerRadiusLimit = 10;
     this.camera.attachControl(this.canvas, true);
     this.camera.fovMode = BABYLON.Camera.FOVMODE_HORIZONTAL_FIXED;
+    // this.camera.fovMode = BABYLON.Camera.FOVMODE_VERTICAL_FIXED;
 
     const pointLight1 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(500, 500, -600), this.scene);
     // pointLight1.intensity = .8;
@@ -133,8 +146,26 @@ export class EngineService {
     const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(-1, -1, 0), this.scene);
     // light.intensity = 1.5;
     // tslint:disable-next-line: max-line-length
+
+    this.scene.registerBeforeRender(this.beforeRender);
+
+    this.Writer = new MESHWRITER(this.scene, { scale: 10 });
+
+    console.log('in create scene');
+    console.log('this.visualClassIndex');
+    console.log(this.visualClassIndex);
+
     this.currentVisual = new this.visualClasses[this.visualClassIndex](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
     this.currentVisual.create();
+
+    this.titleMat = new BABYLON.StandardMaterial('titleMat', this.scene);
+    this.titleMat.alpha = 1;
+    this.titleMat.specularColor = new BABYLON.Color3(0, 0, 0);
+    this.titleMat.emissiveColor = new BABYLON.Color3(0, 0, 0);
+    this.titleMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
+
+    // this.createTitleText('Have Yourself a Merry Little Christmas');
+
   }
 
   public animate(): void {
@@ -194,14 +225,14 @@ export class EngineService {
     this.currentVisual = new this.visualClasses[index](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
     this.currentVisual.create();
 
-    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
-      this.optionsService.options[this.optionsService.visuals[index]].calpha;
+    // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
+    //   this.optionsService.options[this.optionsService.visuals[index]].calpha;
 
-    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta =
-      this.optionsService.options[this.optionsService.visuals[index]].cbeta;
+    // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta =
+    //   this.optionsService.options[this.optionsService.visuals[index]].cbeta;
 
-    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius =
-      this.optionsService.options[this.optionsService.visuals[index]].cradius;
+    // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius =
+    //   this.optionsService.options[this.optionsService.visuals[index]].cradius;
 
   }
 
@@ -400,8 +431,115 @@ export class EngineService {
     this.tube2.material = this.tubeMat;
     this.tube2.rotation.y = Math.PI / 6;
 
+    // this.Writer = MeshWriter(this.scene, { scale: 1 });
+    // this.Writer = new MESHWRITER(this.scene, { scale: 1 });
+    // this.text1 = this.Writer(
+    // 'ABC',
+    // {
+    //   'anchor': 'center',
+    //   'letter - height': 50,
+    //   'color': '#1C3870',
+    //   'position': {
+    //     'z': -2
+    //   }
+    // }
+    // )
+
     this.hexParent.setEnabled(false);
 
   }
+
+
+  createTitleText(text) {
+    const scale = 10;
+    const depth = .75;
+
+    // this.titleSPS.mesh.dispose();
+    // this.titleSPS.dispose();
+    // this.titleText.dispose();
+    // this.titleSPS = null;
+    // this.titleText = null;
+
+    this.titleText = new this.Writer(
+      text,
+      {
+        anchor: 'center',
+        'letter-height': scale,
+        'letter-thickness': depth,
+        color: '#ff0000',
+        position: {
+          x: 0,
+          y: 90, // 90,
+          z: 300, // 300
+        }
+      }
+    );
+
+    this.titleText.getMesh().setPivotPoint(this.titleText.getMesh().getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
+
+    this.titleText.getMesh().rotation.x = -Math.PI / 2;
+    this.titleText.getMesh().material = this.titleMat;
+
+    // this.titleSPS = this.titleText.getSPS() as BABYLON.SolidParticleSystem;
+    this.titleSPS = this.titleText.getSPS();
+
+    this.titleSPS.updateParticle = (particle) => {
+      const py = this.audioService.sample1[ (particle.idx + 1) * 5 + 192];
+      particle.position.z = py / 5;
+      const pc = this.colorsService.colors(py);
+      particle.color.r = pc.r / 255;
+      particle.color.g = pc.g / 255;
+      particle.color.b = pc.b / 255;
+    };
+
+
+    console.log('this.titleSPS');
+    console.log(this.titleSPS);
+    console.log('this.titleText');
+    console.log(this.titleText);
+
+    this.titleText.getMesh().parent = this.camera;
+    // this.titleSPS.parent = this.camera;
+
+  }
+
+  beforeRender = () => {
+    // this.titleSPS.setParticles();
+}
+
+  // create3DText(displayText, scale, depth, xPos, yPos, zPos, color) {
+  //   // var  MeshWriter, text1, text2, C1, C2;
+
+  //   const Writer = new MESHWRITER(this.scene, { scale });
+  //   const text1 = new Writer(
+  //     displayText,
+  //     {
+  //       anchor: 'center',
+  //       'letter-height': scale,
+  //       'letter-thickness': depth,
+  //       color: '#ff0000',
+  //       position: {
+  //         x: xPos,
+  //         y: yPos,
+  //         z: zPos
+  //       }
+  //     }
+  //   );
+
+  //   text1.getMesh().setPivotPoint(text1.getMesh().getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
+
+  //   text1.getMesh().rotation.x = -Math.PI / 2;
+  //   text1.getMesh().material = color;
+
+  //   let textSPS = text1.getSPS();
+  //   console.log('textSPS');
+  //   console.log(textSPS);
+  //   textSPS.particles[1].position.y = 500;
+
+  //   console.log('text1');
+  //   console.log(text1);
+
+  //   return text1;
+  // }
 
 }

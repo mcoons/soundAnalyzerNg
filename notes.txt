@@ -100,4 +100,88 @@ BiquadFilterNode
 M4A does not play
 
 
+IN PARTICLE update
 
+expanding
+
+scale - lerping current to next
+position - lerping current to exp local
+rotation - lerping current to next
+color - lerping current to next
+
+
+contracting
+
+scaling -  next
+position - lerping exp loc to next
+rotation - next
+color - next
+
+
+else   (current = next at this time)
+
+scaling - current
+position - current 
+rotation - current
+color - current
+
+
+
+IN MAIN update
+
+expanding
+
+SPS rotation - lerping current to next
+Camera - lerping current to next
+
+
+
+contracting
+
+SPS rotation - next
+
+
+
+else   (current = next at this time)
+
+SPS rotation - current
+
+
+
+
+            // if (this.nextSPS <= this.currentSPS) {
+            //     this.previousCameraIndex = this.currentCameraIndex;
+            //     this.currentCameraIndex += 1;
+            //     if (this.currentCameraIndex === 2) {
+            //         this.currentCameraIndex = 0;
+            //     }
+            //     this.cameraSwap = true;
+            //     console.log('camera swap');
+            // }
+
+
+            const cameraSettingsCurrent =
+                // this.cameraSwap ?
+                this.SPSFunctions[this.currentSPS].cameraDefault(this.currentCameraIndex) // :
+                // this.SPSFunctions[this.currentSPS].cameraDefault(this.previousCameraIndex);
+            const cameraSettingsNext = this.SPSFunctions[this.nextSPS].cameraDefault(this.currentCameraIndex);
+
+            (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
+                BABYLON.Scalar.Lerp(
+                    cameraSettingsCurrent.alpha,
+                    cameraSettingsNext.alpha,
+                    this.conTimer);
+
+
+            (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta =
+                BABYLON.Scalar.Lerp(
+                    cameraSettingsCurrent.beta,
+                    cameraSettingsNext.beta,
+                    this.conTimer);
+
+
+            (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius =
+                BABYLON.Scalar.Lerp(
+                    cameraSettingsCurrent.radius,
+                    cameraSettingsNext.radius,
+                    this.conTimer);
