@@ -5,6 +5,7 @@ import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
+import * as MESHWRITER from 'meshwriter';
 
 import { map } from './utilities.js';
 
@@ -48,6 +49,10 @@ export class Rings {
     private myTheta5;
 
     glass;
+    Writer;
+    text1;
+    lineMat;
+    textSPS;
 
     constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
@@ -68,6 +73,12 @@ export class Rings {
 
         this.scene.registerBeforeRender(this.beforeRender);
 
+        // this.lineMat = new BABYLON.StandardMaterial('lineMat', this.scene);
+        // this.lineMat.alpha = 1;
+        // this.lineMat.specularColor = new BABYLON.Color3(0, 0, 0);
+        // this.lineMat.emissiveColor = new BABYLON.Color3(0, 0, 0);
+        // this.lineMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
+
         this.setDefaults();
     }
 
@@ -85,6 +96,7 @@ export class Rings {
         this.ring1SPS.setParticles();
         this.ring3SPS.setParticles();
         this.ring5SPS.setParticles();
+        // this.textSPS.setParticles();
     }
 
     create() {
@@ -251,7 +263,56 @@ export class Rings {
         mirrorMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
 
         this.glass.material = mirrorMaterial;
+
+
+
+        // const displayText = 'Have Yourself a Merry Little Christmas';
+        // const scale = 10;
+        // const depth = .75;
+
+        // const Writer = new MESHWRITER(this.scene, { scale: scale });
+        // this.text1 = new Writer(
+        //     displayText,
+        //     {
+        //         anchor: 'center',
+        //         'letter-height': scale,
+        //         'letter-thickness': depth,
+        //         color: '#ff0000',
+        //         position: {
+        //             x: 0,
+        //             y: 30,
+        //             z: 30
+        //         }
+        //     }
+        // );
+
+        // this.text1.getMesh().setPivotPoint(this.text1.getMesh().getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
+
+        // this.text1.getMesh().rotation.x = -Math.PI / 2;
+        // this.text1.getMesh().material = this.lineMat;
+
+        // this.textSPS = this.text1.getSPS() as BABYLON.SolidParticleSystem;
+
+        // this.textSPS.updateParticle = (particle) => {
+        //     const py = this.audioService.sample1[ (particle.idx + 1) * 5 + 192];
+        //     particle.position.z = py / 5;
+        //     const pc = this.colorsService.colors(py);
+        //     particle.color.r = pc.r / 255;
+        //     particle.color.g = pc.g / 255;
+        //     particle.color.b = pc.b / 255;
+        // };
+
+        // this.engineService.scene.registerBeforeRender(this.textSPS.setParticles);
+
+        // console.log('this.textSPS');
+        // console.log(this.textSPS);
+        // console.log('this.text1');
+        // console.log(this.text1);
+
     }
+
+
+
 
     update() { }
 
@@ -270,6 +331,12 @@ export class Rings {
         this.mesh5.dispose();
         this.ring5SPS.dispose();
         this.ring5SPS = null; // tells the GC the reference can be cleaned up also
+
+        // this.textSPS.mesh.dispose();
+        // this.textSPS.dispose();
+        // this.text1.dispose();
+        // this.textSPS = null;
+        // this.text1 = null;
 
         this.glass.dispose();
 

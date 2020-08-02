@@ -37,6 +37,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.0",
     "material-design-icons": "^3.0.1",
+    "meshwriter": "^1.2.4",
     "moment": "^2.25.3",
     "path": "^0.12.7",
     "rxjs": "~6.5.5",
