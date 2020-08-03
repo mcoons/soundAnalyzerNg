@@ -964,7 +964,11 @@ export class SingleSPS implements OnDestroy {
                 this.SPS.mesh.rotation = this.SPSFunctions[this.nextSPS].spsRotation();
 
                 this.cameraSettingsCurrent = this.SPSFunctions[this.currentSPS].cameraDefault(this.cameraIndicies[this.currentSPS]); // :
-                this.cameraSettingsNext = this.SPSFunctions[this.nextSPS].cameraDefault(this.cameraIndicies[this.nextSPS]);
+                if (this.optionsService.getSelectedSPSCount() === 1) {
+                    this.cameraSettingsNext = this.SPSFunctions[this.currentSPS].cameraDefault( (this.cameraIndicies[this.currentSPS] + 1) %2);
+                } else {
+                    this.cameraSettingsNext = this.SPSFunctions[this.nextSPS].cameraDefault(this.cameraIndicies[this.nextSPS]);
+                }
 
                 (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
                     BABYLON.Scalar.Lerp(
