@@ -5,6 +5,8 @@ import { Subscription, Observable, fromEvent } from 'rxjs';
 import { MessageService } from '../message/message.service';
 import { StorageService } from '../storage/storage.service';
 
+// import { Single } from '../../visualization-classes/SingleSPS';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,7 +18,8 @@ export class OptionsService {
   resizeSubscription: Subscription;
 
   visuals = [
-    'singleSPS',
+    'singleSPSCube',
+    'singleSPSRibbon',
     'starManager',
     'spectrograph',
     'spherePlaneManagerSPS',
@@ -25,7 +28,8 @@ export class OptionsService {
     'waveRibbon',
   ];
 
-  SPSs = [
+  CubeSPSs =
+  [
     'blockPlane',
     'thing1',
     'blockSpiral',
@@ -39,13 +43,30 @@ export class OptionsService {
     'sineLoop'
   ];
 
+  RibbonSPSs =
+  [
+    'blockPlane',
+    'thing1',
+    'blockSpiral',
+    'thing2',
+    'equation',
+    'thing3',
+    'cube',
+    'sphere',
+    'pole',
+    'heart',
+    'sineLoop'
+  ];
+
+
+
   notes = [
     'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'None'
   ];
 
   baseOptions = {
 
-    version: 3.3,
+    version: 3.44,
 
     // general options
     showTitle: {
@@ -60,12 +81,12 @@ export class OptionsService {
       label: 'Show Freq Bars',
       value: false
     },
-    showWaveform: {
-      group: 'General',
-      type: 'checkbox',
-      label: 'Show Waveform',
-      value: false
-    },
+    // showWaveform: {
+    //   group: 'General',
+    //   type: 'checkbox',
+    //   label: 'Show Waveform',
+    //   value: false
+    // },
     waveformMultiplier: {
       group: 'General',
       type: 'waveslider',
@@ -76,10 +97,10 @@ export class OptionsService {
       step: .1
     },
 
-    singleSPS: {
+    singleSPSCube: {
       group: '3DVisual',
       type: 'radio',
-      label: 'Exploding SPS',
+      label: 'Exploding Cube SPS',
       value: 0,
       checked: true,
       colorOptions: true,
@@ -119,69 +140,161 @@ export class OptionsService {
 
 
     blockPlane: {
-      group: 'SPS',
+      group: 'CubeSPS',
+      type: 'checkbox',
+      label: 'Cube Block Plane',
+      value: true,
+    },
+    thing1: {
+      group: 'CubeSPS',
+      type: 'checkbox',
+      label: 'Cube Thing 1',
+      value: true,
+    },
+    blockSpiral: {
+      group: 'CubeSPS',
+      type: 'checkbox',
+      label: 'Cube Block Spiral',
+      value: true,
+    },
+    thing2: {
+      group: 'CubeSPS',
+      type: 'checkbox',
+      label: 'Cube Thing 2',
+      value: true,
+    },
+    equation: {
+      group: 'CubeSPS',
+      type: 'checkbox',
+      label: 'Cube Equation',
+      value: true,
+    },
+    thing3: {
+      group: 'CubeSPS',
+      type: 'checkbox',
+      label: 'Cube Thing 3',
+      value: true,
+    },
+    cube: {
+      group: 'CubeSPS',
+      type: 'checkbox',
+      label: 'Cube Cube',
+      value: true,
+    },
+    sphere: {
+      group: 'CubeSPS',
+      type: 'checkbox',
+      label: 'Cube Sphere',
+      value: true,
+    },
+    pole: {
+      group: 'CubeSPS',
+      type: 'checkbox',
+      label: 'Cube Pole',
+      value: true,
+    },
+
+    heart: {
+      group: 'CubeSPS',
+      type: 'checkbox',
+      label: 'Cube Heart',
+      value: true,
+    },
+
+    sineLoop: {
+      group: 'CubeSPS',
+      type: 'checkbox',
+      label: 'Cube Sine Loop',
+      value: true,
+    },
+
+
+
+    singleSPSRibbon: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Exploding Ribbon SPS',
+      value: 1,
+      checked: true,
+      colorOptions: true,
+      cameraOptions: true,
+      sampleGain: 1,
+      smoothingConstant: 5,
+      autoRotate: true,
+      customColors: false,
+      minColor: '#0000ff',
+      midColor: '#00ff00',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: 1.57,
+      cradius: 1000
+    },
+
+    blockPlaneRibbon: {
+      group: 'RibbonSPS',
       type: 'checkbox',
       label: 'Block Plane',
       value: true,
     },
-    thing1: {
-      group: 'SPS',
+    thing1Ribbon: {
+      group: 'RibbonSPS',
       type: 'checkbox',
       label: 'Thing 1',
       value: true,
     },
-    blockSpiral: {
-      group: 'SPS',
+    blockSpiralRibbon: {
+      group: 'RibbonSPS',
       type: 'checkbox',
       label: 'Block Spiral',
       value: true,
     },
-    thing2: {
-      group: 'SPS',
+    thing2Ribbon: {
+      group: 'RibbonSPS',
       type: 'checkbox',
       label: 'Thing 2',
       value: true,
     },
-    equation: {
-      group: 'SPS',
+    equationRibbon: {
+      group: 'RibbonSPS',
       type: 'checkbox',
       label: 'Equation',
       value: true,
     },
-    thing3: {
-      group: 'SPS',
+    thing3Ribbon: {
+      group: 'RibbonSPS',
       type: 'checkbox',
       label: 'Thing 3',
       value: true,
     },
-    cube: {
-      group: 'SPS',
+    cubeRibbon: {
+      group: 'RibbonSPS',
       type: 'checkbox',
       label: 'Cube',
       value: true,
     },
-    sphere: {
-      group: 'SPS',
+    sphereRibbon: {
+      group: 'RibbonSPS',
       type: 'checkbox',
       label: 'Sphere',
       value: true,
     },
-    pole: {
-      group: 'SPS',
+    poleRibbon: {
+      group: 'RibbonSPS',
       type: 'checkbox',
       label: 'Pole',
       value: true,
     },
 
-    heart: {
-      group: 'SPS',
+    heartRibbon: {
+      group: 'RibbonSPS',
       type: 'checkbox',
       label: 'Heart',
       value: true,
     },
 
-    sineLoop: {
-      group: 'SPS',
+    sineLoopRibbon: {
+      group: 'RibbonSPS',
       type: 'checkbox',
       label: 'Sine Loop',
       value: true,
@@ -195,7 +308,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Stars',
-      value: 1,
+      value: 2,
       checked: false,
       colorOptions: false,
       cameraOptions: false,
@@ -215,7 +328,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Spectrograph',
-      value: 2,
+      value: 3,
       checked: false,
       colorOptions: false,
       cameraOptions: false,
@@ -235,7 +348,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Sphere Plane',
-      value: 3,
+      value: 4,
       checked: false,
       colorOptions: true,
       cameraOptions: true,
@@ -255,7 +368,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Rings',
-      value: 4,
+      value: 5,
       checked: false,
       colorOptions: true,
       cameraOptions: false,
@@ -275,7 +388,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'Hex',
-      value: 5,
+      value: 6,
       checked: false,
       colorOptions: true,
       cameraOptions: true,
@@ -295,7 +408,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'radio',
       label: 'WaveRibbon',
-      value: 6,
+      value: 7,
       checked: false,
       colorOptions: false,
       cameraOptions: false,
@@ -534,6 +647,8 @@ export class OptionsService {
       this.windowResize();
     });
 
+    // this.SPSs = this.getSPSNames();
+
     const lOptions = storageService.loadOptions();
     if (lOptions.version) {
       if (lOptions.version !== this.baseOptions.version) {
@@ -560,6 +675,9 @@ export class OptionsService {
     } else {
       console.log('local options error');
     }
+
+    console.log("CubeSPSs");
+    console.log(this.CubeSPSs);
   }
 
   toggleOption(itemName: string) {
@@ -664,10 +782,18 @@ export class OptionsService {
     this.updateState('playerTopCanvas', playerDiv.offsetTop * window.devicePixelRatio);
   }
 
-  public getSelectedSPSCount() {
+  public getSelectedCubeSPSCount() {
     let count = 0;
-    for (let index = 0; index < this.SPSs.length; index++) {
-      count += (this.options[this.SPSs[index]].value ? 1 : 0);
+    for (let index = 0; index < this.CubeSPSs.length; index++) {
+      count += (this.options[this.CubeSPSs[index]].value ? 1 : 0);
+    }
+    return count;
+  }
+
+  public getSelectedRibbonSPSCount() {
+    let count = 0;
+    for (let index = 0; index < this.RibbonSPSs.length; index++) {
+      count += (this.options[this.RibbonSPSs[index]].value ? 1 : 0);
     }
     return count;
   }
@@ -681,14 +807,14 @@ export class OptionsService {
     this.storageService.saveOptions(this.options);
   }
 
-  get showWaveform() {
-    return this.options.showWaveform.value;
-  }
+  // get showWaveform() {
+  //   return this.options.showWaveform.value;
+  // }
 
-  set showWaveform(value) {
-    this.options.showWaveform.value = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set showWaveform(value) {
+  //   this.options.showWaveform.value = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
   get waveformDelay(): number {
     return this.options.waveformDelay.value;
@@ -788,7 +914,7 @@ export class OptionsService {
   }
 
   set blockPlane(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
       this.options.blockPlane.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -803,7 +929,7 @@ export class OptionsService {
   }
 
   set thing1(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
       this.options.thing1.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -818,7 +944,7 @@ export class OptionsService {
   }
 
   set blockSpiral(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
       this.options.blockSpiral.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -833,7 +959,7 @@ export class OptionsService {
   }
 
   set thing2(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
       this.options.thing2.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -848,7 +974,7 @@ export class OptionsService {
   }
 
   set equation(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
       this.options.equation.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -864,7 +990,7 @@ export class OptionsService {
   }
 
   set thing3(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
       this.options.thing3.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -880,7 +1006,7 @@ export class OptionsService {
   }
 
   set cube(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
       this.options.cube.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -895,7 +1021,7 @@ export class OptionsService {
   }
 
   set sphere(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
       this.options.sphere.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -910,7 +1036,7 @@ export class OptionsService {
   }
 
   set pole(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
       this.options.pole.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -925,7 +1051,7 @@ export class OptionsService {
   }
 
   set heart(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
       this.options.heart.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);
@@ -941,7 +1067,7 @@ export class OptionsService {
   }
 
   set sineLoop(value: boolean) {
-    if ((!value && this.getSelectedSPSCount() > 1) || value) {
+    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
       this.options.sineLoop.value = value;
       this.announceChange('sps change');
       this.storageService.saveOptions(this.options);

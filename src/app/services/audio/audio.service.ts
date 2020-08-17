@@ -249,17 +249,17 @@ export class AudioService {
   analyzeData = () => {
     ////////////////////////////////////
     // get FREQUENCY data for this frame
-    if (true) {
-      this.fr64Analyser.getByteFrequencyData(this.fr64DataArray);
-      this.fr128Analyser.getByteFrequencyData(this.fr128DataArray);
-      this.fr256Analyser.getByteFrequencyData(this.fr256DataArray);
-      this.fr512Analyser.getByteFrequencyData(this.fr512DataArray);
-      this.fr1024Analyser.getByteFrequencyData(this.fr1024DataArray);
-      this.fr2048Analyser.getByteFrequencyData(this.fr2048DataArray);
-      this.fr4096Analyser.getByteFrequencyData(this.fr4096DataArray);
-      this.fr8192Analyser.getByteFrequencyData(this.fr8192DataArray);
-      this.fr16384Analyser.getByteFrequencyData(this.fr16384DataArray);
-    }
+    // if (true) {
+    this.fr64Analyser.getByteFrequencyData(this.fr64DataArray);
+    this.fr128Analyser.getByteFrequencyData(this.fr128DataArray);
+    this.fr256Analyser.getByteFrequencyData(this.fr256DataArray);
+    this.fr512Analyser.getByteFrequencyData(this.fr512DataArray);
+    this.fr1024Analyser.getByteFrequencyData(this.fr1024DataArray);
+    this.fr2048Analyser.getByteFrequencyData(this.fr2048DataArray);
+    this.fr4096Analyser.getByteFrequencyData(this.fr4096DataArray);
+    this.fr8192Analyser.getByteFrequencyData(this.fr8192DataArray);
+    this.fr16384Analyser.getByteFrequencyData(this.fr16384DataArray);
+    // }
     // combine sample set
 
     for (let index = 0; index < 64; index++) { //  64*9 = 576
@@ -274,25 +274,25 @@ export class AudioService {
       this.sample1[index + 512] = (this.soundArrays[1])[index + 64];   // 128 buckets
     }
 
-    this.sample1BufferHistory[this.sample1BufferHistory.length] = this.sample1.slice(0);
+    // this.sample1BufferHistory[this.sample1BufferHistory.length] = this.sample1.slice(0);
 
-    if (this.sample1BufferHistory.length > 150) {
-      this.sample1BufferHistory.reverse();
-      this.sample1BufferHistory.pop();
-      this.sample1BufferHistory.reverse();
-    }
+    // if (this.sample1BufferHistory.length > 150) {
+    //   this.sample1BufferHistory.reverse();
+    //   this.sample1BufferHistory.pop();
+    //   this.sample1BufferHistory.reverse();
+    // }
 
     //////////////////////////////////////
     // get TIME DOMAIN data for this frame
 
-    this.tdAnalyser.getByteTimeDomainData(this.tdDataArray);
+    // this.tdAnalyser.getByteTimeDomainData(this.tdDataArray);
 
     // TODO: historical data for wave form       TODO:    TODO:
-    this.tdHistory.push(this.tdDataArray.slice(0));
+    // this.tdHistory.push(this.tdDataArray.slice(0));
 
-    if (this.tdHistory.length > this.tdHistoryArraySize) {
-      this.tdHistory.shift();
-    }
+    // if (this.tdHistory.length > this.tdHistoryArraySize) {
+    //   this.tdHistory.shift();
+    // }
   }
 
   clearSampleArrays() {

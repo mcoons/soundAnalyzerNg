@@ -7,6 +7,10 @@ import * as BABYLON from 'babylonjs';
 import 'babylonjs-materials';
 import * as MESHWRITER from 'meshwriter';
 
+// import '@babylonjs/core/Debug/debugLayer';
+// import '@babylonjs/inspector';
+
+
 
 import { MessageService } from '../message/message.service';
 import { AudioService } from '../audio/audio.service';
@@ -14,53 +18,53 @@ import { OptionsService } from '../options/options.service';
 import { StorageService } from '../storage/storage.service';
 import { ColorsService } from '../colors/colors.service';
 
-// import { BlockPlaneManager } from '../../visualization-classes/BlockPlaneManager';
 import { SpherePlaneManagerSPS } from '../../visualization-classes/SpherePlaneManagerSPS';
-// import { EquationManager } from '../../visualization-classes/EquationManager';
-// import { CubeManager } from '../../visualization-classes/CubeManager';
-// import { BlockSpiralManager } from '../../visualization-classes/BlockSpiralManager';
 import { StarManager } from '../../visualization-classes/StarManager';
 import { Spectrograph } from '../../visualization-classes/Spectrograph';
 import { Rings } from '../../visualization-classes/Rings';
 import { Hex } from '../../visualization-classes/Hex';
 import { WaveRibbon } from '../../visualization-classes/WaveRibbon';
-import { SingleSPS } from '../../visualization-classes/SingleSPS';
+import { SingleSPSCube } from '../../visualization-classes/SingleSPSCube';
+import { SingleSPSRibbon } from '../../visualization-classes/SingleSPSRibbon';
 
 
 @Injectable({ providedIn: 'root' })
 export class EngineService {
   private canvas: HTMLCanvasElement;
   public engine: BABYLON.Engine;
-  public camera: BABYLON.ArcRotateCamera;
+  public camera1: BABYLON.ArcRotateCamera;
+  public camera2: BABYLON.FollowCamera;
   public scene: BABYLON.Scene;
   private visualClasses;
   private visualClassIndex;
   private currentVisual;
-
-  private resizeObservable$: Observable<Event>;
-  private resizeSubscription$: Subscription;
-
   private showAxis = false;
-
-  glowLayer;
-  highlightLayer;
-  subscription;
   private hexMesh;
-  hexSPS;
   private finalHexGround;
   private hexMat;
   private groundMat;
-  hexParent;
   private groundCover;
   private tube1;
   private tube2;
   private matGroundCover;
   private tubeMat;
 
+  private resizeObservable$: Observable<Event>;
+  private resizeSubscription$: Subscription;
+
+  glowLayer;
+  highlightLayer;
+  subscription;
+  hexSPS;
+  hexParent;
   Writer;
   titleText;
   titleSPS;
   titleMat;
+  skybox;
+  skyboxMaterial;
+  cameraTarget;
+
 
   public constructor(
     private ngZone: NgZone,
@@ -87,7 +91,8 @@ export class EngineService {
 
     this.visualClassIndex = this.optionsService.currentVisual;
     this.visualClasses = [
-      SingleSPS,
+      SingleSPSCube,
+      SingleSPSRibbon,
       StarManager,
       Spectrograph,
       SpherePlaneManagerSPS,
@@ -96,11 +101,6 @@ export class EngineService {
       WaveRibbon
     ];
 
-
-
-    // setInterval( () => {
-    //   console.log(this.camera);
-    // }, 5000);
   }
 
 
@@ -112,11 +112,79 @@ export class EngineService {
     this.scene = new BABYLON.Scene(this.engine);
     this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
     this.scene.ambientColor = new BABYLON.Color3(.5, .5, .5);
+    this.scene.registerBeforeRender(this.beforeRender);
 
     this.highlightLayer = new BABYLON.HighlightLayer('hl1', this.scene);
 
     this.glowLayer = new BABYLON.GlowLayer('glow', this.scene);
     this.glowLayer.intensity = 1;
+
+    this.cameraTarget = new BABYLON.TransformNode('cameraTarget', this.scene);
+    // this.cameraTarget = BABYLON.MeshBuilder.CreateSphere('cameraTarget', { diameter: 1, segments: 16, updatable: true }, this.scene);
+
+    this.cameraTarget.position = new BABYLON.Vector3(0, 0, 0);
+
+    this.camera1 = new BABYLON.ArcRotateCamera('ArcRotateCam', 4.7, 1.1, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
+    this.camera1.upperRadiusLimit = 9400;
+    this.camera1.lowerRadiusLimit = 10;
+    this.camera1.attachControl(this.canvas, true);
+    this.camera1.fovMode = BABYLON.Camera.FOVMODE_HORIZONTAL_FIXED;
+    // this.camera1.fovMode = BABYLON.Camera.FOVMODE_VERTICAL_FIXED;
+
+
+    let x = 500 * Math.cos(0);
+    let z = 500 * Math.sin(0);
+    let y = 100;
+
+    // Parameters: name, position, scene
+    this.camera2 = new BABYLON.FollowCamera('FollowCam', new BABYLON.Vector3(x, y, z), this.scene);
+
+    // The goal distance of camera from target
+    this.camera2.radius = 5; // 100;
+
+    // The goal height of camera above local origin (centre) of target
+    this.camera2.heightOffset = 0; // 80;
+
+    // The goal rotation of camera around local origin (centre) of target in x y plane
+    this.camera2.rotationOffset = 160;
+
+    // Acceleration of camera in moving from current to goal position
+    this.camera2.cameraAcceleration = 0.5; // .005
+
+    // The speed at which acceleration is halted
+    this.camera2.maxCameraSpeed = 5;
+
+    // This attaches the camera to the canvas
+    this.camera2.attachControl(this.canvas, true);
+
+
+    // NOTE:: SET CAMERA TARGET AFTER THE TARGET'S CREATION AND NOTE CHANGE FROM BABYLONJS V 2.5
+    // targetMesh created here.
+    // this.camera2.target = this.cameraTarget;   // version 2.4 and earlier
+    this.camera2.lockedTarget = this.cameraTarget; // version 2.5 onwards
+
+    console.log('this.camera2');
+    console.log(this.camera2);
+
+
+
+    this.scene.activeCamera = this.camera1;
+
+    const pointLight1 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(500, 500, -600), this.scene);
+
+    const pointLight2 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(-500, -500, 600), this.scene);
+    pointLight2.intensity = 1.3;
+
+    const pointLight3 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(0, 500, 0), this.scene);
+
+    const pointLight4 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(800, 480, -280), this.scene);
+    pointLight4.intensity = .75;
+
+    const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(-1, -1, 0), this.scene);
+
+    // tslint:disable-next-line: max-line-length
+    this.currentVisual = new this.visualClasses[this.visualClassIndex](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
+    this.currentVisual.create();
 
     if (this.showAxis) {
       this.showWorldAxis(150);
@@ -124,48 +192,40 @@ export class EngineService {
 
     this.createHexObj();
 
-    this.camera = new BABYLON.ArcRotateCamera('camera1', 4.7, 1.1, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
-    this.camera.upperRadiusLimit = 9400;
-    this.camera.lowerRadiusLimit = 10;
-    this.camera.attachControl(this.canvas, true);
-    this.camera.fovMode = BABYLON.Camera.FOVMODE_HORIZONTAL_FIXED;
-    // this.camera.fovMode = BABYLON.Camera.FOVMODE_VERTICAL_FIXED;
-
-    const pointLight1 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(500, 500, -600), this.scene);
-    // pointLight1.intensity = .8;
-
-    const pointLight2 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(-500, -500, 600), this.scene);
-    pointLight2.intensity = 1.3;
-
-    const pointLight3 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(0, 500, 0), this.scene);
-    // pointLight3.intensity = 1.8;
-
-    const pointLight4 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(800, 480, -280), this.scene);
-    pointLight4.intensity = .75;
-
-    const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(-1, -1, 0), this.scene);
-    // light.intensity = 1.5;
-    // tslint:disable-next-line: max-line-length
-
-    this.scene.registerBeforeRender(this.beforeRender);
-
     this.Writer = new MESHWRITER(this.scene, { scale: 10 });
 
     console.log('in create scene');
     console.log('this.visualClassIndex');
     console.log(this.visualClassIndex);
 
-    this.currentVisual = new this.visualClasses[this.visualClassIndex](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
-    this.currentVisual.create();
 
-    this.titleMat = new BABYLON.StandardMaterial('titleMat', this.scene);
-    this.titleMat.alpha = 1;
-    this.titleMat.specularColor = new BABYLON.Color3(0, 0, 0);
-    this.titleMat.emissiveColor = new BABYLON.Color3(0, 0, 0);
-    this.titleMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
 
-    // this.createTitleText('Have Yourself a Merry Little Christmas');
+    this.skybox = BABYLON.Mesh.CreateBox("skyBox", 10000.0, this.scene);
+    this.skyboxMaterial = new BABYLON.StandardMaterial("skyBox", this.scene);
+    this.skyboxMaterial.backFaceCulling = false;
+    this.skyboxMaterial.disableLighting = true;
+    this.skybox.material = this.skyboxMaterial;
 
+    this.skybox.infiniteDistance = true;
+    this.skyboxMaterial.disableLighting = true;
+
+    // this.skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture('../../assets/images/skybox/TropicalSunnyDay', this.scene);
+    // this.skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+
+
+
+
+
+    /*
+        this.titleMat = new BABYLON.StandardMaterial('titleMat', this.scene);
+        this.titleMat.alpha = 1;
+        this.titleMat.specularColor = new BABYLON.Color3(0, 0, 0);
+        this.titleMat.emissiveColor = new BABYLON.Color3(0, 0, 0);
+        this.titleMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
+    
+        this.createTitleText('Have Yourself a Merry Little Christmas');
+    */
+    console.log(this.scene);
   }
 
   public animate(): void {
@@ -193,12 +253,13 @@ export class EngineService {
     });
   }
 
-  resizeCanvas = () => {
-    this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
-  }
+  // resizeCanvas = () => {
+  //   console.log('in resizeCanvas');
+  //   this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
+  // }
 
   saveCamera() {
-
+    console.log('in saveCamera');
     this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].calpha
       = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha;
 
@@ -213,7 +274,7 @@ export class EngineService {
   }
 
   selectVisual(index) {
-
+    console.log('in selectVisual');
     this.saveCamera();
 
     this.currentVisual.remove();
@@ -225,18 +286,10 @@ export class EngineService {
     this.currentVisual = new this.visualClasses[index](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
     this.currentVisual.create();
 
-    // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
-    //   this.optionsService.options[this.optionsService.visuals[index]].calpha;
-
-    // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta =
-    //   this.optionsService.options[this.optionsService.visuals[index]].cbeta;
-
-    // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius =
-    //   this.optionsService.options[this.optionsService.visuals[index]].cradius;
-
   }
 
   fixDpi = () => {
+    // console.log('in fixdpi');
     // create a style object that returns width and height
     const dpi = window.devicePixelRatio;
     const styles = window.getComputedStyle(this.canvas);
@@ -484,7 +537,7 @@ export class EngineService {
     this.titleSPS = this.titleText.getSPS();
 
     this.titleSPS.updateParticle = (particle) => {
-      const py = this.audioService.sample1[ (particle.idx + 1) * 5 + 192];
+      const py = this.audioService.sample1[(particle.idx + 1) * 5 + 192];
       particle.position.z = py / 5;
       const pc = this.colorsService.colors(py);
       particle.color.r = pc.r / 255;
@@ -498,14 +551,14 @@ export class EngineService {
     console.log('this.titleText');
     console.log(this.titleText);
 
-    this.titleText.getMesh().parent = this.camera;
-    // this.titleSPS.parent = this.camera;
+    this.titleText.getMesh().parent = this.camera1;
+    // this.titleSPS.parent = this.camera1;
 
   }
 
   beforeRender = () => {
     // this.titleSPS.setParticles();
-}
+  }
 
   // create3DText(displayText, scale, depth, xPos, yPos, zPos, color) {
   //   // var  MeshWriter, text1, text2, C1, C2;

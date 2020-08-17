@@ -51,10 +51,10 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
             this.draw2DBars();
           }
 
-          if (this.optionsService.showWaveform === true) {
-            this.waveFormDataSource = this.audioService.tdDataArray;
-            this.drawWaveform();
-          }
+          // if (this.optionsService.showWaveform === true) {
+          //   this.waveFormDataSource = this.audioService.tdDataArray;
+          //   this.drawWaveform();
+          // }
         }
         window.requestAnimationFrame(render2DFrame);
       };

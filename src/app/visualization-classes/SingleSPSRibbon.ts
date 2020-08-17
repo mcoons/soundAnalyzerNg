@@ -5,10 +5,12 @@ import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
-import { map } from '../visualization-classes/utilities.js';
+import { map } from './utilities.js';
 import { Inject, OnDestroy } from '@angular/core';
+import { Material } from 'babylonjs';
+import { utils } from 'protractor';
 
-export class SingleSPS implements OnDestroy {
+export class SingleSPSRibbon implements OnDestroy {
 
     private scene: BABYLON.Scene;
     private audioService: AudioService;
@@ -17,9 +19,9 @@ export class SingleSPS implements OnDestroy {
     private engineService: EngineService;
     private colorsService: ColorsService;
 
-    private cameraMoveDir;
-    private cameraDelta;
-    private cameraBeta;
+    // private cameraMoveDir;
+    // private cameraDelta;
+    // private cameraBeta;
     private thetaDelta;
 
     private SPS;
@@ -37,12 +39,12 @@ export class SingleSPS implements OnDestroy {
     private PId2;
     private PId32;
     private PId1000;
-    private loopMax;
-    private rotation;
+    // private loopMax;
+    // private rotation;
     private forwardRotation;
     private backwardRotation;
 
-    private scalingDenom;
+    // private scalingDenom;
     private radius;
 
     private subscription;
@@ -81,9 +83,9 @@ export class SingleSPS implements OnDestroy {
         this.colorsService = colorsService;
 
         this.thetaDelta = 0;
-        this.cameraDelta = 0;
+        // this.cameraDelta = 0;
 
-        this.cameraMoveDir = .002;
+        // this.cameraMoveDir = .002;
 
         this.PI = Math.PI;
         this.TwoPI = this.PI * 2;
@@ -97,7 +99,7 @@ export class SingleSPS implements OnDestroy {
         this.SixPId576 = 6 * this.PI / 576;
         this.PId1000 = this.PI / 1000;
 
-        this.scalingDenom = 100;
+        // this.scalingDenom = 100;
         this.radius = 40;
         this.forwardRotation = 0;
         this.backwardRotation = this.TwoPI;
@@ -121,7 +123,7 @@ export class SingleSPS implements OnDestroy {
         this.SPSFunctions.forEach(e => this.cameraIndicies.push(0));
 
         this.updateCurrentNext();
-        this.moreThanOneSPS = this.optionsService.getSelectedSPSCount() > 1;
+        this.moreThanOneSPS = this.optionsService.getSelectedRibbonSPSCount() > 1;
 
         this.genPointsOnSphere(576);
 
@@ -134,13 +136,15 @@ export class SingleSPS implements OnDestroy {
         clearTimeout(this.expTimeout);
 
         // if (this.moreThanOneSPS) {
-            this.initialTimeout = setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
+        this.initialTimeout = setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
 
-            // console.log('this.initialTimeout after creation in constructor');
-            // console.log(this.initialTimeout);
+        // console.log('this.initialTimeout after creation in constructor');
+        // console.log(this.initialTimeout);
         // }
 
         this.setDefaults();
+
+        console.log(this.getSPSNames());
 
     }
 
@@ -176,6 +180,7 @@ export class SingleSPS implements OnDestroy {
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
                     { alpha: 3 * this.PId2, beta: 1.05, radius: 830 },
+                    { alpha: 3 * this.PId2, beta: .01, radius: 350 },
                     { alpha: 3 * this.PId2, beta: .01, radius: 830 }
                 ];
                 return cameraPositions[cIndex];
@@ -211,7 +216,8 @@ export class SingleSPS implements OnDestroy {
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
                     { alpha: this.PId2, beta: .01, radius: 900 },
-                    { alpha: this.PId2, beta: 1.05, radius: 900 }
+                    { alpha: this.PId2, beta: 1.05, radius: 900 },
+                    { alpha: this.PId2, beta: this.PI, radius: 400 }
                 ];
                 return cameraPositions[cIndex];
 
@@ -254,7 +260,8 @@ export class SingleSPS implements OnDestroy {
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
                     { alpha: this.PId2, beta: 1.05, radius: 950 },
-                    { alpha: this.PId2, beta: this.PI, radius: 900 }
+                    { alpha: this.PId2, beta: this.PI, radius: 900 },
+                    { alpha: this.PId2, beta: .01, radius: 500 },
                 ];
                 return cameraPositions[cIndex];
             },
@@ -297,7 +304,8 @@ export class SingleSPS implements OnDestroy {
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
                     { alpha: this.PId2, beta: .01, radius: 1200 },
-                    { alpha: this.PId2, beta: 1.05, radius: 1200 }
+                    { alpha: this.PId2, beta: 1.05, radius: 1200 },
+                    { alpha: this.PId2, beta: 1.05, radius: 600 }
                 ];
                 return cameraPositions[cIndex];
             },
@@ -338,7 +346,8 @@ export class SingleSPS implements OnDestroy {
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
                     { alpha: this.PId2, beta: 1.05, radius: 1100 },
-                    { alpha: this.PId2, beta: 1.05, radius: 1100 }
+                    { alpha: this.PId2, beta: 1.05, radius: 800 },
+                    { alpha: this.PId2, beta: .01, radius: 1100 }
                 ];
 
                 return cameraPositions[cIndex];
@@ -392,7 +401,8 @@ export class SingleSPS implements OnDestroy {
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
                     { alpha: this.PId2, beta: 1.05, radius: 1200 },
-                    { alpha: this.PId2, beta: .01, radius: 1200 }
+                    { alpha: this.PId2, beta: .01, radius: 1200 },
+                    { alpha: this.PId2, beta: 1.52, radius: 100 }
                 ];
 
                 return cameraPositions[cIndex];
@@ -419,9 +429,9 @@ export class SingleSPS implements OnDestroy {
                 return new BABYLON.Vector3(0, 0, 0);
             },
             color: (particle, yy) => {
-                const r = yy * map(particle.position.x, -80, 80, 0, 1) / 255;
-                const g = yy * map(particle.position.y, -70, 70, 0, 1) / 255;
-                const b = yy * map(particle.position.z, -70, 70, 0, 1) / 255;
+                const r = yy * map(particle.position.x, -80, 80, 0, 1) / 255 + .1;
+                const g = yy * map(particle.position.y, -70, 70, 0, 1) / 255 + .1;
+                const b = yy * map(particle.position.z, -70, 70, 0, 1) / 255 + .1;
                 const a = 1 - ((yy / 255) * (yy / 255)) + .1;
                 return new BABYLON.Color4(r, g, b, a);
             },
@@ -431,7 +441,8 @@ export class SingleSPS implements OnDestroy {
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
                     { alpha: this.PId2, beta: this.PId2, radius: 800 },
-                    { alpha: this.PId2, beta: .01, radius: 800 }
+                    { alpha: -0.7579, beta: 2.1719, radius: 800 },
+                    { alpha: this.PId2, beta: .01, radius: 800 },
                 ];
 
                 return cameraPositions[cIndex];
@@ -463,7 +474,8 @@ export class SingleSPS implements OnDestroy {
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
                     { alpha: this.PId2, beta: this.PId2, radius: 1200 },
-                    { alpha: this.PId2, beta: .01, radius: 800 }
+                    { alpha: this.PId2, beta: .01, radius: 800 },
+                    { alpha: this.PId2, beta: .01, radius: 300 }
                 ];
 
                 return cameraPositions[cIndex];
@@ -499,6 +511,7 @@ export class SingleSPS implements OnDestroy {
             },
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
+                    { alpha: this.PId2, beta: this.PId2, radius: 400 },
                     { alpha: this.PId2, beta: this.PId2, radius: 1200 },
                     { alpha: this.PId2, beta: .01, radius: 1200 }
                 ];
@@ -552,20 +565,21 @@ export class SingleSPS implements OnDestroy {
                 return new BABYLON.Vector3(x, y, z);
             },
             scaling: (particle, yy) => {
-                return new BABYLON.Vector3(.5 + yy / 50, .5 + yy / 50, .5 + yy / 50);
+                return new BABYLON.Vector3(1 + yy / 50, 1 + yy / 50, 1 + yy / 50);
             },
             rotation: (particle, yy) => {
                 return new BABYLON.Vector3(0, 0, 0);
             },
             color: (particle, yy) => {
                 const c = this.colorsService.colors(yy);
-                return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
+                return new BABYLON.Color4(.2 + c.r / 255, .2 + c.g / 255, .2 + c.b / 255, 1);
             },
             spsRotation: () => {
                 return new BABYLON.Vector3(0, this.forwardRotation, 0);
             },
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
+                    { alpha: this.PId2, beta: this.PId2, radius: 1200 },
                     { alpha: this.PId2, beta: this.PId2, radius: 1200 },
                     { alpha: this.PId2, beta: this.PId2, radius: 1200 }
                 ];
@@ -601,7 +615,7 @@ export class SingleSPS implements OnDestroy {
             scaling: (particle, yy) => {
                 const loop = Math.trunc(particle.idx / 72) + 1;
 
-                return new BABYLON.Vector3(.5 + loop * yy / 10, .5 + yy / 50, .5 + yy / 50);
+                return new BABYLON.Vector3(loop * yy / 10, yy / 50, yy / 50);
             },
             rotation: (particle, yy) => {
                 // const radian = 2 * Math.PI / 72;
@@ -619,6 +633,7 @@ export class SingleSPS implements OnDestroy {
             },
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
+                    { alpha: this.PId2, beta: .01, radius: 1200 },
                     { alpha: this.PId2, beta: .01, radius: 1200 },
                     { alpha: this.PId2, beta: .01, radius: 1200 }
                 ];
@@ -663,6 +678,10 @@ export class SingleSPS implements OnDestroy {
 
     ];
 
+    getSPSNames() {
+        return this.SPSFunctions.map(e => e.name);
+    }
+
     private startExpanding = () => {
 
         console.log('start expansion');
@@ -673,7 +692,7 @@ export class SingleSPS implements OnDestroy {
         clearInterval(this.expInterval);
         clearTimeout(this.expTimeout);
 
-        // if (this.optionsService.getSelectedSPSCount() === 1) {
+        // if (this.optionsService.getSelectedRibbonSPSCount() === 1) {
         //     console.log('cancel expanding 1 SPS');
 
         //     return;
@@ -687,6 +706,7 @@ export class SingleSPS implements OnDestroy {
         this.expInterval = setInterval(() => {
             this.theta += Math.PI / 100;
             this.expTimer = (Math.sin(this.theta) / 2 + .5);
+
         }, 20);
 
         this.expTimeout = setTimeout(() => {
@@ -711,7 +731,7 @@ export class SingleSPS implements OnDestroy {
         clearInterval(this.expInterval);
         clearTimeout(this.expTimeout);
 
-        // if (this.optionsService.getSelectedSPSCount() === 1) {
+        // if (this.optionsService.getSelectedRibbonSPSCount() === 1) {
         //     return;
         // }
 
@@ -723,6 +743,7 @@ export class SingleSPS implements OnDestroy {
         this.conInterval = setInterval(() => {
             this.theta += Math.PI / 100;
             this.conTimer = (Math.sin(this.theta) / 2 + .5);
+
         }, 50);
 
         this.conTimeout = setTimeout(() => {
@@ -733,7 +754,7 @@ export class SingleSPS implements OnDestroy {
             clearTimeout(this.expTimeout);
             this.contracting = false;
 
-            this.cameraIndicies[this.currentSPS] = (this.cameraIndicies[this.currentSPS] + 1) % 2;
+            this.cameraIndicies[this.currentSPS] = (this.cameraIndicies[this.currentSPS] + 1) % 3;
 
             this.currentSPS = this.nextSPS;
             do {
@@ -768,7 +789,7 @@ export class SingleSPS implements OnDestroy {
 
 
 
-        // if (this.moreThanOneSPS && this.optionsService.getSelectedSPSCount() === 1) {
+        // if (this.moreThanOneSPS && this.optionsService.getSelectedRibbonRibbonSPSCount() === 1) {
         //     this.expanding = false;
         //     this.contracting = false;
         //     this.moreThanOneSPS = false;
@@ -778,7 +799,7 @@ export class SingleSPS implements OnDestroy {
         //     clearInterval(this.expInterval);
         //     clearTimeout(this.expTimeout);
         // } else
-        //     if (!this.moreThanOneSPS && this.optionsService.getSelectedSPSCount() > 1) {
+        //     if (!this.moreThanOneSPS && this.optionsService.getSelectedRibbonSPSCount() > 1) {
         //         this.initialTimeout = setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
         //         this.moreThanOneSPS = true;
         //     }
@@ -824,9 +845,11 @@ export class SingleSPS implements OnDestroy {
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = false;
-        this.mat.specularColor = new BABYLON.Color3(.1, .1, .1);
+        this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
         this.mat.ambientColor = new BABYLON.Color3(.25, .25, .25);
         this.mat.forceDepthWrite = true;
+        // this.mat.reflectionTexture = new BABYLON.CubeTexture('../../assets/images/skybox/TropicalSunnyDay', this.scene);
+        // this.mat.reflectionTexture.coordinatesMode = BABYLON.Texture.PLANAR_MODE;
 
         const master = BABYLON.MeshBuilder.CreateBox(('box'), {
             height: 1,
@@ -941,20 +964,25 @@ export class SingleSPS implements OnDestroy {
 
     // Used to update the scene and the SPS mesh as a whole (not particles) 
     update = () => {
-        this.forwardRotation += this.PId1000;
-        if (this.forwardRotation > this.PI * 2) {
-            this.forwardRotation = 0;
-        }
+        // if (!this.expanding && !this.contracting){
+
+        this.forwardRotation = (this.forwardRotation + this.PId1000) % this.TwoPI;
+        // if (this.forwardRotation > this.PI * 2) {
+        //     this.forwardRotation = 0;
+        // }
         this.backwardRotation -= this.PId1000;
         if (this.backwardRotation < 0) {
-            this.backwardRotation = this.TwoPI;
+            this.backwardRotation = this.TwoPI - this.backwardRotation;
         }
 
+        //     console.log(this.engineService.camera);
+        // }
+
         if (this.expanding) {
-            this.SPS.mesh.rotation = BABYLON.Vector3.Lerp(
+            this.SPS.mesh.rotation = (BABYLON.Vector3.Lerp(
                 this.SPSFunctions[this.currentSPS].spsRotation(),
                 this.SPSFunctions[this.nextSPS].spsRotation(),
-                this.expTimer);
+                this.expTimer));
 
 
         } else
@@ -964,32 +992,41 @@ export class SingleSPS implements OnDestroy {
                 this.SPS.mesh.rotation = this.SPSFunctions[this.nextSPS].spsRotation();
 
                 this.cameraSettingsCurrent = this.SPSFunctions[this.currentSPS].cameraDefault(this.cameraIndicies[this.currentSPS]); // :
-                if (this.optionsService.getSelectedSPSCount() === 1) {
-                    this.cameraSettingsNext = this.SPSFunctions[this.currentSPS].cameraDefault( (this.cameraIndicies[this.currentSPS] + 1) %2);
+                if (this.optionsService.getSelectedRibbonSPSCount() === 1) {
+                    this.cameraSettingsNext = this.SPSFunctions[this.currentSPS].cameraDefault((this.cameraIndicies[this.currentSPS] + 1) % 3);
                 } else {
                     this.cameraSettingsNext = this.SPSFunctions[this.nextSPS].cameraDefault(this.cameraIndicies[this.nextSPS]);
                 }
 
-                (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
-                    BABYLON.Scalar.Lerp(
-                        this.cameraSettingsCurrent.alpha,
-                        this.cameraSettingsNext.alpha,
-                        this.conTimer);
+                if (this.optionsService.autoRotate) {
+
+                    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
+                        BABYLON.Scalar.Lerp(
+                            this.cameraSettingsCurrent.alpha,
+                            this.cameraSettingsNext.alpha,
+                            this.conTimer);
 
 
-                (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta =
-                    BABYLON.Scalar.Lerp(
-                        this.cameraSettingsCurrent.beta,
-                        this.cameraSettingsNext.beta,
-                        this.conTimer);
+                    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta =
+                        BABYLON.Scalar.Lerp(
+                            this.cameraSettingsCurrent.beta,
+                            this.cameraSettingsNext.beta,
+                            this.conTimer);
 
+                    // Math.abs(1.333333 * (x - 25))/100
+                    // 0 - 100      1, .5, 1
 
-                (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius =
-                    BABYLON.Scalar.Lerp(
-                        this.cameraSettingsCurrent.radius,
-                        this.cameraSettingsNext.radius,
-                        this.conTimer);
+                    // let y = Math.abs(Math.cos( this.conTimer * this.PId2)) + .001;
+                    // let x = (Math.abs( map(this.conTimer, 0, 1, -.5, .5)) );
 
+                    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius =
+                        BABYLON.Scalar.Lerp(
+                            this.cameraSettingsCurrent.radius, // * (x + y),
+                            this.cameraSettingsNext.radius, // * (x + y),
+                            this.conTimer);
+
+                    (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
+                }
             } else {
 
                 this.SPS.mesh.rotation = this.SPSFunctions[this.currentSPS].spsRotation();
@@ -1000,7 +1037,7 @@ export class SingleSPS implements OnDestroy {
     }
 
     remove = () => {
-        console.log('SingleSPS - remove');
+        console.log('SingleSPSRibbon - remove');
         this.subscription.unsubscribe();
 
         clearTimeout(this.initialTimeout);
@@ -1060,3 +1097,5 @@ export class SingleSPS implements OnDestroy {
 
 
 }
+
+// export SingleSPS.getSPSNames;
