@@ -45,17 +45,17 @@ export class OptionsService {
 
   RibbonSPSs =
   [
-    'blockPlane',
-    'thing1',
-    'blockSpiral',
-    'thing2',
-    'equation',
-    'thing3',
-    'cube',
-    'sphere',
-    'pole',
-    'heart',
-    'sineLoop'
+    'blockPlaneRibbon',
+    'thing1Ribbon',
+    'blockSpiralRibbon',
+    'thing2Ribbon',
+    'equationRibbon',
+    'thing3Ribbon',
+    'cubeRibbon',
+    'sphereRibbon',
+    'poleRibbon',
+    'heartRibbon',
+    'sineLoopRibbon'
   ];
 
 
@@ -66,7 +66,7 @@ export class OptionsService {
 
   baseOptions = {
 
-    version: 3.44,
+    version: 3.45,
 
     // general options
     showTitle: {
@@ -695,11 +695,14 @@ export class OptionsService {
   }
 
   toggleVisualRadio(itemName: string, index: number) {
+
     this.visuals.forEach(v => {
       this.options[v].checked = (itemName === v);
     });
 
     this.updateCustomOptions(index);
+
+
     this.storageService.saveOptions(this.options);
   }
 
@@ -1078,8 +1081,187 @@ export class OptionsService {
   }
 
 
+///////////////////////////////////////////////////////////////////////////
+//    RIBBON
+///////////////////////////////////////////////////////////////////////////
 
 
+
+get blockPlaneRibbon(): boolean {
+  return this.options.blockPlaneRibbon.value;
+}
+
+set blockPlaneRibbon(value: boolean) {
+  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+    this.options.blockPlaneRibbon.value = value;
+    this.announceChange('sps change');
+    this.storageService.saveOptions(this.options);
+  } else {
+    this.options.blockPlaneRibbon.value = !value;
+    (document.getElementById('blockPlaneRibbon') as HTMLInputElement).checked = true;
+  }
+}
+
+get thing1Ribbon(): boolean {
+  return this.options.thing1Ribbon.value;
+}
+
+set thing1Ribbon(value: boolean) {
+  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+    this.options.thing1Ribbon.value = value;
+    this.announceChange('sps change');
+    this.storageService.saveOptions(this.options);
+  } else {
+    this.options.thing1Ribbon.value = !value;
+    (document.getElementById('thing1Ribbon') as HTMLInputElement).checked = true;
+  }
+}
+
+get blockSpiralRibbon(): boolean {
+  return this.options.blockSpiralRibbon.value;
+}
+
+set blockSpiralRibbon(value: boolean) {
+  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+    this.options.blockSpiralRibbon.value = value;
+    this.announceChange('sps change');
+    this.storageService.saveOptions(this.options);
+  } else {
+    this.options.blockSpiralRibbon.value = !value;
+    (document.getElementById('blockSpiralRibbon') as HTMLInputElement).checked = true;
+  }
+}
+
+get thing2Ribbon(): boolean {
+  return this.options.thing2Ribbon.value;
+}
+
+set thing2Ribbon(value: boolean) {
+  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+    this.options.thing2Ribbon.value = value;
+    this.announceChange('sps change');
+    this.storageService.saveOptions(this.options);
+  } else {
+    this.options.thing2Ribbon.value = !value;
+    (document.getElementById('thing2Ribbon') as HTMLInputElement).checked = true;
+  }
+}
+
+get equationRibbon(): boolean {
+  return this.options.equationRibbon.value;
+}
+
+set equationRibbon(value: boolean) {
+  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+    this.options.equationRibbon.value = value;
+    this.announceChange('sps change');
+    this.storageService.saveOptions(this.options);
+  } else {
+    this.options.equationRibbon.value = !value;
+    (document.getElementById('equationRibbon') as HTMLInputElement).checked = true;
+  }
+}
+
+
+get thing3Ribbon(): boolean {
+  return this.options.thing3Ribbon.value;
+}
+
+set thing3Ribbon(value: boolean) {
+  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+    this.options.thing3Ribbon.value = value;
+    this.announceChange('sps change');
+    this.storageService.saveOptions(this.options);
+  } else {
+    this.options.thing3Ribbon.value = !value;
+    (document.getElementById('thing3Ribbon') as HTMLInputElement).checked = true;
+  }
+}
+
+
+get cubeRibbon(): boolean {
+  return this.options.cubeRibbon.value;
+}
+
+set cubeRibbon(value: boolean) {
+  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+    this.options.cubeRibbon.value = value;
+    this.announceChange('sps change');
+    this.storageService.saveOptions(this.options);
+  } else {
+    this.options.cubeRibbon.value = !value;
+    (document.getElementById('cubeRibbon') as HTMLInputElement).checked = true;
+  }
+}
+
+get sphereRibbon(): boolean {
+  return this.options.sphereRibbon.value;
+}
+
+set sphereRibbon(value: boolean) {
+  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+    this.options.sphereRibbon.value = value;
+    this.announceChange('sps change');
+    this.storageService.saveOptions(this.options);
+  } else {
+    this.options.sphereRibbon.value = !value;
+    (document.getElementById('sphereRibbon') as HTMLInputElement).checked = true;
+  }
+}
+
+get poleRibbon(): boolean {
+  return this.options.poleRibbon.value;
+}
+
+set poleRibbon(value: boolean) {
+  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+    this.options.poleRibbon.value = value;
+    this.announceChange('sps change');
+    this.storageService.saveOptions(this.options);
+  } else {
+    this.options.poleRibbon.value = !value;
+    (document.getElementById('poleRibbon') as HTMLInputElement).checked = true;
+  }
+}
+
+get heartRibbon(): boolean {
+  return this.options.heartRibbon.value;
+}
+
+set heartRibbon(value: boolean) {
+  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+    this.options.heartRibbon.value = value;
+    this.announceChange('sps change');
+    this.storageService.saveOptions(this.options);
+  } else {
+    this.options.heartRibbon.value = !value;
+    (document.getElementById('heartRibbon') as HTMLInputElement).checked = true;
+  }
+}
+
+
+get sineLoopRibbon(): boolean {
+  return this.options.sineLoopRibbon.value;
+}
+
+set sineLoopRibbon(value: boolean) {
+  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+    this.options.sineLoopRibbon.value = value;
+    this.announceChange('sps change');
+    this.storageService.saveOptions(this.options);
+  } else {
+    this.options.sineLoopRibbon.value = !value;
+    (document.getElementById('sineLoopRibbon') as HTMLInputElement).checked = true;
+  }
+}
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 
 
 

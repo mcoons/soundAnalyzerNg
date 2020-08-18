@@ -73,6 +73,19 @@ export class SingleSPSRibbon implements OnDestroy {
     cameraSettingsCurrent;
     cameraSettingsNext;
 
+
+    private objectPaths = [];
+
+    private planePaths = [];
+    private thickTubePaths = [];
+    private pyramidPaths = [];
+    private spiralTubePaths = [];
+    private tube0Paths = [];
+    private cubePaths = [];
+
+    private planeLines = [];
+    private spiralTubeLines = [];
+
     constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
 
         this.scene = scene;
@@ -155,7 +168,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         // Block Plane
         {
-            name: 'blockPlane',
+            name: 'blockPlaneRibbon',
             position: (particle, yy) => {
                 const row = 9 - Math.floor(particle.idx / 64);
                 const column = particle.idx % 64;
@@ -191,7 +204,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         // Thing1
         {
-            name: 'thing1',
+            name: 'thing1Ribbon',
             position: (particle) => {
                 const gtheta = this.PId32 * particle.idx - this.PId2;
                 const radius = 30 + .12 * particle.idx;
@@ -230,7 +243,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         // Block Spiral
         {
-            name: 'blockSpiral',
+            name: 'blockSpiralRibbon',
             position: (particle) => {
                 const gtheta = (this.PId32 * particle.idx) % this.TwoPI;
                 const radius = 20 + .12 * particle.idx;
@@ -277,7 +290,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         // Thing2
         {
-            name: 'thing2',
+            name: 'thing2Ribbon',
             position: (particle) => {
                 // const gtheta = 2 * Math.PI / 576 * particle.idx; // - this.PId2;
                 const gtheta = this.TwoPId576 * particle.idx; // - this.PId2;
@@ -317,7 +330,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         // Equation
         {
-            name: 'equation',
+            name: 'equationRibbon',
             position: (particle) => {
                 const ring = Math.floor(particle.idx / 64);
                 const ringIndex = particle.idx % 64;
@@ -363,7 +376,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         // Thing3
         {
-            name: 'thing3',
+            name: 'thing3Ribbon',
             position: (particle) => {
                 let x;
                 let z;
@@ -415,7 +428,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         // Cube
         {
-            name: 'cube',
+            name: 'cubeRibbon',
             position: (particle, yy) => {
                 const z = ((particle.idx % 8) - 3.5) * 20;
                 const x = ((Math.floor(particle.idx / 8) % 9) - 4) * 20;
@@ -454,7 +467,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         // Sphere
         {
-            name: 'sphere',
+            name: 'sphereRibbon',
             position: (particle) => {
                 return this.ptsOnSphere[particle.idx].position;
             },
@@ -488,7 +501,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         // Pole
         {
-            name: 'pole',
+            name: 'poleRibbon',
             position: (particle) => {
                 return new BABYLON.Vector3(
                     Math.sin((particle.idx / 576) * this.FourPI) * 40,
@@ -526,7 +539,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         // Heart
         {
-            name: 'heart',
+            name: 'heartRibbon',
             position: (particle) => {
                 let x;
                 let z;
@@ -594,7 +607,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         // Sine loop
         {
-            name: 'sineLoop',
+            name: 'sineLoopRibbon',
             position: (particle) => {
                 const radius = 15;
                 // const loop = particle.idx % 2 + 1;
@@ -843,6 +856,151 @@ export class SingleSPSRibbon implements OnDestroy {
     create = () => {
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
 
+
+        ///////////////////////////////////////
+        // CREATE ALL THE OBJECT PATHS  //////
+        let x;
+        let y;
+        let z;
+        let theta;
+        let t;
+        let gz;
+        let k;
+
+        // plane ////////////////////////////////
+
+        for (gz = -2; gz <= 2; gz++) {
+            const planePath = [];
+            for (k = -2; k <= 2; k++) {
+                x = k;
+                y = 0;
+                z = gz;
+                planePath.push(new BABYLON.Vector3(x, y, z));
+            }
+            this.planePaths.push(planePath);
+
+            const planeLine = BABYLON.Mesh.CreateLines("par", planePath, this.scene);
+            this.planeLines.push(planeLine);
+        }
+
+        // cube //////////////////////////////////
+
+        for (gz = -2; gz <= 2; gz += 1) {
+            const cubePath = [];
+            for (theta = 0; theta <= 2 * Math.PI; theta += Math.PI / 2) {
+                // var x, y, z;
+                if (gz === -2) {
+                    x = 0;
+                    y = 0;
+                    z = -1;
+                } else if (gz === 2) {
+                    x = 0;
+                    y = 0;
+                    z = 1;
+                } else {
+                    x = 1.4 * Math.cos(theta + Math.PI / 4);
+                    y = 1.4 * Math.sin(theta + Math.PI / 4);
+                    z = gz;
+                }
+                cubePath.push(new BABYLON.Vector3(x, y, z));
+            }
+            this.cubePaths.push(cubePath);
+        }
+
+        // tube0 /////////////////////////////////////
+
+        for (t = -2; t <= 2; t++) {
+            const tube0Path = [];
+            for (theta = 0; theta <= 2 * Math.PI; theta += Math.PI / 2) {
+                x = 1 * Math.cos(theta);
+                y = 1 * Math.sin(theta);
+                z = t;
+                tube0Path.push(new BABYLON.Vector3(x, y, z));
+            }
+            this.tube0Paths.push(tube0Path);
+            // var tube0Lines = BABYLON.Mesh.CreateLines("par", tube0Path, this.scene);
+            // tube0Lines.position.x = -5;
+        }
+
+        // spiralTube
+
+        for (t = -2; t <= 2; t++) {
+            const spiralTubePath = [];
+            for (theta = 0; theta <= 2 * Math.PI; theta += Math.PI / 2) {
+                x = 1 * Math.cos(theta + t * Math.PI / 8);
+                y = 1 * Math.sin(theta + t * Math.PI / 8);
+                z = t;
+                spiralTubePath.push(new BABYLON.Vector3(x, y, z));
+            }
+            this.spiralTubePaths.push(spiralTubePath);
+        }
+
+        // thickTube
+
+        let multiplier = 1;
+        for (gz = -1; gz <= 1; gz += .5) {
+            const thickTubePath = [];
+            for (theta = 0; theta <= 2 * Math.PI; theta += Math.PI / 2) {
+                // var x, y, z;
+                multiplier = 1;
+                z = gz;
+                if (gz === -1 || gz === 1) {
+                    z = 0;
+                } else if (gz === 0) {
+                    multiplier = 2;
+                }
+
+                x = multiplier * 1.4 * Math.cos(theta + Math.PI / 4);
+                y = multiplier * 1.4 * Math.sin(theta + Math.PI / 4);
+                thickTubePath.push(new BABYLON.Vector3(x, y, z));
+            }
+            this.thickTubePaths.push(thickTubePath);
+
+            const lines = BABYLON.Mesh.CreateLines("par", thickTubePath, this.scene);
+            lines.position.x = 5;
+            lines.scaling.z = 2;
+
+        }
+
+        // pyramid
+
+        for (t = -2; t <= 2; t++) {
+            const pyramidPath = [];
+            for (k = -2; k <= 2; k++) {
+                // var x, y, z;
+                if (Math.abs(t) == 2 || Math.abs(k) == 2) {
+                    x = 0;
+                    y = 1.7;
+                    z = 0;
+                } else {
+                    x = k;
+                    y = 0;
+                    z = t;
+                }
+
+                pyramidPath.push(new BABYLON.Vector3(x, y, z));
+            }
+            this.pyramidPaths.push(pyramidPath);
+        }
+
+        // Add all object paths to an array objectPaths
+
+        this.objectPaths.push(this.spiralTubePaths);
+        this.objectPaths.push(this.spiralTubePaths);
+        this.objectPaths.push(this.spiralTubePaths);
+        this.objectPaths.push(this.thickTubePaths);
+        this.objectPaths.push(this.spiralTubePaths);
+        this.objectPaths.push(this.spiralTubePaths);
+
+        this.objectPaths.push(this.tube0Paths);
+        this.objectPaths.push(this.planePaths);
+        this.objectPaths.push(this.cubePaths);
+        this.objectPaths.push(this.pyramidPaths);
+
+
+
+
+
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = false;
         this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
@@ -851,18 +1009,25 @@ export class SingleSPSRibbon implements OnDestroy {
         // this.mat.reflectionTexture = new BABYLON.CubeTexture('../../assets/images/skybox/TropicalSunnyDay', this.scene);
         // this.mat.reflectionTexture.coordinatesMode = BABYLON.Texture.PLANAR_MODE;
 
-        const master = BABYLON.MeshBuilder.CreateBox(('box'), {
-            height: 1,
-            width: 1,
-            depth: 1
-        }, this.scene);
+        // const master = BABYLON.MeshBuilder.CreateBox(('box'), {
+        //     height: 1,
+        //     width: 1,
+        //     depth: 1
+        // }, this.scene);
+
+        const master = BABYLON.Mesh.CreateRibbon("cube", this.cubePaths, false, false, 0, this.scene, true);
+        master.convertToFlatShadedMesh();
+
+        master.scaling.x = .5;
+        master.scaling.y = .5;
+        master.scaling.z = .5;
 
         const myPositionFunction = (particle, i, s) => {
             particle.color = new BABYLON.Color4(.5, .5, .5, .1);
             particle.hasVertexAlpha = true;
         };
 
-        this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
+        this.SPS = new BABYLON.SolidParticleSystem('SPSRibbon', this.scene, { updatable: true });
         this.SPS.addShape(master, 512 + 64, { positionFunction: myPositionFunction });
 
         master.dispose();

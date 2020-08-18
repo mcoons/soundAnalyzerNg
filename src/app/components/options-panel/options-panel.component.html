@@ -130,7 +130,8 @@
 
         <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.getOptions())">
           <ng-container *ngIf="this.optionsService.getOptions()[option].group=='3DVisual' ||
-          this.optionsService.getOptions()[option].group=='CubeSPS'">
+          this.optionsService.getOptions()[option].group=='CubeSPS' ||
+          this.optionsService.getOptions()[option].group=='RibbonSPS'">
 
             <ng-container *ngIf="this.optionsService.getOptions()[option].type=='slider'">
               <b><label class="rangeLabel" [for]="option">{{this.optionsService.getOptions()[option].label}}
@@ -158,7 +159,7 @@
 
             <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
               this.optionsService.getOptions()[option].label!='Custom Colors' && 
-              this.optionsService.getOptions()[option].label!='Auto Rotate',
+              this.optionsService.getOptions()[option].label!='Auto Rotate'
               ">
               &nbsp;&nbsp;&nbsp;&nbsp;
               <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]"
@@ -170,6 +171,7 @@
               *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
               this.optionsService.getOptions()[option].label!='Custom Colors' && 
               this.optionsService.getOptions()[option].group!='CubeSPS' && 
+              this.optionsService.getOptions()[option].group!='RibbonSPS' && 
               this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].cameraOptions === true">
               <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
               <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
@@ -180,7 +182,8 @@
 
               <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
                 this.optionsService.getOptions()[option].label!='Auto Rotate' &&
-                this.optionsService.getOptions()[option].group!='CubeSPS'">
+                this.optionsService.getOptions()[option].group!='CubeSPS' &&
+                this.optionsService.getOptions()[option].group!='RibbonSPS'">
                 <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
                 <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
               </ng-container>
