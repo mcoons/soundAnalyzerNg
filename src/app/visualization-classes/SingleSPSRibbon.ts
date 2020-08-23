@@ -34,8 +34,11 @@ export class SingleSPSRibbon implements OnDestroy {
     private TwentyPI;
     private TwoPId576;
     private TwoPId72;
+    private TwoPId64;
+    private SixPId64;
     private SixPId576;
     private SixteenPId576;
+    private SixteenPId64;
     private PId2;
     private PId32;
     private PId1000;
@@ -106,9 +109,12 @@ export class SingleSPSRibbon implements OnDestroy {
         this.TwentyPI = this.PI * 20;
         this.PId2 = this.PI / 2;
         this.PId32 = this.PI / 32;
+        this.TwoPId64 = this.PI / 64;
         this.TwoPId576 = this.TwoPI / 576;
         this.TwoPId72 = this.TwoPI / 72;
         this.SixteenPId576 = 16 * this.PI / 576;
+        this. SixteenPId64 = 16 * this.PI / 64;
+        this.SixPId64 = 6 * this.PI / 64;
         this.SixPId576 = 6 * this.PI / 576;
         this.PId1000 = this.PI / 1000;
 
@@ -138,7 +144,7 @@ export class SingleSPSRibbon implements OnDestroy {
         this.updateCurrentNext();
         this.moreThanOneSPS = this.optionsService.getSelectedRibbonSPSCount() > 1;
 
-        this.genPointsOnSphere(576);
+        this.genPointsOnSphere(125);
 
         this.scene.registerBeforeRender(this.beforeRender);
 
@@ -169,11 +175,19 @@ export class SingleSPSRibbon implements OnDestroy {
         // Block Plane
         {
             name: 'blockPlaneRibbon',
+            // position: (particle, yy) => {
+            //     const row = 9 - Math.floor(particle.idx / 64);
+            //     const column = particle.idx % 64;
+            //     const x = (column - 31.5) * 3;
+            //     const z = (row - 5) * 10;
+            //     const y = particle.scaling.y / 2;
+            //     return new BABYLON.Vector3(x, y, z);
+            // },
             position: (particle, yy) => {
-                const row = 9 - Math.floor(particle.idx / 64);
-                const column = particle.idx % 64;
-                const x = (column - 31.5) * 3;
-                const z = (row - 5) * 10;
+                const row = 5 - Math.floor(particle.idx / 25);
+                const column = particle.idx % 25;
+                const x = (column - 12.5) * 3;
+                const z = (row - 3) * 10;
                 const y = particle.scaling.y / 2;
                 return new BABYLON.Vector3(x, y, z);
             },
@@ -192,9 +206,9 @@ export class SingleSPSRibbon implements OnDestroy {
             },
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
-                    { alpha: 3 * this.PId2, beta: 1.05, radius: 830 },
+                    { alpha: 3 * this.PId2, beta: 1.05, radius: 330 },
                     { alpha: 3 * this.PId2, beta: .01, radius: 350 },
-                    { alpha: 3 * this.PId2, beta: .01, radius: 830 }
+                    { alpha: 3 * this.PId2, beta: .01, radius: 330 }
                 ];
                 return cameraPositions[cIndex];
             },
@@ -206,7 +220,7 @@ export class SingleSPSRibbon implements OnDestroy {
         {
             name: 'thing1Ribbon',
             position: (particle) => {
-                const gtheta = this.PId32 * particle.idx - this.PId2;
+                const gtheta = this.PI / 25 * particle.idx - this.PId2;
                 const radius = 30 + .12 * particle.idx;
                 const x = radius * Math.cos(gtheta);
                 const z = radius * Math.sin(gtheta) * Math.cos(gtheta);
@@ -228,9 +242,9 @@ export class SingleSPSRibbon implements OnDestroy {
             },
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
-                    { alpha: this.PId2, beta: .01, radius: 900 },
-                    { alpha: this.PId2, beta: 1.05, radius: 900 },
-                    { alpha: this.PId2, beta: this.PI, radius: 400 }
+                    { alpha: this.PId2, beta: .01, radius: 600 },
+                    { alpha: this.PId2, beta: 1.05, radius: 600 },
+                    { alpha: this.PId2, beta: this.PI, radius: 300 }
                 ];
                 return cameraPositions[cIndex];
 
@@ -245,8 +259,8 @@ export class SingleSPSRibbon implements OnDestroy {
         {
             name: 'blockSpiralRibbon',
             position: (particle) => {
-                const gtheta = (this.PId32 * particle.idx) % this.TwoPI;
-                const radius = 20 + .12 * particle.idx;
+                const gtheta = (this.PI / 16 * particle.idx) % this.TwoPI;
+                const radius = 20 + .13 * particle.idx;
                 const x = radius * Math.cos(gtheta);
                 const z = radius * Math.sin(gtheta);
                 const y = (particle.scaling.y / 2 - particle.idx / 16) + 20;
@@ -260,7 +274,7 @@ export class SingleSPSRibbon implements OnDestroy {
                 return new BABYLON.Vector3(x, y, z);
             },
             rotation: (particle, yy) => {
-                const gtheta = (this.PId32 * particle.idx) % this.TwoPI;
+                const gtheta = (this.PI / 16 * particle.idx) % this.TwoPI;
                 return new BABYLON.Vector3(0, -gtheta, 0);
             },
             color: (particle, yy) => {
@@ -272,9 +286,9 @@ export class SingleSPSRibbon implements OnDestroy {
             },
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
-                    { alpha: this.PId2, beta: 1.05, radius: 950 },
-                    { alpha: this.PId2, beta: this.PI, radius: 900 },
-                    { alpha: this.PId2, beta: .01, radius: 500 },
+                    { alpha: this.PId2, beta: 1.05, radius: 600 },
+                    { alpha: this.PId2, beta: this.PI, radius: 600 },
+                    { alpha: this.PId2, beta: .01, radius: 400 },
                 ];
                 return cameraPositions[cIndex];
             },
@@ -293,7 +307,8 @@ export class SingleSPSRibbon implements OnDestroy {
             name: 'thing2Ribbon',
             position: (particle) => {
                 // const gtheta = 2 * Math.PI / 576 * particle.idx; // - this.PId2;
-                const gtheta = this.TwoPId576 * particle.idx; // - this.PId2;
+                // const gtheta = this.TwoPId576 * particle.idx; // - this.PId2;
+                const gtheta = this.TwoPI / 125 * particle.idx; // - this.PId2;
                 const radius = (2.5 * Math.sin(6 * (gtheta)));
 
                 const x = 30 * radius * Math.cos(gtheta);
@@ -381,7 +396,8 @@ export class SingleSPSRibbon implements OnDestroy {
                 let x;
                 let z;
                 let y;
-                const gtheta = this.TwoPId576 * particle.idx;
+                // const gtheta = this.TwoPId576 * particle.idx;
+                const gtheta = this.TwoPId64 * particle.idx;
                 const radius = Math.sqrt(Math.abs(10 * Math.sin(2 * gtheta)));
                 if (particle.idx % 2) {
                     x = 30 * radius * Math.cos(gtheta);
@@ -429,10 +445,16 @@ export class SingleSPSRibbon implements OnDestroy {
         // Cube
         {
             name: 'cubeRibbon',
+            // position: (particle, yy) => {
+            //     const z = ((particle.idx % 8) - 3.5) * 20;
+            //     const x = ((Math.floor(particle.idx / 8) % 9) - 4) * 20;
+            //     const y = ((Math.floor(particle.idx / 72)) - 3.5) * 20;
+            //     return new BABYLON.Vector3(x, y, z);
+            // },
             position: (particle, yy) => {
-                const z = ((particle.idx % 8) - 3.5) * 20;
-                const x = ((Math.floor(particle.idx / 8) % 9) - 4) * 20;
-                const y = ((Math.floor(particle.idx / 72)) - 3.5) * 20;
+                const z = ((particle.idx % 5) - 2) * 20;
+                const x = ((Math.floor(particle.idx / 5) % 5) - 2) * 20;
+                const y = ((Math.floor(particle.idx / 25)) - 2) * 20;
                 return new BABYLON.Vector3(x, y, z);
             },
             scaling: (particle, yy) => {
@@ -453,9 +475,9 @@ export class SingleSPSRibbon implements OnDestroy {
             },
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
-                    { alpha: this.PId2, beta: this.PId2, radius: 800 },
-                    { alpha: -0.7579, beta: 2.1719, radius: 800 },
-                    { alpha: this.PId2, beta: .01, radius: 800 },
+                    { alpha: this.PId2, beta: this.PId2, radius: 600 },
+                    { alpha: -0.7579, beta: 2.1719, radius: 600 },
+                    { alpha: this.PId2, beta: .01, radius: 600 },
                 ];
 
                 return cameraPositions[cIndex];
@@ -504,16 +526,21 @@ export class SingleSPSRibbon implements OnDestroy {
             name: 'poleRibbon',
             position: (particle) => {
                 return new BABYLON.Vector3(
-                    Math.sin((particle.idx / 576) * this.FourPI) * 40,
+                    // Math.sin((particle.idx / 576) * this.FourPI) * 40,
+                    // (particle.idx - 288) / 3,
+                    // Math.cos((particle.idx / 576) * this.FourPI) * 40
+
+                    Math.sin((particle.idx / 64) * this.FourPI) * 40,
                     (particle.idx - 288) / 3,
-                    Math.cos((particle.idx / 576) * this.FourPI) * 40
+                    Math.cos((particle.idx / 64) * this.FourPI) * 40
                 );
             },
             scaling: (particle, yy) => {
                 return new BABYLON.Vector3(yy / 10 + 1, .2, yy / 10 + 1);
             },
             rotation: (particle, yy) => {
-                return new BABYLON.Vector3(0, (Math.sin((particle.idx / 576) * this.FourPI)) % this.TwoPI, 0);
+                // return new BABYLON.Vector3(0, (Math.sin((particle.idx / 576) * this.FourPI)) % this.TwoPI, 0);
+                return new BABYLON.Vector3(0, (Math.sin((particle.idx / 64) * this.FourPI)) % this.TwoPI, 0);
             },
             color: (particle, yy) => {
                 const c = this.colorsService.colors(yy);
@@ -546,10 +573,12 @@ export class SingleSPSRibbon implements OnDestroy {
                 let y;
                 // const gtheta = this.TwoPId576 * (particle.idx % 192) * 3;
                 // const ptheta = this.TwoPId576 * (particle.idx % 192) * 3;
-                const gtheta = this.SixPId576 * (particle.idx % 192);
-                const ptheta = this.SixPId576 * (particle.idx % 192);
+                // const gtheta = this.SixPId576 * (particle.idx % 192);
+                // const ptheta = this.SixPId576 * (particle.idx % 192);
+                const gtheta = this.SixPId64 * (particle.idx % 21);
+                const ptheta = this.SixPId64 * (particle.idx % 21);
 
-                if (particle.idx <= 192) {
+                if (particle.idx <= 42) {
                     x = 16 * Math.sin(ptheta) * Math.sin(ptheta) * Math.sin(ptheta);
                     y = 13 * Math.cos(ptheta) -
                         5 * Math.cos(2 * ptheta) -
@@ -557,7 +586,7 @@ export class SingleSPSRibbon implements OnDestroy {
                         Math.cos(4 * ptheta);
                     z = -x;
                 } else
-                    if (particle.idx <= 384) {
+                    if (particle.idx <= 84) {
 
                         x = 32 * Math.sin(ptheta) * Math.sin(ptheta) * Math.sin(ptheta);
                         y = 26 * Math.cos(ptheta) -
@@ -611,17 +640,18 @@ export class SingleSPSRibbon implements OnDestroy {
             position: (particle) => {
                 const radius = 15;
                 // const loop = particle.idx % 2 + 1;
-                const loop = Math.trunc(particle.idx / 72) + 1;
+                const loop = Math.trunc(particle.idx / 25) + 1;
                 let x;
                 let z;
                 let y;
                 // const gtheta = this.TwoPId576 * particle.idx * 8;
-                const gtheta = this.SixteenPId576 * particle.idx;
+                // const gtheta = this.SixteenPId576 * particle.idx;
+                const gtheta = 16 * this.PI / 25 * particle.idx;
 
                 x = loop * radius * Math.cos(gtheta);
                 z = loop * radius * Math.sin(gtheta);
                 // y = .6 * loop * Math.sin(map(particle.idx % 72, 0, 72, 0, 10 * this.TwoPI));
-                y = .6 * loop * Math.sin(map(particle.idx % 72, 0, 72, 0, this.TwentyPI));
+                y = .6 * loop * Math.sin(map(particle.idx % 25, 0, 25, 0, this.TwentyPI));
 
                 return new BABYLON.Vector3(x, y, z);
             },
@@ -632,8 +662,9 @@ export class SingleSPSRibbon implements OnDestroy {
             },
             rotation: (particle, yy) => {
                 // const radian = 2 * Math.PI / 72;
-                const radian = this.TwoPId72;
-                const gtheta = (radian * particle.idx) % this.TwoPI;
+                const radian = this.TwoPI / 125;
+                // const gtheta = (radian * particle.idx) % this.TwoPI;
+                const gtheta = 16  * this.PI / 25 * particle.idx;
 
                 return new BABYLON.Vector3(0, -gtheta % this.TwoPI, 0);
             },
@@ -705,12 +736,6 @@ export class SingleSPSRibbon implements OnDestroy {
         clearInterval(this.expInterval);
         clearTimeout(this.expTimeout);
 
-        // if (this.optionsService.getSelectedRibbonSPSCount() === 1) {
-        //     console.log('cancel expanding 1 SPS');
-
-        //     return;
-        // }
-
         this.theta = -Math.PI / 2;
         this.expanding = true;
         this.contracting = false;
@@ -743,10 +768,6 @@ export class SingleSPSRibbon implements OnDestroy {
         clearTimeout(this.conTimeout);
         clearInterval(this.expInterval);
         clearTimeout(this.expTimeout);
-
-        // if (this.optionsService.getSelectedRibbonSPSCount() === 1) {
-        //     return;
-        // }
 
         this.theta = -Math.PI / 2;
         this.expanding = false;
@@ -782,40 +803,10 @@ export class SingleSPSRibbon implements OnDestroy {
     updateCurrentNext = () => {
         // console.log('in updateCurrentNext');
         this.currentSPS = this.currentSPS > 0 ? this.currentSPS - 1 : -1;
-        // const prevCurrent = this.currentSPS;
-        // const prevNext = this.nextSPS;
         this.calculateCurrent();
         this.nextSPS = this.currentSPS;
         this.calculateNext();
 
-        // if (this.currentSPS < prevCurrent || this.currentSPS === prevCurrent) {
-        //     this.currentCameraIndex += 1;
-        //     if (this.currentCameraIndex === 2) {
-        //         this.currentCameraIndex = 0;
-        //     }
-        // }
-
-        // console.log('currentCameraIndex: ' + this.currentCameraIndex);
-
-        // console.log('this.initialTimeout');
-        // console.log(this.initialTimeout);
-
-
-
-        // if (this.moreThanOneSPS && this.optionsService.getSelectedRibbonRibbonSPSCount() === 1) {
-        //     this.expanding = false;
-        //     this.contracting = false;
-        //     this.moreThanOneSPS = false;
-        //     clearTimeout(this.initialTimeout);
-        //     clearInterval(this.conInterval);
-        //     clearTimeout(this.conTimeout);
-        //     clearInterval(this.expInterval);
-        //     clearTimeout(this.expTimeout);
-        // } else
-        //     if (!this.moreThanOneSPS && this.optionsService.getSelectedRibbonSPSCount() > 1) {
-        //         this.initialTimeout = setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
-        //         this.moreThanOneSPS = true;
-        //     }
     }
 
     calculateCurrent = () => {
@@ -839,14 +830,6 @@ export class SingleSPSRibbon implements OnDestroy {
     }
 
     setDefaults = () => {
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
-
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.712;
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
-
         this.cameraSettingsCurrent = this.SPSFunctions[this.currentSPS].cameraDefault(this.cameraIndicies[this.currentSPS]);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = this.cameraSettingsCurrent.alpha;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = this.cameraSettingsCurrent.beta;
@@ -878,34 +861,57 @@ export class SingleSPSRibbon implements OnDestroy {
                 planePath.push(new BABYLON.Vector3(x, y, z));
             }
             this.planePaths.push(planePath);
-
-            const planeLine = BABYLON.Mesh.CreateLines("par", planePath, this.scene);
-            this.planeLines.push(planeLine);
         }
+
+        // // cube //////////////////////////////////
+
+        // for (gz = -2; gz <= 2; gz += 1) {
+        //     const cubePath = [];
+        //     for (theta = 0; theta <= 2 * Math.PI; theta += Math.PI / 2) {
+        //         // var x, y, z;
+        //         if (gz === -2) {
+        //             x = 0;
+        //             y = 0;
+        //             z = -1;
+        //         } else if (gz === 2) {
+        //             x = 0;
+        //             y = 0;
+        //             z = 1;
+        //         } else {
+        //             x = 1.4 * Math.cos(theta + Math.PI / 4);
+        //             y = 1.4 * Math.sin(theta + Math.PI / 4);
+        //             z = gz;
+        //         }
+        //         cubePath.push(new BABYLON.Vector3(x, y, z));
+        //     }
+        //     this.cubePaths.push(cubePath);
+        // }
+
 
         // cube //////////////////////////////////
 
-        for (gz = -2; gz <= 2; gz += 1) {
+        for (gz = -1; gz <= 1; gz += .5) {
             const cubePath = [];
             for (theta = 0; theta <= 2 * Math.PI; theta += Math.PI / 2) {
                 // var x, y, z;
-                if (gz === -2) {
+                if (gz === -1) {
                     x = 0;
                     y = 0;
-                    z = -1;
-                } else if (gz === 2) {
+                    z = -.5;
+                } else if (gz === 1) {
                     x = 0;
                     y = 0;
-                    z = 1;
+                    z = .5;
                 } else {
-                    x = 1.4 * Math.cos(theta + Math.PI / 4);
-                    y = 1.4 * Math.sin(theta + Math.PI / 4);
+                    x = .7 * Math.cos(theta + Math.PI / 4);
+                    y = .7 * Math.sin(theta + Math.PI / 4);
                     z = gz;
                 }
                 cubePath.push(new BABYLON.Vector3(x, y, z));
             }
             this.cubePaths.push(cubePath);
         }
+
 
         // tube0 /////////////////////////////////////
 
@@ -918,8 +924,6 @@ export class SingleSPSRibbon implements OnDestroy {
                 tube0Path.push(new BABYLON.Vector3(x, y, z));
             }
             this.tube0Paths.push(tube0Path);
-            // var tube0Lines = BABYLON.Mesh.CreateLines("par", tube0Path, this.scene);
-            // tube0Lines.position.x = -5;
         }
 
         // spiralTube
@@ -955,11 +959,6 @@ export class SingleSPSRibbon implements OnDestroy {
                 thickTubePath.push(new BABYLON.Vector3(x, y, z));
             }
             this.thickTubePaths.push(thickTubePath);
-
-            const lines = BABYLON.Mesh.CreateLines("par", thickTubePath, this.scene);
-            lines.position.x = 5;
-            lines.scaling.z = 2;
-
         }
 
         // pyramid
@@ -968,7 +967,7 @@ export class SingleSPSRibbon implements OnDestroy {
             const pyramidPath = [];
             for (k = -2; k <= 2; k++) {
                 // var x, y, z;
-                if (Math.abs(t) == 2 || Math.abs(k) == 2) {
+                if (Math.abs(t) === 2 || Math.abs(k) === 2) {
                     x = 0;
                     y = 1.7;
                     z = 0;
@@ -985,21 +984,14 @@ export class SingleSPSRibbon implements OnDestroy {
 
         // Add all object paths to an array objectPaths
 
-        this.objectPaths.push(this.spiralTubePaths);
-        this.objectPaths.push(this.spiralTubePaths);
-        this.objectPaths.push(this.spiralTubePaths);
+
         this.objectPaths.push(this.thickTubePaths);
-        this.objectPaths.push(this.spiralTubePaths);
         this.objectPaths.push(this.spiralTubePaths);
 
         this.objectPaths.push(this.tube0Paths);
         this.objectPaths.push(this.planePaths);
         this.objectPaths.push(this.cubePaths);
         this.objectPaths.push(this.pyramidPaths);
-
-
-
-
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = false;
@@ -1015,12 +1007,20 @@ export class SingleSPSRibbon implements OnDestroy {
         //     depth: 1
         // }, this.scene);
 
-        const master = BABYLON.Mesh.CreateRibbon("cube", this.cubePaths, false, false, 0, this.scene, true);
+        // private planePaths = [];
+        // private thickTubePaths = [];
+        // private pyramidPaths = [];
+        // private spiralTubePaths = [];
+        // private tube0Paths = [];
+        // private cubePaths = [];
+
+
+        const master = BABYLON.Mesh.CreateRibbon('cube', this.cubePaths, false, false, 0, this.scene, true);
         master.convertToFlatShadedMesh();
 
-        master.scaling.x = .5;
-        master.scaling.y = .5;
-        master.scaling.z = .5;
+        // master.scaling.x = .5;
+        // master.scaling.y = .5;
+        // master.scaling.z = .5;
 
         const myPositionFunction = (particle, i, s) => {
             particle.color = new BABYLON.Color4(.5, .5, .5, .1);
@@ -1028,7 +1028,7 @@ export class SingleSPSRibbon implements OnDestroy {
         };
 
         this.SPS = new BABYLON.SolidParticleSystem('SPSRibbon', this.scene, { updatable: true });
-        this.SPS.addShape(master, 512 + 64, { positionFunction: myPositionFunction });
+        this.SPS.addShape(master, 125, { positionFunction: myPositionFunction });
 
         master.dispose();
 
@@ -1044,7 +1044,8 @@ export class SingleSPSRibbon implements OnDestroy {
         // Order scaling, position, rotation then color - position adjustment may be dependent on new scaling
 
         this.SPS.updateParticle = (particle) => {
-            let y = this.audioService.sample1[particle.idx];
+            // let y = this.audioService.sample1[particle.idx];
+            let y = this.audioService.fr1024DataArray[particle.idx];
             y = (y * y) / 255;
 
             if (this.expanding) {
@@ -1127,28 +1128,21 @@ export class SingleSPSRibbon implements OnDestroy {
         };
     }
 
-    // Used to update the scene and the SPS mesh as a whole (not particles) 
+    // Used to update the scene and the SPS mesh as a whole (not particles)
     update = () => {
-        // if (!this.expanding && !this.contracting){
 
         this.forwardRotation = (this.forwardRotation + this.PId1000) % this.TwoPI;
-        // if (this.forwardRotation > this.PI * 2) {
-        //     this.forwardRotation = 0;
-        // }
+
         this.backwardRotation -= this.PId1000;
         if (this.backwardRotation < 0) {
             this.backwardRotation = this.TwoPI - this.backwardRotation;
         }
-
-        //     console.log(this.engineService.camera);
-        // }
 
         if (this.expanding) {
             this.SPS.mesh.rotation = (BABYLON.Vector3.Lerp(
                 this.SPSFunctions[this.currentSPS].spsRotation(),
                 this.SPSFunctions[this.nextSPS].spsRotation(),
                 this.expTimer));
-
 
         } else
 
@@ -1158,6 +1152,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
                 this.cameraSettingsCurrent = this.SPSFunctions[this.currentSPS].cameraDefault(this.cameraIndicies[this.currentSPS]); // :
                 if (this.optionsService.getSelectedRibbonSPSCount() === 1) {
+                    // tslint:disable-next-line: max-line-length
                     this.cameraSettingsNext = this.SPSFunctions[this.currentSPS].cameraDefault((this.cameraIndicies[this.currentSPS] + 1) % 3);
                 } else {
                     this.cameraSettingsNext = this.SPSFunctions[this.nextSPS].cameraDefault(this.cameraIndicies[this.nextSPS]);
@@ -1177,12 +1172,6 @@ export class SingleSPSRibbon implements OnDestroy {
                             this.cameraSettingsCurrent.beta,
                             this.cameraSettingsNext.beta,
                             this.conTimer);
-
-                    // Math.abs(1.333333 * (x - 25))/100
-                    // 0 - 100      1, .5, 1
-
-                    // let y = Math.abs(Math.cos( this.conTimer * this.PId2)) + .001;
-                    // let x = (Math.abs( map(this.conTimer, 0, 1, -.5, .5)) );
 
                     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius =
                         BABYLON.Scalar.Lerp(
