@@ -40,7 +40,8 @@ export class OptionsService {
     'sphere',
     'pole',
     'heart',
-    'sineLoop'
+    'sineLoop',
+    'sineLoop2'
   ];
 
   RibbonSPSs =
@@ -58,15 +59,13 @@ export class OptionsService {
     'sineLoopRibbon'
   ];
 
-
-
   notes = [
     'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'None'
   ];
 
   baseOptions = {
 
-    version: 3.45,
+    version: 3.47,
 
     // general options
     showTitle: {
@@ -97,6 +96,74 @@ export class OptionsService {
       step: .1
     },
 
+
+
+
+    light0Color: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Light 0 Color',
+      value: '#ffffff',
+      // visualCustom: true
+    },
+    light0Specular: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Light 0 Specular',
+      value: '#ffffff',
+      // visualCustom: true
+    },
+
+
+    light1Color: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Light 1 Color',
+      value: '#ffffff',
+      // visualCustom: true
+    },
+    light1Specular: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Light 1 Specular',
+      value: '#ffffff',
+      // visualCustom: true
+    },
+
+
+    light2Color: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Light 2 Color',
+      value: '#ffffff',
+      // visualCustom: true
+    },
+    light2Specular: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Light 2 Specular',
+      value: '#ffffff',
+      // visualCustom: true
+    },
+
+
+    groundLightColor: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Ground Light Color',
+      value: '#ffffff',
+      // visualCustom: true
+    },
+    groundLightSpecular: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Ground Light Specular',
+      value: '#ffffff',
+      // visualCustom: true
+    },
+
+
+
     singleSPSCube: {
       group: '3DVisual',
       type: 'radio',
@@ -113,7 +180,7 @@ export class OptionsService {
       midColor: '#00ff00',
       maxColor: '#ff0000',
       midLoc: 128,
-      calpha: 4.72,
+      calpha: 0.72,
       cbeta: 1.57,
       cradius: 1000
     },
@@ -205,6 +272,14 @@ export class OptionsService {
       group: 'CubeSPS',
       type: 'checkbox',
       label: 'Cube Sine Loop',
+      value: true,
+    },
+
+
+    sineLoop2: {
+      group: 'CubeSPS',
+      type: 'checkbox',
+      label: 'Cube Sine Loop 2',
       value: true,
     },
 
@@ -322,7 +397,7 @@ export class OptionsService {
       midLoc: 128,
       calpha: 4.72,
       cbeta: .01,
-      cradius: 800
+      cradius: 1200
     },
     spectrograph: {
       group: '3DVisual',
@@ -342,7 +417,7 @@ export class OptionsService {
       midLoc: 128,
       calpha: 4.72,
       cbeta: .85,
-      cradius: 1000
+      cradius: 1200
     },
     spherePlaneManagerSPS: {
       group: '3DVisual',
@@ -382,7 +457,7 @@ export class OptionsService {
       midLoc: 128,
       calpha: 4.72,
       cbeta: .81,
-      cradius: 1900
+      cradius: 1200
     },
     hex: {
       group: '3DVisual',
@@ -402,7 +477,7 @@ export class OptionsService {
       midLoc: 128,
       calpha: 4.72,
       cbeta: .91,
-      cradius: 1400
+      cradius: 1200
     },
     waveRibbon: {
       group: '3DVisual',
@@ -422,7 +497,7 @@ export class OptionsService {
       midLoc: 128,
       calpha: 4.72,
       cbeta: .85,
-      cradius: 1000
+      cradius: 1200
     },
     sampleGain: {
       group: '3DVisual',
@@ -459,11 +534,11 @@ export class OptionsService {
       value: true,
       visualCustom: true
     },
-    minColor: {
+    maxColor: {
       group: '3DVisual',
       type: 'color',
-      label: 'Minimum Color',
-      value: '#0000ff',
+      label: 'Maximum Color',
+      value: '#ff0000',
       visualCustom: true
     },
     midColor: {
@@ -473,11 +548,11 @@ export class OptionsService {
       value: '#000000',
       visualCustom: true
     },
-    maxColor: {
+    minColor: {
       group: '3DVisual',
       type: 'color',
-      label: 'Maximum Color',
-      value: '#ff0000',
+      label: 'Minimum Color',
+      value: '#0000ff',
       visualCustom: true
     },
     midLoc: {
@@ -591,7 +666,7 @@ export class OptionsService {
       type: 'numeric',
       label: 'A#',
       hertz: 58.270,
-      value: 87,  /////////////
+      value: 87,
       checked: false
     },
     B: {
@@ -676,7 +751,7 @@ export class OptionsService {
       console.log('local options error');
     }
 
-    console.log("CubeSPSs");
+    console.log('CubeSPSs');
     console.log(this.CubeSPSs);
   }
 
@@ -818,6 +893,109 @@ export class OptionsService {
   //   this.options.showWaveform.value = value;
   //   this.storageService.saveOptions(this.options);
   // }
+
+
+  get light0Color(): string {
+    return this.options.light0Color.value;
+  }
+
+  set light0Color(value: string) {
+    this.options.light0Color.value = value;
+    // this.options[this.visuals[this.state.currentVisual.value]].light0Color = value;
+
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light0Specular(): string {
+    return this.options.light0Specular.value;
+  }
+
+  set light0Specular(value: string) {
+    this.options.light0Specular.value = value;
+    // this.options[this.visuals[this.state.currentVisual.value]].light0Specular = value;
+
+    this.storageService.saveOptions(this.options);
+  }
+
+
+
+
+  get light1Color(): string {
+    return this.options.light1Color.value;
+  }
+
+  set light1Color(value: string) {
+    this.options.light1Color.value = value;
+    // this.options[this.visuals[this.state.currentVisual.value]].light1Color = value;
+
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light1Specular(): string {
+    return this.options.light1Specular.value;
+  }
+
+  set light1Specular(value: string) {
+    this.options.light1Specular.value = value;
+    // this.options[this.visuals[this.state.currentVisual.value]].light1Specular = value;
+
+    this.storageService.saveOptions(this.options);
+  }
+
+
+
+
+  get light2Color(): string {
+    return this.options.light2Color.value;
+  }
+
+  set light2Color(value: string) {
+    this.options.light2Color.value = value;
+    // this.options[this.visuals[this.state.currentVisual.value]].light2Color = value;
+
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light2Specular(): string {
+    return this.options.light2Specular.value;
+  }
+
+  set light2Specular(value: string) {
+    this.options.light2Specular.value = value;
+    // this.options[this.visuals[this.state.currentVisual.value]].light2Specular = value;
+
+    this.storageService.saveOptions(this.options);
+  }
+
+
+
+
+  get groundLightColor(): string {
+    return this.options.groundLightColor.value;
+  }
+
+  set groundLightColor(value: string) {
+    this.options.groundLightColor.value = value;
+    // this.options[this.visuals[this.state.currentVisual.value]].groundLightColor = value;
+
+    this.storageService.saveOptions(this.options);
+  }
+
+  get groundLightSpeecular(): string {
+    return this.options.groundLightSpeecular.value;
+  }
+
+  set groundLightSpeecular(value: string) {
+    this.options.groundLightSpeecular.value = value;
+    // this.options[this.visuals[this.state.currentVisual.value]].groundLightSpeecular = value;
+
+    this.storageService.saveOptions(this.options);
+  }
+
+
+
+
+
 
   get waveformDelay(): number {
     return this.options.waveformDelay.value;
@@ -1077,6 +1255,23 @@ export class OptionsService {
     } else {
       this.options.sineLoop.value = !value;
       (document.getElementById('sineLoop') as HTMLInputElement).checked = true;
+    }
+  }
+
+
+
+  get sineLoop2(): boolean {
+    return this.options.sineLoop2.value;
+  }
+
+  set sineLoop2(value: boolean) {
+    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+      this.options.sineLoop2.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.sineLoop2.value = !value;
+      (document.getElementById('sineLoop2') as HTMLInputElement).checked = true;
     }
   }
 

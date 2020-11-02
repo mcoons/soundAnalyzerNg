@@ -30,11 +30,11 @@ export class WaveRibbon {
 
         for (let index = 0; index < 2 * Math.PI - .001; index += Math.PI / 32) {
 
-            let x = 500 * Math.cos(index);
-            let z = 500 * Math.sin(index);
-            let y = 160 + 50 * Math.sin(4 * index);
+            const x = 500 * Math.cos(index);
+            const z = 500 * Math.sin(index);
+            const y = 160 + 50 * Math.sin(4 * index);
 
-            let v = new BABYLON.Vector3(x, y, z);
+            const v = new BABYLON.Vector3(x, y, z);
 
             this.path.push(v);
 
@@ -77,7 +77,7 @@ export class WaveRibbon {
         // this.material.diffuseColor = new BABYLON.Color3(.8, .8, .8); // black is no shine
 
         const gtexture = new BABYLON.Texture('../assets/images/normal12.jpg', this.scene);
-        
+
         this.material.bumpTexture = gtexture;
         this.material.bumpTexture.uScale = 5;
         this.material.bumpTexture.vScale = 15;
@@ -86,16 +86,16 @@ export class WaveRibbon {
         this.material.parallaxScaleBias = 0.1;
         this.material.specularPower = 100.0;  // 1000
         this.material.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
-        this.material.diffuseTexture = gtexture;;
+        this.material.diffuseTexture = gtexture;
         this.material.diffuseTexture.uScale = 5;
         this.material.diffuseTexture.vScale = 15;
-        this.material.specularTexture = gtexture;;
+        this.material.specularTexture = gtexture;
         this.material.specularTexture.uScale = 5;
         this.material.specularTexture.vScale = 15;
-        this.material.emissiveTexture = gtexture;;
+        this.material.emissiveTexture = gtexture;
         this.material.emissiveTexture.uScale = 5;
         this.material.emissiveTexture.vScale = 15;
-        this.material.ambientTexture = gtexture;;
+        this.material.ambientTexture = gtexture;
         this.material.ambientTexture.uScale = 5;
         this.material.ambientTexture.vScale = 15;
 
@@ -115,7 +115,8 @@ export class WaveRibbon {
         console.log('Path:');
         console.log(this.path);
 
-        this.tubes = BABYLON.MeshBuilder.CreateTube("lns", {path: this.path, radius: 100,radiusFunction: (i,d) => {return (20 * (Math.sin(i) + 2))}, tessellation: 16, sideOrientation: 10, updatable: true}, this.scene);
+        // tslint:disable-next-line: max-line-length
+        this.tubes = BABYLON.MeshBuilder.CreateTube('lns', {path: this.path, radius: 100, radiusFunction: (i) => (20 * (Math.sin(i) + 2)), tessellation: 16, sideOrientation: 10, updatable: true}, this.scene);
 
         this.tubes.material = this.material;
 
@@ -128,13 +129,13 @@ export class WaveRibbon {
 
         this.theta = (this.theta + .003) % (2 * Math.PI);
 
-        let x = 500 * Math.cos(this.theta);
-        let z = 500 * Math.sin(this.theta);
-        let y = 160 + 50 * Math.sin(4 * this.theta);
+        const x = 500 * Math.cos(this.theta);
+        const z = 500 * Math.sin(this.theta);
+        const y = 160 + 50 * Math.sin(4 * this.theta);
 
-        let x2 = 500 * Math.cos(this.theta + .03);
-        let z2 = 500 * Math.sin(this.theta + .03);
-        let y2 = 0;
+        const x2 = 500 * Math.cos(this.theta + .03);
+        const z2 = 500 * Math.sin(this.theta + .03);
+        const y2 = 0;
 
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = this.theta;
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new  BABYLON.Vector3(x2, y2, z2);
@@ -145,7 +146,7 @@ export class WaveRibbon {
         // this.engineService.cameraTarget.lookAt.x = x2;
         // this.engineService.cameraTarget.lookAt.y = y2;
         // this.engineService.cameraTarget.lookAt.z = z2;
-        
+
         this.engineService.cameraTarget.rotation.y = -this.theta;
 
         //         const r = (currentData[y] * 0.8 + currentData[x] * 0.8) / 2;

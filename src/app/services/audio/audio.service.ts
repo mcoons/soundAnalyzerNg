@@ -263,7 +263,7 @@ export class AudioService {
     // combine sample set
 
     for (let index = 0; index < 64; index++) { //  64*9 = 576
-      this.sample1[index + 0] = (this.soundArrays[8])[index];        // 16384
+      this.sample1[index + 0]   = (this.soundArrays[8])[index];        // 16384
       this.sample1[index + 64] = (this.soundArrays[8])[index + 64];   // 16384
       this.sample1[index + 128] = (this.soundArrays[7])[index + 64];   // 8192
       this.sample1[index + 192] = (this.soundArrays[6])[index + 64];   // 4096
@@ -274,13 +274,13 @@ export class AudioService {
       this.sample1[index + 512] = (this.soundArrays[1])[index + 64];   // 128 buckets
     }
 
-    // this.sample1BufferHistory[this.sample1BufferHistory.length] = this.sample1.slice(0);
+    this.sample1BufferHistory[this.sample1BufferHistory.length] = this.sample1.slice(0);
 
-    // if (this.sample1BufferHistory.length > 150) {
-    //   this.sample1BufferHistory.reverse();
-    //   this.sample1BufferHistory.pop();
-    //   this.sample1BufferHistory.reverse();
-    // }
+    if (this.sample1BufferHistory.length > 150) {
+      this.sample1BufferHistory.reverse();
+      this.sample1BufferHistory.pop();
+      this.sample1BufferHistory.reverse();
+    }
 
     //////////////////////////////////////
     // get TIME DOMAIN data for this frame
@@ -398,6 +398,18 @@ export class AudioService {
 
 // 12th root of 2 for 1 key
 
+
+/*
+      this.fr64DataArray,  // 0
+      this.fr128DataArray, // 1
+      this.fr256DataArray,
+      this.fr512DataArray,
+      this.fr1024DataArray,
+      this.fr2048DataArray,
+      this.fr4096DataArray,
+      this.fr8192DataArray,
+      this.fr16384DataArray // 8
+*/
 
 // Low f           64                 +               64              High f          64-128 of 128
 //         64      +       64         +        64      +       64                     64-128 of 256

@@ -10,8 +10,6 @@ import * as MESHWRITER from 'meshwriter';
 // import '@babylonjs/core/Debug/debugLayer';
 // import '@babylonjs/inspector';
 
-
-
 import { MessageService } from '../message/message.service';
 import { AudioService } from '../audio/audio.service';
 import { OptionsService } from '../options/options.service';
@@ -38,7 +36,6 @@ export class EngineService {
   private visualClasses;
   private visualClassIndex;
   private currentVisual;
-  private showAxis = false;
   private hexMesh;
   private finalHexGround;
   private hexMat;
@@ -48,6 +45,8 @@ export class EngineService {
   private tube2;
   private matGroundCover;
   private tubeMat;
+
+  private showAxis;
 
   private resizeObservable$: Observable<Event>;
   private resizeSubscription$: Subscription;
@@ -111,13 +110,97 @@ export class EngineService {
 
     this.scene = new BABYLON.Scene(this.engine);
     this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
-    this.scene.ambientColor = new BABYLON.Color3(.5, .5, .5);
-    this.scene.registerBeforeRender(this.beforeRender);
+
+    this.scene.ambientColor = new BABYLON.Color3(1, 1, 1);
 
     this.highlightLayer = new BABYLON.HighlightLayer('hl1', this.scene);
 
+
     this.glowLayer = new BABYLON.GlowLayer('glow', this.scene);
     this.glowLayer.intensity = 1;
+
+    this.scene.registerBeforeRender(this.beforeRender);
+
+
+    //   var gl = new BABYLON.GlowLayer("glow", this.scene, {
+    //     mainTextureFixedSize: 1024,
+    //     blurKernelSize: 64
+    // });
+
+
+
+    
+    this.skyboxMaterial = new BABYLON.StandardMaterial('skyBox', this.scene);
+    this.skyboxMaterial.backFaceCulling = false;
+    this.skyboxMaterial.disableLighting = true;
+    
+    this.skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture('../../assets/images/skybox/TropicalSunnyDay', this.scene);
+    this.skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+
+    
+    this.skybox = BABYLON.Mesh.CreateBox('skyBox', 10000.0, this.scene);
+    this.skybox.infiniteDistance = true;
+    this.skybox.material = this.skyboxMaterial;
+
+    this.skybox.setEnabled(false);
+
+
+
+    //////   LIGHTING   //////
+
+    const pointLight0 = new BABYLON.PointLight('pointLight0', new BABYLON.Vector3(2000, 2000, -2000), this.scene);
+    pointLight0.diffuse = new BABYLON.Color3(1, 1, 1);
+    pointLight0.specular = new BABYLON.Color3(1, 1, 1);
+    pointLight0.intensity = 1;
+    pointLight0.range = 15000;
+
+
+    const pointLight1 = new BABYLON.PointLight('pointLight1', new BABYLON.Vector3(-2000, 2000, 2000), this.scene);
+    pointLight1.diffuse = new BABYLON.Color3(1, 1, 1);
+    pointLight1.specular = new BABYLON.Color3(1, 1, 1);
+    pointLight1.intensity = 1;
+    pointLight1.range = 15000;
+
+    const pointLight2 = new BABYLON.PointLight('pointLight2', new BABYLON.Vector3(-2000, -2000, 2000), this.scene);
+    pointLight2.diffuse = new BABYLON.Color3(1, 1, 1);
+    pointLight2.specular = new BABYLON.Color3(1, 1, 1);
+    pointLight2.intensity = 1;
+    pointLight2.range = 15000;
+
+    // const pointLight3 = new BABYLON.PointLight('pointLight3', new BABYLON.Vector3(2000, -2000, -2000), this.scene);
+    // pointLight3.diffuse = new BABYLON.Color3(1, 1, 1);
+    // pointLight3.specular = new BABYLON.Color3(1, 1, 1);
+    // pointLight3.intensity = 1;
+    // pointLight3.range = 15000;
+
+
+    const hlight = new BABYLON.HemisphericLight('hLight1', new BABYLON.Vector3(0, -1, 0), this.scene);
+    hlight.intensity = .5;
+    hlight.diffuse = new BABYLON.Color3(1, 1, 1);
+    hlight.specular = new BABYLON.Color3(1, 1, 1);
+    hlight.groundColor = new BABYLON.Color3(1, 1, 1);
+
+
+    //////    AXIS FOR DEBUGGING    //////
+
+    this.showAxis = false;
+
+    if (this.showAxis) {
+      this.showWorldAxis(500);
+
+      for (let index = -1000; index <= 1000; index += 100) {
+        let hexX100 = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 1, tessellation: 6, height: 100 }, this.scene);
+        hexX100.position = new BABYLON.Vector3(index, 0, 0);
+
+        let hexZ100 = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 1, tessellation: 6, height: 100 }, this.scene);
+        hexZ100.position = new BABYLON.Vector3(0, 0, index);
+
+      }
+
+    }
+
+
+    //////    CAMERAS    //////
 
     this.cameraTarget = new BABYLON.TransformNode('cameraTarget', this.scene);
     // this.cameraTarget = BABYLON.MeshBuilder.CreateSphere('cameraTarget', { diameter: 1, segments: 16, updatable: true }, this.scene);
@@ -132,9 +215,9 @@ export class EngineService {
     // this.camera1.fovMode = BABYLON.Camera.FOVMODE_VERTICAL_FIXED;
 
 
-    let x = 500 * Math.cos(0);
-    let z = 500 * Math.sin(0);
-    let y = 100;
+    const x = 500 * Math.cos(0);
+    const z = 500 * Math.sin(0);
+    const y = 100;
 
     // Parameters: name, position, scene
     this.camera2 = new BABYLON.FollowCamera('FollowCam', new BABYLON.Vector3(x, y, z), this.scene);
@@ -163,57 +246,26 @@ export class EngineService {
     // this.camera2.target = this.cameraTarget;   // version 2.4 and earlier
     this.camera2.lockedTarget = this.cameraTarget; // version 2.5 onwards
 
-    console.log('this.camera2');
-    console.log(this.camera2);
-
-
+    // console.log('this.camera2');
+    // console.log(this.camera2);
 
     this.scene.activeCamera = this.camera1;
 
-    const pointLight1 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(500, 500, -600), this.scene);
 
-    const pointLight2 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(-500, -500, 600), this.scene);
-    pointLight2.intensity = 1.3;
 
-    const pointLight3 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(0, 500, 0), this.scene);
-
-    const pointLight4 = new BABYLON.PointLight('pointLight', new BABYLON.Vector3(800, 480, -280), this.scene);
-    pointLight4.intensity = .75;
-
-    const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(-1, -1, 0), this.scene);
+    //////    SCENE INITIALIZATIONS    //////
 
     // tslint:disable-next-line: max-line-length
     this.currentVisual = new this.visualClasses[this.visualClassIndex](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
     this.currentVisual.create();
 
-    if (this.showAxis) {
-      this.showWorldAxis(150);
-    }
-
     this.createHexObj();
 
     this.Writer = new MESHWRITER(this.scene, { scale: 10 });
 
-    console.log('in create scene');
-    console.log('this.visualClassIndex');
-    console.log(this.visualClassIndex);
-
-
-
-    this.skybox = BABYLON.Mesh.CreateBox("skyBox", 10000.0, this.scene);
-    this.skyboxMaterial = new BABYLON.StandardMaterial("skyBox", this.scene);
-    this.skyboxMaterial.backFaceCulling = false;
-    this.skyboxMaterial.disableLighting = true;
-    this.skybox.material = this.skyboxMaterial;
-
-    this.skybox.infiniteDistance = true;
-    this.skyboxMaterial.disableLighting = true;
-
-    // this.skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture('../../assets/images/skybox/TropicalSunnyDay', this.scene);
-    // this.skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-
-
-
+    // console.log('in create scene');
+    // console.log('this.visualClassIndex');
+    // console.log(this.visualClassIndex);
 
 
     /*
@@ -222,10 +274,11 @@ export class EngineService {
         this.titleMat.specularColor = new BABYLON.Color3(0, 0, 0);
         this.titleMat.emissiveColor = new BABYLON.Color3(0, 0, 0);
         this.titleMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
-    
+
         this.createTitleText('Have Yourself a Merry Little Christmas');
     */
     console.log(this.scene);
+
   }
 
   public animate(): void {
@@ -259,7 +312,7 @@ export class EngineService {
   // }
 
   saveCamera() {
-    console.log('in saveCamera');
+    // console.log('in saveCamera');
     this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].calpha
       = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha;
 
@@ -274,7 +327,7 @@ export class EngineService {
   }
 
   selectVisual(index) {
-    console.log('in selectVisual');
+    // console.log('in selectVisual');
     this.saveCamera();
 
     this.currentVisual.remove();
@@ -356,10 +409,12 @@ export class EngineService {
     this.hexMat.bumpTexture = new BABYLON.Texture('../../assets/images/normal8.jpg', this.scene);
     this.hexMat.bumpTexture.uScale = 5;
     this.hexMat.bumpTexture.vScale = 5;
+    // this.hexMat.emmisiveColor =
 
     const groundBox = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 880, tessellation: 6, height: 48 }, this.scene);
     groundBox.position.y = -24;
     const groundCSG = BABYLON.CSG.FromMesh(groundBox);
+    groundBox.dispose();
 
     // BUILD SPS ////////////////////////////////
 
@@ -377,6 +432,9 @@ export class EngineService {
     const hex = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 38, tessellation: 6, height: 50 }, this.scene);
     hex.convertToFlatShadedMesh();
 
+
+
+
     for (z = -15; z < 15; z++) {
       for (x = -15; x < 15; x++) {
         x2 = x;
@@ -390,7 +448,6 @@ export class EngineService {
       }
     }
 
-    groundBox.dispose();
 
     this.hexMesh = this.hexSPS.buildMesh();
     this.hexMesh.material = this.hexMat;
@@ -398,6 +455,9 @@ export class EngineService {
     this.hexMesh.scaling.y = .8;
     this.hexMesh.scaling.z = .8;
     this.hexMesh.parent = this.hexParent;
+
+    // this.highlightLayer.addMesh(this.hexMesh,
+    //       new BABYLON.Color3(0, .75, .75));
 
     const spsCSG = BABYLON.CSG.FromMesh(this.hexMesh);
     const holyGroundCSG = groundCSG.subtract(spsCSG);
@@ -498,6 +558,7 @@ export class EngineService {
     // }
     // )
 
+    this.hexParent.rotation.y = Math.PI;
     this.hexParent.setEnabled(false);
 
   }

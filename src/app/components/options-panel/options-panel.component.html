@@ -59,6 +59,28 @@
 
       </mat-expansion-panel>
 
+      <!-- Scene -->
+
+      <mat-expansion-panel expanded="true">
+
+        <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
+          Scene Options
+        </mat-expansion-panel-header>
+
+        <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.getOptions())">
+          <ng-container *ngIf="this.optionsService.getOptions()[option].group=='Scene'">
+
+            <ng-container *ngIf="this.optionsService.getOptions()[option].type=='color'">
+              <input type="color" [id]="option" [(ngModel)]="this.optionsService[option]"
+                (change)="lightColorChange($event)">
+              <b class='colorHeader'>{{this.optionsService.getOptions()[option].label}}</b>
+
+            </ng-container>
+          </ng-container>
+        </div>
+
+      </mat-expansion-panel>
+
       <!-- Note/Freq -->
 
       <mat-expansion-panel *ngIf="this.optionsService.showBars === true" expanded="true">
@@ -177,6 +199,7 @@
               <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
             </ng-container>
 
+            <!-- Colors -->
             <ng-container
               *ngIf="this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].colorOptions === true">
 
@@ -190,7 +213,8 @@
 
               <ng-container *ngIf="this.optionsService.customColors === true">
                 <ng-container *ngIf="this.optionsService.getOptions()[option].type=='color'">
-                  <input type="color" [id]="option" [(ngModel)]="this.optionsService[option]">
+                  <input type="color" [id]="option" [(ngModel)]="this.optionsService[option]"
+                    (change)="colorChange($event)">
                   <b class='colorHeader'>{{this.optionsService.getOptions()[option].label}}</b>
 
                 </ng-container>
@@ -201,15 +225,25 @@
 
                   <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
 
+                  <!-- <input type="range" [id]="option" [name]="option" class="range"
+                    [min]="this.optionsService.getOptions()[option].min"
+                    [max]="this.optionsService.getOptions()[option].max"
+                    [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
+                    (change)="colorChange($event)"
+                    ng-model-options="{ getterSetter: true }"> -->
+
+
                   <input type="range" [id]="option" [name]="option" class="range"
                     [min]="this.optionsService.getOptions()[option].min"
                     [max]="this.optionsService.getOptions()[option].max"
                     [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
-                    ng-model-options="{ getterSetter: true }">
+                    (change)="colorChange($event)" ng-model-options="{ getterSetter: true }">
+
 
                   <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
 
                 </ng-container>
+
 
               </ng-container>
 
@@ -218,6 +252,17 @@
 
           </ng-container>
         </div>
+
+        <!-- <ng-container -->
+        <!-- *ngIf="this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].colorOptions === true"> -->
+        <!-- <ng-container *ngIf="this.optionsService.customColors === true"> -->
+
+        <div #graduate id="graduate" style="width:155px; margin: 10px; border-radius:5px; text-align: center;">Color
+          Range</div>
+
+        <!-- </ng-container> -->
+        <!-- <div id="graduate" style="width:100%; border:1px solid red; background-image: linear-gradient(to right, red , yellow);">ColorTest</div> -->
+
       </mat-expansion-panel>
 
       <!-- Play List -->

@@ -46,6 +46,8 @@ export class SingleSPSRibbon implements OnDestroy {
     // private rotation;
     private forwardRotation;
     private backwardRotation;
+    private origin = new BABYLON.Vector3(0, 0, 0);
+    private master;
 
     // private scalingDenom;
     private radius;
@@ -113,7 +115,7 @@ export class SingleSPSRibbon implements OnDestroy {
         this.TwoPId576 = this.TwoPI / 576;
         this.TwoPId72 = this.TwoPI / 72;
         this.SixteenPId576 = 16 * this.PI / 576;
-        this. SixteenPId64 = 16 * this.PI / 64;
+        this.SixteenPId64 = 16 * this.PI / 64;
         this.SixPId64 = 6 * this.PI / 64;
         this.SixPId576 = 6 * this.PI / 576;
         this.PId1000 = this.PI / 1000;
@@ -164,6 +166,14 @@ export class SingleSPSRibbon implements OnDestroy {
         this.setDefaults();
 
         console.log(this.getSPSNames());
+
+        this.master = BABYLON.MeshBuilder.CreateBox(('box'), {
+            height: 1,
+            width: 1,
+            depth: 1
+        }, this.scene);
+
+        this.master.isVisible = false;
 
     }
 
@@ -231,7 +241,21 @@ export class SingleSPSRibbon implements OnDestroy {
                 return new BABYLON.Vector3(.5 + yy / 50, 1, .5 + yy / 50);
             },
             rotation: (particle, yy) => {
-                return new BABYLON.Vector3(0, 0, 0);
+                // const master = BABYLON.MeshBuilder.CreateBox(('box'), {
+                //     height: 1,
+                //     width: 1,
+                //     depth: 1
+                // }, this.scene);
+
+                // master.position = particle.position;
+                // master.lookAt(this.origin);
+                // let rot = master.rotation;
+                // master.dispose();
+                // return rot;
+                // return particle.rotation;
+
+                return this.getLookatOriginRotation(particle);
+
             },
             color: (particle, yy) => {
                 const c = this.colorsService.colors(yy);
@@ -320,7 +344,21 @@ export class SingleSPSRibbon implements OnDestroy {
                 return new BABYLON.Vector3(.5 + yy / 80, .5 + yy / 80, .5 + yy / 80);
             },
             rotation: (particle, yy) => {
-                return new BABYLON.Vector3(0, 0, 0);
+                // const master = BABYLON.MeshBuilder.CreateBox(('box'), {
+                //     height: 1,
+                //     width: 1,
+                //     depth: 1
+                // }, this.scene);
+
+                // master.position = particle.position;
+                // master.lookAt(this.origin);
+                // let rot = master.rotation;
+                // master.dispose();
+                // return rot;
+                // return new BABYLON.Vector3(0, 0, 0);
+
+                return this.getLookatOriginRotation(particle);
+
             },
             color: (particle, yy) => {
                 const c = this.colorsService.colors(yy);
@@ -362,7 +400,8 @@ export class SingleSPSRibbon implements OnDestroy {
                 return new BABYLON.Vector3(5, 20 * yy / 255 + 1, 5);
             },
             rotation: (particle, yy) => {
-                return new BABYLON.Vector3(0, 0, 0);
+                // return new BABYLON.Vector3(0, 0, 0);
+                return this.getLookatOriginRotation(particle);
             },
             color: (particle, yy) => {
                 const c = this.colorsService.colors(yy);
@@ -418,7 +457,21 @@ export class SingleSPSRibbon implements OnDestroy {
                 return new BABYLON.Vector3(.5 + yy / 60, .5 + yy / 60, .5 + yy / 60);
             },
             rotation: (particle, yy) => {
-                return new BABYLON.Vector3(0, 0, 0);
+                // const master = BABYLON.MeshBuilder.CreateBox(('box'), {
+                //     height: 1,
+                //     width: 1,
+                //     depth: 1
+                // }, this.scene);
+
+                // master.position = particle.position;
+                // master.lookAt(this.origin);
+                // let rot = master.rotation;
+                // master.dispose();
+                // return rot;
+                // return new BABYLON.Vector3(0, 0, 0);
+
+                return this.getLookatOriginRotation(particle);
+
             },
             color: (particle, yy) => {
                 const c = this.colorsService.colors(yy);
@@ -540,7 +593,21 @@ export class SingleSPSRibbon implements OnDestroy {
             },
             rotation: (particle, yy) => {
                 // return new BABYLON.Vector3(0, (Math.sin((particle.idx / 576) * this.FourPI)) % this.TwoPI, 0);
-                return new BABYLON.Vector3(0, (Math.sin((particle.idx / 64) * this.FourPI)) % this.TwoPI, 0);
+
+                // const master = BABYLON.MeshBuilder.CreateBox(('box'), {
+                //     height: 1,
+                //     width: 1,
+                //     depth: 1
+                // }, this.scene);
+
+                // master.position = particle.position;
+                // master.lookAt(this.origin);
+                // let rot = master.rotation;
+                // master.dispose();
+                // return rot;
+                // return new BABYLON.Vector3(0, (Math.sin((particle.idx / 64) * this.FourPI)) % this.TwoPI, 0);
+
+                return this.getLookatOriginRotation(particle);
             },
             color: (particle, yy) => {
                 const c = this.colorsService.colors(yy);
@@ -610,7 +677,22 @@ export class SingleSPSRibbon implements OnDestroy {
                 return new BABYLON.Vector3(1 + yy / 50, 1 + yy / 50, 1 + yy / 50);
             },
             rotation: (particle, yy) => {
-                return new BABYLON.Vector3(0, 0, 0);
+                // const master = BABYLON.MeshBuilder.CreateBox(('box'), {
+                //     height: 1,
+                //     width: 1,
+                //     depth: 1
+                // }, this.scene);
+
+                // master.position = particle.position;
+                // master.lookAt(this.origin);
+                // let rot = master.rotation;
+                // master.dispose();
+                // return rot;
+
+                // return new BABYLON.Vector3(0, 0, 0);
+
+                return this.getLookatOriginRotation(particle);
+
             },
             color: (particle, yy) => {
                 const c = this.colorsService.colors(yy);
@@ -656,17 +738,20 @@ export class SingleSPSRibbon implements OnDestroy {
                 return new BABYLON.Vector3(x, y, z);
             },
             scaling: (particle, yy) => {
-                const loop = Math.trunc(particle.idx / 72) + 1;
+                const loop = Math.trunc(particle.idx / 25) + 1;
 
-                return new BABYLON.Vector3(loop * yy / 10, yy / 50, yy / 50);
+                return new BABYLON.Vector3(loop * yy / 420, yy / 10, yy / 60);
+                // return new BABYLON.Vector3(loop * yy / 10, yy / 50, yy / 50);
             },
             rotation: (particle, yy) => {
-                // const radian = 2 * Math.PI / 72;
-                const radian = this.TwoPI / 125;
-                // const gtheta = (radian * particle.idx) % this.TwoPI;
-                const gtheta = 16  * this.PI / 25 * particle.idx;
+                // // const radian = 2 * Math.PI / 72;
+                // const radian = this.TwoPI / 125;
+                // // const gtheta = (radian * particle.idx) % this.TwoPI;
+                // const gtheta = 16  * this.PI / 25 * particle.idx;
 
-                return new BABYLON.Vector3(0, -gtheta % this.TwoPI, 0);
+                // return new BABYLON.Vector3(0, -gtheta % this.TwoPI, 0);
+                return this.getLookatOriginRotation(particle);
+
             },
             color: (particle, yy) => {
                 const c = this.colorsService.colors(yy);
@@ -676,10 +761,16 @@ export class SingleSPSRibbon implements OnDestroy {
                 return new BABYLON.Vector3(0, this.forwardRotation, 0);
             },
             cameraDefault: (cIndex) => {
+                // const cameraPositions = [
+                //     { alpha: this.PId2, beta: .01, radius: 1200 },
+                //     { alpha: this.PId2, beta: .01, radius: 1200 },
+                //     { alpha: this.PId2, beta: .01, radius: 1200 }
+                // ];
+
                 const cameraPositions = [
-                    { alpha: this.PId2, beta: .01, radius: 1200 },
-                    { alpha: this.PId2, beta: .01, radius: 1200 },
-                    { alpha: this.PId2, beta: .01, radius: 1200 }
+                    { alpha: 3 * this.PId2, beta: 1.05, radius: 530 },
+                    { alpha: 3 * this.PId2, beta: .01, radius: 550 },
+                    { alpha: 3 * this.PId2, beta: .01, radius: 530 }
                 ];
 
                 return cameraPositions[cIndex];
@@ -721,6 +812,12 @@ export class SingleSPSRibbon implements OnDestroy {
 
 
     ];
+
+    getLookatOriginRotation(particle) {
+        this.master.position = particle.position;
+        this.master.lookAt(this.origin);
+        return this.master.rotation;
+    }
 
     getSPSNames() {
         return this.SPSFunctions.map(e => e.name);
@@ -1045,7 +1142,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         this.SPS.updateParticle = (particle) => {
             // let y = this.audioService.sample1[particle.idx];
-            let y = this.audioService.fr1024DataArray[particle.idx];
+            let y = this.audioService.fr512DataArray[particle.idx];
             y = (y * y) / 255;
 
             if (this.expanding) {
