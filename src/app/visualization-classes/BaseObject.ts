@@ -1,3 +1,6 @@
+
+// Used as a base class for Star.  Was intended to assist in star customizations.
+
 export class BaseObject {
 
     name;

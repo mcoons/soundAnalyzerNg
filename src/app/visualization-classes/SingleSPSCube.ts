@@ -193,7 +193,7 @@ export class SingleSPSCube implements OnDestroy {
                 return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
             },
             spsRotation: () => {
-                return new BABYLON.Vector3(0, 0, 0);
+                return new BABYLON.Vector3(0, -this.PI, 0);
             },
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
@@ -716,8 +716,8 @@ export class SingleSPSCube implements OnDestroy {
             cameraDefault: (cIndex) => {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: .01, radius: 1200 },
-                    { alpha: -this.PId2, beta: .01, radius: 1200 },
-                    { alpha: -this.PId2, beta: .01, radius: 1200 }
+                    { alpha: -this.PId2, beta: this.PId32, radius: 1200 },
+                    { alpha: -this.PId2, beta: this.PI / 8, radius: 1200 }
                 ];
 
                 return cameraPositions[cIndex];
@@ -934,8 +934,8 @@ export class SingleSPSCube implements OnDestroy {
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = false;
-        this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
-        this.mat.ambientColor = new BABYLON.Color3(.25, .25, .25);
+        this.mat.specularColor = new BABYLON.Color3(1, 1, 1);
+        // this.mat.ambientColor = new BABYLON.Color3(1, 1, 1);
         this.mat.forceDepthWrite = true;
         // this.mat.reflectionTexture = new BABYLON.CubeTexture('../../assets/images/skybox/TropicalSunnyDay', this.scene);
         // this.mat.reflectionTexture.coordinatesMode = BABYLON.Texture.PLANAR_MODE;
@@ -947,7 +947,7 @@ export class SingleSPSCube implements OnDestroy {
         }, this.scene);
 
         const myPositionFunction = (particle, i, s) => {
-            particle.color = new BABYLON.Color4(.5, .5, .5, .1);
+            particle.color = new BABYLON.Color4(.5, .5, .5, 1);
             particle.hasVertexAlpha = true;
         };
 

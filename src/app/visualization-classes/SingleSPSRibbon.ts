@@ -1112,7 +1112,7 @@ export class SingleSPSRibbon implements OnDestroy {
         // private cubePaths = [];
 
 
-        const master = BABYLON.Mesh.CreateRibbon('cube', this.cubePaths, false, false, 0, this.scene, true);
+        const master = BABYLON.Mesh.CreateRibbon('cube', this.pyramidPaths, false, false, 0, this.scene, true);
         master.convertToFlatShadedMesh();
 
         // master.scaling.x = .5;

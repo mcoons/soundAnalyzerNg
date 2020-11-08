@@ -34,9 +34,9 @@ export class SpherePlaneManagerSPS {
         this.colorsService = colorsService;
         this.engineService = engineService;
 
-        (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
-        (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.2;
-        (this.scene.lights[2] as BABYLON.PointLight).intensity = 0.2;
+        // (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.4;
+        // (this.scene.lights[1] as BABYLON.PointLight).intensity = 0.2;
+        // (this.scene.lights[2] as BABYLON.PointLight).intensity = 0.2;
 
         this.scene.registerBeforeRender(this.beforeRender);
 
@@ -91,7 +91,7 @@ export class SpherePlaneManagerSPS {
         };
 
         this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
-        const sphere = BABYLON.MeshBuilder.CreateSphere('s', { diameter: 6, segments: 2, updatable: true }, this.scene);
+        const sphere = BABYLON.MeshBuilder.CreateSphere('s', { diameter: 6, segments: 8, updatable: true }, this.scene);
 
         for (z = -15; z < 15; z++) {
             for (x = -15; x < 15; x++) {
@@ -141,9 +141,9 @@ export class SpherePlaneManagerSPS {
 
         this.scene.unregisterBeforeRender(this.beforeRender);
 
-        (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.8;
-        (this.scene.lights[1] as BABYLON.PointLight).intensity = 1.0;
-        (this.scene.lights[2] as BABYLON.PointLight).intensity = 1.0;
+        // (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.8;
+        // (this.scene.lights[1] as BABYLON.PointLight).intensity = 1.0;
+        // (this.scene.lights[2] as BABYLON.PointLight).intensity = 1.0;
 
         this.audioService = null;
         this.optionsService = null;

@@ -66,6 +66,12 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
         break;
 
+      case 'light0Intensity':
+        this.engineService.scene.lights[0].intensity = e.target.value/100;
+
+        console.log(this.engineService.scene.lights[0].intensity);
+
+        break;
 
 
       case 'light1Color':
@@ -79,6 +85,13 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
         this.engineService.scene.lights[1].specular = BABYLON.Color3.FromHexString(e.target.value);
 
         console.log(this.engineService.scene.lights[1].specular);
+
+        break;
+
+      case 'light1Intensity':
+        this.engineService.scene.lights[1].intensity = e.target.value/100;
+
+        console.log(this.engineService.scene.lights[1].intensity);
 
         break;
 
@@ -98,7 +111,12 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
         break;
 
+      case 'light2Intensity':
+        this.engineService.scene.lights[2].intensity = e.target.value/100;
 
+        console.log(this.engineService.scene.lights[2].intensity);
+
+        break;
 
 
       case 'groundLightColor':
@@ -109,12 +127,22 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
 
         break;
 
-      case 'groundLightColor':
+      case 'groundLightSpecular':
         this.engineService.scene.lights[3].specular = BABYLON.Color3.FromHexString(e.target.value);
 
         console.log(this.engineService.scene.lights[3].specular);
 
         break;
+
+      case 'groundLightIntensity':
+        this.engineService.scene.lights[3].intensity = e.target.value/100;
+
+        console.log(this.engineService.scene.lights[3].intensity);
+
+        break;
+
+
+
       default:
         break;
     }

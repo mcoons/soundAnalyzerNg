@@ -59,27 +59,6 @@
 
       </mat-expansion-panel>
 
-      <!-- Scene -->
-
-      <mat-expansion-panel expanded="true">
-
-        <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
-          Scene Options
-        </mat-expansion-panel-header>
-
-        <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.getOptions())">
-          <ng-container *ngIf="this.optionsService.getOptions()[option].group=='Scene'">
-
-            <ng-container *ngIf="this.optionsService.getOptions()[option].type=='color'">
-              <input type="color" [id]="option" [(ngModel)]="this.optionsService[option]"
-                (change)="lightColorChange($event)">
-              <b class='colorHeader'>{{this.optionsService.getOptions()[option].label}}</b>
-
-            </ng-container>
-          </ng-container>
-        </div>
-
-      </mat-expansion-panel>
 
       <!-- Note/Freq -->
 
@@ -143,6 +122,55 @@
 
       </mat-expansion-panel>
 
+
+      <!-- Scene -->
+
+      <mat-expansion-panel expanded="true">
+
+        <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
+          Scene Options
+        </mat-expansion-panel-header>
+
+        <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.getOptions())">
+          
+          
+          <ng-container *ngIf="this.optionsService.getOptions()[option].group=='Scene'">
+
+
+
+            <ng-container *ngIf="this.optionsService.getOptions()[option].type=='slider'">
+              <b><label class="rangeLabel" [for]="option">{{this.optionsService.getOptions()[option].label}}
+                  ({{this.optionsService.getOptions()[option].value}})</label></b><br>
+              <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+
+              <input type="range" [id]="option" [name]="option" class="range"
+                [min]="this.optionsService.getOptions()[option].min"
+                [max]="this.optionsService.getOptions()[option].max"
+                [step]="this.optionsService.getOptions()[option].step" (input)="lightColorChange($event)"
+                (change)="lightColorChange($event)" [(ngModel)]="this.optionsService[option]"
+                ng-model-options="{ getterSetter: true }">
+
+              <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
+            </ng-container>
+
+
+            <ng-container *ngIf="this.optionsService.getOptions()[option].type=='color'">
+              <input type="color" [id]="option" [(ngModel)]="this.optionsService[option]"
+              (change)="lightColorChange($event)"
+              (input)="lightColorChange($event)"
+              ng-model-options="{ getterSetter: true }">
+              <!-- <b class='colorHeader'>{{this.optionsService.getOptions()[option].label}}</b> -->
+                {{this.optionsService.getOptions()[option].label}}
+              </ng-container>
+
+
+
+          </ng-container>
+
+
+        </div>
+
+      </mat-expansion-panel>
       <!-- 3D Visuals -->
 
       <mat-expansion-panel expanded="true">
@@ -215,7 +243,8 @@
                 <ng-container *ngIf="this.optionsService.getOptions()[option].type=='color'">
                   <input type="color" [id]="option" [(ngModel)]="this.optionsService[option]"
                     (change)="colorChange($event)">
-                  <b class='colorHeader'>{{this.optionsService.getOptions()[option].label}}</b>
+                    <!-- <b class='colorHeader'>{{this.optionsService.getOptions()[option].label}}</b> -->
+                    {{this.optionsService.getOptions()[option].label}}
 
                 </ng-container>
 
@@ -237,7 +266,7 @@
                     [min]="this.optionsService.getOptions()[option].min"
                     [max]="this.optionsService.getOptions()[option].max"
                     [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
-                    (change)="colorChange($event)" ng-model-options="{ getterSetter: true }">
+                    (change)="colorChange($event)" (input)="colorChange($event)" ng-model-options="{ getterSetter: true }">
 
 
                   <i id="gupicon" class="material-icons md-18">add_circle_outline</i>

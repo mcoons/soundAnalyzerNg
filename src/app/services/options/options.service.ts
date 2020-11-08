@@ -4,6 +4,7 @@ import { Subscription, Observable, fromEvent } from 'rxjs';
 
 import { MessageService } from '../message/message.service';
 import { StorageService } from '../storage/storage.service';
+// import { EngineService } from '../../services/engine/engine.service';
 
 // import { Single } from '../../visualization-classes/SingleSPS';
 
@@ -29,35 +30,35 @@ export class OptionsService {
   ];
 
   CubeSPSs =
-  [
-    'blockPlane',
-    'thing1',
-    'blockSpiral',
-    'thing2',
-    'equation',
-    'thing3',
-    'cube',
-    'sphere',
-    'pole',
-    'heart',
-    'sineLoop',
-    'sineLoop2'
-  ];
+    [
+      'blockPlane',
+      'thing1',
+      'blockSpiral',
+      'thing2',
+      'equation',
+      'thing3',
+      'cube',
+      'sphere',
+      'pole',
+      'heart',
+      'sineLoop',
+      'sineLoop2'
+    ];
 
   RibbonSPSs =
-  [
-    'blockPlaneRibbon',
-    'thing1Ribbon',
-    'blockSpiralRibbon',
-    'thing2Ribbon',
-    'equationRibbon',
-    'thing3Ribbon',
-    'cubeRibbon',
-    'sphereRibbon',
-    'poleRibbon',
-    'heartRibbon',
-    'sineLoopRibbon'
-  ];
+    [
+      'blockPlaneRibbon',
+      'thing1Ribbon',
+      'blockSpiralRibbon',
+      'thing2Ribbon',
+      'equationRibbon',
+      'thing3Ribbon',
+      'cubeRibbon',
+      'sphereRibbon',
+      'poleRibbon',
+      'heartRibbon',
+      'sineLoopRibbon'
+    ];
 
   notes = [
     'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'None'
@@ -65,7 +66,7 @@ export class OptionsService {
 
   baseOptions = {
 
-    version: 3.47,
+    version: 3.62,
 
     // general options
     showTitle: {
@@ -80,12 +81,12 @@ export class OptionsService {
       label: 'Show Freq Bars',
       value: false
     },
-    // showWaveform: {
-    //   group: 'General',
-    //   type: 'checkbox',
-    //   label: 'Show Waveform',
-    //   value: false
-    // },
+    showWaveform: {
+      group: 'General',
+      type: 'checkbox',
+      label: 'Show Waveform',
+      value: false
+    },
     waveformMultiplier: {
       group: 'General',
       type: 'waveslider',
@@ -99,70 +100,302 @@ export class OptionsService {
 
 
 
+    light0Intensity: {
+      group: 'Scene',
+      type: 'slider',
+      label: 'Top Right Front Intensity',
+      value: 75,
+      min: -200,
+      max: 200,
+      step: 5,
+      visualCustom: true
+    },
     light0Color: {
       group: 'Scene',
       type: 'color',
       label: 'Light 0 Color',
       value: '#ffffff',
-      // visualCustom: true
+      visualCustom: true
     },
     light0Specular: {
       group: 'Scene',
       type: 'color',
       label: 'Light 0 Specular',
       value: '#ffffff',
-      // visualCustom: true
+      visualCustom: true
     },
 
-
+    light1Intensity: {
+      group: 'Scene',
+      type: 'slider',
+      label: 'Top Left Back Intensity',
+      value: 75,
+      min: -200,
+      max: 200,
+      step: 5,
+      visualCustom: true
+    },
     light1Color: {
       group: 'Scene',
       type: 'color',
       label: 'Light 1 Color',
       value: '#ffffff',
-      // visualCustom: true
+      visualCustom: true
     },
     light1Specular: {
       group: 'Scene',
       type: 'color',
       label: 'Light 1 Specular',
       value: '#ffffff',
-      // visualCustom: true
+      visualCustom: true
     },
 
 
+
+    light2Intensity: {
+      group: 'Scene',
+      type: 'slider',
+      label: 'Bottom Left Front Intensity',
+      value: 75,
+      min: -200,
+      max: 200,
+      step: 5,
+      visualCustom: true
+    },
     light2Color: {
       group: 'Scene',
       type: 'color',
       label: 'Light 2 Color',
       value: '#ffffff',
-      // visualCustom: true
+      visualCustom: true
     },
     light2Specular: {
       group: 'Scene',
       type: 'color',
       label: 'Light 2 Specular',
       value: '#ffffff',
-      // visualCustom: true
+      visualCustom: true
     },
 
 
+    groundLightIntensity: {
+      group: 'Scene',
+      type: 'slider',
+      label: 'Ground Light Intensity',
+      value: 75,
+      min: -200,
+      max: 200,
+      step: 5,
+      visualCustom: true
+    },
     groundLightColor: {
       group: 'Scene',
       type: 'color',
       label: 'Ground Light Color',
       value: '#ffffff',
-      // visualCustom: true
+      visualCustom: true
     },
     groundLightSpecular: {
       group: 'Scene',
       type: 'color',
       label: 'Ground Light Specular',
       value: '#ffffff',
-      // visualCustom: true
+      visualCustom: true
     },
 
 
+    starManager: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Stars',
+      value: 2,
+      checked: false,
+      colorOptions: false,
+      cameraOptions: false,
+      sampleGain: 1,
+      smoothingConstant: 5,
+      autoRotate: false,
+      customColors: false,
+      minColor: '#0000ff',
+      midColor: '#00ff00',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .01,
+      cradius: 1200,
+      light0Intensity: 75,
+      light0Color: '#ffffff',
+      light0Specular: '#ffffff',
+      light1Intensity: 75,
+      light1Color: '#ffffff',
+      light1Specular: '#ffffff',
+      light2Intensity: 75,
+      light2Color: '#ffffff',
+      light2Specular: '#ffffff',
+      groundLightIntensity: 75,
+      groundLightColor: '#ffffff',
+      groundLightSpecular: '#ffffff',
+    },
+    spectrograph: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Spectrograph',
+      value: 3,
+      checked: false,
+      colorOptions: false,
+      cameraOptions: false,
+      sampleGain: 1,
+      smoothingConstant: 5,
+      autoRotate: false,
+      customColors: false,
+      minColor: '#0000ff',
+      midColor: '#00ff00',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .85,
+      cradius: 1200,
+      light0Intensity: 75,
+      light0Color: '#ffffff',
+      light0Specular: '#ffffff',
+      light1Intensity: 75,
+      light1Color: '#ffffff',
+      light1Specular: '#ffffff',
+      light2Intensity: 75,
+      light2Color: '#ffffff',
+      light2Specular: '#ffffff',
+      groundLightIntensity: 75,
+      groundLightColor: '#ffffff',
+      groundLightSpecular: '#ffffff',
+    },
+    spherePlaneManagerSPS: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Sphere Plane',
+      value: 4,
+      checked: false,
+      colorOptions: true,
+      cameraOptions: true,
+      sampleGain: 1,
+      smoothingConstant: 5,
+      autoRotate: true,
+      customColors: false,
+      minColor: '#0000ff',
+      midColor: '#00ff00',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .81,
+      cradius: 1200,
+      light0Intensity: 75,
+      light0Color: '#ffffff',
+      light0Specular: '#ffffff',
+      light1Intensity: 75,
+      light1Color: '#ffffff',
+      light1Specular: '#ffffff',
+      light2Intensity: 75,
+      light2Color: '#ffffff',
+      light2Specular: '#ffffff',
+      groundLightIntensity: 75,
+      groundLightColor: '#ffffff',
+      groundLightSpecular: '#ffffff',
+    },
+    rings: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Rings',
+      value: 5,
+      checked: false,
+      colorOptions: true,
+      cameraOptions: false,
+      sampleGain: 1,
+      smoothingConstant: 5,
+      autoRotate: false,
+      customColors: false,
+      minColor: '#0000ff',
+      midColor: '#00ff00',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .81,
+      cradius: 1200,
+      light0Intensity: 75,
+      light0Color: '#ffffff',
+      light0Specular: '#ffffff',
+      light1Intensity: 75,
+      light1Color: '#ffffff',
+      light1Specular: '#ffffff',
+      light2Intensity: 75,
+      light2Color: '#ffffff',
+      light2Specular: '#ffffff',
+      groundLightIntensity: 75,
+      groundLightColor: '#ffffff',
+      groundLightSpecular: '#ffffff',
+    },
+    hex: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Hex',
+      value: 6,
+      checked: false,
+      colorOptions: true,
+      cameraOptions: true,
+      sampleGain: 1,
+      smoothingConstant: 5,
+      autoRotate: true,
+      customColors: false,
+      minColor: '#0000ff',
+      midColor: '#00ff00',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .91,
+      cradius: 1200,
+      light0Intensity: 75,
+      light0Color: '#ffffff',
+      light0Specular: '#ffffff',
+      light1Intensity: 75,
+      light1Color: '#ffffff',
+      light1Specular: '#ffffff',
+      light2Intensity: 75,
+      light2Color: '#ffffff',
+      light2Specular: '#ffffff',
+      groundLightIntensity: 75,
+      groundLightColor: '#ffffff',
+      groundLightSpecular: '#ffffff',
+    },
+    waveRibbon: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'WaveRibbon',
+      value: 7,
+      checked: false,
+      colorOptions: false,
+      cameraOptions: false,
+      sampleGain: 1,
+      smoothingConstant: 5,
+      autoRotate: false,
+      customColors: false,
+      minColor: '#0000ff',
+      midColor: '#00ff00',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .85,
+      cradius: 1200,
+      light0Intensity: 1,
+      light0Color: '#ffffff',
+      light0Specular: '#ffffff',
+      light1Intensity: 1,
+      light1Color: '#ffffff',
+      light1Specular: '#ffffff',
+      light2Intensity: 1,
+      light2Color: '#ffffff',
+      light2Specular: '#ffffff',
+      groundLightIntensity: 1,
+      groundLightColor: '#ffffff',
+      groundLightSpecular: '#ffffff',
+    },
 
     singleSPSCube: {
       group: '3DVisual',
@@ -182,8 +415,21 @@ export class OptionsService {
       midLoc: 128,
       calpha: 0.72,
       cbeta: 1.57,
-      cradius: 1000
+      cradius: 1000,
+      light0Intensity: 75,
+      light0Color: '#ffffff',
+      light0Specular: '#ffffff',
+      light1Intensity: 75,
+      light1Color: '#ffffff',
+      light1Specular: '#ffffff',
+      light2Intensity: 75,
+      light2Color: '#ffffff',
+      light2Specular: '#ffffff',
+      groundLightIntensity: 75,
+      groundLightColor: '#ffffff',
+      groundLightSpecular: '#ffffff',
     },
+
     singleSPSDelay: {
       group: '3DVisual',
       type: 'slider',
@@ -303,7 +549,19 @@ export class OptionsService {
       midLoc: 128,
       calpha: 4.72,
       cbeta: 1.57,
-      cradius: 1000
+      cradius: 1000,
+      light0Intensity: 1,
+      light0Color: '#ffffff',
+      light0Specular: '#ffffff',
+      light1Intensity: 1,
+      light1Color: '#ffffff',
+      light1Specular: '#ffffff',
+      light2Intensity: 1,
+      light2Color: '#ffffff',
+      light2Specular: '#ffffff',
+      groundLightIntensity: 1,
+      groundLightColor: '#ffffff',
+      groundLightSpecular: '#ffffff',
     },
 
     blockPlaneRibbon: {
@@ -379,126 +637,9 @@ export class OptionsService {
 
 
 
-    starManager: {
-      group: '3DVisual',
-      type: 'radio',
-      label: 'Stars',
-      value: 2,
-      checked: false,
-      colorOptions: false,
-      cameraOptions: false,
-      sampleGain: 1,
-      smoothingConstant: 5,
-      autoRotate: false,
-      customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
-      calpha: 4.72,
-      cbeta: .01,
-      cradius: 1200
-    },
-    spectrograph: {
-      group: '3DVisual',
-      type: 'radio',
-      label: 'Spectrograph',
-      value: 3,
-      checked: false,
-      colorOptions: false,
-      cameraOptions: false,
-      sampleGain: 1,
-      smoothingConstant: 5,
-      autoRotate: false,
-      customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
-      calpha: 4.72,
-      cbeta: .85,
-      cradius: 1200
-    },
-    spherePlaneManagerSPS: {
-      group: '3DVisual',
-      type: 'radio',
-      label: 'Sphere Plane',
-      value: 4,
-      checked: false,
-      colorOptions: true,
-      cameraOptions: true,
-      sampleGain: 1,
-      smoothingConstant: 5,
-      autoRotate: true,
-      customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
-      calpha: 4.72,
-      cbeta: .81,
-      cradius: 1200
-    },
-    rings: {
-      group: '3DVisual',
-      type: 'radio',
-      label: 'Rings',
-      value: 5,
-      checked: false,
-      colorOptions: true,
-      cameraOptions: false,
-      sampleGain: 1,
-      smoothingConstant: 5,
-      autoRotate: false,
-      customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
-      calpha: 4.72,
-      cbeta: .81,
-      cradius: 1200
-    },
-    hex: {
-      group: '3DVisual',
-      type: 'radio',
-      label: 'Hex',
-      value: 6,
-      checked: false,
-      colorOptions: true,
-      cameraOptions: true,
-      sampleGain: 1,
-      smoothingConstant: 5,
-      autoRotate: true,
-      customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
-      calpha: 4.72,
-      cbeta: .91,
-      cradius: 1200
-    },
-    waveRibbon: {
-      group: '3DVisual',
-      type: 'radio',
-      label: 'WaveRibbon',
-      value: 7,
-      checked: false,
-      colorOptions: false,
-      cameraOptions: false,
-      sampleGain: 1,
-      smoothingConstant: 5,
-      autoRotate: false,
-      customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
-      calpha: 4.72,
-      cbeta: .85,
-      cradius: 1200
-    },
+
+
+
     sampleGain: {
       group: '3DVisual',
       type: 'slider',
@@ -565,6 +706,10 @@ export class OptionsService {
       step: 5,
       visualCustom: true
     },
+
+
+
+
 
     // key highlight options
     currentNote: {
@@ -714,8 +859,12 @@ export class OptionsService {
   constructor(
     @Inject(MessageService) public messageService: MessageService,
     @Inject(StorageService) public storageService: StorageService,
+    // @Inject(EngineService) private engineService: EngineService
+
   ) {
     console.log('Options Service Constructor');
+    console.log('Options from start');
+    console.log(this.options);
 
     this.resizeObservable = fromEvent(window, 'resize');
     this.resizeSubscription = this.resizeObservable.subscribe(evt => {
@@ -751,8 +900,8 @@ export class OptionsService {
       console.log('local options error');
     }
 
-    console.log('CubeSPSs');
-    console.log(this.CubeSPSs);
+    console.log('Options');
+    console.log(this.options);
   }
 
   toggleOption(itemName: string) {
@@ -776,6 +925,7 @@ export class OptionsService {
     });
 
     this.updateCustomOptions(index);
+
 
 
     this.storageService.saveOptions(this.options);
@@ -807,10 +957,83 @@ export class OptionsService {
     this.options.midLoc.value =
       this.options[this.visuals[visualIndex]].midLoc;
 
+
+
+    this.options.light0Intensity.value =
+      this.options[this.visuals[visualIndex]].light0Intensity;
+    this.options.light0Color.value = this.options[this.visuals[visualIndex]].light0Color;
+    this.options.light0Specular.value = this.options[this.visuals[visualIndex]].light0Specular;
+    this.options.light1Intensity.value = this.options[this.visuals[visualIndex]].light1Intensity;
+    this.options.light1Color.value = this.options[this.visuals[visualIndex]].light1Color;
+    this.options.light1Specular.value = this.options[this.visuals[visualIndex]].light1Specular;
+    this.options.light2Intensity.value = this.options[this.visuals[visualIndex]].light2Intensity;
+    this.options.light2Color.value = this.options[this.visuals[visualIndex]].light2Color;
+    this.options.light2Specular.value = this.options[this.visuals[visualIndex]].light2Specular;
+    this.options.groundLightIntensity.value = this.options[this.visuals[visualIndex]].groundLightIntensity;
+    this.options.groundLightColor.value = this.options[this.visuals[visualIndex]].groundLightColor;
+    this.options.groundLightSpecular.value = this.options[this.visuals[visualIndex]].groundLightSpecular;
+
+
+
+    this.messageService.announceMessage('set lights');
+
+
+
+
+    // this.options.light0Intensity = this.options[this.visuals[visualIndex]].light0Intensity;
+    // this.options.light0Color = this.options[this.visuals[visualIndex]].light0Color;
+    // this.options.light0Specular = this.options[this.visuals[visualIndex]].light0Specular;
+    // this.options.light1Intensity = this.options[this.visuals[visualIndex]].light1Intensity;
+    // this.options.light1Color = this.options[this.visuals[visualIndex]].light1Color;
+    // this.options.light1Specular = this.options[this.visuals[visualIndex]].light1Specular;
+    // this.options.light2Intensity = this.options[this.visuals[visualIndex]].light2Intensity;
+    // this.options.light2Color = this.options[this.visuals[visualIndex]].light2Color;
+    // this.options.light2Specular = this.options[this.visuals[visualIndex]].light2Specular;
+    // this.options.groundLightIntensity = this.options[this.visuals[visualIndex]].groundLightIntensity;
+    // this.options.groundLightColor = this.options[this.visuals[visualIndex]].groundLightColor;
+    // this.options.groundLightSpecular = this.options[this.visuals[visualIndex]].groundLightSpecular;
+
+
+
     this.announceChange('smoothingConstant');
     this.announceChange('sampleGain');
 
   }
+
+  /*
+
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Stars',
+      value: 2,
+      checked: false,
+      colorOptions: false,
+      cameraOptions: false,
+      sampleGain: 1,         ++
+      smoothingConstant: 5,  ++
+      autoRotate: false,     ++
+      customColors: false,   ++
+      minColor: '#0000ff',
+      midColor: '#00ff00',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .01,
+      cradius: 1200,
+      light0Intensity: 1,
+      light0Color: '#ffffff',
+      light0Specular: '#ffffff',
+      light1Intensity: 1,
+      light1Color: '#ffffff',
+      light1Specular: '#ffffff',
+      light2Intensity: 1,
+      light2Color: '#ffffff',
+      light2Specular: '#ffffff',
+      groundLightIntensity: 1,
+      groundLightColor: '#ffffff',
+      groundLightSpecular: '#ffffff',
+
+  */
 
   toggleNoteRadio(itemName: string, index: number) {
     this.notes.forEach(n => {
@@ -885,14 +1108,31 @@ export class OptionsService {
     this.storageService.saveOptions(this.options);
   }
 
-  // get showWaveform() {
-  //   return this.options.showWaveform.value;
-  // }
+  get showWaveform() {
+    return this.options.showWaveform.value;
+  }
 
-  // set showWaveform(value) {
-  //   this.options.showWaveform.value = value;
-  //   this.storageService.saveOptions(this.options);
-  // }
+  set showWaveform(value) {
+    this.options.showWaveform.value = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+
+
+
+  get light0Intensity(): string {
+    return this.options.light0Intensity.value;
+  }
+
+  set light0Intensity(value: string) {
+    this.options.light0Intensity.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light0Intensity = value;
+
+    this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
+  }
+
 
 
   get light0Color(): string {
@@ -901,9 +1141,11 @@ export class OptionsService {
 
   set light0Color(value: string) {
     this.options.light0Color.value = value;
-    // this.options[this.visuals[this.state.currentVisual.value]].light0Color = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light0Color = value;
 
     this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
   }
 
   get light0Specular(): string {
@@ -912,13 +1154,28 @@ export class OptionsService {
 
   set light0Specular(value: string) {
     this.options.light0Specular.value = value;
-    // this.options[this.visuals[this.state.currentVisual.value]].light0Specular = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light0Specular = value;
 
     this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
   }
 
 
 
+
+  get light1Intensity(): string {
+    return this.options.light1Intensity.value;
+  }
+
+  set light1Intensity(value: string) {
+    this.options.light1Intensity.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light1Intensity = value;
+
+    this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
+  }
 
   get light1Color(): string {
     return this.options.light1Color.value;
@@ -926,9 +1183,11 @@ export class OptionsService {
 
   set light1Color(value: string) {
     this.options.light1Color.value = value;
-    // this.options[this.visuals[this.state.currentVisual.value]].light1Color = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light1Color = value;
 
     this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
   }
 
   get light1Specular(): string {
@@ -937,12 +1196,27 @@ export class OptionsService {
 
   set light1Specular(value: string) {
     this.options.light1Specular.value = value;
-    // this.options[this.visuals[this.state.currentVisual.value]].light1Specular = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light1Specular = value;
 
     this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
   }
 
 
+
+  get light2Intensity(): string {
+    return this.options.light2Intensity.value;
+  }
+
+  set light2Intensity(value: string) {
+    this.options.light2Intensity.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light2Intensity = value;
+
+    this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
+  }
 
 
   get light2Color(): string {
@@ -951,9 +1225,11 @@ export class OptionsService {
 
   set light2Color(value: string) {
     this.options.light2Color.value = value;
-    // this.options[this.visuals[this.state.currentVisual.value]].light2Color = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light2Color = value;
 
     this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
   }
 
   get light2Specular(): string {
@@ -962,13 +1238,28 @@ export class OptionsService {
 
   set light2Specular(value: string) {
     this.options.light2Specular.value = value;
-    // this.options[this.visuals[this.state.currentVisual.value]].light2Specular = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light2Specular = value;
 
     this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
   }
 
 
 
+
+  get groundLightIntensity(): string {
+    return this.options.groundLightIntensity.value;
+  }
+
+  set groundLightIntensity(value: string) {
+    this.options.groundLightIntensity.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].groundLightIntensity = value;
+
+    this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
+  }
 
   get groundLightColor(): string {
     return this.options.groundLightColor.value;
@@ -976,20 +1267,24 @@ export class OptionsService {
 
   set groundLightColor(value: string) {
     this.options.groundLightColor.value = value;
-    // this.options[this.visuals[this.state.currentVisual.value]].groundLightColor = value;
+    this.options[this.visuals[this.state.currentVisual.value]].groundLightColor = value;
 
     this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
   }
 
-  get groundLightSpeecular(): string {
-    return this.options.groundLightSpeecular.value;
+  get groundLightSpecular(): string {
+    return this.options.groundLightSpecular.value;
   }
 
-  set groundLightSpeecular(value: string) {
-    this.options.groundLightSpeecular.value = value;
-    // this.options[this.visuals[this.state.currentVisual.value]].groundLightSpeecular = value;
+  set groundLightSpecular(value: string) {
+    this.options.groundLightSpecular.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].groundLightSpecular = value;
 
     this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
   }
 
 
@@ -1276,187 +1571,187 @@ export class OptionsService {
   }
 
 
-///////////////////////////////////////////////////////////////////////////
-//    RIBBON
-///////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////
+  //    RIBBON
+  ///////////////////////////////////////////////////////////////////////////
 
 
 
-get blockPlaneRibbon(): boolean {
-  return this.options.blockPlaneRibbon.value;
-}
-
-set blockPlaneRibbon(value: boolean) {
-  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-    this.options.blockPlaneRibbon.value = value;
-    this.announceChange('sps change');
-    this.storageService.saveOptions(this.options);
-  } else {
-    this.options.blockPlaneRibbon.value = !value;
-    (document.getElementById('blockPlaneRibbon') as HTMLInputElement).checked = true;
+  get blockPlaneRibbon(): boolean {
+    return this.options.blockPlaneRibbon.value;
   }
-}
 
-get thing1Ribbon(): boolean {
-  return this.options.thing1Ribbon.value;
-}
-
-set thing1Ribbon(value: boolean) {
-  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-    this.options.thing1Ribbon.value = value;
-    this.announceChange('sps change');
-    this.storageService.saveOptions(this.options);
-  } else {
-    this.options.thing1Ribbon.value = !value;
-    (document.getElementById('thing1Ribbon') as HTMLInputElement).checked = true;
+  set blockPlaneRibbon(value: boolean) {
+    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+      this.options.blockPlaneRibbon.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.blockPlaneRibbon.value = !value;
+      (document.getElementById('blockPlaneRibbon') as HTMLInputElement).checked = true;
+    }
   }
-}
 
-get blockSpiralRibbon(): boolean {
-  return this.options.blockSpiralRibbon.value;
-}
-
-set blockSpiralRibbon(value: boolean) {
-  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-    this.options.blockSpiralRibbon.value = value;
-    this.announceChange('sps change');
-    this.storageService.saveOptions(this.options);
-  } else {
-    this.options.blockSpiralRibbon.value = !value;
-    (document.getElementById('blockSpiralRibbon') as HTMLInputElement).checked = true;
+  get thing1Ribbon(): boolean {
+    return this.options.thing1Ribbon.value;
   }
-}
 
-get thing2Ribbon(): boolean {
-  return this.options.thing2Ribbon.value;
-}
-
-set thing2Ribbon(value: boolean) {
-  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-    this.options.thing2Ribbon.value = value;
-    this.announceChange('sps change');
-    this.storageService.saveOptions(this.options);
-  } else {
-    this.options.thing2Ribbon.value = !value;
-    (document.getElementById('thing2Ribbon') as HTMLInputElement).checked = true;
+  set thing1Ribbon(value: boolean) {
+    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+      this.options.thing1Ribbon.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.thing1Ribbon.value = !value;
+      (document.getElementById('thing1Ribbon') as HTMLInputElement).checked = true;
+    }
   }
-}
 
-get equationRibbon(): boolean {
-  return this.options.equationRibbon.value;
-}
-
-set equationRibbon(value: boolean) {
-  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-    this.options.equationRibbon.value = value;
-    this.announceChange('sps change');
-    this.storageService.saveOptions(this.options);
-  } else {
-    this.options.equationRibbon.value = !value;
-    (document.getElementById('equationRibbon') as HTMLInputElement).checked = true;
+  get blockSpiralRibbon(): boolean {
+    return this.options.blockSpiralRibbon.value;
   }
-}
 
-
-get thing3Ribbon(): boolean {
-  return this.options.thing3Ribbon.value;
-}
-
-set thing3Ribbon(value: boolean) {
-  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-    this.options.thing3Ribbon.value = value;
-    this.announceChange('sps change');
-    this.storageService.saveOptions(this.options);
-  } else {
-    this.options.thing3Ribbon.value = !value;
-    (document.getElementById('thing3Ribbon') as HTMLInputElement).checked = true;
+  set blockSpiralRibbon(value: boolean) {
+    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+      this.options.blockSpiralRibbon.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.blockSpiralRibbon.value = !value;
+      (document.getElementById('blockSpiralRibbon') as HTMLInputElement).checked = true;
+    }
   }
-}
 
-
-get cubeRibbon(): boolean {
-  return this.options.cubeRibbon.value;
-}
-
-set cubeRibbon(value: boolean) {
-  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-    this.options.cubeRibbon.value = value;
-    this.announceChange('sps change');
-    this.storageService.saveOptions(this.options);
-  } else {
-    this.options.cubeRibbon.value = !value;
-    (document.getElementById('cubeRibbon') as HTMLInputElement).checked = true;
+  get thing2Ribbon(): boolean {
+    return this.options.thing2Ribbon.value;
   }
-}
 
-get sphereRibbon(): boolean {
-  return this.options.sphereRibbon.value;
-}
-
-set sphereRibbon(value: boolean) {
-  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-    this.options.sphereRibbon.value = value;
-    this.announceChange('sps change');
-    this.storageService.saveOptions(this.options);
-  } else {
-    this.options.sphereRibbon.value = !value;
-    (document.getElementById('sphereRibbon') as HTMLInputElement).checked = true;
+  set thing2Ribbon(value: boolean) {
+    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+      this.options.thing2Ribbon.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.thing2Ribbon.value = !value;
+      (document.getElementById('thing2Ribbon') as HTMLInputElement).checked = true;
+    }
   }
-}
 
-get poleRibbon(): boolean {
-  return this.options.poleRibbon.value;
-}
-
-set poleRibbon(value: boolean) {
-  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-    this.options.poleRibbon.value = value;
-    this.announceChange('sps change');
-    this.storageService.saveOptions(this.options);
-  } else {
-    this.options.poleRibbon.value = !value;
-    (document.getElementById('poleRibbon') as HTMLInputElement).checked = true;
+  get equationRibbon(): boolean {
+    return this.options.equationRibbon.value;
   }
-}
 
-get heartRibbon(): boolean {
-  return this.options.heartRibbon.value;
-}
-
-set heartRibbon(value: boolean) {
-  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-    this.options.heartRibbon.value = value;
-    this.announceChange('sps change');
-    this.storageService.saveOptions(this.options);
-  } else {
-    this.options.heartRibbon.value = !value;
-    (document.getElementById('heartRibbon') as HTMLInputElement).checked = true;
+  set equationRibbon(value: boolean) {
+    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+      this.options.equationRibbon.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.equationRibbon.value = !value;
+      (document.getElementById('equationRibbon') as HTMLInputElement).checked = true;
+    }
   }
-}
 
 
-get sineLoopRibbon(): boolean {
-  return this.options.sineLoopRibbon.value;
-}
-
-set sineLoopRibbon(value: boolean) {
-  if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-    this.options.sineLoopRibbon.value = value;
-    this.announceChange('sps change');
-    this.storageService.saveOptions(this.options);
-  } else {
-    this.options.sineLoopRibbon.value = !value;
-    (document.getElementById('sineLoopRibbon') as HTMLInputElement).checked = true;
+  get thing3Ribbon(): boolean {
+    return this.options.thing3Ribbon.value;
   }
-}
+
+  set thing3Ribbon(value: boolean) {
+    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+      this.options.thing3Ribbon.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.thing3Ribbon.value = !value;
+      (document.getElementById('thing3Ribbon') as HTMLInputElement).checked = true;
+    }
+  }
+
+
+  get cubeRibbon(): boolean {
+    return this.options.cubeRibbon.value;
+  }
+
+  set cubeRibbon(value: boolean) {
+    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+      this.options.cubeRibbon.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.cubeRibbon.value = !value;
+      (document.getElementById('cubeRibbon') as HTMLInputElement).checked = true;
+    }
+  }
+
+  get sphereRibbon(): boolean {
+    return this.options.sphereRibbon.value;
+  }
+
+  set sphereRibbon(value: boolean) {
+    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+      this.options.sphereRibbon.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.sphereRibbon.value = !value;
+      (document.getElementById('sphereRibbon') as HTMLInputElement).checked = true;
+    }
+  }
+
+  get poleRibbon(): boolean {
+    return this.options.poleRibbon.value;
+  }
+
+  set poleRibbon(value: boolean) {
+    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+      this.options.poleRibbon.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.poleRibbon.value = !value;
+      (document.getElementById('poleRibbon') as HTMLInputElement).checked = true;
+    }
+  }
+
+  get heartRibbon(): boolean {
+    return this.options.heartRibbon.value;
+  }
+
+  set heartRibbon(value: boolean) {
+    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+      this.options.heartRibbon.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.heartRibbon.value = !value;
+      (document.getElementById('heartRibbon') as HTMLInputElement).checked = true;
+    }
+  }
+
+
+  get sineLoopRibbon(): boolean {
+    return this.options.sineLoopRibbon.value;
+  }
+
+  set sineLoopRibbon(value: boolean) {
+    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+      this.options.sineLoopRibbon.value = value;
+      this.announceChange('sps change');
+      this.storageService.saveOptions(this.options);
+    } else {
+      this.options.sineLoopRibbon.value = !value;
+      (document.getElementById('sineLoopRibbon') as HTMLInputElement).checked = true;
+    }
+  }
 
 
 
 
 
 
-///////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////
 
 
 

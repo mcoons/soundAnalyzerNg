@@ -28,7 +28,7 @@ export class WaveRibbon {
 
         this.setDefaults();
 
-        for (let index = 0; index < 2 * Math.PI - .001; index += Math.PI / 32) {
+        for (let index = 0; index < 2 * Math.PI; index += Math.PI / 32) {
 
             const x = 500 * Math.cos(index);
             const z = 500 * Math.sin(index);
