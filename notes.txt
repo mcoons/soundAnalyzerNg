@@ -4,8 +4,16 @@ https://soundanalyzerng.herokuapp.com/
 https://github.com/mcoons/soundAnalyzerNg
 
 
+
+Ribbon Particle Shapes
+https://www.babylonjs-playground.com/#1HSC2O#242
+
+
+
 TODO
 _______________________________________________________________________
+crystal ball with flickering light inbside - Lindsey - When the stars align
+
 
 Flesh out Exploding SPS options in panel
 Add camera positioning to Exploding SPS (remove use interaction?)
@@ -18,6 +26,42 @@ Implement Star Zooming
 Implement 2D history layer in the back.
 
 Fix playlist selection button highlight when canceling coming from mic
+
+
+
+Load scene with multiple lights
+2 Top Front
+2 Bottom Front 
+2 Top Back
+2 Bottom Back 
+
+1 Camera light
+1 Camera Backlight
+
+
+Parent all lights to a center Parent 
+Parent camera light and backlight to camera
+
+Allow checkbox selection but only 4 selection max at a time 1 selected min
+
+Allow rotation of lights
+Allow rotation of camera
+Allow rotation of object
+
+Hide SPS visuals if SPS is not selected
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -185,3 +229,53 @@ SPS rotation - current
                     cameraSettingsCurrent.radius,
                     cameraSettingsNext.radius,
                     this.conTimer);
+
+
+
+                    [[{"_isDirty":true,"_x":0.7071067811865476,"_y":-0.7071067811865475,"_z":-2},{"_isDirty":true,"_x":0.7071067811865476,"_y":0.7071067811865475,"_z":-2},{"_isDirty":true,"_x":-0.7071067811865475,"_y":0.7071067811865476,"_z":-2},{"_isDirty":true,"_x":-0.7071067811865477,"_y":-0.7071067811865475,"_z":-2},{"_isDirty":true,"_x":0.7071067811865474,"_y":-0.7071067811865477,"_z":-2}],[{"_isDirty":true,"_x":0.9238795325112867,"_y":-0.3826834323650898,"_z":-1},{"_isDirty":true,"_x":0.38268343236508984,"_y":0.9238795325112867,"_z":-1},{"_isDirty":true,"_x":-0.9238795325112867,"_y":0.3826834323650899,"_z":-1},{"_isDirty":true,"_x":-0.38268343236509034,"_y":-0.9238795325112865,"_z":-1},{"_isDirty":true,"_x":0.9238795325112865,"_y":-0.3826834323650904,"_z":-1}],[{"_isDirty":true,"_x":1,"_y":0,"_z":0},{"_isDirty":true,"_x":6.123233995736766e-17,"_y":1,"_z":0},{"_isDirty":true,"_x":-1,"_y":1.2246467991473532e-16,"_z":0},{"_isDirty":true,"_x":-1.8369701987210297e-16,"_y":-1,"_z":0},{"_isDirty":true,"_x":1,"_y":-2.4492935982947064e-16,"_z":0}],[{"_isDirty":true,"_x":0.9238795325112867,"_y":0.3826834323650898,"_z":1},{"_isDirty":true,"_x":-0.3826834323650897,"_y":0.9238795325112867,"_z":1},{"_isDirty":true,"_x":-0.9238795325112868,"_y":-0.38268343236508967,"_z":1},{"_isDirty":true,"_x":0.38268343236509,"_y":-0.9238795325112866,"_z":1},{"_isDirty":true,"_x":0.9238795325112867,"_y":0.38268343236508995,"_z":1}],[{"_isDirty":true,"_x":0.7071067811865476,"_y":0.7071067811865475,"_z":2},{"_isDirty":true,"_x":-0.7071067811865475,"_y":0.7071067811865476,"_z":2},{"_isDirty":true,"_x":-0.7071067811865477,"_y":-0.7071067811865475,"_z":2},{"_isDirty":true,"_x":0.7071067811865474,"_y":-0.7071067811865477,"_z":2},{"_isDirty":true,"_x":0.7071067811865477,"_y":0.7071067811865474,"_z":2}]]
+
+
+
+
+
+
+
+
+
+HEX
+        this.hexMat = new BABYLON.StandardMaterial(`material`, this.scene);
+        this.hexMat.bumpTexture = new BABYLON.Texture('../../assets/images/normal8.jpg', this.scene);
+        this.hexMat.bumpTexture.uScale = 5;
+        this.hexMat.bumpTexture.vScale = 5;
+        // this.hexMat.emmisiveColor =
+
+
+RINGS
+        this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
+        this.mat.diffuseTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
+        this.mat.backFaceCulling = false;
+        this.mat.opacityTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
+        this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
+
+        this.mat.diffuseTexture.hasAlpha = true;
+        (this.mat.diffuseTexture as BABYLON.Texture).vScale = 1 / 5;
+        (this.mat.opacityTexture as BABYLON.Texture).vScale = 1 / 5;
+
+
+SPS CUBE
+       this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
+        this.mat.backFaceCulling = false;
+        this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
+        this.mat.ambientColor = new BABYLON.Color3(.25, .25, .25);
+        this.mat.forceDepthWrite = true;
+        // this.mat.reflectionTexture = new BABYLON.CubeTexture('../../assets/images/skybox/TropicalSunnyDay', this.scene);
+        // this.mat.reflectionTexture.coordinatesMode = BABYLON.Texture.PLANAR_MODE;
+
+SPECTROGRAPH
+        this.ground.material = new BABYLON.StandardMaterial('gmat', this.scene);
+        this.ground.material.backFaceCulling = false;
+        this.ground.material.specularColor = new BABYLON.Color3(0, 0, 0); // black is no shine
+
+
+
+

@@ -164,3 +164,10 @@ input[type=range] {
   margin-top: 5px;
   margin-left: 5px;
 }
+
+input[type="color" i] {
+  appearance: square-button;
+  width: 20px;
+  height: 20px;
+
+}
