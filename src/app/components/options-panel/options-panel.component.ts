@@ -72,7 +72,12 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
         console.log(this.engineService.scene.lights[0].intensity);
 
         break;
-
+        case 'light0GroundColor':
+          (this.engineService.scene.lights[0] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
+  
+          // console.log(this.engineService.scene.lights[3].diffuse);
+  
+          break;
 
       case 'light1Color':
         this.engineService.scene.lights[1].diffuse = BABYLON.Color3.FromHexString(e.target.value);
@@ -94,7 +99,12 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
         console.log(this.engineService.scene.lights[1].intensity);
 
         break;
-
+        case 'light1GroundColor':
+          (this.engineService.scene.lights[1] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
+  
+          // console.log(this.engineService.scene.lights[3].diffuse);
+  
+          break;
 
 
       case 'light2Color':
@@ -107,41 +117,52 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
       case 'light2Specular':
         this.engineService.scene.lights[2].specular = BABYLON.Color3.FromHexString(e.target.value);
 
-        console.log(this.engineService.scene.lights[2].specular);
+        // console.log(this.engineService.scene.lights[2].specular);
 
         break;
 
       case 'light2Intensity':
         this.engineService.scene.lights[2].intensity = e.target.value/100;
 
-        console.log(this.engineService.scene.lights[2].intensity);
+        // console.log(this.engineService.scene.lights[2].intensity);
 
         break;
+
+        case 'light2GroundColor':
+          (this.engineService.scene.lights[2] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
+  
+          // console.log(this.engineService.scene.lights[3].diffuse);
+  
+          break;
 
 
       case 'groundLightColor':
         this.engineService.scene.lights[3].diffuse = BABYLON.Color3.FromHexString(e.target.value);
-        (this.engineService.scene.lights[3] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
 
-        console.log(this.engineService.scene.lights[3].diffuse);
+        // console.log(this.engineService.scene.lights[3].diffuse);
 
         break;
 
       case 'groundLightSpecular':
         this.engineService.scene.lights[3].specular = BABYLON.Color3.FromHexString(e.target.value);
 
-        console.log(this.engineService.scene.lights[3].specular);
+        // console.log(this.engineService.scene.lights[3].specular);
 
         break;
 
       case 'groundLightIntensity':
         this.engineService.scene.lights[3].intensity = e.target.value/100;
 
-        console.log(this.engineService.scene.lights[3].intensity);
+        // console.log(this.engineService.scene.lights[3].intensity);
 
         break;
 
-
+        case 'groundLightGroundColor':
+          (this.engineService.scene.lights[3] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
+  
+          // console.log(this.engineService.scene.lights[3].diffuse);
+  
+          break;
 
       default:
         break;

@@ -71,6 +71,8 @@ export class AudioService {
   tdDataArrayNormalized: any;
 
   tdHistory = [];
+  tdMinHistory = [];
+  tdMaxHistory = [];
 
   tdHistoryArraySize = 150;
 
@@ -355,6 +357,29 @@ export class AudioService {
 
     if (this.tdHistory.length > this.tdHistoryArraySize) {
       this.tdHistory.shift();
+    }
+
+    let tdMin = 500;
+    let tdMax = 0;
+
+    this.tdDataArray.forEach(d => {
+      if (d < tdMin) {
+        tdMin = d;
+      }
+      if (d > tdMax) {
+        tdMax = d;
+      }
+    });
+
+    // this.tdMinHistory.push(tdMin);
+
+    // if (this.tdMinHistory.length > 500) {
+    //   this.tdMinHistory.shift();
+    // }
+    this.tdMaxHistory.push(tdMax);
+
+    if (this.tdMaxHistory.length > 1000) {
+      this.tdMaxHistory.shift();
     }
   }
 

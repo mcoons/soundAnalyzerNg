@@ -16,14 +16,16 @@ import { OptionsService } from '../options/options.service';
 import { StorageService } from '../storage/storage.service';
 import { ColorsService } from '../colors/colors.service';
 
+import { SpherePlaneManager2SPS } from '../../visualization-classes/SpherePlaneManager2SPS';
 import { SpherePlaneManagerSPS } from '../../visualization-classes/SpherePlaneManagerSPS';
+
 import { StarManager } from '../../visualization-classes/StarManager';
 import { Spectrograph } from '../../visualization-classes/Spectrograph';
 import { Rings } from '../../visualization-classes/Rings';
 import { Hex } from '../../visualization-classes/Hex';
-import { WaveRibbon } from '../../visualization-classes/WaveRibbon';
+// import { WaveRibbon } from '../../visualization-classes/WaveRibbon';
 import { SingleSPSCube } from '../../visualization-classes/SingleSPSCube';
-import { SingleSPSRibbon } from '../../visualization-classes/SingleSPSRibbon';
+// import { SingleSPSRibbon } from '../../visualization-classes/SingleSPSRibbon';
 
 
 @Injectable({ providedIn: 'root' })
@@ -75,6 +77,8 @@ export class EngineService {
     public colorsService: ColorsService
   ) {
 
+    this.showAxis = false;
+
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
       this.engine.resize();
@@ -85,7 +89,6 @@ export class EngineService {
       message => {
         if (message === 'scene change') {
           this.selectVisual(this.optionsService.currentVisual);
-          
         }
 
         if (message === 'set lights') {
@@ -96,13 +99,14 @@ export class EngineService {
     this.visualClassIndex = this.optionsService.currentVisual;
     this.visualClasses = [
       SingleSPSCube,
-      SingleSPSRibbon,
+      // SingleSPSRibbon,
       StarManager,
       Spectrograph,
       SpherePlaneManagerSPS,
+      SpherePlaneManager2SPS,
       Rings,
       Hex,
-      WaveRibbon
+      // WaveRibbon
     ];
 
   }
@@ -154,28 +158,28 @@ export class EngineService {
     //////   LIGHTING   //////
 
     // const pointLight0 = new BABYLON.PointLight('pointLight0', new BABYLON.Vector3(2000, 2000, -2000), this.scene);
-    const pointLight0 = new BABYLON.HemisphericLight('pointLight0', new BABYLON.Vector3(2000, 2000, -2000), this.scene);
+    const pointLight0 = new BABYLON.HemisphericLight('pointLight0', new BABYLON.Vector3(0, 0, -1), this.scene);
+    pointLight0.intensity = 1;
     pointLight0.diffuse = new BABYLON.Color3(1, 1, 1);
     pointLight0.specular = new BABYLON.Color3(1, 1, 1);
-    // pointLight0.groundColor = new BABYLON.Color3(0, 1, 0);
-    pointLight0.intensity = 1;
+    pointLight0.groundColor = new BABYLON.Color3(.5, .5, .5);
     // pointLight0.range = 15000;
 
 
     // const pointLight1 = new BABYLON.PointLight('pointLight1', new BABYLON.Vector3(-2000, 2000, 2000), this.scene);
-    const pointLight1 = new BABYLON.HemisphericLight('pointLight1', new BABYLON.Vector3(-2000, 2000, 2000), this.scene);
+    const pointLight1 = new BABYLON.HemisphericLight('pointLight1', new BABYLON.Vector3(0, 0, 1), this.scene);
+    pointLight1.intensity = 1;
     pointLight1.diffuse = new BABYLON.Color3(1, 1, 1);
     pointLight1.specular = new BABYLON.Color3(1, 1, 1);
-    // pointLight1.groundColor = new BABYLON.Color3(0, 0, 1);
-    pointLight1.intensity = 1;
+    pointLight1.groundColor = new BABYLON.Color3(.5, .5, .5);
     // pointLight1.range = 15000;
 
     // const pointLight2 = new BABYLON.PointLight('pointLight2', new BABYLON.Vector3(-2000, -2000, -2000), this.scene);
-    const pointLight2 = new BABYLON.HemisphericLight('pointLight2', new BABYLON.Vector3(-2000, -2000, -2000), this.scene);
+    const pointLight2 = new BABYLON.HemisphericLight('pointLight2', new BABYLON.Vector3(-1, 0, 0), this.scene);
+    pointLight2.intensity = 1;
     pointLight2.diffuse = new BABYLON.Color3(1, 1, 1);
     pointLight2.specular = new BABYLON.Color3(1, 1, 1);
-    // pointLight2.groundColor = new BABYLON.Color3(1, 0, 0);
-    pointLight2.intensity = 1;
+    pointLight2.groundColor = new BABYLON.Color3(.5, .5, .5);
     // pointLight2.range = 15000;
 
     // const pointLight3 = new BABYLON.PointLight('pointLight3', new BABYLON.Vector3(2000, -2000, -2000), this.scene);
@@ -185,16 +189,15 @@ export class EngineService {
     // pointLight3.range = 15000;
 
 
-    const hlight = new BABYLON.HemisphericLight('hLight1', new BABYLON.Vector3(1, -1, 1), this.scene);
+    const hlight = new BABYLON.HemisphericLight('hLight1', new BABYLON.Vector3(1, 0, 0), this.scene);
     hlight.intensity = .5;
     hlight.diffuse = new BABYLON.Color3(1, 1, 1);
     hlight.specular = new BABYLON.Color3(1, 1, 1);
-    // hlight.groundColor = new BABYLON.Color3(1, 1, 1);
+    hlight.groundColor = new BABYLON.Color3(.5, .5, .5);
 
 
     //////    AXIS FOR DEBUGGING    //////
 
-    this.showAxis = false;
 
     if (this.showAxis) {
       this.showWorldAxis(600);
@@ -295,21 +298,29 @@ export class EngineService {
 
   public setLights() {
 
-    this.scene.lights[0].intensity = this.optionsService.options.light0Intensity.value/200;
+    console.log('light0');
+    console.log(this.scene.lights[0]);
+
+    this.scene.lights[0].intensity = this.optionsService.options.light0Intensity.value/100;
     this.scene.lights[0].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light0Color.value);
     this.scene.lights[0].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light0Specular.value );
+    (this.scene.lights[0] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light0GroundColor.value );
 
-    this.scene.lights[1].intensity = this.optionsService.options.light1Intensity.value/200;
+    this.scene.lights[1].intensity = this.optionsService.options.light1Intensity.value/100;
     this.scene.lights[1].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light1Color.value);
     this.scene.lights[1].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light1Specular.value );
+    // (this.scene.lights[1] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light1GroundColor.value );
 
-    this.scene.lights[2].intensity = this.optionsService.options.light2Intensity.value/200;
+    this.scene.lights[2].intensity = this.optionsService.options.light2Intensity.value/100;
     this.scene.lights[2].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light2Color.value);
     this.scene.lights[2].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light2Specular.value );
+    // (this.scene.lights[2] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light2GroundColor.value );
 
-    this.scene.lights[3].intensity = this.optionsService.options.groundLightIntensity.value/200;
+    this.scene.lights[3].intensity = this.optionsService.options.groundLightIntensity.value/100;
     this.scene.lights[3].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.groundLightColor.value);
     this.scene.lights[3].specular = BABYLON.Color3.FromHexString(this.optionsService.options.groundLightSpecular.value );
+    // (this.scene.lights[3] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light3GroundColor.value );
+
   }
 
   public animate(): void {

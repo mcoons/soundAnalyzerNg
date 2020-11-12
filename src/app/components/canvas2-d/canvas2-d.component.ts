@@ -52,6 +52,8 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
             this.draw2DBars(this.audioService.sample1, 0);
             this.draw2DBars(this.audioService.fr64DataArray, 200);
 
+            this.drawSoundWav();
+
           }
 
           if (this.optionsService.showWaveform === true) {
@@ -257,6 +259,21 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     this.ctx.stroke();
 
   }
+
+  drawSoundWav() {
+    this.ctx.strokeStyle = 'white';
+
+    this.audioService.tdMaxHistory.forEach( (d, i) => {
+
+      // console.log(d);
+      this.ctx.beginPath();
+      this.ctx.moveTo(i + this.canvas2d.nativeElement.width/2 - 500, 250 - (d-128));
+      this.ctx.lineTo(i + this.canvas2d.nativeElement.width/2 - 500, 250 + (d-128));
+      this.ctx.stroke();
+
+    });
+  }
+
 
   getTopOfPlayer(): number {
     this.playerDiv = document.getElementById('playerDiv');

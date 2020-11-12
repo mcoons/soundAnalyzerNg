@@ -20,13 +20,14 @@ export class OptionsService {
 
   visuals = [
     'singleSPSCube',
-    'singleSPSRibbon',
+    // 'singleSPSRibbon',
     'starManager',
     'spectrograph',
     'spherePlaneManagerSPS',
+    'spherePlaneManager2SPS',
     'rings',
     'hex',
-    'waveRibbon',
+    // 'waveRibbon',
   ];
 
   CubeSPSs =
@@ -41,24 +42,24 @@ export class OptionsService {
       'sphere',
       'pole',
       'heart',
-      'sineLoop',
+      // 'sineLoop',
       'sineLoop2'
     ];
 
-  RibbonSPSs =
-    [
-      'blockPlaneRibbon',
-      'thing1Ribbon',
-      'blockSpiralRibbon',
-      'thing2Ribbon',
-      'equationRibbon',
-      'thing3Ribbon',
-      'cubeRibbon',
-      'sphereRibbon',
-      'poleRibbon',
-      'heartRibbon',
-      'sineLoopRibbon'
-    ];
+  // RibbonSPSs =
+  //   [
+  //     'blockPlaneRibbon',
+  //     'thing1Ribbon',
+  //     'blockSpiralRibbon',
+  //     'thing2Ribbon',
+  //     'equationRibbon',
+  //     'thing3Ribbon',
+  //     'cubeRibbon',
+  //     'sphereRibbon',
+  //     'poleRibbon',
+  //     'heartRibbon',
+  //     'sineLoopRibbon'
+  //   ];
 
   notes = [
     'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'None'
@@ -66,7 +67,7 @@ export class OptionsService {
 
   baseOptions = {
 
-    version: 3.62,
+    version: 3.78,
 
     // general options
     showTitle: {
@@ -103,8 +104,8 @@ export class OptionsService {
     light0Intensity: {
       group: 'Scene',
       type: 'slider',
-      label: 'Top Right Front Intensity',
-      value: 75,
+      label: 'Front Intensity',
+      value: 80,
       min: -200,
       max: 200,
       step: 5,
@@ -121,15 +122,23 @@ export class OptionsService {
       group: 'Scene',
       type: 'color',
       label: 'Light 0 Specular',
-      value: '#ffffff',
+      value: '#454545',
       visualCustom: true
     },
+    light0GroundColor: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Light 0 Back Color',
+      value: '#454545',
+      visualCustom: true
+    },
+
 
     light1Intensity: {
       group: 'Scene',
       type: 'slider',
-      label: 'Top Left Back Intensity',
-      value: 75,
+      label: 'Back Intensity',
+      value: 30,
       min: -200,
       max: 200,
       step: 5,
@@ -146,17 +155,22 @@ export class OptionsService {
       group: 'Scene',
       type: 'color',
       label: 'Light 1 Specular',
-      value: '#ffffff',
+      value: '#454545',
       visualCustom: true
     },
-
-
+    light1GroundColor: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Light 1 Back Color',
+      value: '#454545',
+      visualCustom: true
+    },
 
     light2Intensity: {
       group: 'Scene',
       type: 'slider',
-      label: 'Bottom Left Front Intensity',
-      value: 75,
+      label: 'Left Intensity',
+      value: 10,
       min: -200,
       max: 200,
       step: 5,
@@ -173,16 +187,24 @@ export class OptionsService {
       group: 'Scene',
       type: 'color',
       label: 'Light 2 Specular',
-      value: '#ffffff',
+      value: '#454545',
       visualCustom: true
     },
 
 
+    light2GroundColor: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Light 2 Back Color',
+      value: '#454545',
+      visualCustom: true
+    },
+
     groundLightIntensity: {
       group: 'Scene',
       type: 'slider',
-      label: 'Ground Light Intensity',
-      value: 75,
+      label: 'Right Intensity',
+      value: 5,
       min: -200,
       max: 200,
       step: 5,
@@ -191,29 +213,37 @@ export class OptionsService {
     groundLightColor: {
       group: 'Scene',
       type: 'color',
-      label: 'Ground Light Color',
+      label: 'Light 3 Color',
       value: '#ffffff',
       visualCustom: true
     },
     groundLightSpecular: {
       group: 'Scene',
       type: 'color',
-      label: 'Ground Light Specular',
-      value: '#ffffff',
+      label: 'Light 3 Specular',
+      value: '#454545',
       visualCustom: true
     },
+    groundLightGroundColor: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Light 3 Back Color',
+      value: '#454545',
+      visualCustom: true
+    },
+
 
 
     starManager: {
       group: '3DVisual',
       type: 'radio',
       label: 'Stars',
-      value: 2,
+      value: 1,
       checked: false,
       colorOptions: false,
       cameraOptions: false,
       sampleGain: 1,
-      smoothingConstant: 5,
+      smoothingConstant: 8,
       autoRotate: false,
       customColors: false,
       minColor: '#0000ff',
@@ -223,29 +253,34 @@ export class OptionsService {
       calpha: 4.72,
       cbeta: .01,
       cradius: 1200,
-      light0Intensity: 75,
+      light0Intensity: 80,
       light0Color: '#ffffff',
-      light0Specular: '#ffffff',
-      light1Intensity: 75,
+      light0Specular: '#454545',
+      light0GroundColor: '#454545',
+      light1Intensity: 30,
       light1Color: '#ffffff',
-      light1Specular: '#ffffff',
-      light2Intensity: 75,
+      light1Specular: '#454545',
+      light1GroundColor: '#454545',
+      light2Intensity: 10,
       light2Color: '#ffffff',
-      light2Specular: '#ffffff',
-      groundLightIntensity: 75,
+      light2Specular: '#454545',
+      light2GroundColor: '#454545',
+      groundLightIntensity: 5,
       groundLightColor: '#ffffff',
-      groundLightSpecular: '#ffffff',
+      groundLightSpecular: '#454545',
+      groundLightGroundColor: '#454545',
+
     },
     spectrograph: {
       group: '3DVisual',
       type: 'radio',
       label: 'Spectrograph',
-      value: 3,
+      value: 2,
       checked: false,
       colorOptions: false,
       cameraOptions: false,
       sampleGain: 1,
-      smoothingConstant: 5,
+      smoothingConstant: 8,
       autoRotate: false,
       customColors: false,
       minColor: '#0000ff',
@@ -255,51 +290,100 @@ export class OptionsService {
       calpha: 4.72,
       cbeta: .85,
       cradius: 1200,
-      light0Intensity: 75,
+      light0Intensity: 80,
       light0Color: '#ffffff',
-      light0Specular: '#ffffff',
-      light1Intensity: 75,
+      light0Specular: '#454545',
+      light0GroundColor: '#454545',
+      light1Intensity: 30,
       light1Color: '#ffffff',
-      light1Specular: '#ffffff',
-      light2Intensity: 75,
+      light1Specular: '#454545',
+      light1GroundColor: '#454545',
+      light2Intensity: 10,
       light2Color: '#ffffff',
-      light2Specular: '#ffffff',
-      groundLightIntensity: 75,
+      light2Specular: '#454545',
+      light2GroundColor: '#454545',
+      groundLightIntensity: 5,
       groundLightColor: '#ffffff',
-      groundLightSpecular: '#ffffff',
+      groundLightSpecular: '#454545',
+      groundLightGroundColor: '#454545',
     },
+
     spherePlaneManagerSPS: {
       group: '3DVisual',
       type: 'radio',
       label: 'Sphere Plane',
+      value: 3,
+      checked: false,
+      colorOptions: true,
+      cameraOptions: true,
+      sampleGain: 1,
+      smoothingConstant: 8,
+      autoRotate: true,
+      customColors: false,
+      minColor: '#ff0000',
+      midColor: '#2b00ff',
+      maxColor: '#42fffc',
+      midLoc: 145,
+      calpha: 4.72,
+      cbeta: .81,
+      cradius: 1200,
+      light0Intensity: 80,
+      light0Color: '#ffffff',
+      light0Specular: '#454545',
+      light0GroundColor: '#454545',
+      light1Intensity: 30,
+      light1Color: '#ffffff',
+      light1Specular: '#454545',
+      light1GroundColor: '#454545',
+      light2Intensity: 10,
+      light2Color: '#ffffff',
+      light2Specular: '#454545',
+      light2GroundColor: '#454545',
+      groundLightIntensity: 5,
+      groundLightColor: '#ffffff',
+      groundLightSpecular: '#454545',
+      groundLightGroundColor: '#454545',
+    },
+
+    spherePlaneManager2SPS: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Sphere Plane 2',
       value: 4,
       checked: false,
       colorOptions: true,
       cameraOptions: true,
       sampleGain: 1,
-      smoothingConstant: 5,
-      autoRotate: true,
+      smoothingConstant: 8,
+      autoRotate: false,
       customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
+      minColor: '#000000',
+      midColor: '#2760aa',
+      maxColor: '#ff0505',
+      midLoc: 110,
       calpha: 4.72,
-      cbeta: .81,
-      cradius: 1200,
-      light0Intensity: 75,
+      cbeta: .01,
+      cradius: 3200,
+      light0Intensity: 80,
       light0Color: '#ffffff',
-      light0Specular: '#ffffff',
-      light1Intensity: 75,
+      light0Specular: '#454545',
+      light0GroundColor: '#454545',
+      light1Intensity: 30,
       light1Color: '#ffffff',
-      light1Specular: '#ffffff',
-      light2Intensity: 75,
+      light1Specular: '#454545',
+      light1GroundColor: '#454545',
+      light2Intensity: 10,
       light2Color: '#ffffff',
-      light2Specular: '#ffffff',
-      groundLightIntensity: 75,
+      light2Specular: '#454545',
+      light2GroundColor: '#454545',
+      groundLightIntensity: 5,
       groundLightColor: '#ffffff',
-      groundLightSpecular: '#ffffff',
+      groundLightSpecular: '#454545',
+      groundLightGroundColor: '#454545',
     },
+
+
+
     rings: {
       group: '3DVisual',
       type: 'radio',
@@ -309,7 +393,7 @@ export class OptionsService {
       colorOptions: true,
       cameraOptions: false,
       sampleGain: 1,
-      smoothingConstant: 5,
+      smoothingConstant: 8,
       autoRotate: false,
       customColors: false,
       minColor: '#0000ff',
@@ -319,18 +403,22 @@ export class OptionsService {
       calpha: 4.72,
       cbeta: .81,
       cradius: 1200,
-      light0Intensity: 75,
+      light0Intensity: 80,
       light0Color: '#ffffff',
-      light0Specular: '#ffffff',
-      light1Intensity: 75,
+      light0Specular: '#454545',
+      light0GroundColor: '#454545',
+      light1Intensity: 30,
       light1Color: '#ffffff',
-      light1Specular: '#ffffff',
-      light2Intensity: 75,
+      light1Specular: '#454545',
+      light1GroundColor: '#454545',
+      light2Intensity: 10,
       light2Color: '#ffffff',
-      light2Specular: '#ffffff',
-      groundLightIntensity: 75,
+      light2Specular: '#454545',
+      light2GroundColor: '#454545',
+      groundLightIntensity: 5,
       groundLightColor: '#ffffff',
-      groundLightSpecular: '#ffffff',
+      groundLightSpecular: '#454545',
+      groundLightGroundColor: '#454545',
     },
     hex: {
       group: '3DVisual',
@@ -341,7 +429,7 @@ export class OptionsService {
       colorOptions: true,
       cameraOptions: true,
       sampleGain: 1,
-      smoothingConstant: 5,
+      smoothingConstant: 8,
       autoRotate: true,
       customColors: false,
       minColor: '#0000ff',
@@ -351,51 +439,55 @@ export class OptionsService {
       calpha: 4.72,
       cbeta: .91,
       cradius: 1200,
-      light0Intensity: 75,
+      light0Intensity: 80,
       light0Color: '#ffffff',
-      light0Specular: '#ffffff',
-      light1Intensity: 75,
+      light0Specular: '#454545',
+      light0GroundColor: '#454545',
+      light1Intensity: 30,
       light1Color: '#ffffff',
-      light1Specular: '#ffffff',
-      light2Intensity: 75,
+      light1Specular: '#454545',
+      light1GroundColor: '#454545',
+      light2Intensity: 10,
       light2Color: '#ffffff',
-      light2Specular: '#ffffff',
-      groundLightIntensity: 75,
+      light2Specular: '#454545',
+      light2GroundColor: '#454545',
+      groundLightIntensity: 5,
       groundLightColor: '#ffffff',
-      groundLightSpecular: '#ffffff',
+      groundLightSpecular: '#454545',
+      groundLightGroundColor: '#454545',
     },
-    waveRibbon: {
-      group: '3DVisual',
-      type: 'radio',
-      label: 'WaveRibbon',
-      value: 7,
-      checked: false,
-      colorOptions: false,
-      cameraOptions: false,
-      sampleGain: 1,
-      smoothingConstant: 5,
-      autoRotate: false,
-      customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
-      calpha: 4.72,
-      cbeta: .85,
-      cradius: 1200,
-      light0Intensity: 1,
-      light0Color: '#ffffff',
-      light0Specular: '#ffffff',
-      light1Intensity: 1,
-      light1Color: '#ffffff',
-      light1Specular: '#ffffff',
-      light2Intensity: 1,
-      light2Color: '#ffffff',
-      light2Specular: '#ffffff',
-      groundLightIntensity: 1,
-      groundLightColor: '#ffffff',
-      groundLightSpecular: '#ffffff',
-    },
+    // waveRibbon: {
+    //   group: '3DVisual',
+    //   type: 'radio',
+    //   label: 'WaveRibbon',
+    //   value: 7,
+    //   checked: false,
+    //   colorOptions: false,
+    //   cameraOptions: false,
+    //   sampleGain: 1,
+    //   smoothingConstant: 8,
+    //   autoRotate: false,
+    //   customColors: false,
+    //   minColor: '#0000ff',
+    //   midColor: '#00ff00',
+    //   maxColor: '#ff0000',
+    //   midLoc: 128,
+    //   calpha: 4.72,
+    //   cbeta: .85,
+    //   cradius: 1200,
+    //   light0Intensity: 80,
+    //   light0Color: '#ffffff',
+    //   light0Specular: '#454545',
+    //   light1Intensity: 30,
+    //   light1Color: '#ffffff',
+    //   light1Specular: '#454545',
+    //   light2Intensity: 10,
+    //   light2Color: '#ffffff',
+    //   light2Specular: '#454545',
+    //   groundLightIntensity: 5,
+    //   groundLightColor: '#ffffff',
+    //   groundLightSpecular: '#454545',
+    // },
 
     singleSPSCube: {
       group: '3DVisual',
@@ -406,7 +498,7 @@ export class OptionsService {
       colorOptions: true,
       cameraOptions: true,
       sampleGain: 1,
-      smoothingConstant: 5,
+      smoothingConstant: 8,
       autoRotate: true,
       customColors: false,
       minColor: '#0000ff',
@@ -416,18 +508,22 @@ export class OptionsService {
       calpha: 0.72,
       cbeta: 1.57,
       cradius: 1000,
-      light0Intensity: 75,
+      light0Intensity: 80,
       light0Color: '#ffffff',
-      light0Specular: '#ffffff',
-      light1Intensity: 75,
+      light0Specular: '#454545',
+      light0GroundColor: '#454545',
+      light1Intensity: 30,
       light1Color: '#ffffff',
-      light1Specular: '#ffffff',
-      light2Intensity: 75,
+      light1Specular: '#454545',
+      light1GroundColor: '#454545',
+      light2Intensity: 10,
       light2Color: '#ffffff',
-      light2Specular: '#ffffff',
-      groundLightIntensity: 75,
+      light2Specular: '#454545',
+      light2GroundColor: '#454545',
+      groundLightIntensity: 5,
       groundLightColor: '#ffffff',
-      groundLightSpecular: '#ffffff',
+      groundLightSpecular: '#454545',
+      groundLightGroundColor: '#454545',
     },
 
     singleSPSDelay: {
@@ -443,7 +539,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'slider',
       label: 'Explosion Size',
-      value: 10,
+      value: 0,
       min: 0,
       max: 150,
       step: 10,
@@ -514,129 +610,20 @@ export class OptionsService {
       value: true,
     },
 
-    sineLoop: {
-      group: 'CubeSPS',
-      type: 'checkbox',
-      label: 'Cube Sine Loop',
-      value: true,
-    },
+    // sineLoop: {
+    //   group: 'CubeSPS',
+    //   type: 'checkbox',
+    //   label: 'Cube Sine Loop',
+    //   value: true,
+    // },
 
 
     sineLoop2: {
       group: 'CubeSPS',
       type: 'checkbox',
-      label: 'Cube Sine Loop 2',
+      label: 'Cube Sine Loop',
       value: true,
     },
-
-
-
-    singleSPSRibbon: {
-      group: '3DVisual',
-      type: 'radio',
-      label: 'Exploding Ribbon SPS',
-      value: 1,
-      checked: true,
-      colorOptions: true,
-      cameraOptions: true,
-      sampleGain: 1,
-      smoothingConstant: 5,
-      autoRotate: true,
-      customColors: false,
-      minColor: '#0000ff',
-      midColor: '#00ff00',
-      maxColor: '#ff0000',
-      midLoc: 128,
-      calpha: 4.72,
-      cbeta: 1.57,
-      cradius: 1000,
-      light0Intensity: 1,
-      light0Color: '#ffffff',
-      light0Specular: '#ffffff',
-      light1Intensity: 1,
-      light1Color: '#ffffff',
-      light1Specular: '#ffffff',
-      light2Intensity: 1,
-      light2Color: '#ffffff',
-      light2Specular: '#ffffff',
-      groundLightIntensity: 1,
-      groundLightColor: '#ffffff',
-      groundLightSpecular: '#ffffff',
-    },
-
-    blockPlaneRibbon: {
-      group: 'RibbonSPS',
-      type: 'checkbox',
-      label: 'Block Plane',
-      value: true,
-    },
-    thing1Ribbon: {
-      group: 'RibbonSPS',
-      type: 'checkbox',
-      label: 'Thing 1',
-      value: true,
-    },
-    blockSpiralRibbon: {
-      group: 'RibbonSPS',
-      type: 'checkbox',
-      label: 'Block Spiral',
-      value: true,
-    },
-    thing2Ribbon: {
-      group: 'RibbonSPS',
-      type: 'checkbox',
-      label: 'Thing 2',
-      value: true,
-    },
-    equationRibbon: {
-      group: 'RibbonSPS',
-      type: 'checkbox',
-      label: 'Equation',
-      value: true,
-    },
-    thing3Ribbon: {
-      group: 'RibbonSPS',
-      type: 'checkbox',
-      label: 'Thing 3',
-      value: true,
-    },
-    cubeRibbon: {
-      group: 'RibbonSPS',
-      type: 'checkbox',
-      label: 'Cube',
-      value: true,
-    },
-    sphereRibbon: {
-      group: 'RibbonSPS',
-      type: 'checkbox',
-      label: 'Sphere',
-      value: true,
-    },
-    poleRibbon: {
-      group: 'RibbonSPS',
-      type: 'checkbox',
-      label: 'Pole',
-      value: true,
-    },
-
-    heartRibbon: {
-      group: 'RibbonSPS',
-      type: 'checkbox',
-      label: 'Heart',
-      value: true,
-    },
-
-    sineLoopRibbon: {
-      group: 'RibbonSPS',
-      type: 'checkbox',
-      label: 'Sine Loop',
-      value: true,
-    },
-
-
-
-
-
 
 
 
@@ -654,7 +641,7 @@ export class OptionsService {
       group: '3DVisual',
       type: 'slider',
       label: 'Smoothing Constant',
-      value: 5,
+      value: 8,
       min: 1,
       max: 9.9,
       step: .1,
@@ -706,6 +693,115 @@ export class OptionsService {
       step: 5,
       visualCustom: true
     },
+
+
+
+    // singleSPSRibbon: {
+    //   group: '3DVisual',
+    //   type: 'radio',
+    //   label: 'Exploding Ribbon SPS',
+    //   value: 1,
+    //   checked: true,
+    //   colorOptions: true,
+    //   cameraOptions: true,
+    //   sampleGain: 1,
+    //   smoothingConstant: 8,
+    //   autoRotate: true,
+    //   customColors: false,
+    //   minColor: '#0000ff',
+    //   midColor: '#00ff00',
+    //   maxColor: '#ff0000',
+    //   midLoc: 128,
+    //   calpha: 4.72,
+    //   cbeta: 1.57,
+    //   cradius: 1000,
+    //   light0Intensity: 80,
+    //   light0Color: '#ffffff',
+    //   light0Specular: '#454545',
+    //   light1Intensity: 30,
+    //   light1Color: '#ffffff',
+    //   light1Specular: '#454545',
+    //   light2Intensity: 10,
+    //   light2Color: '#ffffff',
+    //   light2Specular: '#454545',
+    //   groundLightIntensity: 5,
+    //   groundLightColor: '#ffffff',
+    //   groundLightSpecular: '#454545',
+    // },
+
+    // blockPlaneRibbon: {
+    //   group: 'RibbonSPS',
+    //   type: 'checkbox',
+    //   label: 'Block Plane',
+    //   value: true,
+    // },
+    // thing1Ribbon: {
+    //   group: 'RibbonSPS',
+    //   type: 'checkbox',
+    //   label: 'Thing 1',
+    //   value: true,
+    // },
+    // blockSpiralRibbon: {
+    //   group: 'RibbonSPS',
+    //   type: 'checkbox',
+    //   label: 'Block Spiral',
+    //   value: true,
+    // },
+    // thing2Ribbon: {
+    //   group: 'RibbonSPS',
+    //   type: 'checkbox',
+    //   label: 'Thing 2',
+    //   value: true,
+    // },
+    // equationRibbon: {
+    //   group: 'RibbonSPS',
+    //   type: 'checkbox',
+    //   label: 'Equation',
+    //   value: true,
+    // },
+    // thing3Ribbon: {
+    //   group: 'RibbonSPS',
+    //   type: 'checkbox',
+    //   label: 'Thing 3',
+    //   value: true,
+    // },
+    // cubeRibbon: {
+    //   group: 'RibbonSPS',
+    //   type: 'checkbox',
+    //   label: 'Cube',
+    //   value: true,
+    // },
+    // sphereRibbon: {
+    //   group: 'RibbonSPS',
+    //   type: 'checkbox',
+    //   label: 'Sphere',
+    //   value: true,
+    // },
+    // poleRibbon: {
+    //   group: 'RibbonSPS',
+    //   type: 'checkbox',
+    //   label: 'Pole',
+    //   value: true,
+    // },
+
+    // heartRibbon: {
+    //   group: 'RibbonSPS',
+    //   type: 'checkbox',
+    //   label: 'Heart',
+    //   value: true,
+    // },
+
+    // sineLoopRibbon: {
+    //   group: 'RibbonSPS',
+    //   type: 'checkbox',
+    //   label: 'Sine Loop',
+    //   value: true,
+    // },
+
+
+
+
+
 
 
 
@@ -933,67 +1029,33 @@ export class OptionsService {
 
   updateCustomOptions(visualIndex) {
 
-    this.options.smoothingConstant.value =
-      this.options[this.visuals[visualIndex]].smoothingConstant;
+    this.options.smoothingConstant.value = this.options[this.visuals[visualIndex]].smoothingConstant;
+    this.options.sampleGain.value        = this.options[this.visuals[visualIndex]].sampleGain;
+    this.options.autoRotate.value        = this.options[this.visuals[visualIndex]].autoRotate;
+    this.options.customColors.value      = this.options[this.visuals[visualIndex]].customColors;
+    this.options.minColor.value          = this.options[this.visuals[visualIndex]].minColor;
+    this.options.midColor.value          = this.options[this.visuals[visualIndex]].midColor;
+    this.options.maxColor.value          = this.options[this.visuals[visualIndex]].maxColor;
+    this.options.midLoc.value            = this.options[this.visuals[visualIndex]].midLoc;
 
-    this.options.sampleGain.value =
-      this.options[this.visuals[visualIndex]].sampleGain;
-
-    this.options.autoRotate.value =
-      this.options[this.visuals[visualIndex]].autoRotate;
-
-    this.options.customColors.value =
-      this.options[this.visuals[visualIndex]].customColors;
-
-    this.options.minColor.value =
-      this.options[this.visuals[visualIndex]].minColor;
-
-    this.options.midColor.value =
-      this.options[this.visuals[visualIndex]].midColor;
-
-    this.options.maxColor.value =
-      this.options[this.visuals[visualIndex]].maxColor;
-
-    this.options.midLoc.value =
-      this.options[this.visuals[visualIndex]].midLoc;
-
-
-
-    this.options.light0Intensity.value =
-      this.options[this.visuals[visualIndex]].light0Intensity;
-    this.options.light0Color.value = this.options[this.visuals[visualIndex]].light0Color;
-    this.options.light0Specular.value = this.options[this.visuals[visualIndex]].light0Specular;
-    this.options.light1Intensity.value = this.options[this.visuals[visualIndex]].light1Intensity;
-    this.options.light1Color.value = this.options[this.visuals[visualIndex]].light1Color;
-    this.options.light1Specular.value = this.options[this.visuals[visualIndex]].light1Specular;
-    this.options.light2Intensity.value = this.options[this.visuals[visualIndex]].light2Intensity;
-    this.options.light2Color.value = this.options[this.visuals[visualIndex]].light2Color;
-    this.options.light2Specular.value = this.options[this.visuals[visualIndex]].light2Specular;
+    this.options.light0Intensity.value      = this.options[this.visuals[visualIndex]].light0Intensity;
+    this.options.light0Color.value          = this.options[this.visuals[visualIndex]].light0Color;
+    this.options.light0Specular.value       = this.options[this.visuals[visualIndex]].light0Specular;
+    this.options.light0GroundColor.value    = this.options[this.visuals[visualIndex]].light0GroundColor;
+    this.options.light1Intensity.value      = this.options[this.visuals[visualIndex]].light1Intensity;
+    this.options.light1Color.value          = this.options[this.visuals[visualIndex]].light1Color;
+    this.options.light1Specular.value       = this.options[this.visuals[visualIndex]].light1Specular;
+    this.options.light1GroundColor.value    = this.options[this.visuals[visualIndex]].light1GroundColor;
+    this.options.light2Intensity.value      = this.options[this.visuals[visualIndex]].light2Intensity;
+    this.options.light2Color.value          = this.options[this.visuals[visualIndex]].light2Color;
+    this.options.light2Specular.value       = this.options[this.visuals[visualIndex]].light2Specular;
+    this.options.light2GroundColor.value    = this.options[this.visuals[visualIndex]].light2GroundColor;
     this.options.groundLightIntensity.value = this.options[this.visuals[visualIndex]].groundLightIntensity;
-    this.options.groundLightColor.value = this.options[this.visuals[visualIndex]].groundLightColor;
-    this.options.groundLightSpecular.value = this.options[this.visuals[visualIndex]].groundLightSpecular;
-
-
+    this.options.groundLightColor.value     = this.options[this.visuals[visualIndex]].groundLightColor;
+    this.options.groundLightSpecular.value  = this.options[this.visuals[visualIndex]].groundLightSpecular;
+    this.options.groundLightGroundColor.value   = this.options[this.visuals[visualIndex]].groundLightGroundColor;
 
     this.messageService.announceMessage('set lights');
-
-
-
-
-    // this.options.light0Intensity = this.options[this.visuals[visualIndex]].light0Intensity;
-    // this.options.light0Color = this.options[this.visuals[visualIndex]].light0Color;
-    // this.options.light0Specular = this.options[this.visuals[visualIndex]].light0Specular;
-    // this.options.light1Intensity = this.options[this.visuals[visualIndex]].light1Intensity;
-    // this.options.light1Color = this.options[this.visuals[visualIndex]].light1Color;
-    // this.options.light1Specular = this.options[this.visuals[visualIndex]].light1Specular;
-    // this.options.light2Intensity = this.options[this.visuals[visualIndex]].light2Intensity;
-    // this.options.light2Color = this.options[this.visuals[visualIndex]].light2Color;
-    // this.options.light2Specular = this.options[this.visuals[visualIndex]].light2Specular;
-    // this.options.groundLightIntensity = this.options[this.visuals[visualIndex]].groundLightIntensity;
-    // this.options.groundLightColor = this.options[this.visuals[visualIndex]].groundLightColor;
-    // this.options.groundLightSpecular = this.options[this.visuals[visualIndex]].groundLightSpecular;
-
-
 
     this.announceChange('smoothingConstant');
     this.announceChange('sampleGain');
@@ -1010,7 +1072,7 @@ export class OptionsService {
       colorOptions: false,
       cameraOptions: false,
       sampleGain: 1,         ++
-      smoothingConstant: 5,  ++
+      smoothingConstant: 8,  ++
       autoRotate: false,     ++
       customColors: false,   ++
       minColor: '#0000ff',
@@ -1091,13 +1153,13 @@ export class OptionsService {
     return count;
   }
 
-  public getSelectedRibbonSPSCount() {
-    let count = 0;
-    for (let index = 0; index < this.RibbonSPSs.length; index++) {
-      count += (this.options[this.RibbonSPSs[index]].value ? 1 : 0);
-    }
-    return count;
-  }
+  // public getSelectedRibbonSPSCount() {
+  //   let count = 0;
+  //   for (let index = 0; index < this.RibbonSPSs.length; index++) {
+  //     count += (this.options[this.RibbonSPSs[index]].value ? 1 : 0);
+  //   }
+  //   return count;
+  // }
 
   get showTitle(): boolean {
     return this.options.showTitle.value;
@@ -1133,8 +1195,6 @@ export class OptionsService {
 
   }
 
-
-
   get light0Color(): string {
     return this.options.light0Color.value;
   }
@@ -1161,6 +1221,19 @@ export class OptionsService {
 
   }
 
+
+  get light0GroundColor(): string {
+    return this.options.light0GroundColor.value;
+  }
+
+  set light0GroundColor(value: string) {
+    this.options.light0GroundColor.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light0GroundColor = value;
+
+    this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
+  }
 
 
 
@@ -1203,6 +1276,18 @@ export class OptionsService {
 
   }
 
+  get light1GroundColor(): string {
+    return this.options.light1GroundColor.value;
+  }
+
+  set light1GroundColor(value: string) {
+    this.options.light1GroundColor.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light1GroundColor = value;
+
+    this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
+  }
 
 
   get light2Intensity(): string {
@@ -1245,6 +1330,18 @@ export class OptionsService {
 
   }
 
+  get light2GroundColor(): string {
+    return this.options.light2GroundColor.value;
+  }
+
+  set light2GroundColor(value: string) {
+    this.options.light2GroundColor.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light2GroundColor = value;
+
+    this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
+  }
 
 
 
@@ -1287,6 +1384,18 @@ export class OptionsService {
 
   }
 
+  get groundLightGroundColor(): string {
+    return this.options.groundLightGroundColor.value;
+  }
+
+  set groundLightGroundColor(value: string) {
+    this.options.groundLightGroundColor.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].groundLightGroundColor = value;
+
+    this.storageService.saveOptions(this.options);
+    // this.messageService.announceMessage('set lights');
+
+  }
 
 
 
@@ -1577,173 +1686,173 @@ export class OptionsService {
 
 
 
-  get blockPlaneRibbon(): boolean {
-    return this.options.blockPlaneRibbon.value;
-  }
+  // get blockPlaneRibbon(): boolean {
+  //   return this.options.blockPlaneRibbon.value;
+  // }
 
-  set blockPlaneRibbon(value: boolean) {
-    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-      this.options.blockPlaneRibbon.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.blockPlaneRibbon.value = !value;
-      (document.getElementById('blockPlaneRibbon') as HTMLInputElement).checked = true;
-    }
-  }
+  // set blockPlaneRibbon(value: boolean) {
+  //   if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+  //     this.options.blockPlaneRibbon.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.blockPlaneRibbon.value = !value;
+  //     (document.getElementById('blockPlaneRibbon') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
-  get thing1Ribbon(): boolean {
-    return this.options.thing1Ribbon.value;
-  }
+  // get thing1Ribbon(): boolean {
+  //   return this.options.thing1Ribbon.value;
+  // }
 
-  set thing1Ribbon(value: boolean) {
-    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-      this.options.thing1Ribbon.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.thing1Ribbon.value = !value;
-      (document.getElementById('thing1Ribbon') as HTMLInputElement).checked = true;
-    }
-  }
+  // set thing1Ribbon(value: boolean) {
+  //   if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+  //     this.options.thing1Ribbon.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.thing1Ribbon.value = !value;
+  //     (document.getElementById('thing1Ribbon') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
-  get blockSpiralRibbon(): boolean {
-    return this.options.blockSpiralRibbon.value;
-  }
+  // get blockSpiralRibbon(): boolean {
+  //   return this.options.blockSpiralRibbon.value;
+  // }
 
-  set blockSpiralRibbon(value: boolean) {
-    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-      this.options.blockSpiralRibbon.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.blockSpiralRibbon.value = !value;
-      (document.getElementById('blockSpiralRibbon') as HTMLInputElement).checked = true;
-    }
-  }
+  // set blockSpiralRibbon(value: boolean) {
+  //   if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+  //     this.options.blockSpiralRibbon.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.blockSpiralRibbon.value = !value;
+  //     (document.getElementById('blockSpiralRibbon') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
-  get thing2Ribbon(): boolean {
-    return this.options.thing2Ribbon.value;
-  }
+  // get thing2Ribbon(): boolean {
+  //   return this.options.thing2Ribbon.value;
+  // }
 
-  set thing2Ribbon(value: boolean) {
-    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-      this.options.thing2Ribbon.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.thing2Ribbon.value = !value;
-      (document.getElementById('thing2Ribbon') as HTMLInputElement).checked = true;
-    }
-  }
+  // set thing2Ribbon(value: boolean) {
+  //   if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+  //     this.options.thing2Ribbon.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.thing2Ribbon.value = !value;
+  //     (document.getElementById('thing2Ribbon') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
-  get equationRibbon(): boolean {
-    return this.options.equationRibbon.value;
-  }
+  // get equationRibbon(): boolean {
+  //   return this.options.equationRibbon.value;
+  // }
 
-  set equationRibbon(value: boolean) {
-    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-      this.options.equationRibbon.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.equationRibbon.value = !value;
-      (document.getElementById('equationRibbon') as HTMLInputElement).checked = true;
-    }
-  }
-
-
-  get thing3Ribbon(): boolean {
-    return this.options.thing3Ribbon.value;
-  }
-
-  set thing3Ribbon(value: boolean) {
-    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-      this.options.thing3Ribbon.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.thing3Ribbon.value = !value;
-      (document.getElementById('thing3Ribbon') as HTMLInputElement).checked = true;
-    }
-  }
+  // set equationRibbon(value: boolean) {
+  //   if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+  //     this.options.equationRibbon.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.equationRibbon.value = !value;
+  //     (document.getElementById('equationRibbon') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
 
-  get cubeRibbon(): boolean {
-    return this.options.cubeRibbon.value;
-  }
+  // get thing3Ribbon(): boolean {
+  //   return this.options.thing3Ribbon.value;
+  // }
 
-  set cubeRibbon(value: boolean) {
-    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-      this.options.cubeRibbon.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.cubeRibbon.value = !value;
-      (document.getElementById('cubeRibbon') as HTMLInputElement).checked = true;
-    }
-  }
-
-  get sphereRibbon(): boolean {
-    return this.options.sphereRibbon.value;
-  }
-
-  set sphereRibbon(value: boolean) {
-    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-      this.options.sphereRibbon.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.sphereRibbon.value = !value;
-      (document.getElementById('sphereRibbon') as HTMLInputElement).checked = true;
-    }
-  }
-
-  get poleRibbon(): boolean {
-    return this.options.poleRibbon.value;
-  }
-
-  set poleRibbon(value: boolean) {
-    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-      this.options.poleRibbon.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.poleRibbon.value = !value;
-      (document.getElementById('poleRibbon') as HTMLInputElement).checked = true;
-    }
-  }
-
-  get heartRibbon(): boolean {
-    return this.options.heartRibbon.value;
-  }
-
-  set heartRibbon(value: boolean) {
-    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-      this.options.heartRibbon.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.heartRibbon.value = !value;
-      (document.getElementById('heartRibbon') as HTMLInputElement).checked = true;
-    }
-  }
+  // set thing3Ribbon(value: boolean) {
+  //   if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+  //     this.options.thing3Ribbon.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.thing3Ribbon.value = !value;
+  //     (document.getElementById('thing3Ribbon') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
 
-  get sineLoopRibbon(): boolean {
-    return this.options.sineLoopRibbon.value;
-  }
+  // get cubeRibbon(): boolean {
+  //   return this.options.cubeRibbon.value;
+  // }
 
-  set sineLoopRibbon(value: boolean) {
-    if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
-      this.options.sineLoopRibbon.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.sineLoopRibbon.value = !value;
-      (document.getElementById('sineLoopRibbon') as HTMLInputElement).checked = true;
-    }
-  }
+  // set cubeRibbon(value: boolean) {
+  //   if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+  //     this.options.cubeRibbon.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.cubeRibbon.value = !value;
+  //     (document.getElementById('cubeRibbon') as HTMLInputElement).checked = true;
+  //   }
+  // }
+
+  // get sphereRibbon(): boolean {
+  //   return this.options.sphereRibbon.value;
+  // }
+
+  // set sphereRibbon(value: boolean) {
+  //   if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+  //     this.options.sphereRibbon.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.sphereRibbon.value = !value;
+  //     (document.getElementById('sphereRibbon') as HTMLInputElement).checked = true;
+  //   }
+  // }
+
+  // get poleRibbon(): boolean {
+  //   return this.options.poleRibbon.value;
+  // }
+
+  // set poleRibbon(value: boolean) {
+  //   if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+  //     this.options.poleRibbon.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.poleRibbon.value = !value;
+  //     (document.getElementById('poleRibbon') as HTMLInputElement).checked = true;
+  //   }
+  // }
+
+  // get heartRibbon(): boolean {
+  //   return this.options.heartRibbon.value;
+  // }
+
+  // set heartRibbon(value: boolean) {
+  //   if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+  //     this.options.heartRibbon.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.heartRibbon.value = !value;
+  //     (document.getElementById('heartRibbon') as HTMLInputElement).checked = true;
+  //   }
+  // }
+
+
+  // get sineLoopRibbon(): boolean {
+  //   return this.options.sineLoopRibbon.value;
+  // }
+
+  // set sineLoopRibbon(value: boolean) {
+  //   if ((!value && this.getSelectedRibbonSPSCount() > 1) || value) {
+  //     this.options.sineLoopRibbon.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.sineLoopRibbon.value = !value;
+  //     (document.getElementById('sineLoopRibbon') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
 
 

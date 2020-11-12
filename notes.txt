@@ -29,6 +29,42 @@ Fix playlist selection button highlight when canceling coming from mic
 
 
 
+Load scene with multiple lights
+2 Top Front
+2 Bottom Front 
+2 Top Back
+2 Bottom Back 
+
+1 Camera light
+1 Camera Backlight
+
+
+Parent all lights to a center Parent 
+Parent camera light and backlight to camera
+
+Allow checkbox selection but only 4 selection max at a time 1 selected min
+
+Allow rotation of lights
+Allow rotation of camera
+Allow rotation of object
+
+Hide SPS visuals if SPS is not selected
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Check for CSS cross browser changes
 
 Make the main player size constant
