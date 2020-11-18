@@ -19,9 +19,6 @@ export class SingleSPSCube implements OnDestroy {
     private engineService: EngineService;
     private colorsService: ColorsService;
 
-    // private cameraMoveDir;
-    // private cameraDelta;
-    // private cameraBeta;
     private thetaDelta;
 
     private SPS;
@@ -48,12 +45,10 @@ export class SingleSPSCube implements OnDestroy {
     private PId2;
     private PId32;
     private PId1000;
-    // private loopMax;
-    // private rotation;
+
     private forwardRotation;
     private backwardRotation;
 
-    // private scalingDenom;
     private radius;
 
     private subscription;
@@ -937,6 +932,8 @@ export class SingleSPSCube implements OnDestroy {
         this.mat.specularColor = new BABYLON.Color3(1, 1, 1);
         // this.mat.ambientColor = new BABYLON.Color3(1, 1, 1);
         this.mat.forceDepthWrite = true;
+        this.mat.maxSimultaneousLights = 8;
+
         // this.mat.reflectionTexture = new BABYLON.CubeTexture('../../assets/images/skybox/TropicalSunnyDay', this.scene);
         // this.mat.reflectionTexture.coordinatesMode = BABYLON.Texture.PLANAR_MODE;
 

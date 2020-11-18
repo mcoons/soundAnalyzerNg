@@ -1,12 +1,14 @@
 #main,
-#optionsContainer {
+#optionsContainer,
+#favoritesContainer  {
   padding: 0px;
   height: 100vh;
   margin: 0;
 }
 
+
 .fixed {
-  width: 260px;
+  width: 270px; /* 260px; */
 }
 
 #mainContainer {
@@ -41,11 +43,21 @@
   text-align: center;
 }
 
-button {
+#optionsSliderButton {
   position: absolute;
   z-index: 30;
   top: 50%;
   right: 0px;
+  border: none;
+  color: #F8F2C0;
+  background-color: rgba(176, 176, 176, 0);
+}
+
+#favoritesSliderButton {
+  position: absolute;
+  z-index: 30;
+  top: 50%;
+  left: 0px;
   border: none;
   color: #F8F2C0;
   background-color: rgba(176, 176, 176, 0);

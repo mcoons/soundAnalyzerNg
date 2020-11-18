@@ -47,6 +47,9 @@ Allow checkbox selection but only 4 selection max at a time 1 selected min
 Allow rotation of lights
 Allow rotation of camera
 Allow rotation of object
+Allow toggle of highlight layer & color
+Allow toggle of glow layer & color
+
 
 Hide SPS visuals if SPS is not selected
 

@@ -113,6 +113,20 @@ input[type=range] {
   background-color: Transparent;
   border: none;
   color: black;
+  /* font-size: 12px; */
+
+}
+
+.favoritesButton {
+  background-color: Transparent;
+  border: none;
+  color: black;
+  /* text-align: center; */
+}
+
+.favoritesButton:hover {
+  background-image: -webkit-linear-gradient(top left, rgb(223, 223, 223), rgb(167, 167, 167));
+  background-image: linear-gradient(to bottom right, rgb(223, 223, 223), rgb(167, 167, 167));
 }
 
 #vupicon,
@@ -169,5 +183,6 @@ input[type="color" i] {
   appearance: square-button;
   width: 20px;
   height: 20px;
+  display: inline-block;
 
 }

@@ -14,6 +14,7 @@ import { Canvas3DComponent } from './components/canvas3-d/canvas3-d.component';
 import { OptionsPanelComponent } from './components/options-panel/options-panel.component';
 import { TitleComponent } from './components/title/title.component';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
+import { FavoritesPanelComponent } from './components/favorites-panel/favorites-panel.component';
 
 @NgModule({
    declarations: [
@@ -23,6 +24,7 @@ import { SplashScreenComponent } from './components/splash-screen/splash-screen.
       OptionsPanelComponent,
       TitleComponent,
       SplashScreenComponent,
+      FavoritesPanelComponent,
    ],
    imports: [
       BrowserModule,

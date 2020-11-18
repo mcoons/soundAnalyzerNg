@@ -4,22 +4,34 @@
     <app-splash-screen [title]="title"></app-splash-screen>
   </div>
 
+  <div id="favoritesContainer" class="fixed"
+    [@favoritesPanelOpenClose]="this.optionsService.showFavorites == true ? 'favoritesPanelOpen' : 'favoritesPanelClosed'"
+    *ngIf="this.optionsService.showSplash == false">
+
+    <app-favorites-panel></app-favorites-panel>
+
+  </div>
+
   <div id="main" class="col">
     <app-title [title]="title"></app-title>
+
+    <button id="favoritesSliderButton" *ngIf="this.optionsService.showSplash == false " (click)="this.toggleFavorites()">
+      <i class="material-icons">{{ this.optionsService.showFavorites === true ? 'close' : 'more_vert' }}</i>
+    </button>
 
     <app-my-player id="ngPlayerDIV" *ngIf="this.optionsService.showPlayer == true"></app-my-player>
 
     <app-canvas3-d></app-canvas3-d>
     <app-canvas2-d></app-canvas2-d>
 
-    <button *ngIf="this.optionsService.showSplash == false " (click)="this.togglePanel()">
+    <button id="optionsSliderButton" *ngIf="this.optionsService.showSplash == false " (click)="this.togglePanel()">
       <i class="material-icons">{{ this.optionsService.showPanel === true ? 'close' : 'more_vert' }}</i>
     </button>
 
   </div>
 
   <div id="optionsContainer" class="fixed"
-    [@panelOpenClose]="this.optionsService.showPanel == true ? 'panelOpen' : 'panelClosed'"
+    [@optionsPanelOpenClose]="this.optionsService.showPanel == true ? 'optionsPanelOpen' : 'optionsPanelClosed'"
     *ngIf="this.optionsService.showSplash == false">
 
     <app-options-panel></app-options-panel>
