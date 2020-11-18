@@ -4,7 +4,7 @@ import { OptionsService } from '../../services/options/options.service';
 import { MessageService } from '../../services/message/message.service';
 import { AudioService } from '../../services/audio/audio.service';
 import { EngineService } from '../../services/engine/engine.service';
-import { SmartArrayNoDuplicate } from 'babylonjs';
+// import { SmartArrayNoDuplicate } from 'babylonjs';
 
 @Component({
   selector: 'app-options-panel',
@@ -14,7 +14,7 @@ import { SmartArrayNoDuplicate } from 'babylonjs';
 })
 
 export class OptionsPanelComponent implements OnInit, OnDestroy {
-  @ViewChild('graduate', { static: true }) graduate: ElementRef;
+  // @ViewChild('graduate', { static: true }) graduate: ElementRef;
 
   objectKeys = Object.keys;
 
@@ -27,15 +27,15 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const percent = Math.round((this.optionsService.midLoc / 255) * 100);
+    // const percent = Math.round((this.optionsService.midLoc / 255) * 100);
 
     // tslint:disable-next-line: max-line-length
-    this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
+    // this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
   }
 
-  randomizeList() {
-    this.messageService.announceMessage('randomize list');
-  }
+  // randomizeList() {
+  //   this.messageService.announceMessage('randomize list');
+  // }
 
   lightColorChange(e) {
     // console.log('light color change: ');
@@ -162,17 +162,20 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
         state:    JSON.parse(JSON.stringify(this.optionsService.state))
       });
 
-    console.log(this.optionsService.favorites);
+    console.log(JSON.stringify(this.optionsService.newBaseOptions));
+
+    // var encodedUri = encodeURI(JSON.stringify(this.optionsService.newBaseOptions));
+    // window.open(encodedUri);
   }
 
 
-  colorChange(e) {
+  // colorChange(e) {
 
-    const percent = Math.round((this.optionsService.midLoc / 255) * 100);
-    // tslint:disable-next-line: max-line-length
-    this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
+  //   const percent = Math.round((this.optionsService.midLoc / 255) * 100);
+  //   // tslint:disable-next-line: max-line-length
+  //   this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
 
-  }
+  // }
 
   updateItem(e) {
     this.messageService.announceMessage(e.target.id);
@@ -184,41 +187,41 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     this.messageService.announceMessage('scene change');
   }
 
-  radioNoteChange(e) {
-    this.optionsService.toggleNoteRadio(e.target.id, e.target.value);
-    this.optionsService.setOption('currentNote', e.target.value);
-  }
+  // radioNoteChange(e) {
+  //   this.optionsService.toggleNoteRadio(e.target.id, e.target.value);
+  //   this.optionsService.setOption('currentNote', e.target.value);
+  // }
 
-  trackChange(e) {
-    this.optionsService.updateState('currentTrack', e.target.value);
-    this.messageService.announceMessage('track change');
-  }
+  // trackChange(e) {
+  //   this.optionsService.updateState('currentTrack', e.target.value);
+  //   this.messageService.announceMessage('track change');
+  // }
 
-  siteListSelection() {
-    this.audioService.disableMic();
-    this.messageService.announceMessage('site list selection');
-  }
+  // siteListSelection() {
+  //   this.audioService.disableMic();
+  //   this.messageService.announceMessage('site list selection');
+  // }
 
-  localListSelection() {
-    this.audioService.disableMic();
-    this.messageService.announceMessage('local list selection');
-  }
+  // localListSelection() {
+  //   this.audioService.disableMic();
+  //   this.messageService.announceMessage('local list selection');
+  // }
 
-  previousTrack() {
-    this.messageService.announceMessage('previousTrack');
-  }
+  // previousTrack() {
+  //   this.messageService.announceMessage('previousTrack');
+  // }
 
-  nextTrack() {
-    this.messageService.announceMessage('nextTrack');
-  }
+  // nextTrack() {
+  //   this.messageService.announceMessage('nextTrack');
+  // }
 
-  playPause() {
-    this.messageService.announceMessage('playPause');
-  }
+  // playPause() {
+  //   this.messageService.announceMessage('playPause');
+  // }
 
-  onSliderChangeVolume(e) {
-    this.messageService.announceMessage('volume change');
-  }
+  // onSliderChangeVolume(e) {
+  //   this.messageService.announceMessage('volume change');
+  // }
 
   ngOnDestroy() {
     // prevent memory leak when component destroyed

@@ -699,7 +699,7 @@ export class SingleSPSCube implements OnDestroy {
                 const radian = this.TwoPId72;
                 const gtheta = (radian * particle.idx) % this.TwoPI;
 
-                return new BABYLON.Vector3(0, -gtheta % this.TwoPI, 0);
+                return new BABYLON.Vector3(Math.PI/8, -gtheta % this.TwoPI, 0);
             },
             color: (particle, yy) => {
                 const c = this.colorsService.colors(yy);

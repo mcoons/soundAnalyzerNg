@@ -4,7 +4,7 @@ import { OptionsService } from '../../services/options/options.service';
 import { MessageService } from '../../services/message/message.service';
 import { AudioService } from '../../services/audio/audio.service';
 import { EngineService } from '../../services/engine/engine.service';
-import { SmartArrayNoDuplicate } from 'babylonjs';
+import { ColorsService } from '../../services/colors/colors.service';
 
 @Component({
   selector: 'app-favorites-panel',
@@ -13,7 +13,7 @@ import { SmartArrayNoDuplicate } from 'babylonjs';
   encapsulation: ViewEncapsulation.None
 })
 export class FavoritesPanelComponent implements OnInit, OnDestroy  {
-  // @ViewChild('graduate', { static: true }) graduate: ElementRef;
+  @ViewChild('graduate', { static: true }) graduate: ElementRef;
 
   objectKeys = Object.keys;
 
@@ -21,15 +21,19 @@ export class FavoritesPanelComponent implements OnInit, OnDestroy  {
     @Inject(OptionsService) public optionsService: OptionsService,
     @Inject(AudioService) public audioService: AudioService,
     @Inject(MessageService) private messageService: MessageService,
-    @Inject(EngineService) private engineService: EngineService
+    @Inject(EngineService) private engineService: EngineService,
+    @Inject(ColorsService) private colorService: ColorsService
   ) {
+
   }
 
   ngOnInit() {
-    // const percent = Math.round((this.optionsService.midLoc / 255) * 100);
+    const percent = Math.round((this.optionsService.midLoc / 255) * 100);
 
     // tslint:disable-next-line: max-line-length
-    // this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
+    setTimeout(() => {
+      this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
+    }, 10);
   }
 
   randomizeList() {
@@ -164,7 +168,7 @@ export class FavoritesPanelComponent implements OnInit, OnDestroy  {
 
     const percent = Math.round((this.optionsService.midLoc / 255) * 100);
     // tslint:disable-next-line: max-line-length
-    // this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
+    this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
 
   }
 
