@@ -316,6 +316,9 @@ export class EngineService {
 
     //////    SCENE INITIALIZATIONS    //////
 
+    this.scene.createDefaultEnvironment();
+
+
     // tslint:disable-next-line: max-line-length
     this.currentVisual = new this.visualClasses[this.visualClassIndex](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
     this.currentVisual.create();
@@ -646,6 +649,7 @@ export class EngineService {
     this.hexMat.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse2.jpg', this.scene);
     this.hexMat.diffuseTexture.uScale = 4;
     this.hexMat.diffuseTexture.vScale = 4;
+    this.hexMat.maxSimultaneousLights = 8;
 
 
     const groundBox = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 880, tessellation: 6, height: 48 }, this.scene);

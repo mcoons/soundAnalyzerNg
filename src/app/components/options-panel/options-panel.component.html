@@ -226,7 +226,7 @@
             </ng-container>
 
             <!-- Colors -->
-            <ng-container
+            <!-- <ng-container
               *ngIf="this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].colorOptions === true">
 
               <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
@@ -241,7 +241,6 @@
                 <ng-container *ngIf="this.optionsService.getOptions()[option].type=='color'">
                   <input type="color" [id]="option" [(ngModel)]="this.optionsService[option]"
                     (change)="colorChange($event)">
-                  <!-- <b class='colorHeader'>{{this.optionsService.getOptions()[option].label}}</b> -->
                   {{this.optionsService.getOptions()[option].label}}
 
                 </ng-container>
@@ -251,14 +250,6 @@
                       ({{this.optionsService.getOptions()[option].value}})</label></b><br>
 
                   <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
-
-                  <!-- <input type="range" [id]="option" [name]="option" class="range"
-                    [min]="this.optionsService.getOptions()[option].min"
-                    [max]="this.optionsService.getOptions()[option].max"
-                    [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
-                    (change)="colorChange($event)"
-                    ng-model-options="{ getterSetter: true }"> -->
-
 
                   <input type="range" [id]="option" [name]="option" class="range"
                     [min]="this.optionsService.getOptions()[option].min"
@@ -272,24 +263,13 @@
 
                 </ng-container>
 
-
               </ng-container>
 
 
-            </ng-container>
+            </ng-container> -->
 
           </ng-container>
         </div>
-
-        <!-- <ng-container -->
-        <!-- *ngIf="this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].colorOptions === true"> -->
-        <!-- <ng-container *ngIf="this.optionsService.customColors === true"> -->
-
-        <!-- <div #graduate id="graduate" style="width:155px; margin: 10px; border-radius:5px; text-align: center;">Color
-          Range</div> -->
-
-        <!-- </ng-container> -->
-        <!-- <div id="graduate" style="width:100%; border:1px solid red; background-image: linear-gradient(to right, red , yellow);">ColorTest</div> -->
 
       </mat-expansion-panel>
 

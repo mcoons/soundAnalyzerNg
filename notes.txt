@@ -14,6 +14,7 @@ TODO
 _______________________________________________________________________
 crystal ball with flickering light inbside - Lindsey - When the stars align
 
+Add a universal material for all visuals to use to allow material options
 
 Flesh out Exploding SPS options in panel
 Add camera positioning to Exploding SPS (remove use interaction?)
@@ -27,7 +28,7 @@ Implement 2D history layer in the back.
 
 Fix playlist selection button highlight when canceling coming from mic
 
-
+Multiple Cameras with scene fading???
 
 Load scene with multiple lights
 2 Top Front

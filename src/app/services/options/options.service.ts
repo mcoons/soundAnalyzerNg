@@ -261,9 +261,6 @@ export class OptionsService {
 
     // an array of objects to render using the array keyname as group dropdown name
     visual: [
-
-
-
       // starManager:
       {
         type: 'radio',
@@ -276,6 +273,43 @@ export class OptionsService {
         calpha: 4.72,
         cbeta: .01,
         cradius: 1200,
+
+        customColors: {
+          type: 'checkbox',
+          label: 'Custom Colors',
+          value: true,
+
+          color: [
+
+            // maxColor:
+            {
+              type: 'color',
+              label: 'Maximum Color',
+              value: '#ff0000'
+            },
+            // midColor:
+            {
+              type: 'color',
+              label: 'Middle Color',
+              value: '#000000'
+            },
+            // minColor:
+            {
+              type: 'color',
+              label: 'Minimum Color',
+              value: '#0000ff'
+            },
+            // midLoc:
+            {
+              type: 'colorslider',
+              label: 'Midpoint Value',
+              value: 128,
+              min: 20,
+              max: 235,
+              step: 5
+            }
+          ],
+        },
 
         audio: [
           // sampleGain:
@@ -307,42 +341,42 @@ export class OptionsService {
           cameraCustom: true
         },
 
-        color: [
+        // color: [
 
-          // customColors:
-          {
-            type: 'checkbox',
-            label: 'Custom Colors',
-            value: true
-          },
-          // maxColor:
-          {
-            type: 'color',
-            label: 'Maximum Color',
-            value: '#ff0000'
-          },
-          // midColor:
-          {
-            type: 'color',
-            label: 'Middle Color',
-            value: '#000000'
-          },
-          // minColor:
-          {
-            type: 'color',
-            label: 'Minimum Color',
-            value: '#0000ff'
-          },
-          // midLoc:
-          {
-            type: 'colorslider',
-            label: 'Midpoint Value',
-            value: 128,
-            min: 20,
-            max: 235,
-            step: 5
-          }
-        ],
+        //   // // customColors:
+        //   // {
+        //   //   type: 'checkbox',
+        //   //   label: 'Custom Colors',
+        //   //   value: true
+        //   // },
+        //   // maxColor:
+        //   {
+        //     type: 'color',
+        //     label: 'Maximum Color',
+        //     value: '#ff0000'
+        //   },
+        //   // midColor:
+        //   {
+        //     type: 'color',
+        //     label: 'Middle Color',
+        //     value: '#000000'
+        //   },
+        //   // minColor:
+        //   {
+        //     type: 'color',
+        //     label: 'Minimum Color',
+        //     value: '#0000ff'
+        //   },
+        //   // midLoc:
+        //   {
+        //     type: 'colorslider',
+        //     label: 'Midpoint Value',
+        //     value: 128,
+        //     min: 20,
+        //     max: 235,
+        //     step: 5
+        //   }
+        // ],
 
         lights: [  //  array of lights
 
@@ -3789,7 +3823,7 @@ export class OptionsService {
 
 
 
-  get light0Intensity(): number{
+  get light0Intensity(): number {
     return this.options.light0Intensity.value;
   }
 
