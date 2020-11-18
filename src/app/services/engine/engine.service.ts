@@ -23,7 +23,7 @@ import { StarManager } from '../../visualization-classes/StarManager';
 import { Spectrograph } from '../../visualization-classes/Spectrograph';
 import { Rings } from '../../visualization-classes/Rings';
 import { Hex } from '../../visualization-classes/Hex';
-// import { WaveRibbon } from '../../visualization-classes/WaveRibbon';
+import { Notes } from '../../visualization-classes/Notes';
 import { SingleSPSCube } from '../../visualization-classes/SingleSPSCube';
 // import { SingleSPSRibbon } from '../../visualization-classes/SingleSPSRibbon';
 
@@ -34,6 +34,17 @@ export class EngineService {
   public engine: BABYLON.Engine;
   public camera1: BABYLON.ArcRotateCamera;
   public camera2: BABYLON.FollowCamera;
+  public hLight1;
+  public hLight2;
+  public hLight3;
+  public hLight4;
+  public hLight5;
+  public hLight6;
+  public hLight7;
+  public hLight8;
+  public hLight1Mimic;
+  public hLight3Mimic;
+  public hLight5Mimic;
   public scene: BABYLON.Scene;
   private visualClasses;
   private visualClassIndex;
@@ -65,6 +76,7 @@ export class EngineService {
   skybox;
   skyboxMaterial;
   cameraTarget;
+  lightParent;
 
 
   public constructor(
@@ -106,8 +118,25 @@ export class EngineService {
       SpherePlaneManager2SPS,
       Rings,
       Hex,
-      // WaveRibbon
+      Notes
     ];
+
+  }
+
+
+  public setGlowLayer(intensity) {
+
+    // var gl = new BABYLON.GlowLayer("glow", this.scene, {
+    //   mainTextureFixedSize: 1024,
+    //   blurKernelSize: 64
+    // });
+
+    if (this.glowLayer) {
+      this.glowLayer.intensity = intensity;
+    } else {
+      this.glowLayer = new BABYLON.GlowLayer('glow', this.scene);
+      this.glowLayer.intensity = intensity;
+    }
 
   }
 
@@ -118,100 +147,28 @@ export class EngineService {
     this.engine = new BABYLON.Engine(this.canvas, true, { stencil: true });
 
     this.scene = new BABYLON.Scene(this.engine);
-    this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+    this.scene.registerBeforeRender(this.beforeRender);
 
+    this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
     this.scene.ambientColor = new BABYLON.Color3(1, 1, 1);
 
     this.highlightLayer = new BABYLON.HighlightLayer('hl1', this.scene);
 
+    this.setGlowLayer(1);
 
-    this.glowLayer = new BABYLON.GlowLayer('glow', this.scene);
-    this.glowLayer.intensity = 1;
-
-    this.scene.registerBeforeRender(this.beforeRender);
-
-
-    //   var gl = new BABYLON.GlowLayer("glow", this.scene, {
-    //     mainTextureFixedSize: 1024,
-    //     blurKernelSize: 64
-    // });
-
-
-
-    
     this.skyboxMaterial = new BABYLON.StandardMaterial('skyBox', this.scene);
     this.skyboxMaterial.backFaceCulling = false;
     this.skyboxMaterial.disableLighting = true;
-    
+
     this.skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture('../../assets/images/skybox/TropicalSunnyDay', this.scene);
     this.skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
 
-    
     this.skybox = BABYLON.Mesh.CreateBox('skyBox', 10000.0, this.scene);
     this.skybox.infiniteDistance = true;
     this.skybox.material = this.skyboxMaterial;
 
     this.skybox.setEnabled(false);
 
-
-
-    //////   LIGHTING   //////
-
-    // const pointLight0 = new BABYLON.PointLight('pointLight0', new BABYLON.Vector3(2000, 2000, -2000), this.scene);
-    const pointLight0 = new BABYLON.HemisphericLight('pointLight0', new BABYLON.Vector3(0, 0, -1), this.scene);
-    pointLight0.intensity = 1;
-    pointLight0.diffuse = new BABYLON.Color3(1, 1, 1);
-    pointLight0.specular = new BABYLON.Color3(1, 1, 1);
-    pointLight0.groundColor = new BABYLON.Color3(.5, .5, .5);
-    // pointLight0.range = 15000;
-
-
-    // const pointLight1 = new BABYLON.PointLight('pointLight1', new BABYLON.Vector3(-2000, 2000, 2000), this.scene);
-    const pointLight1 = new BABYLON.HemisphericLight('pointLight1', new BABYLON.Vector3(0, 0, 1), this.scene);
-    pointLight1.intensity = 1;
-    pointLight1.diffuse = new BABYLON.Color3(1, 1, 1);
-    pointLight1.specular = new BABYLON.Color3(1, 1, 1);
-    pointLight1.groundColor = new BABYLON.Color3(.5, .5, .5);
-    // pointLight1.range = 15000;
-
-    // const pointLight2 = new BABYLON.PointLight('pointLight2', new BABYLON.Vector3(-2000, -2000, -2000), this.scene);
-    const pointLight2 = new BABYLON.HemisphericLight('pointLight2', new BABYLON.Vector3(-1, 0, 0), this.scene);
-    pointLight2.intensity = 1;
-    pointLight2.diffuse = new BABYLON.Color3(1, 1, 1);
-    pointLight2.specular = new BABYLON.Color3(1, 1, 1);
-    pointLight2.groundColor = new BABYLON.Color3(.5, .5, .5);
-    // pointLight2.range = 15000;
-
-    // const pointLight3 = new BABYLON.PointLight('pointLight3', new BABYLON.Vector3(2000, -2000, -2000), this.scene);
-    // pointLight3.diffuse = new BABYLON.Color3(1, 1, 1);
-    // pointLight3.specular = new BABYLON.Color3(1, 1, 1);
-    // pointLight3.intensity = 1;
-    // pointLight3.range = 15000;
-
-
-    const hlight = new BABYLON.HemisphericLight('hLight1', new BABYLON.Vector3(1, 0, 0), this.scene);
-    hlight.intensity = .5;
-    hlight.diffuse = new BABYLON.Color3(1, 1, 1);
-    hlight.specular = new BABYLON.Color3(1, 1, 1);
-    hlight.groundColor = new BABYLON.Color3(.5, .5, .5);
-
-
-    //////    AXIS FOR DEBUGGING    //////
-
-
-    if (this.showAxis) {
-      this.showWorldAxis(600);
-
-      for (let index = -1000; index <= 1000; index += 100) {
-        let hexX100 = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 1, tessellation: 6, height: 100 }, this.scene);
-        hexX100.position = new BABYLON.Vector3(index, 0, 0);
-
-        let hexZ100 = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 1, tessellation: 6, height: 100 }, this.scene);
-        hexZ100.position = new BABYLON.Vector3(0, 0, index);
-
-      }
-
-    }
 
 
     //////    CAMERAS    //////
@@ -221,7 +178,7 @@ export class EngineService {
 
     this.cameraTarget.position = new BABYLON.Vector3(0, 0, 0);
 
-    this.camera1 = new BABYLON.ArcRotateCamera('ArcRotateCam', 4.7, 1.1, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
+    this.camera1 = new BABYLON.ArcRotateCamera('ArcRotateCam', Math.PI / 2, Math.PI / 2, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
     this.camera1.upperRadiusLimit = 9400;
     this.camera1.lowerRadiusLimit = 10;
     this.camera1.attachControl(this.canvas, true);
@@ -266,6 +223,96 @@ export class EngineService {
     this.scene.activeCamera = this.camera1;
 
 
+    //////   LIGHTING   //////
+
+    this.lightParent = new BABYLON.TransformNode('lightParent', this.scene);
+
+    // front
+    this.hLight1Mimic = new BABYLON.TransformNode('light1Mimic', this.scene);
+    this.hLight1Mimic.setParent(this.lightParent);
+    this.hLight1Mimic.position = new BABYLON.Vector3(0, 0, -1);
+
+    this.hLight1 = new BABYLON.HemisphericLight('hLight1', new BABYLON.Vector3(0, 0, -1), this.scene);
+    this.hLight1.intensity = 0;
+    this.hLight1.diffuse = new BABYLON.Color3(0, 0, 0);
+    this.hLight1.specular = new BABYLON.Color3(0, 0, 0);
+    this.hLight1.groundColor = new BABYLON.Color3(0, 0, 0);
+
+    // back
+    this.hLight2 = new BABYLON.HemisphericLight('hLight2', new BABYLON.Vector3(0, 0, 1), this.scene);
+    this.hLight2.intensity = 0;
+    this.hLight2.diffuse = new BABYLON.Color3(0, 0, 0);
+    this.hLight2.specular = new BABYLON.Color3(0, 0, 0);
+    this.hLight2.groundColor = new BABYLON.Color3(0, 0, 0);
+
+    // left
+    this.hLight3Mimic = new BABYLON.TransformNode('light3Mimic', this.scene);
+    this.hLight3Mimic.setParent(this.lightParent);
+    this.hLight3Mimic.position = new BABYLON.Vector3(-1, 0, 0);
+
+    this.hLight3 = new BABYLON.HemisphericLight('hLight3', new BABYLON.Vector3(-1, 0, 0), this.scene);
+    this.hLight3.intensity = 0;
+    this.hLight3.diffuse = new BABYLON.Color3(0, 0, 0);
+    this.hLight3.specular = new BABYLON.Color3(0, 0, 0);
+    this.hLight3.groundColor = new BABYLON.Color3(0, 0, 0);
+
+    // right
+    this.hLight4 = new BABYLON.HemisphericLight('hLight4', new BABYLON.Vector3(1, 0, 0), this.scene);
+    this.hLight4.intensity = 0;
+    this.hLight4.diffuse = new BABYLON.Color3(0, 0, 0);
+    this.hLight4.specular = new BABYLON.Color3(0, 0, 0);
+    this.hLight4.groundColor = new BABYLON.Color3(0, 0, 0);
+
+    // down
+    this.hLight5Mimic = new BABYLON.TransformNode('light5Mimic', this.scene);
+    this.hLight5Mimic.setParent(this.lightParent);
+    this.hLight5Mimic.position = new BABYLON.Vector3(0, 1, 0);
+
+    this.hLight5 = new BABYLON.HemisphericLight('hLight5', new BABYLON.Vector3(0, 1, 0), this.scene);
+    this.hLight5.intensity = 0;
+    this.hLight5.diffuse = new BABYLON.Color3(0, 0, 0);
+    this.hLight5.specular = new BABYLON.Color3(0, 0, 0);
+    this.hLight5.groundColor = new BABYLON.Color3(0, 0, 0);
+
+    // up
+    this.hLight6 = new BABYLON.HemisphericLight('hLight6', new BABYLON.Vector3(0, -1, 0), this.scene);
+    this.hLight6.intensity = 0;
+    this.hLight6.diffuse = new BABYLON.Color3(0, 0, 0);
+    this.hLight6.specular = new BABYLON.Color3(0, 0, 0);
+    this.hLight6.groundColor = new BABYLON.Color3(0, 0, 0);
+
+    // camera
+    this.hLight7 = new BABYLON.HemisphericLight('hLight7', new BABYLON.Vector3(0, 0, -1), this.scene);
+    this.hLight7.intensity = 0;
+    this.hLight7.diffuse = new BABYLON.Color3(0, 0, 0);
+    this.hLight7.specular = new BABYLON.Color3(0, 0, 0);
+    this.hLight7.groundColor = new BABYLON.Color3(0, 0, 0);
+
+    // camera backlight
+    this.hLight8 = new BABYLON.HemisphericLight('hLight8', new BABYLON.Vector3(0, 0, 1), this.scene);
+    this.hLight8.intensity = 0;
+    this.hLight8.diffuse = new BABYLON.Color3(0, 0, 0);
+    this.hLight8.specular = new BABYLON.Color3(0, 0, 0);
+    this.hLight8.groundColor = new BABYLON.Color3(0, 0, 0);
+
+    this.setCameraLightVectors();
+
+    //////    AXIS FOR DEBUGGING    //////
+
+
+    if (this.showAxis) {
+      this.showWorldAxis(600);
+
+      for (let index = -1000; index <= 1000; index += 100) {
+        const hexX100 = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 1, tessellation: 6, height: 100 }, this.scene);
+        hexX100.position = new BABYLON.Vector3(index, 0, 0);
+
+        const hexZ100 = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 1, tessellation: 6, height: 100 }, this.scene);
+        hexZ100.position = new BABYLON.Vector3(0, 0, index);
+      }
+    }
+
+
 
     //////    SCENE INITIALIZATIONS    //////
 
@@ -282,44 +329,182 @@ export class EngineService {
     // console.log(this.visualClassIndex);
 
 
-    /*
-        this.titleMat = new BABYLON.StandardMaterial('titleMat', this.scene);
-        this.titleMat.alpha = 1;
-        this.titleMat.specularColor = new BABYLON.Color3(0, 0, 0);
-        this.titleMat.emissiveColor = new BABYLON.Color3(0, 0, 0);
-        this.titleMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
 
-        this.createTitleText('Have Yourself a Merry Little Christmas');
-    */
+    // this.titleMat = new BABYLON.StandardMaterial('titleMat', this.scene);
+    // this.titleMat.alpha = 1;
+    // this.titleMat.specularColor = new BABYLON.Color3(0, 0, 0);
+    // this.titleMat.emissiveColor = new BABYLON.Color3(0, 0, 0);
+    // this.titleMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
+
+    // this.createTitleText('Have Yourself a Merry Little Christmas');
+
     console.log(this.scene);
 
   }
 
+  public setCameraLightVectors() {
+
+    // TO DO: only set normal light vectors if rotation has changed
+    const l1Position = BABYLON.Vector3.TransformCoordinates(this.hLight1Mimic.position, this.hLight1Mimic.getWorldMatrix());
+    const l3Position = BABYLON.Vector3.TransformCoordinates(this.hLight3Mimic.position, this.hLight3Mimic.getWorldMatrix());
+    const l5Position = BABYLON.Vector3.TransformCoordinates(this.hLight5Mimic.position, this.hLight5Mimic.getWorldMatrix());
+
+
+    (this.scene.lights[0] as BABYLON.HemisphericLight).direction.x = l1Position.x;
+    (this.scene.lights[0] as BABYLON.HemisphericLight).direction.y = l1Position.y;
+    (this.scene.lights[0] as BABYLON.HemisphericLight).direction.z = l1Position.z;
+
+    (this.scene.lights[1] as BABYLON.HemisphericLight).direction.x = -l1Position.x;
+    (this.scene.lights[1] as BABYLON.HemisphericLight).direction.y = -l1Position.y;
+    (this.scene.lights[1] as BABYLON.HemisphericLight).direction.z = -l1Position.z;
+
+
+    (this.scene.lights[2] as BABYLON.HemisphericLight).direction.x = l3Position.x;
+    (this.scene.lights[2] as BABYLON.HemisphericLight).direction.y = l3Position.y;
+    (this.scene.lights[2] as BABYLON.HemisphericLight).direction.z = l3Position.z;
+
+    (this.scene.lights[3] as BABYLON.HemisphericLight).direction.x = -l3Position.x;
+    (this.scene.lights[3] as BABYLON.HemisphericLight).direction.y = -l3Position.y;
+    (this.scene.lights[3] as BABYLON.HemisphericLight).direction.z = -l3Position.z;
+
+
+    (this.scene.lights[4] as BABYLON.HemisphericLight).direction.x = l5Position.x;
+    (this.scene.lights[4] as BABYLON.HemisphericLight).direction.y = l5Position.y;
+    (this.scene.lights[4] as BABYLON.HemisphericLight).direction.z = l5Position.z;
+
+    (this.scene.lights[5] as BABYLON.HemisphericLight).direction.x = -l5Position.x;
+    (this.scene.lights[5] as BABYLON.HemisphericLight).direction.y = -l5Position.y;
+    (this.scene.lights[5] as BABYLON.HemisphericLight).direction.z = -l5Position.z;
+
+
+
+    (this.scene.lights[6] as BABYLON.HemisphericLight).direction.x = this.camera1.position.x;
+    (this.scene.lights[6] as BABYLON.HemisphericLight).direction.y = this.camera1.position.y;
+    (this.scene.lights[6] as BABYLON.HemisphericLight).direction.z = this.camera1.position.z;
+
+    (this.scene.lights[7] as BABYLON.HemisphericLight).direction.x = -this.camera1.position.x;
+    (this.scene.lights[7] as BABYLON.HemisphericLight).direction.y = -this.camera1.position.y;
+    (this.scene.lights[7] as BABYLON.HemisphericLight).direction.z = -this.camera1.position.z;
+  }
 
   public setLights() {
 
-    console.log('light0');
-    console.log(this.scene.lights[0]);
+    // console.log('light0');
+    // console.log(this.scene.lights[0]);
 
-    this.scene.lights[0].intensity = this.optionsService.options.light0Intensity.value/100;
-    this.scene.lights[0].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light0Color.value);
-    this.scene.lights[0].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light0Specular.value );
-    (this.scene.lights[0] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light0GroundColor.value );
+    // // front
+    // this.scene.lights[0].intensity = this.optionsService.options.light0Intensity.value / 100;
+    // this.scene.lights[0].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light0Color.value);
+    // this.scene.lights[0].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light0Specular.value);
+    // (this.scene.lights[0] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light0GroundColor.value);
 
-    this.scene.lights[1].intensity = this.optionsService.options.light1Intensity.value/100;
-    this.scene.lights[1].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light1Color.value);
-    this.scene.lights[1].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light1Specular.value );
-    // (this.scene.lights[1] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light1GroundColor.value );
+    // // back
+    // this.scene.lights[1].intensity = this.optionsService.options.light1Intensity.value / 100;
+    // this.scene.lights[1].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light1Color.value);
+    // this.scene.lights[1].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light1Specular.value);
+    // (this.scene.lights[1] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light1GroundColor.value);
 
-    this.scene.lights[2].intensity = this.optionsService.options.light2Intensity.value/100;
-    this.scene.lights[2].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light2Color.value);
-    this.scene.lights[2].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light2Specular.value );
-    // (this.scene.lights[2] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light2GroundColor.value );
+    // // left
+    // this.scene.lights[2].intensity = this.optionsService.options.light2Intensity.value / 100;
+    // this.scene.lights[2].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light2Color.value);
+    // this.scene.lights[2].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light2Specular.value);
+    // (this.scene.lights[2] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light2GroundColor.value);
 
-    this.scene.lights[3].intensity = this.optionsService.options.groundLightIntensity.value/100;
-    this.scene.lights[3].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.groundLightColor.value);
-    this.scene.lights[3].specular = BABYLON.Color3.FromHexString(this.optionsService.options.groundLightSpecular.value );
-    // (this.scene.lights[3] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light3GroundColor.value );
+    // // right
+    // this.scene.lights[3].intensity = this.optionsService.options.light3Intensity.value / 100;
+    // this.scene.lights[3].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light3Color.value);
+    // this.scene.lights[3].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light3Specular.value);
+    // (this.scene.lights[3] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light3GroundColor.value);
+
+    // // top
+    // this.scene.lights[4].intensity = this.optionsService.options.light4Intensity.value / 100;
+    // this.scene.lights[4].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light4Color.value);
+    // this.scene.lights[4].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light4Specular.value);
+    // (this.scene.lights[4] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light4GroundColor.value);
+
+    // // bottom
+    // this.scene.lights[5].intensity = this.optionsService.options.light5Intensity.value / 100;
+    // this.scene.lights[5].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light5Color.value);
+    // this.scene.lights[5].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light5Specular.value);
+    // (this.scene.lights[5] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light5GroundColor.value);
+
+    // // camera
+    // this.scene.lights[6].intensity = this.optionsService.options.light6Intensity.value / 100;
+    // this.scene.lights[6].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light6Color.value);
+    // this.scene.lights[6].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light6Specular.value);
+    // (this.scene.lights[6] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light6GroundColor.value);
+
+    // // rim
+    // this.scene.lights[7].intensity = this.optionsService.options.light7Intensity.value / 100;
+    // this.scene.lights[7].diffuse = BABYLON.Color3.FromHexString(this.optionsService.options.light7Color.value);
+    // this.scene.lights[7].specular = BABYLON.Color3.FromHexString(this.optionsService.options.light7Specular.value);
+    // (this.scene.lights[7] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.options.light7GroundColor.value);
+
+
+
+
+
+
+
+    // front
+    this.scene.lights[0].intensity = this.optionsService.light0Intensity / 100;
+    this.scene.lights[0].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light0Color);
+    this.scene.lights[0].specular = BABYLON.Color3.FromHexString(this.optionsService.light0Specular);
+    (this.scene.lights[0] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light0GroundColor);
+
+    // back
+    this.scene.lights[1].intensity = this.optionsService.light1Intensity / 100;
+    this.scene.lights[1].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light1Color);
+    this.scene.lights[1].specular = BABYLON.Color3.FromHexString(this.optionsService.light1Specular);
+    (this.scene.lights[1] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light1GroundColor);
+
+    // left
+    this.scene.lights[2].intensity = this.optionsService.light2Intensity / 100;
+    this.scene.lights[2].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light2Color);
+    this.scene.lights[2].specular = BABYLON.Color3.FromHexString(this.optionsService.light2Specular);
+    (this.scene.lights[2] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light2GroundColor);
+
+    // right
+    this.scene.lights[3].intensity = this.optionsService.light3Intensity / 100;
+    this.scene.lights[3].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light3Color);
+    this.scene.lights[3].specular = BABYLON.Color3.FromHexString(this.optionsService.light3Specular);
+    (this.scene.lights[3] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light3GroundColor);
+
+    // top
+    this.scene.lights[4].intensity = this.optionsService.light4Intensity / 100;
+    this.scene.lights[4].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light4Color);
+    this.scene.lights[4].specular = BABYLON.Color3.FromHexString(this.optionsService.light4Specular);
+    (this.scene.lights[4] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light4GroundColor);
+
+    // bottom
+    this.scene.lights[5].intensity = this.optionsService.light5Intensity / 100;
+    this.scene.lights[5].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light5Color);
+    this.scene.lights[5].specular = BABYLON.Color3.FromHexString(this.optionsService.light5Specular);
+    (this.scene.lights[5] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light5GroundColor);
+
+    // camera
+    this.scene.lights[6].intensity = this.optionsService.light6Intensity / 100;
+    this.scene.lights[6].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light6Color);
+    this.scene.lights[6].specular = BABYLON.Color3.FromHexString(this.optionsService.light6Specular);
+    (this.scene.lights[6] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light6GroundColor);
+
+    // rim
+    this.scene.lights[7].intensity = this.optionsService.light7Intensity / 100;
+    this.scene.lights[7].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light7Color);
+    this.scene.lights[7].specular = BABYLON.Color3.FromHexString(this.optionsService.light7Specular);
+    (this.scene.lights[7] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light7GroundColor);
+
+
+
+
+
+
+
+
+
+
+
+
 
   }
 
@@ -333,9 +518,12 @@ export class EngineService {
           this.audioService.analyzeData();
         }
         this.fixDpi();
+        // this.lightParent.rotation.y += .03;
+        this.setCameraLightVectors();
 
         this.currentVisual.update();
         this.scene.render();
+
       };
 
       if (this.windowRef.document.readyState !== 'loading') {
@@ -380,6 +568,8 @@ export class EngineService {
     // tslint:disable-next-line: max-line-length
     this.currentVisual = new this.visualClasses[index](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
     this.currentVisual.create();
+    this.setLights();
+
 
   }
 
@@ -452,7 +642,7 @@ export class EngineService {
     // this.hexMat.bumpTexture.uScale = 4;
     // this.hexMat.bumpTexture.vScale = 4;
     // this.hexMat.emmisiveColor =
-    
+
     this.hexMat.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse2.jpg', this.scene);
     this.hexMat.diffuseTexture.uScale = 4;
     this.hexMat.diffuseTexture.vScale = 4;
@@ -610,7 +800,6 @@ export class EngineService {
 
   }
 
-
   createTitleText(text) {
     const scale = 10;
     const depth = .75;
@@ -668,39 +857,39 @@ export class EngineService {
     // this.titleSPS.setParticles();
   }
 
-  // create3DText(displayText, scale, depth, xPos, yPos, zPos, color) {
-  //   // var  MeshWriter, text1, text2, C1, C2;
+  create3DText(displayText, scale, depth, xPos, yPos, zPos, color) {
+    // var  MeshWriter, text1, text2, C1, C2;
 
-  //   const Writer = new MESHWRITER(this.scene, { scale });
-  //   const text1 = new Writer(
-  //     displayText,
-  //     {
-  //       anchor: 'center',
-  //       'letter-height': scale,
-  //       'letter-thickness': depth,
-  //       color: '#ff0000',
-  //       position: {
-  //         x: xPos,
-  //         y: yPos,
-  //         z: zPos
-  //       }
-  //     }
-  //   );
+    const Writer = new MESHWRITER(this.scene, { scale });
+    const text1 = new Writer(
+      displayText,
+      {
+        anchor: 'center',
+        'letter-height': scale,
+        'letter-thickness': depth,
+        color: '#ff0000',
+        position: {
+          x: xPos,
+          y: yPos,
+          z: zPos
+        }
+      }
+    );
 
-  //   text1.getMesh().setPivotPoint(text1.getMesh().getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
+    text1.getMesh().setPivotPoint(text1.getMesh().getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
 
-  //   text1.getMesh().rotation.x = -Math.PI / 2;
-  //   text1.getMesh().material = color;
+    text1.getMesh().rotation.x = -Math.PI / 2;
+    text1.getMesh().material = color;
 
-  //   let textSPS = text1.getSPS();
-  //   console.log('textSPS');
-  //   console.log(textSPS);
-  //   textSPS.particles[1].position.y = 500;
+    let textSPS = text1.getSPS();
+    console.log('textSPS');
+    console.log(textSPS);
+    textSPS.particles[1].position.y = 500;
 
-  //   console.log('text1');
-  //   console.log(text1);
+    console.log('text1');
+    console.log(text1);
 
-  //   return text1;
-  // }
+    return text1;
+  }
 
 }

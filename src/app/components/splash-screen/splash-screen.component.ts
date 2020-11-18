@@ -29,6 +29,7 @@ export class SplashScreenComponent {
 
     setTimeout(() => {
       this.optionsService.toggleState('showPanel');
+      this.optionsService.toggleState('showFavorites');
       this.optionsService.toggleState('renderPlayer');
     }, 5);
   }

@@ -9,17 +9,32 @@ import { OptionsService } from './services/options/options.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   animations: [
-    trigger('panelOpenClose', [
-      state('panelOpen', style({
+    trigger('optionsPanelOpenClose', [
+      state('optionsPanelOpen', style({
         marginRight: '0px'
       })),
-      state('panelClosed', style({
-        marginRight: '-260px',
+      state('optionsPanelClosed', style({
+        marginRight: '-270px',
       })),
-      transition('panelOpen => panelClosed', [
+      transition('optionsPanelOpen => optionsPanelClosed', [
         animate('.75s')
       ]),
-      transition('panelClosed => panelOpen', [
+      transition('optionsPanelClosed => optionsPanelOpen', [
+        animate('.75s')
+      ])
+    ]),
+
+    trigger('favoritesPanelOpenClose', [
+      state('favoritesPanelOpen', style({
+        marginLeft: '0px'
+      })),
+      state('favoritesPanelClosed', style({
+        marginLeft: '-270px',
+      })),
+      transition('favoritesPanelOpen => favoritesPanelClosed', [
+        animate('.75s')
+      ]),
+      transition('favoritesPanelClosed => favoritesPanelOpen', [
         animate('.75s')
       ])
     ]),
@@ -58,5 +73,11 @@ export class AppComponent {
   togglePanel() {
     this.optionsService.toggleState('showPanel');
   }
+
+
+  toggleFavorites() {
+    this.optionsService.toggleState('showFavorites');
+  }
+
 
 }

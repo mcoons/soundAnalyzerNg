@@ -342,10 +342,6 @@ export class Rings {
 
         this.scene.unregisterBeforeRender(this.beforeRender);
 
-        // (this.scene.lights[0] as BABYLON.PointLight).intensity = 0.8;
-        // (this.scene.lights[1] as BABYLON.PointLight).intensity = 1.0;
-        // (this.scene.lights[2] as BABYLON.PointLight).intensity = 1.0;
-
         this.audioService = null;
         this.optionsService = null;
         this.messageService = null;

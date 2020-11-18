@@ -40,32 +40,28 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
   animate(): void {
     this.ngZone.runOutsideAngular(() => {
-
       const render2DFrame = () => {
 
         this.fixDpi();
         this.optionsService.windowResize();
 
-        if (this.optionsService.showSplash === false) {
-          if (this.optionsService.showBars === true) {
+        if (this.optionsService.showBars && !this.optionsService.showSplash) {
+          this.draw2DBars(this.audioService.sample1, 0);
+          this.draw2DBars(this.audioService.fr128DataArray, 200);
+          // this.draw2DBars(this.audioService.noteAvgs, 400);
 
-            this.draw2DBars(this.audioService.sample1, 0);
-            this.draw2DBars(this.audioService.fr64DataArray, 200);
-
-            this.drawSoundWav();
-
-          }
-
-          if (this.optionsService.showWaveform === true) {
-            this.waveFormDataSource = this.audioService.tdDataArray;
-            this.drawWaveform();
-          }
+          this.drawSoundWav();
         }
+
+        if (this.optionsService.showWaveform && !this.optionsService.showSplash) {
+          this.waveFormDataSource = this.audioService.tdDataArray;
+          this.drawWaveform();
+        }
+
         window.requestAnimationFrame(render2DFrame);
       };
 
       render2DFrame();
-
     });
   }
 
@@ -88,7 +84,6 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
   }
 
   draw2DBars(dataSource, height) {
-    // const dataSource = this.audioService.fr64DataArray; //   .sample1;
     if (dataSource == null) {
       return;
     }
@@ -97,6 +92,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     const HEIGHT = this.canvas2d.nativeElement.height;
     const barWidth = (WIDTH / dataSource.length); // - 1; // -80
 
+    // Clear on first 0 height element call only, Prepare to draw the topper
     if (height === 0) {
       this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
       this.ctx.beginPath();
@@ -108,7 +104,11 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     this.ctx.strokeStyle = 'rgba(0, 247, 255,.7)';
     let max_diff = 0;
 
+    // loop data
+
     for (let i = 0; i < dataSource.length; i++) { // -80
+
+      // draw bar chart
       const barHeight = dataSource[i] * .5 + 1;
 
       const r = barHeight * 2 - 1;
@@ -118,35 +118,29 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
       this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight - height - 40, barWidth, barHeight);
 
-
-
+      // calculate and draw topper and diff bar
+      // only if for bar 0
       if (height === 0) {
-        if (this.audioService.sample1Topper[i] <= barHeight) {
-          this.audioService.sample1Topper[i] = barHeight;
-        }
-        else {
-          this.audioService.sample1Topper[i] -= .5;
-        }
 
-        if (this.audioService.sample1Topper[i] < 0) {
-          this.audioService.sample1Topper[i] = 0;
-        }
+        this.bumpTopper(i, barHeight, x);
 
-        let diff = this.audioService.sample1Topper[i] - dataSource[i] / 2;
+        // draw diff bar
+        const diff = this.audioService.sample1Topper[i] - dataSource[i] / 2;
         if (diff > max_diff) { max_diff = diff; }
 
         this.ctx.fillStyle = 'rgba(0, 247, 255,.7)';
         this.ctx.fillRect(x + 25, this.getTopOfPlayer() - (diff <= 1 ? 1 : (diff)) / 2 - height - 190, barWidth, (diff <= 1 ? 1 : (diff)));
 
+        // // draw topper
         this.ctx.lineTo(x + 25, this.getTopOfPlayer() - this.audioService.sample1Topper[i] - height - 42);
-
-
-
       }
 
-
+      // draw key/freq designators
       const ch = this.optionsService.getOptions().currentNote.value;
-      if (ch !== 'None') {
+      this.ctx.font = '16px Arial';
+      this.ctx.fillStyle = 'white';
+
+      if (ch !== 'None' && height === 0) {
         const keyOffset = this.optionsService.getOptions()[ch].value;
         const hertz = this.optionsService.getOptions()[ch].hertz * Math.pow(2, ((i - keyOffset) / 64 + 2) - 1);
         const label = this.optionsService.getOptions()[ch].label;
@@ -165,72 +159,27 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       }
 
       x += barWidth; // + 1;
-    }
+    }  //  end loop
+
     if (height === 0) {
       this.ctx.stroke();
-      // console.log(max_diff);
-      // this.ctx.moveTo(10, 10);
-      // this.ctx.arc(10, 10, max_diff, 0, 2 * Math.PI, false);
-      // // this.ctx.fillStyle = 'green';
-      // this.ctx.fill();
-      // this.ctx.stroke();
-
     }
 
   }
 
-
-
-
-  draw2DBarsNew(dataSource, height) {
-    // const dataSource = this.audioService.sample1;
-    if (dataSource == null) {
-      return;
+  bumpTopper(i, height, x) {
+    if (this.audioService.sample1Topper[i] <= height) {
+      this.audioService.sample1Topper[i] = height;
+    } else {
+      this.audioService.sample1Topper[i] -= .5;
     }
 
-    const WIDTH = this.canvas2d.nativeElement.width - 50;
-    const HEIGHT = this.canvas2d.nativeElement.height;
-    const barWidth = (WIDTH / dataSource.length); // - 1; // -80
-
-    this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-    let x = 0;
-    for (let i = 0; i < dataSource.length; i++) { // -80
-      const barHeight = dataSource[i] * .5 + 1;
-
-      const r = barHeight * 2 - 1;
-      const g = 255 * i / 576;
-      const b = 255 - 128 * i / 550;
-
-      this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
-      this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight - height, barWidth, barHeight);
-
-      const ch = this.optionsService.getOptions().currentNote.value;
-      if (ch !== 'None') {
-        const keyOffset = this.optionsService.getOptions()[ch].value;
-        const hertz = this.optionsService.getOptions()[ch].hertz * Math.pow(2, ((i - keyOffset) / 64 + 2) - 1);
-        const label = this.optionsService.getOptions()[ch].label;
-
-        this.ctx.font = '16px Arial';
-        if (i <= 480 && i >= 58 && (i - keyOffset) % 64 === 0) {
-
-          this.ctx.fillStyle = 'white';
-          this.ctx.fillRect(x + 25, (this.getTopOfPlayer() - 40), barWidth, 10);
-
-          this.ctx.fillText(label + ((i - keyOffset) / 64 + 2), x + 25 - 9, (this.getTopOfPlayer() - 10));
-          // tslint:disable-next-line: max-line-length
-          this.ctx.fillText('~' + hertz.toString() + 'Hz', x + 25 - 45 + (ch === 'A' || ch === 'ASharp' ? 17 : 0), (this.getTopOfPlayer() + 10));
-        }
-
-      }
-
-      x += barWidth; // + 1;
+    if (this.audioService.sample1Topper[i] < 0) {
+      this.audioService.sample1Topper[i] = 0;
     }
 
+    this.ctx.lineTo(x + 25, this.getTopOfPlayer() - this.audioService.sample1Topper[i] - 42);
   }
-
-
-
 
   drawWaveform() {
     if (this.waveFormDataSource == null) {
@@ -247,6 +196,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     this.ctx.lineWidth = 3;
     this.ctx.moveTo(this.canvas2d.nativeElement.width / 2 - 256, 120);
     this.ctx.beginPath();
+
     for (let i = 0; i < width; i++) {
 
       const multiplier = Math.sin(map(i, 0, width - 1, 0, PI));
@@ -262,18 +212,18 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
   drawSoundWav() {
     this.ctx.strokeStyle = 'white';
-
-    this.audioService.tdMaxHistory.forEach( (d, i) => {
+    this.ctx.lineWidth = 5;
+    this.audioService.tdMaxHistory.forEach((d, i) => {
 
       // console.log(d);
       this.ctx.beginPath();
-      this.ctx.moveTo(i + this.canvas2d.nativeElement.width/2 - 500, 250 - (d-128));
-      this.ctx.lineTo(i + this.canvas2d.nativeElement.width/2 - 500, 250 + (d-128));
+
+      this.ctx.moveTo((i * 8) + this.canvas2d.nativeElement.width / 2 - 500, 250 - (d - 128));
+      this.ctx.lineTo((i * 8) + this.canvas2d.nativeElement.width / 2 - 500, 250 + (d - 128));
       this.ctx.stroke();
 
     });
   }
-
 
   getTopOfPlayer(): number {
     this.playerDiv = document.getElementById('playerDiv');

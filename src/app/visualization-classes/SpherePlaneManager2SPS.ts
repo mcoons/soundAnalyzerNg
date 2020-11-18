@@ -41,25 +41,14 @@ export class SpherePlaneManager2SPS {
     }
 
     setDefaults() {
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
 
-        // console.log((this.optionsService.getOptions()).spherePlaneManager2SPS.calpha);
-        // console.log(this.optionsService.options.spherePlaneManager2SPS.cbeta);
-        // console.log(this.optionsService.options.spherePlaneManager2SPS.cradius);
 
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = (this.optionsService.getOptions())['spherePlaneManager2SPS'].calpha // 4.72
-
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = this.optionsService.getOptions().spherePlaneManager2SPS.cbeta; // 1
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = this.optionsService.getOptions().spherePlaneManager2SPS.radius;
-
-
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = Math.PI/2;
-
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01; // 1
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1200;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = -Math.PI / 2;
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = Math.PI / 2; // 1
+        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 2000;
     }
 
     beforeRender = () => {
@@ -68,7 +57,7 @@ export class SpherePlaneManager2SPS {
 
         if (this.optionsService.autoRotate) {
             this.rotation += Math.PI / 500;
-            if (this.rotation >= Math.PI * 2) {
+            if (this.rotation >= Math.PI * 6) {
                 this.rotation = 0;
             }
 
@@ -85,20 +74,20 @@ export class SpherePlaneManager2SPS {
         let theta: number;
 
 
-        const radius = 100;
+        let radius = 100;
         // const width = 100;
         // const depth = 15;
         // const height = 20;
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = false;
+        this.mat.maxSimultaneousLights = 8;
+        this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
 
 
 
         // this.mat.diffuseTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
-        // this.mat.backFaceCulling = false;
         // this.mat.opacityTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
-        // this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
 
         // this.mat.diffuseTexture.hasAlpha = true;
         // (this.mat.diffuseTexture as BABYLON.Texture).vScale = 1 / 5;
@@ -125,23 +114,71 @@ export class SpherePlaneManager2SPS {
         // }
 
 
+        const build0 = () => {
+            radius = 500;
+            
 
-        const innerPositionFunction = (particle, i, s) => {
-            particle.position.x = (radius + 10 * y) * Math.cos(theta)  * 1.5;
-            particle.position.y = y * 30 ;
-            particle.position.z = (radius + 10 * y) * Math.sin(theta);
-            // particle.position.x = (radius + ( y % 2 ? 2 : 15) * y) * Math.cos(theta)  * 1.5;
-            // particle.position.y = y * 20 ;
-            // particle.position.z = (radius + ( y % 2 ? 2 : 15) * y) * Math.sin(theta);
-            particle.color = new BABYLON.Color4(.5, .5, .5, 1);
-        };
-        y = 18;
-        // for (y = 18; y >= -18; y--) {
-            for (theta = 0; theta < 2 * Math.PI * 18 ; theta+=Math.PI/16) {
-                this.SPS.addShape(sphere, 1, { positionFunction: innerPositionFunction });
-                y -= 1/32
+            const innerPositionFunction = (particle, i, s) => {
+                particle.position.x = (radius - 12 * z) * Math.cos(theta) * 1.5;
+                particle.position.z = (z - 9) * 80;
+                particle.position.y = (radius - 12 * z) * Math.sin(theta);
+                particle.color = new BABYLON.Color4(.5, .5, .5, 1);
+            };
+
+            z = 0;
+            for (theta = 0; theta < 2 * Math.PI * 18; theta += Math.PI / 16) {
+                this.SPS.addShape(sphere, 1, { positionFunction: innerPositionFunction});
+                z += 1 / 32;
             }
-        // }
+        };
+
+
+        const build1 = () => {
+
+
+            const innerPositionFunction = (particle, i, s) => {
+                particle.position.x = (radius + 12 * y) * Math.cos(theta) * 1.5;
+                particle.position.y = ((i % 16) - 8) * 35;
+                particle.position.z = (radius + 12 * y) * Math.sin(theta);
+                particle.color = new BABYLON.Color4(.5, .5, .5, 1);
+            };
+
+            y = 18;
+            for (theta = 0; theta < 2 * Math.PI * 18; theta += Math.PI / 16) {
+                this.SPS.addShape(sphere, 1, { positionFunction: innerPositionFunction});
+                y -= 1 / 32;
+            }
+        }
+
+
+        const build2 = () => {
+
+
+            const innerPositionFunction = (particle, i, s) => {
+                particle.position.x = (radius + 20 * y) * Math.cos(theta) * 1.5;
+                particle.position.y = ((i % 16) - 8) * 35;
+                particle.position.z = (radius + 20 * y) * Math.sin(theta);
+                particle.color = new BABYLON.Color4(.5, .5, .5, 1);
+            };
+
+            y = 18;
+            for (theta = 0; theta < 2 * Math.PI * 18; theta += Math.PI / 16) {
+                this.SPS.addShape(sphere, 1, { positionFunction: innerPositionFunction});
+                y -= 1 / 32;
+            }
+        }
+
+
+        const buildFunctions = [
+            build0,
+            build1,
+            build2
+        ];
+
+        const buildFunctionIndex = 2;
+
+        buildFunctions[buildFunctionIndex]();
+
 
 
         this.mesh1 = this.SPS.buildMesh();

@@ -1,5 +1,5 @@
 
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, ɵɵpipeBind1 } from '@angular/core';
 import { Subscription, Observable, fromEvent } from 'rxjs';
 
 import { MessageService } from '../message/message.service';
@@ -18,7 +18,7 @@ export class OptionsService {
   resizeObservable: Observable<Event>;
   resizeSubscription: Subscription;
 
-  visuals = [
+  public visuals = [
     'singleSPSCube',
     // 'singleSPSRibbon',
     'starManager',
@@ -27,7 +27,7 @@ export class OptionsService {
     'spherePlaneManager2SPS',
     'rings',
     'hex',
-    // 'waveRibbon',
+    'notes',
   ];
 
   CubeSPSs =
@@ -65,9 +65,2312 @@ export class OptionsService {
     'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'None'
   ];
 
+
+  ///////////////////////////////////////////////
+  // NEW BASE OPTIONS
+
+  /*
+
+      type: 'color',
+      label: 'Maximum Color',
+      value: '#ff0000'
+
+      type: 'checkbox',
+      label: 'Auto Camera Movement',
+      value: true,
+
+      type: 'radio',
+      label: 'Stars',
+      value: 1,
+      checked: false,
+
+      type: 'numeric',
+      label: 'C',
+      value: 33,
+      checked: false,
+
+      type: 'slider',
+      label: 'Visual Effect Strength',
+      value: 1,
+      min: 1,
+      max: 10,
+      step: 1,
+
+      type: 'colorslider',
+      label: 'Midpoint Value',
+      value: 128,
+      min: 20,
+      max: 235,
+      step: 5
+
+*/
+
+
+  // an array of objects to render using the array keyname as group dropdown name
+  newBaseOptions = {
+    version: 'b_1.0',
+
+    // an array of objects to render using the array keyname as group dropdown name
+    general: [
+      // general options
+      // showTitle:
+      {
+        type: 'checkbox',
+        label: 'Show Title',
+        value: true,
+      },
+      // showBars:
+      {
+        type: 'checkbox',
+        label: 'Show Freq Bars',
+        value: false,
+
+        currentNote: 'None',
+
+        // key highlight options
+        // an array of objects to render using the array keyname as group dropdown name
+        notes: [
+
+          // C:
+          {
+            type: 'numeric',
+            label: 'C',
+            value: 33,
+            checked: false,
+
+            hertz: 32.703,
+          },
+          // 'C#':
+          {
+            type: 'numeric',
+            label: 'C#',
+            value: 39,
+            checked: false,
+
+            hertz: 34.648,
+          },
+          // D:
+          {
+            type: 'numeric',
+            label: 'D',
+            value: 45,
+            checked: false,
+
+            hertz: 36.708,
+          },
+          // 'D#':
+          {
+            type: 'numeric',
+            label: 'D#',
+            value: 52,
+            checked: false,
+
+            hertz: 38.891,
+          },
+          // E:
+          {
+            type: 'numeric',
+            label: 'E',
+            value: 58,
+            checked: false,
+
+            hertz: 41.2035,
+          },
+          // F:
+          {
+            type: 'numeric',
+            label: 'F',
+            value: 65,
+            checked: false,
+
+            hertz: 43.654,
+          },
+          // 'F#':
+          {
+            type: 'numeric',
+            label: 'F#',
+            value: 69,
+            checked: false,
+
+            hertz: 46.249,
+          },
+          // G:
+          {
+            type: 'numeric',
+            label: 'G',
+            value: 73,
+            checked: false,
+
+            hertz: 48.999,
+          },
+          // 'G#':
+          {
+            type: 'numeric',
+            label: 'G#',
+            value: 77,
+            checked: false,
+
+            hertz: 51.913,
+          },
+          // A:
+          {
+            type: 'numeric',
+            label: 'A',
+            value: 82,
+            checked: false,
+
+            hertz: 55,
+          },
+          // 'A#':
+          {
+            type: 'numeric',
+            label: 'A#',
+            value: 87,
+            checked: false,
+
+            hertz: 58.270,
+          },
+          // B:
+          {
+            type: 'numeric',
+            label: 'B',
+            value: 92,
+            checked: false,
+
+            hertz: 61.735,
+          },
+          // None:
+          {
+            type: 'numeric',
+            label: 'None',
+            value: 0,
+            checked: true,
+
+            hertz: 0,
+          },
+        ],
+      },
+      // showWaveform:
+      {
+        type: 'checkbox',
+        label: 'Show Waveform',
+        value: false
+      },
+
+    ],
+
+    // an array of objects to render using the array keyname as group dropdown name
+    visual: [
+
+
+
+      // starManager:
+      {
+        type: 'radio',
+        label: 'Stars',
+        value: 1,
+        checked: false,
+
+        colorOptions: false,
+        cameraOptions: false,
+        calpha: 4.72,
+        cbeta: .01,
+        cradius: 1200,
+
+        audio: [
+          // sampleGain:
+          {
+            type: 'slider',
+            label: 'Visual Effect Strength',
+            value: 1,
+            min: 1,
+            max: 10,
+            step: 1,
+
+          },
+          // smoothingConstant:
+          {
+            type: 'slider',
+            label: 'Smoothing Constant',
+            value: 8,
+            min: 1,
+            max: 9.9,
+            step: .1
+          }
+        ],
+
+        autoRotate: {
+          type: 'checkbox',
+          label: 'Auto Camera Movement',
+          value: true,
+
+          cameraCustom: true
+        },
+
+        color: [
+
+          // customColors:
+          {
+            type: 'checkbox',
+            label: 'Custom Colors',
+            value: true
+          },
+          // maxColor:
+          {
+            type: 'color',
+            label: 'Maximum Color',
+            value: '#ff0000'
+          },
+          // midColor:
+          {
+            type: 'color',
+            label: 'Middle Color',
+            value: '#000000'
+          },
+          // minColor:
+          {
+            type: 'color',
+            label: 'Minimum Color',
+            value: '#0000ff'
+          },
+          // midLoc:
+          {
+            type: 'colorslider',
+            label: 'Midpoint Value',
+            value: 128,
+            min: 20,
+            max: 235,
+            step: 5
+          }
+        ],
+
+        lights: [  //  array of lights
+
+          // front light      options.lights[0].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Front Intensity',
+              value: 80,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Light 0 Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Light 0 Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Light 0 Back Color',
+              value: '#454545'
+            },
+          },
+
+          // rear light       options.lights[1].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Rear Intensity',
+              value: 30,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Rear Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Rear Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Rear Back Color',
+              value: '#454545'
+            },
+          },
+
+          // left light       options.lights[2].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Left Intensity',
+              value: 10,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Left Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Left Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Left Back Color',
+              value: '#454545'
+            },
+          },
+
+          // right light      options.lights[3].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Right Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Right Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Right Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Right Back Color',
+              value: '#454545'
+            },
+          },
+
+          // top light        options.lights[4].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Top Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Top Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Top Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Top Back Color',
+              value: '#454545'
+            },
+          },
+
+          // bottom light     options.lights[5].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Bottom Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Bottom Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Bottom Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Bottom Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera light     options.lights[6].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera rimlight  options.lights[7].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Rimlight Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Rimlight Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Rimlight Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Rimlight Back Color',
+              value: '#454545'
+            },
+          }
+
+        ],
+      },
+
+      // spectrograph:
+      {
+        type: 'radio',
+        label: 'Spectrograph',
+        value: 2,
+        checked: false,
+
+        colorOptions: false,
+        cameraOptions: false,
+        calpha: 4.72,
+        cbeta: .85,
+        cradius: 1200,
+
+        sampleGain: {
+          type: 'slider',
+          label: 'Visual Effect Strength',
+          value: 1,
+          min: 1,
+          max: 10,
+          step: 1
+        },
+        smoothingConstant: {
+          type: 'slider',
+          label: 'Smoothing Constant',
+          value: 8,
+          min: 1,
+          max: 9.9,
+          step: .1
+        },
+        autoRotate: {
+          type: 'checkbox',
+          label: 'Auto Camera Movement',
+          value: true,
+          cameraCustom: true
+        },
+        customColors: {
+          type: 'checkbox',
+          label: 'Custom Colors',
+          value: true
+        },
+        maxColor: {
+          type: 'color',
+          label: 'Maximum Color',
+          value: '#ff0000'
+        },
+        midColor: {
+          type: 'color',
+          label: 'Middle Color',
+          value: '#000000'
+        },
+        minColor: {
+          type: 'color',
+          label: 'Minimum Color',
+          value: '#0000ff'
+        },
+        midLoc: {
+          type: 'colorslider',
+          label: 'Midpoint Value',
+          value: 128,
+          min: 20,
+          max: 235,
+          step: 5
+        },
+
+        lights: [  //  array of lights
+
+          // front light      options.lights[0].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Front Intensity',
+              value: 80,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Light 0 Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Light 0 Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Light 0 Back Color',
+              value: '#454545'
+            },
+          },
+
+          // rear light       options.lights[1].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Rear Intensity',
+              value: 30,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Rear Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Rear Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Rear Back Color',
+              value: '#454545'
+            },
+          },
+
+          // left light       options.lights[2].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Left Intensity',
+              value: 10,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Left Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Left Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Left Back Color',
+              value: '#454545'
+            },
+          },
+
+          // right light      options.lights[3].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Right Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Right Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Right Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Right Back Color',
+              value: '#454545'
+            },
+          },
+
+          // top light        options.lights[4].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Top Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Top Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Top Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Top Back Color',
+              value: '#454545'
+            },
+          },
+
+          // bottom light     options.lights[5].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Bottom Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Bottom Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Bottom Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Bottom Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera light     options.lights[6].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera rimlight  options.lights[7].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Rimlight Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Rimlight Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Rimlight Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Rimlight Back Color',
+              value: '#454545'
+            },
+          }
+
+        ],
+      },
+
+      // spherePlaneManagerSPS:
+      {
+        type: 'radio',
+        label: 'Sphere Plane',
+        value: 3,
+        checked: false,
+
+        colorOptions: true,
+        cameraOptions: true,
+        calpha: 4.72,
+        cbeta: .81,
+        cradius: 1200,
+
+        sampleGain: {
+          type: 'slider',
+          label: 'Visual Effect Strength',
+          value: 1,
+          min: 1,
+          max: 10,
+          step: 1
+        },
+        smoothingConstant: {
+          type: 'slider',
+          label: 'Smoothing Constant',
+          value: 8,
+          min: 1,
+          max: 9.9,
+          step: .1
+        },
+        autoRotate: {
+          type: 'checkbox',
+          label: 'Auto Camera Movement',
+          value: true,
+          cameraCustom: true
+        },
+        customColors: {
+          type: 'checkbox',
+          label: 'Custom Colors',
+          value: true
+        },
+        maxColor: {
+          type: 'color',
+          label: 'Maximum Color',
+          value: '#ff0000'
+        },
+        midColor: {
+          type: 'color',
+          label: 'Middle Color',
+          value: '#000000'
+        },
+        minColor: {
+          type: 'color',
+          label: 'Minimum Color',
+          value: '#0000ff'
+        },
+        midLoc: {
+          type: 'colorslider',
+          label: 'Midpoint Value',
+          value: 128,
+          min: 20,
+          max: 235,
+          step: 5
+        },
+        lights: [  //  array of lights
+
+          // front light      options.lights[0].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Front Intensity',
+              value: 80,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Light 0 Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Light 0 Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Light 0 Back Color',
+              value: '#454545'
+            },
+          },
+
+          // rear light       options.lights[1].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Rear Intensity',
+              value: 30,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Rear Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Rear Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Rear Back Color',
+              value: '#454545'
+            },
+          },
+
+          // left light       options.lights[2].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Left Intensity',
+              value: 10,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Left Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Left Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Left Back Color',
+              value: '#454545'
+            },
+          },
+
+          // right light      options.lights[3].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Right Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Right Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Right Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Right Back Color',
+              value: '#454545'
+            },
+          },
+
+          // top light        options.lights[4].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Top Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Top Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Top Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Top Back Color',
+              value: '#454545'
+            },
+          },
+
+          // bottom light     options.lights[5].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Bottom Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Bottom Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Bottom Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Bottom Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera light     options.lights[6].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera rimlight  options.lights[7].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Rimlight Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Rimlight Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Rimlight Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Rimlight Back Color',
+              value: '#454545'
+            },
+          }
+
+        ],
+      },
+
+      // spherePlaneManager2SPS:
+      {
+        type: 'radio',
+        label: 'Sphere Plane 2',
+        value: 4,
+        checked: false,
+
+        colorOptions: true,
+        cameraOptions: true,
+        calpha: 4.72,
+        cbeta: .01,
+        cradius: 3200,
+
+        sampleGain: {
+          type: 'slider',
+          label: 'Visual Effect Strength',
+          value: 1,
+          min: 1,
+          max: 10,
+          step: 1
+        },
+        smoothingConstant: {
+          type: 'slider',
+          label: 'Smoothing Constant',
+          value: 8,
+          min: 1,
+          max: 9.9,
+          step: .1
+        },
+        autoRotate: {
+          type: 'checkbox',
+          label: 'Auto Camera Movement',
+          value: true,
+          cameraCustom: true
+        },
+        customColors: {
+          type: 'checkbox',
+          label: 'Custom Colors',
+          value: true
+        },
+        maxColor: {
+          type: 'color',
+          label: 'Maximum Color',
+          value: '#ff0000'
+        },
+        midColor: {
+          type: 'color',
+          label: 'Middle Color',
+          value: '#000000'
+        },
+        minColor: {
+          type: 'color',
+          label: 'Minimum Color',
+          value: '#0000ff'
+        },
+        midLoc: {
+          type: 'colorslider',
+          label: 'Midpoint Value',
+          value: 128,
+          min: 20,
+          max: 235,
+          step: 5
+        },
+        lights: [  //  array of lights
+
+          // front light      options.lights[0].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Front Intensity',
+              value: 80,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Light 0 Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Light 0 Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Light 0 Back Color',
+              value: '#454545'
+            },
+          },
+
+          // rear light       options.lights[1].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Rear Intensity',
+              value: 30,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Rear Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Rear Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Rear Back Color',
+              value: '#454545'
+            },
+          },
+
+          // left light       options.lights[2].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Left Intensity',
+              value: 10,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Left Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Left Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Left Back Color',
+              value: '#454545'
+            },
+          },
+
+          // right light      options.lights[3].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Right Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Right Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Right Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Right Back Color',
+              value: '#454545'
+            },
+          },
+
+          // top light        options.lights[4].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Top Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Top Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Top Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Top Back Color',
+              value: '#454545'
+            },
+          },
+
+          // bottom light     options.lights[5].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Bottom Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Bottom Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Bottom Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Bottom Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera light     options.lights[6].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera rimlight  options.lights[7].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Rimlight Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Rimlight Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Rimlight Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Rimlight Back Color',
+              value: '#454545'
+            },
+          }
+
+        ],
+      },
+
+      // rings:
+      {
+        type: 'radio',
+        label: 'Rings',
+        value: 5,
+        checked: false,
+
+        colorOptions: true,
+        cameraOptions: false,
+        calpha: 4.72,
+        cbeta: .81,
+        cradius: 1200,
+
+        sampleGain: {
+          type: 'slider',
+          label: 'Visual Effect Strength',
+          value: 1,
+          min: 1,
+          max: 10,
+          step: 1
+        },
+        smoothingConstant: {
+          type: 'slider',
+          label: 'Smoothing Constant',
+          value: 8,
+          min: 1,
+          max: 9.9,
+          step: .1
+        },
+        autoRotate: {
+          type: 'checkbox',
+          label: 'Auto Camera Movement',
+          value: true,
+          cameraCustom: true
+        },
+        customColors: {
+          type: 'checkbox',
+          label: 'Custom Colors',
+          value: true
+        },
+        maxColor: {
+          type: 'color',
+          label: 'Maximum Color',
+          value: '#ff0000'
+        },
+        midColor: {
+          type: 'color',
+          label: 'Middle Color',
+          value: '#000000'
+        },
+        minColor: {
+          type: 'color',
+          label: 'Minimum Color',
+          value: '#0000ff'
+        },
+        midLoc: {
+          type: 'colorslider',
+          label: 'Midpoint Value',
+          value: 128,
+          min: 20,
+          max: 235,
+          step: 5
+        },
+        lights: [  //  array of lights
+
+          // front light      options.lights[0].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Front Intensity',
+              value: 80,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Light 0 Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Light 0 Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Light 0 Back Color',
+              value: '#454545'
+            },
+          },
+
+          // rear light       options.lights[1].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Rear Intensity',
+              value: 30,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Rear Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Rear Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Rear Back Color',
+              value: '#454545'
+            },
+          },
+
+          // left light       options.lights[2].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Left Intensity',
+              value: 10,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Left Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Left Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Left Back Color',
+              value: '#454545'
+            },
+          },
+
+          // right light      options.lights[3].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Right Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Right Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Right Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Right Back Color',
+              value: '#454545'
+            },
+          },
+
+          // top light        options.lights[4].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Top Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Top Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Top Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Top Back Color',
+              value: '#454545'
+            },
+          },
+
+          // bottom light     options.lights[5].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Bottom Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Bottom Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Bottom Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Bottom Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera light     options.lights[6].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera rimlight  options.lights[7].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Rimlight Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Rimlight Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Rimlight Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Rimlight Back Color',
+              value: '#454545'
+            },
+          }
+
+        ],
+      },
+
+      // hex:
+      {
+        type: 'radio',
+        label: 'Hex',
+        value: 6,
+        checked: false,
+
+        colorOptions: true,
+        cameraOptions: true,
+        calpha: 4.72,
+        cbeta: .91,
+        cradius: 1200,
+
+        sampleGain: {
+          type: 'slider',
+          label: 'Visual Effect Strength',
+          value: 1,
+          min: 1,
+          max: 10,
+          step: 1
+        },
+        smoothingConstant: {
+          type: 'slider',
+          label: 'Smoothing Constant',
+          value: 8,
+          min: 1,
+          max: 9.9,
+          step: .1
+        },
+        autoRotate: {
+          type: 'checkbox',
+          label: 'Auto Camera Movement',
+          value: true,
+          cameraCustom: true
+        },
+        customColors: {
+          type: 'checkbox',
+          label: 'Custom Colors',
+          value: true
+        },
+        maxColor: {
+          type: 'color',
+          label: 'Maximum Color',
+          value: '#ff0000'
+        },
+        midColor: {
+          type: 'color',
+          label: 'Middle Color',
+          value: '#000000'
+        },
+        minColor: {
+          type: 'color',
+          label: 'Minimum Color',
+          value: '#0000ff'
+        },
+        midLoc: {
+          type: 'colorslider',
+          label: 'Midpoint Value',
+          value: 128,
+          min: 20,
+          max: 235,
+          step: 5
+        },
+        lights: [  //  array of lights
+
+          // front light      options.lights[0].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Front Intensity',
+              value: 80,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Light 0 Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Light 0 Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Light 0 Back Color',
+              value: '#454545'
+            },
+          },
+
+          // rear light       options.lights[1].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Rear Intensity',
+              value: 30,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Rear Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Rear Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Rear Back Color',
+              value: '#454545'
+            },
+          },
+
+          // left light       options.lights[2].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Left Intensity',
+              value: 10,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Left Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Left Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Left Back Color',
+              value: '#454545'
+            },
+          },
+
+          // right light      options.lights[3].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Right Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Right Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Right Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Right Back Color',
+              value: '#454545'
+            },
+          },
+
+          // top light        options.lights[4].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Top Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Top Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Top Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Top Back Color',
+              value: '#454545'
+            },
+          },
+
+          // bottom light     options.lights[5].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Bottom Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Bottom Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Bottom Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Bottom Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera light     options.lights[6].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera rimlight  options.lights[7].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Rimlight Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Rimlight Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Rimlight Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Rimlight Back Color',
+              value: '#454545'
+            },
+          }
+
+        ],
+      },
+
+      // singleSPSCube:
+      {
+        type: 'radio',
+        label: 'Exploding Cube SPS',
+        value: 0,
+        checked: true,
+
+        colorOptions: true,
+        cameraOptions: true,
+        calpha: 0.72,
+        cbeta: 1.57,
+        cradius: 1000,
+
+        sampleGain: {
+          type: 'slider',
+          label: 'Visual Effect Strength',
+          value: 1,
+          min: 1,
+          max: 10,
+          step: 1
+        },
+        smoothingConstant: {
+          type: 'slider',
+          label: 'Smoothing Constant',
+          value: 8,
+          min: 1,
+          max: 9.9,
+          step: .1
+        },
+        autoRotate: {
+          type: 'checkbox',
+          label: 'Auto Camera Movement',
+          value: true,
+          cameraCustom: true
+        },
+        customColors: {
+          type: 'checkbox',
+          label: 'Custom Colors',
+          value: true
+        },
+        maxColor: {
+          type: 'color',
+          label: 'Maximum Color',
+          value: '#ff0000'
+        },
+        midColor: {
+          type: 'color',
+          label: 'Middle Color',
+          value: '#000000'
+        },
+        minColor: {
+          type: 'color',
+          label: 'Minimum Color',
+          value: '#0000ff'
+        },
+        midLoc: {
+          type: 'colorslider',
+          label: 'Midpoint Value',
+          value: 128,
+          min: 20,
+          max: 235,
+          step: 5
+        },
+        lights: [  //  array of lights
+
+          // front light      options.lights[0].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Front Intensity',
+              value: 80,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Light 0 Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Light 0 Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Light 0 Back Color',
+              value: '#454545'
+            },
+          },
+
+          // rear light       options.lights[1].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Rear Intensity',
+              value: 30,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Rear Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Rear Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Rear Back Color',
+              value: '#454545'
+            },
+          },
+
+          // left light       options.lights[2].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Left Intensity',
+              value: 10,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Left Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Left Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Left Back Color',
+              value: '#454545'
+            },
+          },
+
+          // right light      options.lights[3].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Right Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Right Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Right Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Right Back Color',
+              value: '#454545'
+            },
+          },
+
+          // top light        options.lights[4].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Top Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Top Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Top Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Top Back Color',
+              value: '#454545'
+            },
+          },
+
+          // bottom light     options.lights[5].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Bottom Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Bottom Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Bottom Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Bottom Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera light     options.lights[6].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera rimlight  options.lights[7].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Rimlight Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Rimlight Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Rimlight Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Rimlight Back Color',
+              value: '#454545'
+            },
+          }
+
+        ],
+
+
+        singleSPSDelay: {
+          type: 'slider',
+          label: 'Change Delay (sec)',
+          value: 10,
+          min: 5,
+          max: 60,
+          step: 5,
+        },
+        singleSPSExplosionSize: {
+          type: 'slider',
+          label: 'Explosion Size',
+          value: 0,
+          min: 0,
+          max: 150,
+          step: 10,
+        },
+
+        types: [
+
+          // blockPlane:
+          {
+            type: 'checkbox',
+            label: 'Cube Block Plane',
+            value: true,
+          },
+          // thing1:
+          {
+            type: 'checkbox',
+            label: 'Cube Thing 1',
+            value: true,
+          },
+          // blockSpiral:
+          {
+            type: 'checkbox',
+            label: 'Cube Block Spiral',
+            value: true,
+          },
+          // thing2:
+          {
+            type: 'checkbox',
+            label: 'Cube Thing 2',
+            value: true,
+          },
+          // equation:
+          {
+            type: 'checkbox',
+            label: 'Cube Equation',
+            value: true,
+          },
+          // thing3:
+          {
+            type: 'checkbox',
+            label: 'Cube Thing 3',
+            value: true,
+          },
+          // cube:
+          {
+            type: 'checkbox',
+            label: 'Cube Cube',
+            value: true,
+          },
+          // sphere:
+          {
+            type: 'checkbox',
+            label: 'Cube Sphere',
+            value: true,
+          },
+          // pole:
+          {
+            type: 'checkbox',
+            label: 'Cube Pole',
+            value: true,
+          },
+          // heart:
+          {
+            type: 'checkbox',
+            label: 'Cube Heart',
+            value: true,
+          },
+          // sineLoop2:
+          {
+            type: 'checkbox',
+            label: 'Cube Sine Loop',
+            value: true,
+          }
+
+        ]
+      }
+    ],
+
+  };
+
+
+  public favorites = [];
+
+
+  ///////////////////////////////////////////////
+  // ORIGINAL BASE OPTIONS
   baseOptions = {
 
-    version: 3.78,
+    version: 3.88,
 
     // general options
     showTitle: {
@@ -100,7 +2403,7 @@ export class OptionsService {
 
 
 
-
+    // front light
     light0Intensity: {
       group: 'Scene',
       type: 'slider',
@@ -114,30 +2417,30 @@ export class OptionsService {
     light0Color: {
       group: 'Scene',
       type: 'color',
-      label: 'Light 0 Color',
+      label: 'Color',
       value: '#ffffff',
       visualCustom: true
     },
     light0Specular: {
       group: 'Scene',
       type: 'color',
-      label: 'Light 0 Specular',
+      label: 'Specular',
       value: '#454545',
       visualCustom: true
     },
     light0GroundColor: {
       group: 'Scene',
       type: 'color',
-      label: 'Light 0 Back Color',
+      label: 'Back Color',
       value: '#454545',
       visualCustom: true
     },
 
-
+    // rear light
     light1Intensity: {
       group: 'Scene',
       type: 'slider',
-      label: 'Back Intensity',
+      label: 'Rear Intensity',
       value: 30,
       min: -200,
       max: 200,
@@ -147,25 +2450,26 @@ export class OptionsService {
     light1Color: {
       group: 'Scene',
       type: 'color',
-      label: 'Light 1 Color',
+      label: 'Color',
       value: '#ffffff',
       visualCustom: true
     },
     light1Specular: {
       group: 'Scene',
       type: 'color',
-      label: 'Light 1 Specular',
+      label: 'Specular',
       value: '#454545',
       visualCustom: true
     },
     light1GroundColor: {
       group: 'Scene',
       type: 'color',
-      label: 'Light 1 Back Color',
+      label: 'Back Color',
       value: '#454545',
       visualCustom: true
     },
 
+    // left light
     light2Intensity: {
       group: 'Scene',
       type: 'slider',
@@ -179,28 +2483,28 @@ export class OptionsService {
     light2Color: {
       group: 'Scene',
       type: 'color',
-      label: 'Light 2 Color',
+      label: 'Color',
       value: '#ffffff',
       visualCustom: true
     },
     light2Specular: {
       group: 'Scene',
       type: 'color',
-      label: 'Light 2 Specular',
+      label: 'Specular',
       value: '#454545',
       visualCustom: true
     },
-
 
     light2GroundColor: {
       group: 'Scene',
       type: 'color',
-      label: 'Light 2 Back Color',
+      label: 'Back Color',
       value: '#454545',
       visualCustom: true
     },
 
-    groundLightIntensity: {
+    // right light
+    light3Intensity: {
       group: 'Scene',
       type: 'slider',
       label: 'Right Intensity',
@@ -210,27 +2514,171 @@ export class OptionsService {
       step: 5,
       visualCustom: true
     },
-    groundLightColor: {
+    light3Color: {
       group: 'Scene',
       type: 'color',
-      label: 'Light 3 Color',
+      label: 'Color',
       value: '#ffffff',
       visualCustom: true
     },
-    groundLightSpecular: {
+    light3Specular: {
       group: 'Scene',
       type: 'color',
-      label: 'Light 3 Specular',
+      label: 'Specular',
       value: '#454545',
       visualCustom: true
     },
-    groundLightGroundColor: {
+    light3GroundColor: {
       group: 'Scene',
       type: 'color',
-      label: 'Light 3 Back Color',
+      label: 'Back Color',
       value: '#454545',
       visualCustom: true
     },
+
+    // top light
+    light4Intensity: {
+      group: 'Scene',
+      type: 'slider',
+      label: 'Top Intensity',
+      value: 5,
+      min: -200,
+      max: 200,
+      step: 5,
+      visualCustom: true
+    },
+    light4Color: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Color',
+      value: '#ffffff',
+      visualCustom: true
+    },
+    light4Specular: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Specular',
+      value: '#454545',
+      visualCustom: true
+    },
+    light4GroundColor: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Back Color',
+      value: '#454545',
+      visualCustom: true
+    },
+
+
+
+    // bottom light
+    light5Intensity: {
+      group: 'Scene',
+      type: 'slider',
+      label: 'Bottom Intensity',
+      value: 5,
+      min: -200,
+      max: 200,
+      step: 5,
+      visualCustom: true
+    },
+    light5Color: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Color',
+      value: '#ffffff',
+      visualCustom: true
+    },
+    light5Specular: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Specular',
+      value: '#454545',
+      visualCustom: true
+    },
+    light5GroundColor: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Back Color',
+      value: '#454545',
+      visualCustom: true
+    },
+
+
+    // camera light
+    light6Intensity: {
+      group: 'Scene',
+      type: 'slider',
+      label: 'Camera Intensity',
+      value: 5,
+      min: -200,
+      max: 200,
+      step: 5,
+      visualCustom: true
+    },
+    light6Color: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Color',
+      value: '#ffffff',
+      visualCustom: true
+    },
+    light6Specular: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Specular',
+      value: '#454545',
+      visualCustom: true
+    },
+    light6GroundColor: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Back Color',
+      value: '#454545',
+      visualCustom: true
+    },
+
+
+
+    // camera rimlight
+    light7Intensity: {
+      group: 'Scene',
+      type: 'slider',
+      label: 'Camera Rimlight Intensity',
+      value: 5,
+      min: -200,
+      max: 200,
+      step: 5,
+      visualCustom: true
+    },
+    light7Color: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Color',
+      value: '#ffffff',
+      visualCustom: true
+    },
+    light7Specular: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Specular',
+      value: '#454545',
+      visualCustom: true
+    },
+    light7GroundColor: {
+      group: 'Scene',
+      type: 'color',
+      label: 'Back Color',
+      value: '#454545',
+      visualCustom: true
+    },
+
+
+
+
+
+
+
 
 
 
@@ -265,11 +2713,26 @@ export class OptionsService {
       light2Color: '#ffffff',
       light2Specular: '#454545',
       light2GroundColor: '#454545',
-      groundLightIntensity: 5,
-      groundLightColor: '#ffffff',
-      groundLightSpecular: '#454545',
-      groundLightGroundColor: '#454545',
-
+      light3Intensity: 5,
+      light3Color: '#ffffff',
+      light3Specular: '#454545',
+      light3GroundColor: '#454545',
+      light4Intensity: 5,
+      light4Color: '#ffffff',
+      light4Specular: '#454545',
+      light4GroundColor: '#454545',
+      light5Intensity: 5,
+      light5Color: '#ffffff',
+      light5Specular: '#454545',
+      light5GroundColor: '#454545',
+      light6Intensity: 5,
+      light6Color: '#ffffff',
+      light6Specular: '#454545',
+      light6GroundColor: '#454545',
+      light7Intensity: 5,
+      light7Color: '#ffffff',
+      light7Specular: '#454545',
+      light7GroundColor: '#454545',
     },
     spectrograph: {
       group: '3DVisual',
@@ -302,10 +2765,26 @@ export class OptionsService {
       light2Color: '#ffffff',
       light2Specular: '#454545',
       light2GroundColor: '#454545',
-      groundLightIntensity: 5,
-      groundLightColor: '#ffffff',
-      groundLightSpecular: '#454545',
-      groundLightGroundColor: '#454545',
+      light3Intensity: 5,
+      light3Color: '#ffffff',
+      light3Specular: '#454545',
+      light3GroundColor: '#454545',
+      light4Intensity: 5,
+      light4Color: '#ffffff',
+      light4Specular: '#454545',
+      light4GroundColor: '#454545',
+      light5Intensity: 5,
+      light5Color: '#ffffff',
+      light5Specular: '#454545',
+      light5GroundColor: '#454545',
+      light6Intensity: 5,
+      light6Color: '#ffffff',
+      light6Specular: '#454545',
+      light6GroundColor: '#454545',
+      light7Intensity: 5,
+      light7Color: '#ffffff',
+      light7Specular: '#454545',
+      light7GroundColor: '#454545',
     },
 
     spherePlaneManagerSPS: {
@@ -339,10 +2818,26 @@ export class OptionsService {
       light2Color: '#ffffff',
       light2Specular: '#454545',
       light2GroundColor: '#454545',
-      groundLightIntensity: 5,
-      groundLightColor: '#ffffff',
-      groundLightSpecular: '#454545',
-      groundLightGroundColor: '#454545',
+      light3Intensity: 5,
+      light3Color: '#ffffff',
+      light3Specular: '#454545',
+      light3GroundColor: '#454545',
+      light4Intensity: 5,
+      light4Color: '#ffffff',
+      light4Specular: '#454545',
+      light4GroundColor: '#454545',
+      light5Intensity: 5,
+      light5Color: '#ffffff',
+      light5Specular: '#454545',
+      light5GroundColor: '#454545',
+      light6Intensity: 5,
+      light6Color: '#ffffff',
+      light6Specular: '#454545',
+      light6GroundColor: '#454545',
+      light7Intensity: 5,
+      light7Color: '#ffffff',
+      light7Specular: '#454545',
+      light7GroundColor: '#454545',
     },
 
     spherePlaneManager2SPS: {
@@ -376,10 +2871,26 @@ export class OptionsService {
       light2Color: '#ffffff',
       light2Specular: '#454545',
       light2GroundColor: '#454545',
-      groundLightIntensity: 5,
-      groundLightColor: '#ffffff',
-      groundLightSpecular: '#454545',
-      groundLightGroundColor: '#454545',
+      light3Intensity: 5,
+      light3Color: '#ffffff',
+      light3Specular: '#454545',
+      light3GroundColor: '#454545',
+      light4Intensity: 5,
+      light4Color: '#ffffff',
+      light4Specular: '#454545',
+      light4GroundColor: '#454545',
+      light5Intensity: 5,
+      light5Color: '#ffffff',
+      light5Specular: '#454545',
+      light5GroundColor: '#454545',
+      light6Intensity: 5,
+      light6Color: '#ffffff',
+      light6Specular: '#454545',
+      light6GroundColor: '#454545',
+      light7Intensity: 5,
+      light7Color: '#ffffff',
+      light7Specular: '#454545',
+      light7GroundColor: '#454545',
     },
 
 
@@ -415,10 +2926,26 @@ export class OptionsService {
       light2Color: '#ffffff',
       light2Specular: '#454545',
       light2GroundColor: '#454545',
-      groundLightIntensity: 5,
-      groundLightColor: '#ffffff',
-      groundLightSpecular: '#454545',
-      groundLightGroundColor: '#454545',
+      light3Intensity: 5,
+      light3Color: '#ffffff',
+      light3Specular: '#454545',
+      light3GroundColor: '#454545',
+      light4Intensity: 5,
+      light4Color: '#ffffff',
+      light4Specular: '#454545',
+      light4GroundColor: '#454545',
+      light5Intensity: 5,
+      light5Color: '#ffffff',
+      light5Specular: '#454545',
+      light5GroundColor: '#454545',
+      light6Intensity: 5,
+      light6Color: '#ffffff',
+      light6Specular: '#454545',
+      light6GroundColor: '#454545',
+      light7Intensity: 5,
+      light7Color: '#ffffff',
+      light7Specular: '#454545',
+      light7GroundColor: '#454545',
     },
     hex: {
       group: '3DVisual',
@@ -451,43 +2978,79 @@ export class OptionsService {
       light2Color: '#ffffff',
       light2Specular: '#454545',
       light2GroundColor: '#454545',
-      groundLightIntensity: 5,
-      groundLightColor: '#ffffff',
-      groundLightSpecular: '#454545',
-      groundLightGroundColor: '#454545',
+      light3Intensity: 5,
+      light3Color: '#ffffff',
+      light3Specular: '#454545',
+      light3GroundColor: '#454545',
+      light4Intensity: 5,
+      light4Color: '#ffffff',
+      light4Specular: '#454545',
+      light4GroundColor: '#454545',
+      light5Intensity: 5,
+      light5Color: '#ffffff',
+      light5Specular: '#454545',
+      light5GroundColor: '#454545',
+      light6Intensity: 5,
+      light6Color: '#ffffff',
+      light6Specular: '#454545',
+      light6GroundColor: '#454545',
+      light7Intensity: 5,
+      light7Color: '#ffffff',
+      light7Specular: '#454545',
+      light7GroundColor: '#454545',
     },
-    // waveRibbon: {
-    //   group: '3DVisual',
-    //   type: 'radio',
-    //   label: 'WaveRibbon',
-    //   value: 7,
-    //   checked: false,
-    //   colorOptions: false,
-    //   cameraOptions: false,
-    //   sampleGain: 1,
-    //   smoothingConstant: 8,
-    //   autoRotate: false,
-    //   customColors: false,
-    //   minColor: '#0000ff',
-    //   midColor: '#00ff00',
-    //   maxColor: '#ff0000',
-    //   midLoc: 128,
-    //   calpha: 4.72,
-    //   cbeta: .85,
-    //   cradius: 1200,
-    //   light0Intensity: 80,
-    //   light0Color: '#ffffff',
-    //   light0Specular: '#454545',
-    //   light1Intensity: 30,
-    //   light1Color: '#ffffff',
-    //   light1Specular: '#454545',
-    //   light2Intensity: 10,
-    //   light2Color: '#ffffff',
-    //   light2Specular: '#454545',
-    //   groundLightIntensity: 5,
-    //   groundLightColor: '#ffffff',
-    //   groundLightSpecular: '#454545',
-    // },
+    notes: {
+      group: '3DVisual',
+      type: 'radio',
+      label: 'Notes',
+      value: 7,
+      checked: false,
+      colorOptions: true,
+      cameraOptions: false,
+      sampleGain: 1,
+      smoothingConstant: 8,
+      autoRotate: false,
+      customColors: true,
+      minColor: '#0000ff',
+      midColor: '#00ff00',
+      maxColor: '#ff0000',
+      midLoc: 128,
+      calpha: 4.72,
+      cbeta: .85,
+      cradius: 1200,
+      light0Intensity: 80,
+      light0Color: '#ffffff',
+      light0Specular: '#454545',
+      light0GroundColor: '#454545',
+      light1Intensity: 30,
+      light1Color: '#ffffff',
+      light1Specular: '#454545',
+      light1GroundColor: '#454545',
+      light2Intensity: 10,
+      light2Color: '#ffffff',
+      light2Specular: '#454545',
+      light2GroundColor: '#454545',
+      light3Intensity: 5,
+      light3Color: '#ffffff',
+      light3Specular: '#454545',
+      light3GroundColor: '#454545',
+      light4Intensity: 5,
+      light4Color: '#ffffff',
+      light4Specular: '#454545',
+      light4GroundColor: '#454545',
+      light5Intensity: 5,
+      light5Color: '#ffffff',
+      light5Specular: '#454545',
+      light5GroundColor: '#454545',
+      light6Intensity: 5,
+      light6Color: '#ffffff',
+      light6Specular: '#454545',
+      light6GroundColor: '#454545',
+      light7Intensity: 5,
+      light7Color: '#ffffff',
+      light7Specular: '#454545',
+      light7GroundColor: '#454545',
+    },
 
     singleSPSCube: {
       group: '3DVisual',
@@ -520,10 +3083,26 @@ export class OptionsService {
       light2Color: '#ffffff',
       light2Specular: '#454545',
       light2GroundColor: '#454545',
-      groundLightIntensity: 5,
-      groundLightColor: '#ffffff',
-      groundLightSpecular: '#454545',
-      groundLightGroundColor: '#454545',
+      light3Intensity: 5,
+      light3Color: '#ffffff',
+      light3Specular: '#454545',
+      light3GroundColor: '#454545',
+      light4Intensity: 5,
+      light4Color: '#ffffff',
+      light4Specular: '#454545',
+      light4GroundColor: '#454545',
+      light5Intensity: 5,
+      light5Color: '#ffffff',
+      light5Specular: '#454545',
+      light5GroundColor: '#454545',
+      light6Intensity: 5,
+      light6Color: '#ffffff',
+      light6Specular: '#454545',
+      light6GroundColor: '#454545',
+      light7Intensity: 5,
+      light7Color: '#ffffff',
+      light7Specular: '#454545',
+      light7GroundColor: '#454545',
     },
 
     singleSPSDelay: {
@@ -628,7 +3207,7 @@ export class OptionsService {
 
 
     sampleGain: {
-      group: '3DVisual',
+      group: 'VisualEffect',
       type: 'slider',
       label: 'Visual Effect Strength',
       value: 1,
@@ -638,7 +3217,7 @@ export class OptionsService {
       visualCustom: true
     },
     smoothingConstant: {
-      group: '3DVisual',
+      group: 'VisualEffect',
       type: 'slider',
       label: 'Smoothing Constant',
       value: 8,
@@ -648,7 +3227,7 @@ export class OptionsService {
       visualCustom: true
     },
     autoRotate: {
-      group: '3DVisual',
+      group: 'VisualEffect',
       type: 'checkbox',
       label: 'Auto Rotate',
       value: true,
@@ -656,35 +3235,35 @@ export class OptionsService {
     },
 
     customColors: {
-      group: '3DVisual',
+      group: 'VisualEffect',
       type: 'checkbox',
       label: 'Custom Colors',
       value: true,
       visualCustom: true
     },
     maxColor: {
-      group: '3DVisual',
+      group: 'VisualEffect',
       type: 'color',
       label: 'Maximum Color',
       value: '#ff0000',
       visualCustom: true
     },
     midColor: {
-      group: '3DVisual',
+      group: 'VisualEffect',
       type: 'color',
       label: 'Middle Color',
       value: '#000000',
       visualCustom: true
     },
     minColor: {
-      group: '3DVisual',
+      group: 'VisualEffect',
       type: 'color',
       label: 'Minimum Color',
       value: '#0000ff',
       visualCustom: true
     },
     midLoc: {
-      group: '3DVisual',
+      group: 'VisualEffect',
       type: 'colorslider',
       label: 'Midpoint Value',
       value: 128,
@@ -724,9 +3303,9 @@ export class OptionsService {
     //   light2Intensity: 10,
     //   light2Color: '#ffffff',
     //   light2Specular: '#454545',
-    //   groundLightIntensity: 5,
-    //   groundLightColor: '#ffffff',
-    //   groundLightSpecular: '#454545',
+    //   light3Intensity: 5,
+    //   light3Color: '#ffffff',
+    //   light3Specular: '#454545',
     // },
 
     // blockPlaneRibbon: {
@@ -921,10 +3500,20 @@ export class OptionsService {
 
   };
 
+
+  ///////////////////////////////////////////////
+
+
+
+
+
+
+
   options = JSON.parse(JSON.stringify(this.baseOptions));
 
-  state = {
+  public state = {
     showPanel: { value: false },
+    showFavorites: { value: false },
     showPlayer: { value: false },
     showSplash: { value: true },
     currentVisual: { value: 0 },
@@ -1011,7 +3600,7 @@ export class OptionsService {
     this.state[itemName].value = !this.state[itemName].value;
     this.windowResize();
     this.announceChange('Item was changed: ' + itemName + ' to ' + this.state[itemName].value);
-    this.storageService.saveOptions(this.options);
+    // this.storageService.saveOptions(this.options);
   }
 
   toggleVisualRadio(itemName: string, index: number) {
@@ -1022,43 +3611,61 @@ export class OptionsService {
 
     this.updateCustomOptions(index);
 
-
-
     this.storageService.saveOptions(this.options);
   }
 
   updateCustomOptions(visualIndex) {
 
     this.options.smoothingConstant.value = this.options[this.visuals[visualIndex]].smoothingConstant;
-    this.options.sampleGain.value        = this.options[this.visuals[visualIndex]].sampleGain;
-    this.options.autoRotate.value        = this.options[this.visuals[visualIndex]].autoRotate;
-    this.options.customColors.value      = this.options[this.visuals[visualIndex]].customColors;
-    this.options.minColor.value          = this.options[this.visuals[visualIndex]].minColor;
-    this.options.midColor.value          = this.options[this.visuals[visualIndex]].midColor;
-    this.options.maxColor.value          = this.options[this.visuals[visualIndex]].maxColor;
-    this.options.midLoc.value            = this.options[this.visuals[visualIndex]].midLoc;
+    this.options.sampleGain.value = this.options[this.visuals[visualIndex]].sampleGain;
+    this.options.autoRotate.value = this.options[this.visuals[visualIndex]].autoRotate;
+    this.options.customColors.value = this.options[this.visuals[visualIndex]].customColors;
+    this.options.minColor.value = this.options[this.visuals[visualIndex]].minColor;
+    this.options.midColor.value = this.options[this.visuals[visualIndex]].midColor;
+    this.options.maxColor.value = this.options[this.visuals[visualIndex]].maxColor;
+    this.options.midLoc.value = this.options[this.visuals[visualIndex]].midLoc;
 
-    this.options.light0Intensity.value      = this.options[this.visuals[visualIndex]].light0Intensity;
-    this.options.light0Color.value          = this.options[this.visuals[visualIndex]].light0Color;
-    this.options.light0Specular.value       = this.options[this.visuals[visualIndex]].light0Specular;
-    this.options.light0GroundColor.value    = this.options[this.visuals[visualIndex]].light0GroundColor;
-    this.options.light1Intensity.value      = this.options[this.visuals[visualIndex]].light1Intensity;
-    this.options.light1Color.value          = this.options[this.visuals[visualIndex]].light1Color;
-    this.options.light1Specular.value       = this.options[this.visuals[visualIndex]].light1Specular;
-    this.options.light1GroundColor.value    = this.options[this.visuals[visualIndex]].light1GroundColor;
-    this.options.light2Intensity.value      = this.options[this.visuals[visualIndex]].light2Intensity;
-    this.options.light2Color.value          = this.options[this.visuals[visualIndex]].light2Color;
-    this.options.light2Specular.value       = this.options[this.visuals[visualIndex]].light2Specular;
-    this.options.light2GroundColor.value    = this.options[this.visuals[visualIndex]].light2GroundColor;
-    this.options.groundLightIntensity.value = this.options[this.visuals[visualIndex]].groundLightIntensity;
-    this.options.groundLightColor.value     = this.options[this.visuals[visualIndex]].groundLightColor;
-    this.options.groundLightSpecular.value  = this.options[this.visuals[visualIndex]].groundLightSpecular;
-    this.options.groundLightGroundColor.value   = this.options[this.visuals[visualIndex]].groundLightGroundColor;
+    this.options.light0Intensity.value = this.options[this.visuals[visualIndex]].light0Intensity;
+    this.options.light0Color.value = this.options[this.visuals[visualIndex]].light0Color;
+    this.options.light0Specular.value = this.options[this.visuals[visualIndex]].light0Specular;
+    this.options.light0GroundColor.value = this.options[this.visuals[visualIndex]].light0GroundColor;
+    this.options.light1Intensity.value = this.options[this.visuals[visualIndex]].light1Intensity;
+    this.options.light1Color.value = this.options[this.visuals[visualIndex]].light1Color;
+    this.options.light1Specular.value = this.options[this.visuals[visualIndex]].light1Specular;
+    this.options.light1GroundColor.value = this.options[this.visuals[visualIndex]].light1GroundColor;
+    this.options.light2Intensity.value = this.options[this.visuals[visualIndex]].light2Intensity;
+    this.options.light2Color.value = this.options[this.visuals[visualIndex]].light2Color;
+    this.options.light2Specular.value = this.options[this.visuals[visualIndex]].light2Specular;
+    this.options.light2GroundColor.value = this.options[this.visuals[visualIndex]].light2GroundColor;
+    this.options.light3Intensity.value = this.options[this.visuals[visualIndex]].light3Intensity;
+    this.options.light3Color.value = this.options[this.visuals[visualIndex]].light3Color;
+    this.options.light3Specular.value = this.options[this.visuals[visualIndex]].light3Specular;
+    this.options.light3GroundColor.value = this.options[this.visuals[visualIndex]].light3GroundColor;
+
+    this.options.light4Intensity.value = this.options[this.visuals[visualIndex]].light4Intensity;
+    this.options.light4Color.value = this.options[this.visuals[visualIndex]].light4Color;
+    this.options.light4Specular.value = this.options[this.visuals[visualIndex]].light4Specular;
+    this.options.light4GroundColor.value = this.options[this.visuals[visualIndex]].light4GroundColor;
+    this.options.light5Intensity.value = this.options[this.visuals[visualIndex]].light5Intensity;
+    this.options.light5Color.value = this.options[this.visuals[visualIndex]].light5Color;
+    this.options.light5Specular.value = this.options[this.visuals[visualIndex]].light5Specular;
+    this.options.light5GroundColor.value = this.options[this.visuals[visualIndex]].light5GroundColor;
+    this.options.light6Intensity.value = this.options[this.visuals[visualIndex]].light6Intensity;
+    this.options.light6Color.value = this.options[this.visuals[visualIndex]].light6Color;
+    this.options.light6Specular.value = this.options[this.visuals[visualIndex]].light6Specular;
+    this.options.light6GroundColor.value = this.options[this.visuals[visualIndex]].light6GroundColor;
+    this.options.light7Intensity.value = this.options[this.visuals[visualIndex]].light7Intensity;
+    this.options.light7Color.value = this.options[this.visuals[visualIndex]].light7Color;
+    this.options.light7Specular.value = this.options[this.visuals[visualIndex]].light7Specular;
+    this.options.light7GroundColor.value = this.options[this.visuals[visualIndex]].light7GroundColor;
+
 
     this.messageService.announceMessage('set lights');
 
     this.announceChange('smoothingConstant');
     this.announceChange('sampleGain');
+
+    console.log(this.options);
 
   }
 
@@ -1091,9 +3698,9 @@ export class OptionsService {
       light2Intensity: 1,
       light2Color: '#ffffff',
       light2Specular: '#ffffff',
-      groundLightIntensity: 1,
-      groundLightColor: '#ffffff',
-      groundLightSpecular: '#ffffff',
+      light3Intensity: 1,
+      light3Color: '#ffffff',
+      light3Specular: '#ffffff',
 
   */
 
@@ -1182,11 +3789,11 @@ export class OptionsService {
 
 
 
-  get light0Intensity(): string {
+  get light0Intensity(): number{
     return this.options.light0Intensity.value;
   }
 
-  set light0Intensity(value: string) {
+  set light0Intensity(value: number) {
     this.options.light0Intensity.value = value;
     this.options[this.visuals[this.state.currentVisual.value]].light0Intensity = value;
 
@@ -1208,7 +3815,7 @@ export class OptionsService {
 
   }
 
-  get light0Specular(): string {
+  get light0Specular() {
     return this.options.light0Specular.value;
   }
 
@@ -1222,7 +3829,7 @@ export class OptionsService {
   }
 
 
-  get light0GroundColor(): string {
+  get light0GroundColor() {
     return this.options.light0GroundColor.value;
   }
 
@@ -1237,11 +3844,11 @@ export class OptionsService {
 
 
 
-  get light1Intensity(): string {
+  get light1Intensity(): number {
     return this.options.light1Intensity.value;
   }
 
-  set light1Intensity(value: string) {
+  set light1Intensity(value: number) {
     this.options.light1Intensity.value = value;
     this.options[this.visuals[this.state.currentVisual.value]].light1Intensity = value;
 
@@ -1250,7 +3857,7 @@ export class OptionsService {
 
   }
 
-  get light1Color(): string {
+  get light1Color() {
     return this.options.light1Color.value;
   }
 
@@ -1263,7 +3870,7 @@ export class OptionsService {
 
   }
 
-  get light1Specular(): string {
+  get light1Specular() {
     return this.options.light1Specular.value;
   }
 
@@ -1276,7 +3883,7 @@ export class OptionsService {
 
   }
 
-  get light1GroundColor(): string {
+  get light1GroundColor() {
     return this.options.light1GroundColor.value;
   }
 
@@ -1290,11 +3897,11 @@ export class OptionsService {
   }
 
 
-  get light2Intensity(): string {
+  get light2Intensity(): number {
     return this.options.light2Intensity.value;
   }
 
-  set light2Intensity(value: string) {
+  set light2Intensity(value: number) {
     this.options.light2Intensity.value = value;
     this.options[this.visuals[this.state.currentVisual.value]].light2Intensity = value;
 
@@ -1304,7 +3911,7 @@ export class OptionsService {
   }
 
 
-  get light2Color(): string {
+  get light2Color() {
     return this.options.light2Color.value;
   }
 
@@ -1317,7 +3924,7 @@ export class OptionsService {
 
   }
 
-  get light2Specular(): string {
+  get light2Specular() {
     return this.options.light2Specular.value;
   }
 
@@ -1330,7 +3937,7 @@ export class OptionsService {
 
   }
 
-  get light2GroundColor(): string {
+  get light2GroundColor() {
     return this.options.light2GroundColor.value;
   }
 
@@ -1345,57 +3952,220 @@ export class OptionsService {
 
 
 
-  get groundLightIntensity(): string {
-    return this.options.groundLightIntensity.value;
+  get light3Intensity(): number {
+    return this.options.light3Intensity.value;
   }
 
-  set groundLightIntensity(value: string) {
-    this.options.groundLightIntensity.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].groundLightIntensity = value;
-
+  set light3Intensity(value: number) {
+    this.options.light3Intensity.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light3Intensity = value;
     this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
-
   }
 
-  get groundLightColor(): string {
-    return this.options.groundLightColor.value;
+  get light3Color() {
+    return this.options.light3Color.value;
   }
 
-  set groundLightColor(value: string) {
-    this.options.groundLightColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].groundLightColor = value;
-
+  set light3Color(value: string) {
+    this.options.light3Color.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light3Color = value;
     this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
-
   }
 
-  get groundLightSpecular(): string {
-    return this.options.groundLightSpecular.value;
+  get light3Specular() {
+    return this.options.light3Specular.value;
   }
 
-  set groundLightSpecular(value: string) {
-    this.options.groundLightSpecular.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].groundLightSpecular = value;
-
+  set light3Specular(value: string) {
+    this.options.light3Specular.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light3Specular = value;
     this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
-
   }
 
-  get groundLightGroundColor(): string {
-    return this.options.groundLightGroundColor.value;
+  get light3GroundColor() {
+    return this.options.light3GroundColor.value;
   }
 
-  set groundLightGroundColor(value: string) {
-    this.options.groundLightGroundColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].groundLightGroundColor = value;
-
+  set light3GroundColor(value: string) {
+    this.options.light3GroundColor.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light3GroundColor = value;
     this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
-
   }
+
+
+
+  get light4Intensity(): number {
+    return this.options.light4Intensity.value;
+  }
+
+  set light4Intensity(value: number) {
+    this.options.light4Intensity.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light4Intensity = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light4Color() {
+    return this.options.light4Color.value;
+  }
+
+  set light4Color(value: string) {
+    this.options.light4Color.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light4Color = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light4Specular() {
+    return this.options.light4Specular.value;
+  }
+
+  set light4Specular(value: string) {
+    this.options.light4Specular.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light4Specular = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light4GroundColor() {
+    return this.options.light4GroundColor.value;
+  }
+
+  set light4GroundColor(value: string) {
+    this.options.light4GroundColor.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light4GroundColor = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+
+
+
+  get light5Intensity(): number {
+    return this.options.light5Intensity.value;
+  }
+
+  set light5Intensity(value: number) {
+    this.options.light5Intensity.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light5Intensity = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light5Color() {
+    return this.options.light5Color.value;
+  }
+
+  set light5Color(value: string) {
+    this.options.light5Color.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light5Color = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light5Specular() {
+    return this.options.light5Specular.value;
+  }
+
+  set light5Specular(value: string) {
+    this.options.light5Specular.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light5Specular = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light5GroundColor() {
+    return this.options.light5GroundColor.value;
+  }
+
+  set light5GroundColor(value: string) {
+    this.options.light5GroundColor.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light5GroundColor = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+
+
+
+  get light6Intensity(): number {
+    return this.options.light6Intensity.value;
+  }
+
+  set light6Intensity(value: number) {
+    this.options.light6Intensity.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light6Intensity = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light6Color() {
+    return this.options.light6Color.value;
+  }
+
+  set light6Color(value: string) {
+    this.options.light6Color.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light6Color = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light6Specular() {
+    return this.options.light6Specular.value;
+  }
+
+  set light6Specular(value: string) {
+    this.options.light6Specular.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light6Specular = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light6GroundColor() {
+    return this.options.light6GroundColor.value;
+  }
+
+  set light6GroundColor(value: string) {
+    this.options.light6GroundColor.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light6GroundColor = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+
+
+  get light7Intensity(): number {
+    return this.options.light7Intensity.value;
+  }
+
+  set light7Intensity(value: number) {
+    this.options.light7Intensity.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light7Intensity = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light7Color() {
+    return this.options.light7Color.value;
+  }
+
+  set light7Color(value: string) {
+    this.options.light7Color.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light7Color = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light7Specular() {
+    return this.options.light7Specular.value;
+  }
+
+  set light7Specular(value: string) {
+    this.options.light7Specular.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light7Specular = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+  get light7GroundColor() {
+    return this.options.light7GroundColor.value;
+  }
+
+  set light7GroundColor(value: string) {
+    this.options.light7GroundColor.value = value;
+    this.options[this.visuals[this.state.currentVisual.value]].light7GroundColor = value;
+    this.storageService.saveOptions(this.options);
+  }
+
+
+
+
+
 
 
 
@@ -1866,6 +4636,10 @@ export class OptionsService {
 
   get showPanel(): boolean {
     return this.state.showPanel.value;
+  }
+
+  get showFavorites(): boolean {
+    return this.state.showFavorites.value;
   }
 
   // set showPanel(value: boolean) {

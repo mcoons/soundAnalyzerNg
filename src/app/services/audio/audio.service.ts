@@ -70,11 +70,7 @@ export class AudioService {
   tdDataArray;
   tdDataArrayNormalized: any;
 
-  tdHistory = [];
-  tdMinHistory = [];
   tdMaxHistory = [];
-
-  tdHistoryArraySize = 150;
 
   sample1: Uint8Array = new Uint8Array(576);
   sample1BufferHistory = [];
@@ -82,6 +78,12 @@ export class AudioService {
 
   soundArrays: any;
   analyzersArray: any;
+
+  private noteStr = ['G ', 'G#', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#'];
+  // private noteIndex = [73, 77, 82, 87, 92, 33, 39, 45, 52, 58, 65, 69];
+  private noteIndex = [137, 141, 146, 151, 156, 161, 167, 173, 180, 186, 129, 133];
+
+  noteAvgs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   constructor(
     public optionsService: OptionsService,
@@ -123,62 +125,44 @@ export class AudioService {
     this.splitter = this.audioCtx.createChannelSplitter(2);
     this.splitter2 = this.audioCtx.createChannelSplitter(9);
 
+
     this.fr64Analyser = this.audioCtx.createAnalyser();
-    this.fr64Analyser.fftSize = 128;
-    this.fr64Analyser.minDecibels = this.minDecibels;
-    this.fr64Analyser.maxDecibels = this.maxDecibels;
-    this.fr64Analyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.fr64Analyser.fftSize = 128;
 
     this.fr128Analyser = this.audioCtx.createAnalyser();
-    this.fr128Analyser.fftSize = 256;
-    this.fr128Analyser.minDecibels = this.minDecibels;
-    this.fr128Analyser.maxDecibels = this.maxDecibels;
-    this.fr128Analyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.fr128Analyser.fftSize = 256;
 
     this.fr256Analyser = this.audioCtx.createAnalyser();
-    this.fr256Analyser.fftSize = 512;
-    this.fr256Analyser.minDecibels = this.minDecibels;
-    this.fr256Analyser.maxDecibels = this.maxDecibels;
-    this.fr256Analyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.fr256Analyser.fftSize = 512;
 
     this.fr512Analyser = this.audioCtx.createAnalyser();
-    this.fr512Analyser.fftSize = 1024;
-    this.fr512Analyser.minDecibels = this.minDecibels;
-    this.fr512Analyser.maxDecibels = this.maxDecibels;
-    this.fr512Analyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.fr512Analyser.fftSize = 1024;
 
     this.fr1024Analyser = this.audioCtx.createAnalyser();
-    this.fr1024Analyser.fftSize = 2048;
-    this.fr1024Analyser.minDecibels = this.minDecibels;
-    this.fr1024Analyser.maxDecibels = this.maxDecibels;
-    this.fr1024Analyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.fr1024Analyser.fftSize = 2048;
 
     this.fr2048Analyser = this.audioCtx.createAnalyser();
-    this.fr2048Analyser.fftSize = 4096;
-    this.fr2048Analyser.minDecibels = this.minDecibels;
-    this.fr2048Analyser.maxDecibels = this.maxDecibels;
-    this.fr2048Analyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.fr2048Analyser.fftSize = 4096;
 
     this.fr4096Analyser = this.audioCtx.createAnalyser();
-    this.fr4096Analyser.fftSize = 8192;
-    this.fr4096Analyser.minDecibels = this.minDecibels;
-    this.fr4096Analyser.maxDecibels = this.maxDecibels;
-    // this.fr4096Analyser.smoothingTimeConstant = this.smoothingConstant * .8;
-    this.fr4096Analyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.fr4096Analyser.fftSize = 8192;
 
     this.fr8192Analyser = this.audioCtx.createAnalyser();
-    this.fr8192Analyser.fftSize = 16384;
-    this.fr8192Analyser.minDecibels = this.minDecibels;
-    this.fr8192Analyser.maxDecibels = this.maxDecibels;
-    // this.fr8192Analyser.smoothingTimeConstant = this.smoothingConstant * .6;
-    this.fr8192Analyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.fr8192Analyser.fftSize = 16384;
 
     this.fr16384Analyser = this.audioCtx.createAnalyser();
-    this.fr16384Analyser.fftSize = 32768;
-    this.fr16384Analyser.minDecibels = this.minDecibels;
-    this.fr16384Analyser.maxDecibels = this.maxDecibels;
-    // this.fr16384Analyser.smoothingTimeConstant = this.smoothingConstant * .4;
-    this.fr16384Analyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.fr16384Analyser.fftSize = 32768;
+
+
+    [this.fr64Analyser, this.fr128Analyser, this.fr256Analyser, this.fr512Analyser, this.fr1024Analyser, 
+     this.fr2048Analyser, this.fr4096Analyser, this.fr8192Analyser, this.fr16384Analyser ].forEach( (analyzer, i) => {
+        analyzer.minDecibels = this.minDecibels;
+        analyzer.maxDecibels = this.maxDecibels;
+        analyzer.smoothingTimeConstant = this.smoothingConstant;
+        analyzer.fftSize = Math.pow(2, i + 7);
+    });
+
+    console.log(this.fr128Analyser);
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
     this.tdAnalyser.fftSize = 1024;
@@ -190,7 +174,7 @@ export class AudioService {
     this.tdDataArray = new Uint8Array(this.tdBufferLength);
     this.tdDataArrayNormalized = new Uint8Array(this.tdBufferLength);
 
-    this.clearSampleArrays();
+    // this.clearSampleArrays();
 
     this.analyzersArray = [
       this.fr64Analyser,
@@ -204,29 +188,6 @@ export class AudioService {
       this.fr16384Analyser
     ];
 
-
-    /*  
-      this.audioSrc.connect(this.tdAnalyser);
-  
-      this.tdAnalyser.connect(this.splitter);
-  
-      this.splitter.connect(this.gainNode, 0);
-      this.splitter.connect(this.audioCtx.destination, 1);
-  
-      this.gainNode.connect(this.fr16384Analyser);
-  
-      // splitter 2
-  
-      this.fr16384Analyser.connect(this.fr8192Analyser);
-      this.fr8192Analyser.connect(this.fr4096Analyser);
-      this.fr4096Analyser.connect(this.fr2048Analyser);
-      this.fr2048Analyser.connect(this.fr1024Analyser);
-      this.fr1024Analyser.connect(this.fr512Analyser);
-      this.fr512Analyser.connect(this.fr256Analyser);
-      this.fr256Analyser.connect(this.fr128Analyser);
-      this.fr128Analyser.connect(this.fr64Analyser);
-  */
-
     this.audioSrc.connect(this.tdAnalyser);
 
     this.tdAnalyser.connect(this.splitter);
@@ -239,7 +200,6 @@ export class AudioService {
     // splitter 2
 
     this.splitter2.connect(this.fr16384Analyser);
-
     this.splitter2.connect(this.fr8192Analyser);
     this.splitter2.connect(this.fr4096Analyser);
     this.splitter2.connect(this.fr2048Analyser);
@@ -249,10 +209,7 @@ export class AudioService {
     this.splitter2.connect(this.fr128Analyser);
     this.splitter2.connect(this.fr64Analyser);
 
-
-
     for (let index = 0; index < 151; index++) {
-
       let frTemp = [];
       frTemp = Array(572).fill(0);
       this.sample1BufferHistory.push(frTemp);
@@ -260,12 +217,6 @@ export class AudioService {
 
     for (let index = 0; index < 576; index++) {
       this.sample1Topper[index] = 0;
-    }
-
-    for (let index = 0; index < this.tdHistoryArraySize; index++) {
-      let tdTemp = [];
-      tdTemp = Array(this.tdBufferLength).fill(0);
-      this.tdHistory.push(tdTemp);
     }
 
     this.soundArrays = [
@@ -291,18 +242,7 @@ export class AudioService {
   analyzeData = () => {
     ////////////////////////////////////
     // get FREQUENCY data for this frame
-    // // if (true) {
-    // this.fr64Analyser.getByteFrequencyData(this.fr64DataArray);
-    // this.fr128Analyser.getByteFrequencyData(this.fr128DataArray);
-    // this.fr256Analyser.getByteFrequencyData(this.fr256DataArray);
-    // this.fr512Analyser.getByteFrequencyData(this.fr512DataArray);
-    // this.fr1024Analyser.getByteFrequencyData(this.fr1024DataArray);
-    // this.fr2048Analyser.getByteFrequencyData(this.fr2048DataArray);
-    // this.fr4096Analyser.getByteFrequencyData(this.fr4096DataArray);
-    // this.fr8192Analyser.getByteFrequencyData(this.fr8192DataArray);
-    // this.fr16384Analyser.getByteFrequencyData(this.fr16384DataArray);
-    // // }
-    // combine sample set
+
     this.fr16384Analyser.getByteFrequencyData(this.fr16384DataArray);
     this.fr8192Analyser.getByteFrequencyData(this.fr8192DataArray);
     this.fr4096Analyser.getByteFrequencyData(this.fr4096DataArray);
@@ -313,11 +253,10 @@ export class AudioService {
     this.fr128Analyser.getByteFrequencyData(this.fr128DataArray);
     this.fr64Analyser.getByteFrequencyData(this.fr64DataArray);
 
-
-
+    // combine for sample set
     for (let index = 0; index < 64; index++) { //  64*9 = 576
-      this.sample1[index + 0] = (this.soundArrays[8])[index];        // 16384
-      this.sample1[index + 64] = (this.soundArrays[8])[index + 64];   // 16384
+      this.sample1[index + 0] = (this.soundArrays[8])[index];          // 16384
+      this.sample1[index + 64] = (this.soundArrays[8])[index + 64];    // 16384
       this.sample1[index + 128] = (this.soundArrays[7])[index + 64];   // 8192
       this.sample1[index + 192] = (this.soundArrays[6])[index + 64];   // 4096
       this.sample1[index + 256] = (this.soundArrays[5])[index + 64];   // 2048
@@ -328,6 +267,12 @@ export class AudioService {
     }
 
     this.sample1BufferHistory[this.sample1BufferHistory.length] = this.sample1.slice(0);
+
+    if (this.sample1BufferHistory.length > 150) {
+      this.sample1BufferHistory.reverse();
+      this.sample1BufferHistory.pop();
+      this.sample1BufferHistory.reverse();
+    }
 
     // this.sample1.forEach((s, i) => {
     //   if (this.sample1Topper[i] < s) {
@@ -341,23 +286,17 @@ export class AudioService {
     //   }
     // });
 
-    if (this.sample1BufferHistory.length > 150) {
-      this.sample1BufferHistory.reverse();
-      this.sample1BufferHistory.pop();
-      this.sample1BufferHistory.reverse();
-    }
-
     //////////////////////////////////////
     // get TIME DOMAIN data for this frame
 
     this.tdAnalyser.getByteTimeDomainData(this.tdDataArray);
 
-    // TODO: historical data for wave form       TODO:    TODO:
-    this.tdHistory.push(this.tdDataArray.slice(0));
+    // // TODO: historical data for wave form       TODO:    TODO:
+    // this.tdHistory.push(this.tdDataArray.slice(0));
 
-    if (this.tdHistory.length > this.tdHistoryArraySize) {
-      this.tdHistory.shift();
-    }
+    // if (this.tdHistory.length > this.tdHistoryArraySize) {
+    //   this.tdHistory.shift();
+    // }
 
     let tdMin = 500;
     let tdMax = 0;
@@ -376,11 +315,51 @@ export class AudioService {
     // if (this.tdMinHistory.length > 500) {
     //   this.tdMinHistory.shift();
     // }
+
     this.tdMaxHistory.push(tdMax);
 
-    if (this.tdMaxHistory.length > 1000) {
+    if (this.tdMaxHistory.length > 125) {
       this.tdMaxHistory.shift();
     }
+
+    // private noteStr = ['G ', 'G#', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#'];
+    // private noteIndex = [73, 77, 82, 87, 92, 33, 39, 45, 52, 58, 65, 69];
+
+    let historyPeek = 5;
+
+
+    this.noteIndex.forEach((n, i) => {
+
+      let temp = ( // this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n] +
+        this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 64] +
+        this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 128] +
+        this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 192] //+
+        // this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 256] //+
+        // this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 320]
+        ) / 3;
+
+
+      let temp2 = ( // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n] +
+        this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 64] +
+        this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 128] +
+        this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 192] //+
+        // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 256] //+
+        // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 320]
+        ) / 3;
+
+
+
+      this.noteAvgs[i] = this.noteAvgs[i] - 1 / historyPeek * temp;
+      this.noteAvgs[i] = this.noteAvgs[i] + 1 / historyPeek * temp2;
+
+      // if (this.noteAvgs[i] < this.noteMins[i]) {
+      //   this.noteMins[i] = this.noteAvgs[i];
+      // }
+
+    })
+
+    // console.log(this.noteAvgs);
+
   }
 
   clearSampleArrays() {
