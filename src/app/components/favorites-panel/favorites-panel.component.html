@@ -4,7 +4,7 @@
   
         <!-- General -->
   
-        <mat-expansion-panel expanded="true">
+        <!-- <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
             General Options
           </mat-expansion-panel-header>
@@ -39,12 +39,12 @@
           </div>
   
 
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
   
   
         <!-- Note/Freq -->
   
-        <mat-expansion-panel *ngIf="this.optionsService.showBars === true" expanded="true">
+        <!-- <mat-expansion-panel *ngIf="this.optionsService.showBars === true" expanded="true">
           <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
             Note/Freq Display
           </mat-expansion-panel-header>
@@ -102,7 +102,7 @@
           <label class="noteLabel" for="None">None</label>
   
   
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
 
   
         <!-- 3D Visuals -->
@@ -313,8 +313,9 @@
         </mat-expansion-panel>
   
       </mat-accordion>
+      <app-user-options></app-user-options>
     </div>
   
-  
+
   </div>
   

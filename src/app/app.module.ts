@@ -15,6 +15,15 @@ import { OptionsPanelComponent } from './components/options-panel/options-panel.
 import { TitleComponent } from './components/title/title.component';
 import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 import { FavoritesPanelComponent } from './components/favorites-panel/favorites-panel.component';
+import { UserOptionsComponent } from './components/user-options/user-options.component';
+import { GeneralOptionsComponent } from './components/general-options/general-options.component';
+import { NoteComponent } from './components/note/note.component';
+import { VisualEffectsComponent } from './components/visual-effects/visual-effects.component';
+import { CustomColorsComponent } from './components/custom-colors/custom-colors.component';
+import { ColorComponent } from './components/color/color.component';
+import { DevOptionsComponent } from './components/dev-options/dev-options.component';
+import { LightOptionsComponent } from './components/light-options/light-options.component';
+import { LightComponent } from './components/light/light.component';
 
 @NgModule({
    declarations: [
@@ -25,6 +34,15 @@ import { FavoritesPanelComponent } from './components/favorites-panel/favorites-
       TitleComponent,
       SplashScreenComponent,
       FavoritesPanelComponent,
+      UserOptionsComponent,
+      GeneralOptionsComponent,
+      NoteComponent,
+      VisualEffectsComponent,
+      CustomColorsComponent,
+      ColorComponent,
+      DevOptionsComponent,
+      LightOptionsComponent,
+      LightComponent,
    ],
    imports: [
       BrowserModule,

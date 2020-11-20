@@ -45,15 +45,20 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
         this.fixDpi();
         this.optionsService.windowResize();
 
-        if (this.optionsService.showBars && !this.optionsService.showSplash) {
+        if (this.optionsService.newBaseOptions.general.showBars.value && !this.optionsService.showSplash) {
           this.draw2DBars(this.audioService.sample1, 0);
           this.draw2DBars(this.audioService.fr128DataArray, 200);
           // this.draw2DBars(this.audioService.noteAvgs, 400);
 
-          this.drawSoundWav();
+        }
+        
+        if (this.optionsService.newBaseOptions.general.showSoundWave && !this.optionsService.showSplash) {
+
+        this.drawSoundWav();
         }
 
-        if (this.optionsService.showWaveform && !this.optionsService.showSplash) {
+
+        if (this.optionsService.newBaseOptions.general.showWaveform && !this.optionsService.showSplash) {
           this.waveFormDataSource = this.audioService.tdDataArray;
           this.drawWaveform();
         }
@@ -136,14 +141,18 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       }
 
       // draw key/freq designators
-      const ch = this.optionsService.getOptions().currentNote.value;
+      const ch = this.optionsService.newBaseOptions.general.showBars.currentNote;
       this.ctx.font = '16px Arial';
       this.ctx.fillStyle = 'white';
 
-      if (ch !== 'None' && height === 0) {
-        const keyOffset = this.optionsService.getOptions()[ch].value;
-        const hertz = this.optionsService.getOptions()[ch].hertz * Math.pow(2, ((i - keyOffset) / 64 + 2) - 1);
-        const label = this.optionsService.getOptions()[ch].label;
+      if (Number(ch) !== 12 && height === 0) {
+        // const keyOffset = this.optionsService.getOptions()[ch].value;
+        // const hertz = this.optionsService.getOptions()[ch].hertz * Math.pow(2, ((i - keyOffset) / 64 + 2) - 1);
+        // const label = this.optionsService.getOptions()[ch].label;
+
+        const keyOffset = this.optionsService.newBaseOptions.general.showBars.note[Number(ch)].value;
+        const hertz = this.optionsService.newBaseOptions.general.showBars.note[Number(ch)].hertz * Math.pow(2, ((i - keyOffset) / 64 + 2) - 1);
+        const label = this.optionsService.newBaseOptions.general.showBars.note[Number(ch)].label;
 
         this.ctx.font = '16px Arial';
         if (i <= 480 && i >= 58 && (i - keyOffset) % 64 === 0) {
@@ -153,7 +162,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
           this.ctx.fillText(label + ((i - keyOffset) / 64 + 2), x + 25 - 9, (this.getTopOfPlayer() - 10));
           // tslint:disable-next-line: max-line-length
-          this.ctx.fillText('~' + hertz.toString() + 'Hz', x + 25 - 45 + (ch === 'A' || ch === 'ASharp' ? 17 : 0), (this.getTopOfPlayer() + 10));
+          this.ctx.fillText('~' + hertz.toString() + 'Hz', x + 25 - 45 + (ch === 0 || ch === 1 ? 17 : 0), (this.getTopOfPlayer() + 10));
         }
 
       }

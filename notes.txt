@@ -9,48 +9,40 @@ Ribbon Particle Shapes
 https://www.babylonjs-playground.com/#1HSC2O#242
 
 
+FFT Info
+https://www.rationalacoustics.com/files/FFT_Fundamentals.pdf
+
+
+
 
 TODO
 _______________________________________________________________________
-crystal ball with flickering light inbside - Lindsey - When the stars align
 
-Add a universal material for all visuals to use to allow material options
+Move the 360 check out of when rotation is happening.
+Fix the slight Y offset issue that happens during explosion
 
-Flesh out Exploding SPS options in panel
-Add camera positioning to Exploding SPS (remove use interaction?)
-Fix camera options for things
+Create new options object with component access/building in mind (use arrays)
+Create new UI with components
 
-Add OnResize events to canvas 
+Add a hack to all sliders to only update when completed (have I done this some place?)
 
-Separate default options from current/player options;
-Implement Star Zooming
-Implement 2D history layer in the back.
+Re order lights so thy can be controlled per material 
+4 light material = top, left, front, camera
+8 light material = bottom, right, back, rimlight
 
-Fix playlist selection button highlight when canceling coming from mic
+Add Favorites/Visuals for end users.
+Saving, importing, exporting Favorites.
 
-Multiple Cameras with scene fading???
+Split Paid/Free options
 
-Load scene with multiple lights
-2 Top Front
-2 Bottom Front 
-2 Top Back
-2 Bottom Back 
+Allow scene rotation of light rig
 
-1 Camera light
-1 Camera Backlight
+Allow auto rotation of lights
+Allow auto rotation of camera
+Allow auto rotation of object
 
-
-Parent all lights to a center Parent 
-Parent camera light and backlight to camera
-
-Allow checkbox selection but only 4 selection max at a time 1 selected min
-
-Allow rotation of lights
-Allow rotation of camera
-Allow rotation of object
-Allow toggle of highlight layer & color
+Allow toggle of highlight layer & highlight color
 Allow toggle of glow layer & color
-
 
 Hide SPS visuals if SPS is not selected
 
@@ -58,12 +50,25 @@ Hide SPS visuals if SPS is not selected
 
 
 
+A crystal ball with flickering light inside - Lindsey - When the stars align
 
+dancing sign waves in smoke with a realistic look
 
+Turn Sphere Plane 2 into a Exploding SPS
 
+Add universal materials for all visuals to use to allow material options
+PBR 
+Standard 4
+Standard 8
 
+Add image save capability.
 
+Implement Star Zooming
+Implement 2D history layer in the back.
 
+Fix playlist selection button highlight when canceling coming from mic
+
+Multiple Cameras with scene fading???
 
 
 
@@ -78,7 +83,6 @@ Pick a library to use and update code - Bootstrap, BootstrapNg, Material
 Make variables private and assign types where possible
 Do something cool with Title
 Add auto change of visual between songs.  User selectable list?
-
 
 Add multiple scenes, one for each visual, then render the current selected scene
 

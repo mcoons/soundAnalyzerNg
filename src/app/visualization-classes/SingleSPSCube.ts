@@ -986,7 +986,7 @@ export class SingleSPSCube implements OnDestroy {
 
                 particle.position = BABYLON.Vector3.Lerp(
                     this.SPSFunctions[this.currentSPS].position(particle, y),
-                    particle.expLoc,
+                    new BABYLON.Vector3( particle.expLoc.x, particle.expLoc.y, particle.expLoc.z),
                     this.expTimer);
 
                 particle.rotation = BABYLON.Vector3.Lerp(
@@ -1019,7 +1019,7 @@ export class SingleSPSCube implements OnDestroy {
 
                     try {
                         particle.position = BABYLON.Vector3.Lerp(
-                            particle.expLoc,
+                            new BABYLON.Vector3( particle.expLoc.x, particle.expLoc.y, particle.expLoc.z),
                             this.SPSFunctions[this.nextSPS].position(particle, y),
                             this.conTimer);
                     } catch (err) {

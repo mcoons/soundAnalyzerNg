@@ -169,10 +169,29 @@ export class SpherePlaneManager2SPS {
         }
 
 
+        const build3 = () => {
+            const innerPositionFunction = (particle, i, s) => {
+                particle.position.x = x * 35;
+                particle.position.y = 0;
+                particle.position.z = z * 35;
+                particle.color = new BABYLON.Color4(.5, .5, .5, 1);
+            };
+
+            for (z = -15; z < 15; z++) {
+                for (x = -15; x < 15; x++) {
+                    const d = Math.sqrt((x * x) + (z * z));
+                    if (d <= 13.46) {
+                        this.SPS.addShape(sphere, 1, { positionFunction: innerPositionFunction });
+                    }
+                }
+            }
+        }
+
         const buildFunctions = [
             build0,
             build1,
-            build2
+            build2,
+            build3
         ];
 
         const buildFunctionIndex = 2;
