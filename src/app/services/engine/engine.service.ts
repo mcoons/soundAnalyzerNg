@@ -25,6 +25,7 @@ import { Rings } from '../../visualization-classes/Rings';
 import { Hex } from '../../visualization-classes/Hex';
 import { Notes } from '../../visualization-classes/Notes';
 import { SingleSPSCube } from '../../visualization-classes/SingleSPSCube';
+import { APP_BASE_HREF } from '@angular/common';
 // import { SingleSPSRibbon } from '../../visualization-classes/SingleSPSRibbon';
 
 
@@ -43,8 +44,8 @@ export class EngineService {
   public hLight7;
   public hLight8;
   public hLight1Mimic;
+  public hLight2Mimic;
   public hLight3Mimic;
-  public hLight5Mimic;
   public scene: BABYLON.Scene;
   private visualClasses;
   private visualClassIndex;
@@ -59,7 +60,7 @@ export class EngineService {
   private matGroundCover;
   private tubeMat;
 
-  public showAxis = false;
+  public showAxis = true;
 
   private resizeObservable$: Observable<Event>;
   private resizeSubscription$: Subscription;
@@ -230,52 +231,54 @@ export class EngineService {
 
 
     // right
-    this.hLight4 = new BABYLON.HemisphericLight('hLight4', new BABYLON.Vector3(1, 0, 0), this.scene);
-    this.hLight4.intensity = 0;
-    this.hLight4.diffuse = new BABYLON.Color3(0, 0, 0);
-    this.hLight4.specular = new BABYLON.Color3(0, 0, 0);
-    this.hLight4.groundColor = new BABYLON.Color3(0, 0, 0);
-
-
-    // down
-    this.hLight5Mimic = new BABYLON.TransformNode('light5Mimic', this.scene);
-    this.hLight5Mimic.setParent(this.lightParent);
-    this.hLight5Mimic.position = new BABYLON.Vector3(0, 1, 0);
-
-    this.hLight5 = new BABYLON.HemisphericLight('hLight5', new BABYLON.Vector3(0, 1, 0), this.scene);
-    this.hLight5.intensity = 0;
-    this.hLight5.diffuse = new BABYLON.Color3(0, 0, 0);
-    this.hLight5.specular = new BABYLON.Color3(0, 0, 0);
-    this.hLight5.groundColor = new BABYLON.Color3(0, 0, 0);
-
-    // front
     this.hLight1Mimic = new BABYLON.TransformNode('light1Mimic', this.scene);
     this.hLight1Mimic.setParent(this.lightParent);
-    this.hLight1Mimic.position = new BABYLON.Vector3(0, 0, -1);
+    this.hLight1Mimic.position = new BABYLON.Vector3(1, 0, 0);
 
-    this.hLight1 = new BABYLON.HemisphericLight('hLight1', new BABYLON.Vector3(0, 0, -1), this.scene);
+    this.hLight1 = new BABYLON.HemisphericLight('hLight1', new BABYLON.Vector3(1, 0, 0), this.scene);
     this.hLight1.intensity = 0;
     this.hLight1.diffuse = new BABYLON.Color3(0, 0, 0);
     this.hLight1.specular = new BABYLON.Color3(0, 0, 0);
     this.hLight1.groundColor = new BABYLON.Color3(0, 0, 0);
 
-    // camera
-    this.hLight7 = new BABYLON.HemisphericLight('hLight7', new BABYLON.Vector3(0, 0, -1), this.scene);
-    this.hLight7.intensity = 0;
-    this.hLight7.diffuse = new BABYLON.Color3(0, 0, 0);
-    this.hLight7.specular = new BABYLON.Color3(0, 0, 0);
-    this.hLight7.groundColor = new BABYLON.Color3(0, 0, 0);
 
-    // left
+    // down
+    this.hLight2Mimic = new BABYLON.TransformNode('light5Mimic', this.scene);
+    this.hLight2Mimic.setParent(this.lightParent);
+    this.hLight2Mimic.position = new BABYLON.Vector3(0, 1, 0);
+
+    this.hLight2 = new BABYLON.HemisphericLight('hLight2', new BABYLON.Vector3(0, 1, 0), this.scene);
+    this.hLight2.intensity = 0;
+    this.hLight2.diffuse = new BABYLON.Color3(0, 0, 0);
+    this.hLight2.specular = new BABYLON.Color3(0, 0, 0);
+    this.hLight2.groundColor = new BABYLON.Color3(0, 0, 0);
+
+    // front
     this.hLight3Mimic = new BABYLON.TransformNode('light3Mimic', this.scene);
     this.hLight3Mimic.setParent(this.lightParent);
-    this.hLight3Mimic.position = new BABYLON.Vector3(-1, 0, 0);
+    this.hLight3Mimic.position = new BABYLON.Vector3(0, 0, -1);
 
-    this.hLight3 = new BABYLON.HemisphericLight('hLight3', new BABYLON.Vector3(-1, 0, 0), this.scene);
+    this.hLight3 = new BABYLON.HemisphericLight('hLight3', new BABYLON.Vector3(0, 0, -1), this.scene);
     this.hLight3.intensity = 0;
     this.hLight3.diffuse = new BABYLON.Color3(0, 0, 0);
     this.hLight3.specular = new BABYLON.Color3(0, 0, 0);
     this.hLight3.groundColor = new BABYLON.Color3(0, 0, 0);
+
+    // camera
+    this.hLight4 = new BABYLON.HemisphericLight('hLight4', new BABYLON.Vector3(0, 0, -1), this.scene);
+    this.hLight4.intensity = 0;
+    this.hLight4.diffuse = new BABYLON.Color3(0, 0, 0);
+    this.hLight4.specular = new BABYLON.Color3(0, 0, 0);
+    this.hLight4.groundColor = new BABYLON.Color3(0, 0, 0);
+
+    // left
+
+
+    this.hLight5 = new BABYLON.HemisphericLight('hLight5', new BABYLON.Vector3(-1, 0, 0), this.scene);
+    this.hLight5.intensity = 0;
+    this.hLight5.diffuse = new BABYLON.Color3(0, 0, 0);
+    this.hLight5.specular = new BABYLON.Color3(0, 0, 0);
+    this.hLight5.groundColor = new BABYLON.Color3(0, 0, 0);
 
     // up
     this.hLight6 = new BABYLON.HemisphericLight('hLight6', new BABYLON.Vector3(0, -1, 0), this.scene);
@@ -285,11 +288,11 @@ export class EngineService {
     this.hLight6.groundColor = new BABYLON.Color3(0, 0, 0);
 
     // back
-    this.hLight2 = new BABYLON.HemisphericLight('hLight2', new BABYLON.Vector3(0, 0, 1), this.scene);
-    this.hLight2.intensity = 0;
-    this.hLight2.diffuse = new BABYLON.Color3(0, 0, 0);
-    this.hLight2.specular = new BABYLON.Color3(0, 0, 0);
-    this.hLight2.groundColor = new BABYLON.Color3(0, 0, 0);
+    this.hLight7 = new BABYLON.HemisphericLight('hLight7', new BABYLON.Vector3(0, 0, 1), this.scene);
+    this.hLight7.intensity = 0;
+    this.hLight7.diffuse = new BABYLON.Color3(0, 0, 0);
+    this.hLight7.specular = new BABYLON.Color3(0, 0, 0);
+    this.hLight7.groundColor = new BABYLON.Color3(0, 0, 0);
 
     // camera backlight
     this.hLight8 = new BABYLON.HemisphericLight('hLight8', new BABYLON.Vector3(0, 0, 1), this.scene);
@@ -335,6 +338,14 @@ export class EngineService {
     // console.log(this.visualClassIndex);
 
 
+    const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 100}, this.scene);
+    sphere.position.y = 50;
+
+    let testMat = new BABYLON.StandardMaterial("test",this.scene);
+    testMat.maxSimultaneousLights = 8;
+
+    sphere.material = testMat;
+
 
     // this.titleMat = new BABYLON.StandardMaterial('titleMat', this.scene);
     // this.titleMat.alpha = 1;
@@ -352,41 +363,41 @@ export class EngineService {
 
     // TO DO: only set normal light vectors if rotation has changed
     const l1Position = BABYLON.Vector3.TransformCoordinates(this.hLight1Mimic.position, this.hLight1Mimic.getWorldMatrix());
+    const l2Position = BABYLON.Vector3.TransformCoordinates(this.hLight2Mimic.position, this.hLight2Mimic.getWorldMatrix());
     const l3Position = BABYLON.Vector3.TransformCoordinates(this.hLight3Mimic.position, this.hLight3Mimic.getWorldMatrix());
-    const l5Position = BABYLON.Vector3.TransformCoordinates(this.hLight5Mimic.position, this.hLight5Mimic.getWorldMatrix());
 
 
     (this.scene.lights[0] as BABYLON.HemisphericLight).direction.x = l1Position.x;
     (this.scene.lights[0] as BABYLON.HemisphericLight).direction.y = l1Position.y;
     (this.scene.lights[0] as BABYLON.HemisphericLight).direction.z = l1Position.z;
 
-    (this.scene.lights[1] as BABYLON.HemisphericLight).direction.x = -l1Position.x;
-    (this.scene.lights[1] as BABYLON.HemisphericLight).direction.y = -l1Position.y;
-    (this.scene.lights[1] as BABYLON.HemisphericLight).direction.z = -l1Position.z;
+    (this.scene.lights[4] as BABYLON.HemisphericLight).direction.x = -l1Position.x;
+    (this.scene.lights[4] as BABYLON.HemisphericLight).direction.y = -l1Position.y;
+    (this.scene.lights[4] as BABYLON.HemisphericLight).direction.z = -l1Position.z;
+
+
+    (this.scene.lights[1] as BABYLON.HemisphericLight).direction.x = l2Position.x;
+    (this.scene.lights[1] as BABYLON.HemisphericLight).direction.y = l2Position.y;
+    (this.scene.lights[1] as BABYLON.HemisphericLight).direction.z = l2Position.z;
+
+    (this.scene.lights[5] as BABYLON.HemisphericLight).direction.x = -l2Position.x;
+    (this.scene.lights[5] as BABYLON.HemisphericLight).direction.y = -l2Position.y;
+    (this.scene.lights[5] as BABYLON.HemisphericLight).direction.z = -l2Position.z;
 
 
     (this.scene.lights[2] as BABYLON.HemisphericLight).direction.x = l3Position.x;
     (this.scene.lights[2] as BABYLON.HemisphericLight).direction.y = l3Position.y;
     (this.scene.lights[2] as BABYLON.HemisphericLight).direction.z = l3Position.z;
 
-    (this.scene.lights[3] as BABYLON.HemisphericLight).direction.x = -l3Position.x;
-    (this.scene.lights[3] as BABYLON.HemisphericLight).direction.y = -l3Position.y;
-    (this.scene.lights[3] as BABYLON.HemisphericLight).direction.z = -l3Position.z;
-
-
-    (this.scene.lights[4] as BABYLON.HemisphericLight).direction.x = l5Position.x;
-    (this.scene.lights[4] as BABYLON.HemisphericLight).direction.y = l5Position.y;
-    (this.scene.lights[4] as BABYLON.HemisphericLight).direction.z = l5Position.z;
-
-    (this.scene.lights[5] as BABYLON.HemisphericLight).direction.x = -l5Position.x;
-    (this.scene.lights[5] as BABYLON.HemisphericLight).direction.y = -l5Position.y;
-    (this.scene.lights[5] as BABYLON.HemisphericLight).direction.z = -l5Position.z;
+    (this.scene.lights[6] as BABYLON.HemisphericLight).direction.x = -l3Position.x;
+    (this.scene.lights[6] as BABYLON.HemisphericLight).direction.y = -l3Position.y;
+    (this.scene.lights[6] as BABYLON.HemisphericLight).direction.z = -l3Position.z;
 
 
 
-    (this.scene.lights[6] as BABYLON.HemisphericLight).direction.x = this.camera1.position.x;
-    (this.scene.lights[6] as BABYLON.HemisphericLight).direction.y = this.camera1.position.y;
-    (this.scene.lights[6] as BABYLON.HemisphericLight).direction.z = this.camera1.position.z;
+    (this.scene.lights[3] as BABYLON.HemisphericLight).direction.x = this.camera1.position.x;
+    (this.scene.lights[3] as BABYLON.HemisphericLight).direction.y = this.camera1.position.y;
+    (this.scene.lights[3] as BABYLON.HemisphericLight).direction.z = this.camera1.position.z;
 
     (this.scene.lights[7] as BABYLON.HemisphericLight).direction.x = -this.camera1.position.x;
     (this.scene.lights[7] as BABYLON.HemisphericLight).direction.y = -this.camera1.position.y;
