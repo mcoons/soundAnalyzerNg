@@ -37,8 +37,8 @@ export class VisualSelectionComponent implements OnInit {
   // }
 
   spsChange(e) {
-    console.log('sps change event');
-    console.log(e.target.id);
+    // console.log('sps change event');
+    // console.log(e.target.id);
 
     let value = e.target.checked;
 
@@ -84,7 +84,7 @@ export class VisualSelectionComponent implements OnInit {
 
   radioChange(e) {
     // this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
-    console.log(e.target);
+    // console.log(e.target);
     this.optionsService.newBaseOptions.visual.forEach(v => {
       v.checked = (e.target.id === v.label);
     });

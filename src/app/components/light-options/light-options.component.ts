@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, Inject, ElementRef, ViewChild } from '@angular/core';
+import { OptionsService } from '../../services/options/options.service';
+import { MessageService } from '../../services/message/message.service';
 
 @Component({
   selector: 'app-light-options',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LightOptionsComponent implements OnInit {
 
-  constructor() { }
+  constructor(    @Inject(OptionsService) public optionsService: OptionsService,
+  @Inject(MessageService) private messageService: MessageService) { }
 
   ngOnInit(): void {
+  }
+
+  colorChange(e) {
+    console.log('In colorChange');
+    this.messageService.announceMessage('set lights');
   }
 
 }

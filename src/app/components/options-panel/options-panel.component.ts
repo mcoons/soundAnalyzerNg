@@ -44,107 +44,107 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     // console.log(e.target.id);  // #00ff00
 
     switch (e.target.id) {
-      case 'light0Color':
+      case 'Right Color':
         this.engineService.scene.lights[0].diffuse = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light0Specular':
+      case 'Right Specular':
         break;
-      case 'light0Intensity':
+      case 'Right Intensity':
         this.engineService.scene.lights[0].intensity = e.target.value / 100;
         break;
-      case 'light0GroundColor':
+      case 'Right Back Color':
         (this.engineService.scene.lights[0] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
         break;
 
-      case 'light1Color':
+      case 'Top Color':
         this.engineService.scene.lights[1].diffuse = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light1Specular':
+      case 'Top Specular':
         this.engineService.scene.lights[1].specular = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light1Intensity':
+      case 'Top Intensity':
         this.engineService.scene.lights[1].intensity = e.target.value / 100;
         break;
-      case 'light1GroundColor':
+      case 'Top Back Color':
         (this.engineService.scene.lights[1] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
         break;
 
-      case 'light2Color':
+      case 'Front Color':
         this.engineService.scene.lights[2].diffuse = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light2Specular':
+      case 'Front Specular':
         this.engineService.scene.lights[2].specular = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light2Intensity':
+      case 'Front Intensity':
         this.engineService.scene.lights[2].intensity = e.target.value / 100;
         break;
-      case 'light2GroundColor':
+      case 'Front Back Color':
         (this.engineService.scene.lights[2] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
         break;
 
-      case 'light3Color':
+      case 'Camera Color':
         this.engineService.scene.lights[3].diffuse = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light3Specular':
+      case 'Camera Specular':
         this.engineService.scene.lights[3].specular = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light3Intensity':
+      case 'Camera Intensity':
         this.engineService.scene.lights[3].intensity = e.target.value / 100;
         break;
-      case 'light3GroundColor':
+      case 'Camera Back Color':
         // tslint:disable-next-line: max-line-length
         (this.engineService.scene.lights[3] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
         break;
 
-      case 'light4Color':
+      case 'Left Color':
         this.engineService.scene.lights[4].diffuse = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light4Specular':
+      case 'Left Specular':
         this.engineService.scene.lights[4].specular = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light4Intensity':
+      case 'Left Intensity':
         this.engineService.scene.lights[4].intensity = e.target.value / 100;
         break;
-      case 'light4GroundColor':
+      case 'Left Back Color':
         (this.engineService.scene.lights[4] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
         break;
 
-      case 'light5Color':
+      case 'Bottom Color':
         this.engineService.scene.lights[5].diffuse = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light5Specular':
+      case 'Bottom Specular':
         this.engineService.scene.lights[5].specular = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light5Intensity':
+      case 'Bottom Intensity':
         this.engineService.scene.lights[5].intensity = e.target.value / 100;
         break;
-      case 'light5GroundColor':
+      case 'Bottom Back Color':
         (this.engineService.scene.lights[5] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
         break;
 
-      case 'light6Color':
+      case 'Rear Color':
         this.engineService.scene.lights[6].diffuse = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light6Specular':
+      case 'Rear Specular':
         this.engineService.scene.lights[6].specular = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light6Intensity':
+      case 'Rear Intensity':
         this.engineService.scene.lights[6].intensity = e.target.value / 100;
         break;
-      case 'light6GroundColor':
+      case 'Rear Back Color':
         (this.engineService.scene.lights[6] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
         break;
 
-      case 'light7Color':
+      case 'Camera Rimlight Color':
         this.engineService.scene.lights[7].diffuse = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light7Specular':
+      case 'Camera Rimlight Specular':
         this.engineService.scene.lights[7].specular = BABYLON.Color3.FromHexString(e.target.value);
         break;
-      case 'light7Intensity':
+      case 'Camera Rimlight Intensity':
         this.engineService.scene.lights[7].intensity = e.target.value / 100;
         break;
-      case 'light7GroundColor':
+      case 'Camera Rimlight Back Color':
         (this.engineService.scene.lights[7] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
         break;
 

@@ -1,1 +1,58 @@
-<p>light-options works!</p>
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
+    Lighting Effects
+  </mat-expansion-panel-header>
+
+  <ng-container *ngFor="let light of this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light ; index as i">
+
+  <!-- Light Intensity -->
+
+  <b><label class="rangeLabel" [for]="light.intensity.label">
+    {{light.intensity.label}} ({{light.intensity.value}})
+  </label></b><br>
+
+<i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+
+<input type="range" [id]="light.intensity.label" [name]="light.intensity.label" class="range" min="-200" max="200" step="5"
+(input)="colorChange($event)" (change)="colorChange($event)" 
+  [(ngModel)]="light.intensity.value">
+
+<i id="gupicon" class="material-icons md-18">add_circle_outline</i>
+
+
+
+<!-- Light Color -->
+<br>
+<input type="color" [id]="light.color.label" [(ngModel)]="light.color.value"
+(change)="colorChange($event)">
+{{light.color.label}}
+
+
+
+<!-- Light Specular -->
+<br>
+<input type="color" [id]="light.specular.label" [(ngModel)]="light.specular.value"
+(change)="colorChange($event)">
+{{light.specular.label}}
+
+
+
+<!-- Light groundColor -->
+<br>
+<input type="color" [id]="light.groundColor.label" [(ngModel)]="light.groundColor.value"
+(change)="colorChange($event)">
+{{light.groundColor.label}}<br><br>
+
+
+
+
+
+    <!-- <p>{{light.intensity.label}}</p>
+    <p>{{light.color.label}}</p>
+    <p>{{light.specular.label}}</p>
+    <p>{{light.groundColor.label}}</p> -->
+
+  </ng-container>
+
+
+</mat-expansion-panel>

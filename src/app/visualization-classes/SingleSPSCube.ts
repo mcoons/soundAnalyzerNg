@@ -111,7 +111,7 @@ export class SingleSPSCube implements OnDestroy {
         this.subscription = messageService.messageAnnounced$.subscribe(
             message => {
                 if (message === 'sps change') {
-                    console.log('sps change msg reeceived by SingleSPSCube');
+                    // console.log('sps change msg received by SingleSPSCube');
                     this.updateCurrentNext();
                 }
                 if (message === 'clear intervals') {
@@ -852,7 +852,7 @@ export class SingleSPSCube implements OnDestroy {
     }
 
     updateCurrentNext = () => {
-        console.log('in updateCurrentNext');
+        // console.log('in updateCurrentNext');
         this.currentSPS = this.currentSPS > 0 ? this.currentSPS - 1 : -1;
         // const prevCurrent = this.currentSPS;
         // const prevNext = this.nextSPS;
@@ -904,16 +904,16 @@ export class SingleSPSCube implements OnDestroy {
 
 
     calculateCurrent = () => {
-        console.log('calculating current');
+        // console.log('calculating current');
         do {
             this.currentSPS = this.currentSPS === this.SPSFunctions.length - 1 ? 0 : this.currentSPS + 1;
-            console.log('checking: ', this.currentSPS);
-            console.log('value: ', this.optionsService.newBaseOptions.visual[0].types[Number(this.currentSPS)].value);
+            // console.log('checking: ', this.currentSPS);
+            // console.log('value: ', this.optionsService.newBaseOptions.visual[0].types[Number(this.currentSPS)].value);
         } while (!this.optionsService.newBaseOptions.visual[0].types[Number(this.currentSPS)].value === true);
     }
 
     calculateNext = () => {
-        console.log('calculating next');
+        // console.log('calculating next');
         do {
             this.nextSPS = this.nextSPS === this.SPSFunctions.length - 1 ? 0 : this.nextSPS + 1;
         } while (!this.optionsService.newBaseOptions.visual[0].types[Number(this.nextSPS)].value ===  true);

@@ -310,95 +310,12 @@ export class OptionsService {
 
         light: [  //  array of lights
 
-          // front light      options.lights[0].attribute
-          {
-
-            intensity: {
-              // type: 'slider',
-              label: 'Front Intensity',
-              value: 80,
-              // min: -200,
-              // max: 200,
-              // step: 5
-            },
-            color: {
-              // type: 'color',
-              label: 'Light 0 Color',
-              value: '#ffffff'
-            },
-            specular: {
-              // type: 'color',
-              label: 'Light 0 Specular',
-              value: '#454545'
-            },
-            groundColor: {
-              // type: 'color',
-              label: 'Light 0 Back Color',
-              value: '#454545'
-            }
-
-          },
-
-          // rear light       options.lights[1].attribute
-          {
-            intensity: {
-              // type: 'slider',
-              label: 'Rear Intensity',
-              value: 30,
-              // min: -200,
-              // max: 200,
-              // step: 5
-            },
-            color: {
-              // type: 'color',
-              label: 'Rear Color',
-              value: '#ffffff'
-            },
-            specular: {
-              // type: 'color',
-              label: 'Rear Specular',
-              value: '#454545'
-            },
-            groundColor: {
-              // type: 'color',
-              label: 'Rear Back Color',
-              value: '#454545'
-            },
-          },
-
-          // left light       options.lights[2].attribute
-          {
-            intensity: {
-              // type: 'slider',
-              label: 'Left Intensity',
-              value: 10,
-              // min: -200,
-              // max: 200,
-              // step: 5
-            },
-            color: {
-              // type: 'color',
-              label: 'Left Color',
-              value: '#ffffff'
-            },
-            specular: {
-              // type: 'color',
-              label: 'Left Specular',
-              value: '#454545'
-            },
-            groundColor: {
-              // type: 'color',
-              label: 'Left Back Color',
-              value: '#454545'
-            },
-          },
-
           // right light      options.lights[3].attribute
-          {
+          { 
             intensity: {
               // type: 'slider',
               label: 'Right Intensity',
-              value: 5,
+              value: 0,
               // min: -200,
               // max: 200,
               // step: 5
@@ -447,6 +364,89 @@ export class OptionsService {
             },
           },
 
+          // front light      options.lights[0].attribute
+          {
+
+            intensity: {
+              // type: 'slider',
+              label: 'Front Intensity',
+              value: 80,
+              // min: -200,
+              // max: 200,
+              // step: 5
+            },
+            color: {
+              // type: 'color',
+              label: 'Front Color',
+              value: '#ffffff'
+            },
+            specular: {
+              // type: 'color',
+              label: 'Front Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              // type: 'color',
+              label: 'Front Back Color',
+              value: '#454545'
+            }
+
+          },
+
+          // camera light     options.lights[6].attribute
+          {
+            intensity: {
+              // type: 'slider',
+              label: 'Camera Intensity',
+              value: 5,
+              // min: -200,
+              // max: 200,
+              // step: 5
+            },
+            color: {
+              // type: 'color',
+              label: 'Camera Color',
+              value: '#ffffff'
+            },
+            specular: {
+              // type: 'color',
+              label: 'Camera Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              // type: 'color',
+              label: 'Camera Back Color',
+              value: '#454545'
+            },
+          },
+
+          // left light       options.lights[2].attribute
+          {
+            intensity: {
+              // type: 'slider',
+              label: 'Left Intensity',
+              value: 10,
+              // min: -200,
+              // max: 200,
+              // step: 5
+            },
+            color: {
+              // type: 'color',
+              label: 'Left Color',
+              value: '#ffffff'
+            },
+            specular: {
+              // type: 'color',
+              label: 'Left Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              // type: 'color',
+              label: 'Left Back Color',
+              value: '#454545'
+            },
+          },
+
           // bottom light     options.lights[5].attribute
           {
             intensity: {
@@ -474,29 +474,29 @@ export class OptionsService {
             },
           },
 
-          // camera light     options.lights[6].attribute
+          // rear light       options.lights[1].attribute
           {
             intensity: {
               // type: 'slider',
-              label: 'Camera Intensity',
-              value: 5,
+              label: 'Rear Intensity',
+              value: 30,
               // min: -200,
               // max: 200,
               // step: 5
             },
             color: {
               // type: 'color',
-              label: 'Camera Color',
+              label: 'Rear Color',
               value: '#ffffff'
             },
             specular: {
               // type: 'color',
-              label: 'Camera Specular',
+              label: 'Rear Specular',
               value: '#454545'
             },
             groundColor: {
               // type: 'color',
-              label: 'Camera Back Color',
+              label: 'Rear Back Color',
               value: '#454545'
             },
           },
@@ -4199,378 +4199,378 @@ export class OptionsService {
 
 
 
-  get light0Intensity(): number {
-    return this.options.light0Intensity.value;
-  }
+  // get light0Intensity(): number {
+  //   return this.options.light0Intensity.value;
+  // }
 
-  set light0Intensity(value: number) {
-    this.options.light0Intensity.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light0Intensity = value;
+  // set light0Intensity(value: number) {
+  //   this.options.light0Intensity.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light0Intensity = value;
 
-    this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
+  //   this.storageService.saveOptions(this.options);
+  //   // this.messageService.announceMessage('set lights');
 
-  }
+  // }
 
-  get light0Color(): string {
-    return this.options.light0Color.value;
-  }
+  // get light0Color(): string {
+  //   return this.options.light0Color.value;
+  // }
 
-  set light0Color(value: string) {
-    this.options.light0Color.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light0Color = value;
+  // set light0Color(value: string) {
+  //   this.options.light0Color.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light0Color = value;
 
-    this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
+  //   this.storageService.saveOptions(this.options);
+  //   // this.messageService.announceMessage('set lights');
 
-  }
+  // }
 
-  get light0Specular() {
-    return this.options.light0Specular.value;
-  }
+  // get light0Specular() {
+  //   return this.options.light0Specular.value;
+  // }
 
-  set light0Specular(value: string) {
-    this.options.light0Specular.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light0Specular = value;
+  // set light0Specular(value: string) {
+  //   this.options.light0Specular.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light0Specular = value;
 
-    this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
+  //   this.storageService.saveOptions(this.options);
+  //   // this.messageService.announceMessage('set lights');
 
-  }
+  // }
 
 
-  get light0GroundColor() {
-    return this.options.light0GroundColor.value;
-  }
+  // get light0GroundColor() {
+  //   return this.options.light0GroundColor.value;
+  // }
 
-  set light0GroundColor(value: string) {
-    this.options.light0GroundColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light0GroundColor = value;
+  // set light0GroundColor(value: string) {
+  //   this.options.light0GroundColor.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light0GroundColor = value;
 
-    this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
+  //   this.storageService.saveOptions(this.options);
+  //   // this.messageService.announceMessage('set lights');
 
-  }
+  // }
 
 
 
-  get light1Intensity(): number {
-    return this.options.light1Intensity.value;
-  }
+  // get light1Intensity(): number {
+  //   return this.options.light1Intensity.value;
+  // }
 
-  set light1Intensity(value: number) {
-    this.options.light1Intensity.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light1Intensity = value;
+  // set light1Intensity(value: number) {
+  //   this.options.light1Intensity.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light1Intensity = value;
 
-    this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
+  //   this.storageService.saveOptions(this.options);
+  //   // this.messageService.announceMessage('set lights');
 
-  }
+  // }
 
-  get light1Color() {
-    return this.options.light1Color.value;
-  }
+  // get light1Color() {
+  //   return this.options.light1Color.value;
+  // }
 
-  set light1Color(value: string) {
-    this.options.light1Color.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light1Color = value;
+  // set light1Color(value: string) {
+  //   this.options.light1Color.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light1Color = value;
 
-    this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
+  //   this.storageService.saveOptions(this.options);
+  //   // this.messageService.announceMessage('set lights');
 
-  }
+  // }
 
-  get light1Specular() {
-    return this.options.light1Specular.value;
-  }
+  // get light1Specular() {
+  //   return this.options.light1Specular.value;
+  // }
 
-  set light1Specular(value: string) {
-    this.options.light1Specular.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light1Specular = value;
+  // set light1Specular(value: string) {
+  //   this.options.light1Specular.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light1Specular = value;
 
-    this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
+  //   this.storageService.saveOptions(this.options);
+  //   // this.messageService.announceMessage('set lights');
 
-  }
+  // }
 
-  get light1GroundColor() {
-    return this.options.light1GroundColor.value;
-  }
+  // get light1GroundColor() {
+  //   return this.options.light1GroundColor.value;
+  // }
 
-  set light1GroundColor(value: string) {
-    this.options.light1GroundColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light1GroundColor = value;
+  // set light1GroundColor(value: string) {
+  //   this.options.light1GroundColor.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light1GroundColor = value;
 
-    this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
+  //   this.storageService.saveOptions(this.options);
+  //   // this.messageService.announceMessage('set lights');
 
-  }
+  // }
 
 
-  get light2Intensity(): number {
-    return this.options.light2Intensity.value;
-  }
+  // get light2Intensity(): number {
+  //   return this.options.light2Intensity.value;
+  // }
 
-  set light2Intensity(value: number) {
-    this.options.light2Intensity.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light2Intensity = value;
+  // set light2Intensity(value: number) {
+  //   this.options.light2Intensity.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light2Intensity = value;
 
-    this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
+  //   this.storageService.saveOptions(this.options);
+  //   // this.messageService.announceMessage('set lights');
 
-  }
+  // }
 
 
-  get light2Color() {
-    return this.options.light2Color.value;
-  }
+  // get light2Color() {
+  //   return this.options.light2Color.value;
+  // }
 
-  set light2Color(value: string) {
-    this.options.light2Color.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light2Color = value;
+  // set light2Color(value: string) {
+  //   this.options.light2Color.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light2Color = value;
 
-    this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
+  //   this.storageService.saveOptions(this.options);
+  //   // this.messageService.announceMessage('set lights');
 
-  }
+  // }
 
-  get light2Specular() {
-    return this.options.light2Specular.value;
-  }
+  // get light2Specular() {
+  //   return this.options.light2Specular.value;
+  // }
 
-  set light2Specular(value: string) {
-    this.options.light2Specular.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light2Specular = value;
+  // set light2Specular(value: string) {
+  //   this.options.light2Specular.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light2Specular = value;
 
-    this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
+  //   this.storageService.saveOptions(this.options);
+  //   // this.messageService.announceMessage('set lights');
 
-  }
+  // }
 
-  get light2GroundColor() {
-    return this.options.light2GroundColor.value;
-  }
+  // get light2GroundColor() {
+  //   return this.options.light2GroundColor.value;
+  // }
 
-  set light2GroundColor(value: string) {
-    this.options.light2GroundColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light2GroundColor = value;
+  // set light2GroundColor(value: string) {
+  //   this.options.light2GroundColor.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light2GroundColor = value;
 
-    this.storageService.saveOptions(this.options);
-    // this.messageService.announceMessage('set lights');
+  //   this.storageService.saveOptions(this.options);
+  //   // this.messageService.announceMessage('set lights');
 
-  }
+  // }
 
 
 
-  get light3Intensity(): number {
-    return this.options.light3Intensity.value;
-  }
+  // get light3Intensity(): number {
+  //   return this.options.light3Intensity.value;
+  // }
 
-  set light3Intensity(value: number) {
-    this.options.light3Intensity.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light3Intensity = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light3Intensity(value: number) {
+  //   this.options.light3Intensity.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light3Intensity = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light3Color() {
-    return this.options.light3Color.value;
-  }
+  // get light3Color() {
+  //   return this.options.light3Color.value;
+  // }
 
-  set light3Color(value: string) {
-    this.options.light3Color.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light3Color = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light3Color(value: string) {
+  //   this.options.light3Color.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light3Color = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light3Specular() {
-    return this.options.light3Specular.value;
-  }
+  // get light3Specular() {
+  //   return this.options.light3Specular.value;
+  // }
 
-  set light3Specular(value: string) {
-    this.options.light3Specular.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light3Specular = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light3Specular(value: string) {
+  //   this.options.light3Specular.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light3Specular = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light3GroundColor() {
-    return this.options.light3GroundColor.value;
-  }
+  // get light3GroundColor() {
+  //   return this.options.light3GroundColor.value;
+  // }
 
-  set light3GroundColor(value: string) {
-    this.options.light3GroundColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light3GroundColor = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light3GroundColor(value: string) {
+  //   this.options.light3GroundColor.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light3GroundColor = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
 
 
-  get light4Intensity(): number {
-    return this.options.light4Intensity.value;
-  }
+  // get light4Intensity(): number {
+  //   return this.options.light4Intensity.value;
+  // }
 
-  set light4Intensity(value: number) {
-    this.options.light4Intensity.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light4Intensity = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light4Intensity(value: number) {
+  //   this.options.light4Intensity.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light4Intensity = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light4Color() {
-    return this.options.light4Color.value;
-  }
+  // get light4Color() {
+  //   return this.options.light4Color.value;
+  // }
 
-  set light4Color(value: string) {
-    this.options.light4Color.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light4Color = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light4Color(value: string) {
+  //   this.options.light4Color.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light4Color = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light4Specular() {
-    return this.options.light4Specular.value;
-  }
+  // get light4Specular() {
+  //   return this.options.light4Specular.value;
+  // }
 
-  set light4Specular(value: string) {
-    this.options.light4Specular.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light4Specular = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light4Specular(value: string) {
+  //   this.options.light4Specular.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light4Specular = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light4GroundColor() {
-    return this.options.light4GroundColor.value;
-  }
+  // get light4GroundColor() {
+  //   return this.options.light4GroundColor.value;
+  // }
 
-  set light4GroundColor(value: string) {
-    this.options.light4GroundColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light4GroundColor = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light4GroundColor(value: string) {
+  //   this.options.light4GroundColor.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light4GroundColor = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
 
 
 
-  get light5Intensity(): number {
-    return this.options.light5Intensity.value;
-  }
+  // get light5Intensity(): number {
+  //   return this.options.light5Intensity.value;
+  // }
 
-  set light5Intensity(value: number) {
-    this.options.light5Intensity.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light5Intensity = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light5Intensity(value: number) {
+  //   this.options.light5Intensity.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light5Intensity = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light5Color() {
-    return this.options.light5Color.value;
-  }
+  // get light5Color() {
+  //   return this.options.light5Color.value;
+  // }
 
-  set light5Color(value: string) {
-    this.options.light5Color.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light5Color = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light5Color(value: string) {
+  //   this.options.light5Color.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light5Color = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light5Specular() {
-    return this.options.light5Specular.value;
-  }
+  // get light5Specular() {
+  //   return this.options.light5Specular.value;
+  // }
 
-  set light5Specular(value: string) {
-    this.options.light5Specular.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light5Specular = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light5Specular(value: string) {
+  //   this.options.light5Specular.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light5Specular = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light5GroundColor() {
-    return this.options.light5GroundColor.value;
-  }
+  // get light5GroundColor() {
+  //   return this.options.light5GroundColor.value;
+  // }
 
-  set light5GroundColor(value: string) {
-    this.options.light5GroundColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light5GroundColor = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light5GroundColor(value: string) {
+  //   this.options.light5GroundColor.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light5GroundColor = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
 
 
 
-  get light6Intensity(): number {
-    return this.options.light6Intensity.value;
-  }
+  // get light6Intensity(): number {
+  //   return this.options.light6Intensity.value;
+  // }
 
-  set light6Intensity(value: number) {
-    this.options.light6Intensity.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light6Intensity = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light6Intensity(value: number) {
+  //   this.options.light6Intensity.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light6Intensity = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light6Color() {
-    return this.options.light6Color.value;
-  }
+  // get light6Color() {
+  //   return this.options.light6Color.value;
+  // }
 
-  set light6Color(value: string) {
-    this.options.light6Color.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light6Color = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light6Color(value: string) {
+  //   this.options.light6Color.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light6Color = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light6Specular() {
-    return this.options.light6Specular.value;
-  }
+  // get light6Specular() {
+  //   return this.options.light6Specular.value;
+  // }
 
-  set light6Specular(value: string) {
-    this.options.light6Specular.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light6Specular = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light6Specular(value: string) {
+  //   this.options.light6Specular.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light6Specular = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light6GroundColor() {
-    return this.options.light6GroundColor.value;
-  }
+  // get light6GroundColor() {
+  //   return this.options.light6GroundColor.value;
+  // }
 
-  set light6GroundColor(value: string) {
-    this.options.light6GroundColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light6GroundColor = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light6GroundColor(value: string) {
+  //   this.options.light6GroundColor.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light6GroundColor = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
 
 
-  get light7Intensity(): number {
-    return this.options.light7Intensity.value;
-  }
+  // get light7Intensity(): number {
+  //   return this.options.light7Intensity.value;
+  // }
 
-  set light7Intensity(value: number) {
-    this.options.light7Intensity.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light7Intensity = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light7Intensity(value: number) {
+  //   this.options.light7Intensity.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light7Intensity = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light7Color() {
-    return this.options.light7Color.value;
-  }
+  // get light7Color() {
+  //   return this.options.light7Color.value;
+  // }
 
-  set light7Color(value: string) {
-    this.options.light7Color.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light7Color = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light7Color(value: string) {
+  //   this.options.light7Color.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light7Color = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light7Specular() {
-    return this.options.light7Specular.value;
-  }
+  // get light7Specular() {
+  //   return this.options.light7Specular.value;
+  // }
 
-  set light7Specular(value: string) {
-    this.options.light7Specular.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light7Specular = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light7Specular(value: string) {
+  //   this.options.light7Specular.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light7Specular = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get light7GroundColor() {
-    return this.options.light7GroundColor.value;
-  }
+  // get light7GroundColor() {
+  //   return this.options.light7GroundColor.value;
+  // }
 
-  set light7GroundColor(value: string) {
-    this.options.light7GroundColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].light7GroundColor = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set light7GroundColor(value: string) {
+  //   this.options.light7GroundColor.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].light7GroundColor = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
 
 
