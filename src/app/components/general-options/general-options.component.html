@@ -1,139 +1,37 @@
-<div id="options2">
-  <div id="glowContainer2">
-    <mat-accordion multi="true">
-      <mat-expansion-panel expanded="true">
+<mat-expansion-panel expanded="true">
 
-        <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
-          General Options
-        </mat-expansion-panel-header>
+  <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
+    General Options
+  </mat-expansion-panel-header>
 
-        <input type="checkbox" id="Show Title" name="Show Title" [(ngModel)]="this.general.showTitle">
-        <label for="Show Title"> Show Title</label>
-        <br>
-        <input type="checkbox" id="Show Waveform" name="Show Waveform" [(ngModel)]="this.general.showWaveform">
-        <label for="Show Waveform"> Show Waveform</label>
-        <br>        
-        <input type="checkbox" id="Show Sound Wave" name="Show Sound Wave" [(ngModel)]="this.general.showSoundWave">
-        <label for="Show Sound Wave"> Show Sound Wave</label>
-        <br>
-        <input type="checkbox" id="Show Freq Bars" name="Show Freq Bars" [(ngModel)]="this.general.showBars.value">
-        <label for="Show Freq Bars"> Show Freq Bars</label>
-        <br>
+  <input type="checkbox" id="Show Title" name="Show Title" [(ngModel)]="this.general.showTitle">
+  <label for="Show Title"> Show Title</label>
+  <br>
+  <input type="checkbox" id="Show Waveform" name="Show Waveform" [(ngModel)]="this.general.showWaveform">
+  <label for="Show Waveform"> Show Waveform</label>
+  <br>
+  <input type="checkbox" id="Show Sound Wave" name="Show Sound Wave" [(ngModel)]="this.general.showSoundWave">
+  <label for="Show Sound Wave"> Show Sound Wave</label>
+  <br>
+  <input type="checkbox" id="Show Freq Bars" name="Show Freq Bars" [(ngModel)]="this.general.showBars.value">
+  <label for="Show Freq Bars"> Show Freq Bars</label>
+  <br>
 
-        <!-- <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.getOptions())">
-            <ng-container *ngIf="this.optionsService.getOptions()[option].group=='General'">
-              <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox'">
-  
-                <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]"
-                  ng-model-options="{ getterSetter: true }">
-                <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
-  
-              </ng-container>
-  
-              <ng-container *ngIf="this.optionsService.getOptions()[option].type=='slider'">
-                <b><label class="rangeLabel">{{this.optionsService.getOptions()[option].label}}
-                    ({{this.optionsService.getOptions()[option].value}})</label></b><br>
-  
-                <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
-  
-                <input type="range" [id]="option" [name]="option" class="range"
-                  [min]="this.optionsService.getOptions()[option].min"
-                  [max]="this.optionsService.getOptions()[option].max"
-                  [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
-                  ng-model-options="{ getterSetter: true }">
-  
-                <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
-  
-              </ng-container>
-  
-            </ng-container>
-          </div> -->
+  <ng-container *ngIf="this.general.showBars.value === true">
 
+    <h6 style="margin-top:5px">Frequency Labels</h6>
 
+    <ng-container *ngFor="let note of this.general.showBars.note; let indexOfElement=index;">
 
-        <ng-container *ngIf="this.optionsService.newBaseOptions.general.showBars.value === true">
+      <div style="display:inline-block; width:30%; margin: 1%; border: 1px solid black">
+        <input type="radio" [id]="note.label" name="Notes" [value]="indexOfElement" (click)="radioNoteChange($event)"
+          [checked]="this.general.showBars.note[indexOfElement].checked">
+        <label class="noteLabel" [for]="note.label">{{note.label}}</label>
+      </div>
+    </ng-container>
 
-          Frequency Labels<br>
+  </ng-container>
 
-          <ng-container *ngFor="let note of this.optionsService.newBaseOptions.general.showBars.note; let indexOfElement=index;">
+  <!-- <app-note></app-note> -->
 
-            <input type="radio" [id]="note.label" name="Notes" [value]="indexOfElement" (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[indexOfElement].checked">
-            <label class="noteLabel" [for]="note.label">{{note.label}}</label>
-            &nbsp;
-            <!-- {
-                label: 'A',
-                value: 82,
-                checked: false,
-    
-                hertz: 55,
-              }, -->
-
-
-
-            <!-- <input type="radio" id="A" name="Notes" value=0 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[0].checked">
-            <label class="noteLabel" for="A">A</label>
-            &nbsp; -->
-            <!-- <input type="radio" id="A#" name="Notes" value=1 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[1].checked">
-            <label class="noteLabel" for="A#">A#</label>
-            &nbsp;
-            <input type="radio" id="B" name="Notes" value=2 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[2].checked">
-            <label class="noteLabel" for="B">B</label>
-            &nbsp;
-            <input type="radio" id="C" name="Notes" value=3 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[3].checked">
-            <label class="noteLabel" for="C">C</label>
-            &nbsp;
-            <input type="radio" id="C#" name="Notes" value=4 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[4].checked">
-            <label class="noteLabel" for="C#">C#</label>
-            <br>
-            <input type="radio" id="D" name="Notes" value=5 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[5].checked">
-            <label class="noteLabel" for="D">D</label>
-            &nbsp;
-            <input type="radio" id="D#" name="Notes" value=6 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[6].checked">
-            <label class="noteLabel" for="D#">D#</label>
-            &nbsp;
-            <input type="radio" id="E" name="Notes" value=7 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[7].checked">
-            <label class="noteLabel" for="E">E</label>
-            &nbsp;
-            <input type="radio" id="F" name="Notes" value=8 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[8].checked">
-            <label class="noteLabel" for="F">F</label>
-            &nbsp;
-            <input type="radio" id="F#" name="Notes" value=9 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[9].checked">
-            <label class="noteLabel" for="F#">F#</label>
-            <br>
-            <input type="radio" id="G" name="Notes" value=10 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[10].checked">
-            <label class="noteLabel" for="G">G</label>
-            &nbsp;
-            <input type="radio" id="G#" name="Notes" value=11 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[11].checked">
-            <label class="noteLabel" for="G#">G#</label>
-            &nbsp;
-            <input type="radio" id="None" name="Notes" value=12 (click)="radioNoteChange($event)"
-              [checked]="this.optionsService.newBaseOptions.general.showBars.note[12].checked">
-            <label class="noteLabel" for="None">None</label> -->
-          </ng-container>
-
-        </ng-container>
-
-
-
-
-
-        <app-note></app-note>
-
-
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
-</div>
+</mat-expansion-panel>

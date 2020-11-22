@@ -111,6 +111,7 @@ export class SingleSPSCube implements OnDestroy {
         this.subscription = messageService.messageAnnounced$.subscribe(
             message => {
                 if (message === 'sps change') {
+                    console.log('sps change msg reeceived by SingleSPSCube');
                     this.updateCurrentNext();
                 }
                 if (message === 'clear intervals') {
@@ -140,7 +141,7 @@ export class SingleSPSCube implements OnDestroy {
         clearTimeout(this.expTimeout);
 
         // if (this.moreThanOneSPS) {
-        this.initialTimeout = setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
+        this.initialTimeout = setTimeout(this.startExpanding, this.optionsService.newBaseOptions.visual[0].singleSPSDelay.value * 1000);
 
         // console.log('this.initialTimeout after creation in constructor');
         // console.log(this.initialTimeout);
@@ -148,7 +149,7 @@ export class SingleSPSCube implements OnDestroy {
 
         this.setDefaults();
 
-        console.log(this.getSPSNames());
+        // console.log(this.getSPSNames());
 
 
         this.master = BABYLON.MeshBuilder.CreateBox(('box'), {
@@ -768,7 +769,7 @@ export class SingleSPSCube implements OnDestroy {
 
     private startExpanding = () => {
 
-        console.log('start expansion');
+        // console.log('start expansion');
 
         clearTimeout(this.initialTimeout);
         clearInterval(this.conInterval);
@@ -807,7 +808,7 @@ export class SingleSPSCube implements OnDestroy {
 
     private startContracting = () => {
 
-        console.log('start contraction');
+        // console.log('start contraction');
 
         clearTimeout(this.initialTimeout);
         clearInterval(this.conInterval);
@@ -843,15 +844,15 @@ export class SingleSPSCube implements OnDestroy {
             this.currentSPS = this.nextSPS;
             do {
                 this.nextSPS = this.nextSPS === this.SPSFunctions.length - 1 ? 0 : this.nextSPS + 1;
-            } while (!this.optionsService.options[this.SPSFunctions[this.nextSPS].name].value);
+            } while (!this.optionsService.newBaseOptions.visual[0].types[Number(this.nextSPS)].value ===  true);
 
-            this.expTimeout = setTimeout(this.startExpanding, this.optionsService.singleSPSDelay * 1000);
+            this.expTimeout = setTimeout(this.startExpanding, this.optionsService.newBaseOptions.visual[0].singleSPSDelay.value * 1000);
 
         }, 5000);
     }
 
     updateCurrentNext = () => {
-        // console.log('in updateCurrentNext');
+        console.log('in updateCurrentNext');
         this.currentSPS = this.currentSPS > 0 ? this.currentSPS - 1 : -1;
         // const prevCurrent = this.currentSPS;
         // const prevNext = this.nextSPS;
@@ -889,17 +890,38 @@ export class SingleSPSCube implements OnDestroy {
         //     }
     }
 
+    // calculateCurrent = () => {
+    //     do {
+    //         this.currentSPS = this.currentSPS === this.SPSFunctions.length - 1 ? 0 : this.currentSPS + 1;
+    //     } while (!this.optionsService.options[this.SPSFunctions[this.currentSPS].name].value);
+    // }
+
+    // calculateNext = () => {
+    //     do {
+    //         this.nextSPS = this.nextSPS === this.SPSFunctions.length - 1 ? 0 : this.nextSPS + 1;
+    //     } while (!this.optionsService.options[this.SPSFunctions[this.nextSPS].name].value);
+    // }
+
+
     calculateCurrent = () => {
+        console.log('calculating current');
         do {
             this.currentSPS = this.currentSPS === this.SPSFunctions.length - 1 ? 0 : this.currentSPS + 1;
-        } while (!this.optionsService.options[this.SPSFunctions[this.currentSPS].name].value);
+            console.log('checking: ', this.currentSPS);
+            console.log('value: ', this.optionsService.newBaseOptions.visual[0].types[Number(this.currentSPS)].value);
+        } while (!this.optionsService.newBaseOptions.visual[0].types[Number(this.currentSPS)].value === true);
     }
 
     calculateNext = () => {
+        console.log('calculating next');
         do {
             this.nextSPS = this.nextSPS === this.SPSFunctions.length - 1 ? 0 : this.nextSPS + 1;
-        } while (!this.optionsService.options[this.SPSFunctions[this.nextSPS].name].value);
+        } while (!this.optionsService.newBaseOptions.visual[0].types[Number(this.nextSPS)].value ===  true);
     }
+
+
+
+
 
     ngOnDestroy = () => {
         this.remove();
@@ -970,12 +992,12 @@ export class SingleSPSCube implements OnDestroy {
 
             if (this.expanding) {
                 if (!('expLoc' in particle)) {
-                    const rx = BABYLON.Scalar.RandomRange(particle.position.x - this.optionsService.singleSPSExplosionSize,
-                        particle.position.x + this.optionsService.singleSPSExplosionSize);
-                    const ry = BABYLON.Scalar.RandomRange(particle.position.y - this.optionsService.singleSPSExplosionSize,
-                        particle.position.y + this.optionsService.singleSPSExplosionSize);
-                    const rz = BABYLON.Scalar.RandomRange(particle.position.z - this.optionsService.singleSPSExplosionSize,
-                        particle.position.z + this.optionsService.singleSPSExplosionSize);
+                    const rx = BABYLON.Scalar.RandomRange(particle.position.x - this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value,
+                        particle.position.x + this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value);
+                    const ry = BABYLON.Scalar.RandomRange(particle.position.y - this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value,
+                        particle.position.y + this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value);
+                    const rz = BABYLON.Scalar.RandomRange(particle.position.z - this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value,
+                        particle.position.z + this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value);
                     particle.expLoc = new BABYLON.Vector3(rx, ry, rz);
                 }
 
@@ -1085,7 +1107,7 @@ export class SingleSPSCube implements OnDestroy {
                     this.cameraSettingsNext = this.SPSFunctions[this.nextSPS].cameraDefault(this.cameraIndicies[this.nextSPS]);
                 }
 
-                if (this.optionsService.autoRotate) {
+                if (this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value) {
 
                     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
                         BABYLON.Scalar.Lerp(
@@ -1124,7 +1146,7 @@ export class SingleSPSCube implements OnDestroy {
     }
 
     remove = () => {
-        console.log('SingleSPSCube - remove');
+        // console.log('SingleSPSCube - remove');
         this.subscription.unsubscribe();
 
         clearTimeout(this.initialTimeout);

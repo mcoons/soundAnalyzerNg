@@ -1,321 +1,212 @@
 <div id="options">
-    <div id="glowContainer">
-      <mat-accordion multi="true">
-  
-        <!-- General -->
-  
-        <!-- <mat-expansion-panel expanded="true">
-          <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
-            General Options
-          </mat-expansion-panel-header>
-  
-          <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.getOptions())">
-            <ng-container *ngIf="this.optionsService.getOptions()[option].group=='General'">
-              <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox'">
-  
-                <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]"
-                  ng-model-options="{ getterSetter: true }">
-                <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
-  
-              </ng-container>
-  
-              <ng-container *ngIf="this.optionsService.getOptions()[option].type=='slider'">
-                <b><label class="rangeLabel">{{this.optionsService.getOptions()[option].label}}
-                    ({{this.optionsService.getOptions()[option].value}})</label></b><br>
-  
-                <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
-  
-                <input type="range" [id]="option" [name]="option" class="range"
-                  [min]="this.optionsService.getOptions()[option].min"
-                  [max]="this.optionsService.getOptions()[option].max"
-                  [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
-                  ng-model-options="{ getterSetter: true }">
-  
-                <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
-  
-              </ng-container>
-  
+  <div id="glowContainer">
+    <mat-accordion multi="true">
+
+      <button class="playlistButton" (click)="logCurrentVisual($event)">Log Visual</button>
+
+
+      <button class="playlistButton" (click)="logScene($event)">Log Scene</button>
+
+
+      <button class="playlistButton" (click)="logOptions($event)">Log Options</button>
+
+
+      <!-- <button class="playlistButton" (click)="showAxis($event)">Show Axis</button> -->
+
+      <br>
+      <input type="checkbox" id="Show Axis" name="Show Axis" [(ngModel)]="this.optionsService.newBaseOptions.general.showAxis">
+      <label for="Show Axis"> Show Axis</label>
+
+      <!-- General Options -->
+      <app-general-options></app-general-options>
+
+      <!-- Visual Effects -->
+      <app-visual-effects></app-visual-effects>
+
+      <!-- Visual Favorites List -->
+      <!-- <mat-expansion-panel expanded="true">
+
+        <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
+          Visuals
+        </mat-expansion-panel-header>
+
+        FAVORITES LIST GOES HERE
+
+        <div class="optionsContainer" *ngFor="let favorite of this.optionsService.favorites">
+          {{favorite.name}} - {{favorite.options.version}} -
+          {{this.optionsService.visuals[favorite.state.currentVisual.value]}}
+        </div>
+
+      </mat-expansion-panel> -->
+
+
+
+
+
+      <!-- Visual Effects -->
+      <!-- <mat-expansion-panel expanded="true">
+        <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
+          Visual Effects
+        </mat-expansion-panel-header>
+
+        <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.getOptions())">
+          <ng-container *ngIf="this.optionsService.getOptions()[option].group=='VisualEffect' ">
+
+            <ng-container *ngIf="this.optionsService.getOptions()[option].type=='slider'">
+              <b><label class="rangeLabel" [for]="option">{{this.optionsService.getOptions()[option].label}}
+                  ({{this.optionsService.getOptions()[option].value}})</label></b><br>
+              <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+
+              <input type="range" [id]="option" [name]="option" class="range"
+                [min]="this.optionsService.getOptions()[option].min"
+                [max]="this.optionsService.getOptions()[option].max"
+                [step]="this.optionsService.getOptions()[option].step" (input)="updateItem($event)"
+                (change)="updateItem($event)" [(ngModel)]="this.optionsService[option]"
+                ng-model-options="{ getterSetter: true }">
+
+              <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
             </ng-container>
-          </div>
-  
-
-        </mat-expansion-panel> -->
-  
-  
-        <!-- Note/Freq -->
-  
-        <!-- <mat-expansion-panel *ngIf="this.optionsService.showBars === true" expanded="true">
-          <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
-            Note/Freq Display
-          </mat-expansion-panel-header>
-  
-          <input type="radio" id="A" name="Notes" value="A" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['A'].checked">
-          <label class="noteLabel" for="A">A</label>
-          &nbsp;
-          <input type="radio" id="A#" name="Notes" value="A#" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['A#'].checked">
-          <label class="noteLabel" for="A#">A#</label>
-          &nbsp;
-          <input type="radio" id="B" name="Notes" value="B" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['B'].checked">
-          <label class="noteLabel" for="B">B</label>
-          &nbsp;
-          <input type="radio" id="C" name="Notes" value="C" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['C'].checked">
-          <label class="noteLabel" for="C">C</label>
-          &nbsp;
-          <input type="radio" id="C#" name="Notes" value="C#" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['C#'].checked">
-          <label class="noteLabel" for="C#">C#</label>
-          <br>
-          <input type="radio" id="D" name="Notes" value="D" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['D'].checked">
-          <label class="noteLabel" for="D">D</label>
-          &nbsp;
-          <input type="radio" id="D#" name="Notes" value="D#" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['D#'].checked">
-          <label class="noteLabel" for="D#">D#</label>
-          &nbsp;
-          <input type="radio" id="E" name="Notes" value="E" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['E'].checked">
-          <label class="noteLabel" for="E">E</label>
-          &nbsp;
-          <input type="radio" id="F" name="Notes" value="F" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['F'].checked">
-          <label class="noteLabel" for="F">F</label>
-          &nbsp;
-          <input type="radio" id="F#" name="Notes" value="F#" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['F#'].checked">
-          <label class="noteLabel" for="F#">F#</label>
-          <br>
-          <input type="radio" id="G" name="Notes" value="G" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['G'].checked">
-          <label class="noteLabel" for="G">G</label>
-          &nbsp;
-          <input type="radio" id="G#" name="Notes" value="G#" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['G#'].checked">
-          <label class="noteLabel" for="G#">G#</label>
-          &nbsp;
-          <input type="radio" id="None" name="Notes" value="None" (click)="radioNoteChange($event)"
-            [checked]="this.optionsService.getOptions()['None'].checked">
-          <label class="noteLabel" for="None">None</label>
-  
-  
-        </mat-expansion-panel> -->
-
-  
-        <!-- 3D Visuals -->
-  
-        <!-- <mat-expansion-panel expanded="true">
-
-          <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
-            Visuals
-          </mat-expansion-panel-header>
-  
-          FAVORITES LIST GOES HERE
 
 
-            <div class="optionsContainer" *ngFor="let favorite of this.optionsService.favorites">
-                {{favorite.name}} - {{favorite.options.version}} - {{this.optionsService.visuals[favorite.state.currentVisual.value]}}
-            </div>
+            <ng-container *ngIf="this.optionsService.getOptions()[option].type=='radio'">
+              <input type="radio" [id]="option" name="3DVisuals"
+                [value]="this.optionsService.getOptions()[option].value" (click)="radioChange($event)"
+                [checked]="this.optionsService.getOptions()[option].checked">
+              <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
+            </ng-container>
 
 
-
-        </mat-expansion-panel> -->
-  
-
-        <!-- Visual Effects -->
-  
-        <mat-expansion-panel expanded="true">
-            <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
-              Visual Effects
-            </mat-expansion-panel-header>
-    
-            <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.getOptions())">
-              <ng-container *ngIf="this.optionsService.getOptions()[option].group=='VisualEffect' ">
-    
-                <ng-container *ngIf="this.optionsService.getOptions()[option].type=='slider'">
-                  <b><label class="rangeLabel" [for]="option">{{this.optionsService.getOptions()[option].label}}
-                      ({{this.optionsService.getOptions()[option].value}})</label></b><br>
-                  <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
-    
-                  <input type="range" [id]="option" [name]="option" class="range"
-                    [min]="this.optionsService.getOptions()[option].min"
-                    [max]="this.optionsService.getOptions()[option].max"
-                    [step]="this.optionsService.getOptions()[option].step" (input)="updateItem($event)"
-                    (change)="updateItem($event)" [(ngModel)]="this.optionsService[option]"
-                    ng-model-options="{ getterSetter: true }">
-    
-                  <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
-                </ng-container>
-    
-    
-                <ng-container *ngIf="this.optionsService.getOptions()[option].type=='radio'">
-                  <input type="radio" [id]="option" name="3DVisuals"
-                    [value]="this.optionsService.getOptions()[option].value" (click)="radioChange($event)"
-                    [checked]="this.optionsService.getOptions()[option].checked">
-                  <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
-                </ng-container>
-    
-    
-                <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
+            <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
                   this.optionsService.getOptions()[option].label!='Custom Colors' && 
                   this.optionsService.getOptions()[option].label!='Auto Rotate'
                   ">
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]"
-                    ng-model-options="{ getterSetter: true }">
-                  <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
-                </ng-container>
-    
-                <ng-container
-                  *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]"
+                ng-model-options="{ getterSetter: true }">
+              <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
+            </ng-container>
+
+            <ng-container
+              *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
                   this.optionsService.getOptions()[option].label!='Custom Colors' && 
                   this.optionsService.getOptions()[option].group!='CubeSPS' && 
                   this.optionsService.getOptions()[option].group!='RibbonSPS' && 
                   this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].cameraOptions === true">
-                  <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
-                  <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
-                </ng-container>
-    
-                <!-- Colors -->
-                <ng-container
-                  *ngIf="this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].colorOptions === true">
-    
-                  <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
+              <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
+              <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
+            </ng-container>
+
+            <ng-container
+              *ngIf="this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].colorOptions === true">
+
+              <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
                     this.optionsService.getOptions()[option].label!='Auto Rotate' &&
                     this.optionsService.getOptions()[option].group!='CubeSPS' &&
                     this.optionsService.getOptions()[option].group!='RibbonSPS'">
-                    <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
-                    <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
-                  </ng-container>
-    
-                  <ng-container *ngIf="this.optionsService.customColors === true">
-                    <ng-container *ngIf="this.optionsService.getOptions()[option].type=='color'">
-                      <input type="color" [id]="option" [(ngModel)]="this.optionsService[option]"
-                        (change)="colorChange($event)">
-                      <!-- <b class='colorHeader'>{{this.optionsService.getOptions()[option].label}}</b> -->
-                      {{this.optionsService.getOptions()[option].label}}
-    
-                    </ng-container>
-    
-                    <ng-container *ngIf="this.optionsService.getOptions()[option].type=='colorslider'">
-                      <b><label class="rangeLabel">{{this.optionsService.getOptions()[option].label}}
-                          ({{this.optionsService.getOptions()[option].value}})</label></b><br>
-    
-                      <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
-    
-                      <!-- <input type="range" [id]="option" [name]="option" class="range"
-                        [min]="this.optionsService.getOptions()[option].min"
-                        [max]="this.optionsService.getOptions()[option].max"
-                        [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
-                        (change)="colorChange($event)"
-                        ng-model-options="{ getterSetter: true }"> -->
-    
-    
-                      <input type="range" [id]="option" [name]="option" class="range"
-                        [min]="this.optionsService.getOptions()[option].min"
-                        [max]="this.optionsService.getOptions()[option].max"
-                        [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
-                        (change)="colorChange($event)" (input)="colorChange($event)"
-                        ng-model-options="{ getterSetter: true }">
-    
-    
-                      <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
-    
-                    </ng-container>
-    
-    
-                  </ng-container>
-    
-    
-                </ng-container>
-    
+                <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
+                <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
               </ng-container>
-            </div>
-    
-            <!-- <ng-container *ngIf="this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].colorOptions === true">
-            <ng-container *ngIf="this.optionsService.customColors === true"> -->
-    
-                    <div #graduate id="graduate" style="width:155px; margin: 10px; border-radius:5px; text-align: center;">Color Range</div>
-            
-    
-            <!-- </ng-container>
-            </ng-container> -->
 
-            <!-- <div id="graduate" style="width:100%; border:1px solid red; background-image: linear-gradient(to right, red , yellow);">ColorTest</div> -->
-    
-          </mat-expansion-panel>
+              <ng-container *ngIf="this.optionsService.customColors === true">
+                <ng-container *ngIf="this.optionsService.getOptions()[option].type=='color'">
+                  <input type="color" [id]="option" [(ngModel)]="this.optionsService[option]"
+                    (change)="colorChange($event)">
+                  {{this.optionsService.getOptions()[option].label}}
 
-        <!-- Play List -->
-  
-        <mat-expansion-panel expanded="true">
-  
-          <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
-            Playlist
-          </mat-expansion-panel-header>
-  
-          <!-- Player -->
-  
-          <ng-container *ngIf="this.optionsService.microphone === false">
-  
-            <div class="player">
-              <button class="playerButton" (click)="this.previousTrack()"><i
-                  class="material-icons">skip_previous</i></button>
-              <button class="playerButton" (click)="this.playPause()"><i
-                  class="material-icons">{{ this.optionsService.playing === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i></button>
-              <button class="playerButton" (click)="this.nextTrack()"><i class="material-icons">skip_next</i></button>
-            </div>
-  
-            <div class="volume">
-              <i id="vdownicon" class="material-icons md-18">volume_mute</i>
-  
-              <input type="range" class="volume-slider" [min]="this.optionsService.getState().volume.min"
-                [max]="this.optionsService.getState().volume.max" [step]="this.optionsService.getState().volume.step"
-                [(ngModel)]="this.optionsService.volume" ng-model-options="{ getterSetter: true }"
-                (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
-  
-              <i id="vupicon" class="material-icons md-18">volume_up</i>
-            </div>
-  
-          </ng-container>
-  
-  
-          <div id="listBtnContainer">
-            <div class="btnContainer">
-              <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'site'}"
-                (click)="siteListSelection()">Site Music</button>
-              <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'local'}"
-                (click)="localListSelection()">Local Music</button>
-            </div>
-            <div class="btnContainer">
-              <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'mic'}"
-                (click)="this.audioService.enableMic()">Mic</button>
-              <button class="playlistButton" (click)="randomizeList()">Randomize</button>
-            </div>
-          </div>
-  
-          <ng-container *ngIf="this.optionsService.microphone === false">
-            <ng-container *ngFor="let track of this.optionsService.getState().playlist.value; index as i">
-              <div class="track">
-                <input type="radio" [id]="'track'+i" name="tracks" [value]="i" (click)="trackChange($event)"
-                  [checked]="this.optionsService.currentTrack === i">
-  
-                <div class="labelContainer">
-                  <label class="trackLabel" [for]="'track'+i">{{i}} - {{track.title}}</label>
-                </div>
-              </div>
+                </ng-container>
+
+                <ng-container *ngIf="this.optionsService.getOptions()[option].type=='colorslider'">
+                  <b><label class="rangeLabel">{{this.optionsService.getOptions()[option].label}}
+                      ({{this.optionsService.getOptions()[option].value}})</label></b><br>
+
+                  <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+
+                  <input type="range" [id]="option" [name]="option" class="range"
+                    [min]="this.optionsService.getOptions()[option].min"
+                    [max]="this.optionsService.getOptions()[option].max"
+                    [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
+                    (change)="colorChange($event)" (input)="colorChange($event)"
+                    ng-model-options="{ getterSetter: true }">
+
+
+                  <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
+
+                </ng-container>
+
+
+              </ng-container>
+
+
             </ng-container>
-          </ng-container>
-  
-  
-        </mat-expansion-panel>
-  
-      </mat-accordion>
-      <app-user-options></app-user-options>
-    </div>
-  
 
+          </ng-container>
+        </div>
+
+      </mat-expansion-panel> -->
+
+      <!-- Play List -->
+      <mat-expansion-panel expanded="true">
+
+        <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
+          Audio Playlist
+        </mat-expansion-panel-header>
+
+        <!-- Player -->
+
+        <ng-container *ngIf="this.optionsService.microphone === false">
+
+          <div class="player">
+            <button class="playerButton" (click)="this.previousTrack()"><i
+                class="material-icons">skip_previous</i></button>
+            <button class="playerButton" (click)="this.playPause()"><i
+                class="material-icons">{{ this.optionsService.playing === true ? 'pause_circle_outline' : 'play_circle_outline' }}</i></button>
+            <button class="playerButton" (click)="this.nextTrack()"><i class="material-icons">skip_next</i></button>
+          </div>
+
+          <div class="volume">
+            <i id="vdownicon" class="material-icons md-18">volume_mute</i>
+
+            <input type="range" class="volume-slider" [min]="this.optionsService.getState().volume.min"
+              [max]="this.optionsService.getState().volume.max" [step]="this.optionsService.getState().volume.step"
+              [(ngModel)]="this.optionsService.volume" ng-model-options="{ getterSetter: true }"
+              (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
+
+            <i id="vupicon" class="material-icons md-18">volume_up</i>
+          </div>
+
+        </ng-container>
+
+
+        <div id="listBtnContainer">
+          <div class="btnContainer">
+            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'site'}"
+              (click)="siteListSelection()">Site Music</button>
+            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'local'}"
+              (click)="localListSelection()">Local Music</button>
+          </div>
+          <div class="btnContainer">
+            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'mic'}"
+              (click)="this.audioService.enableMic()">Mic</button>
+            <button class="playlistButton" (click)="randomizeList()">Randomize</button>
+          </div>
+        </div>
+
+        <ng-container *ngIf="this.optionsService.microphone === false">
+          <ng-container *ngFor="let track of this.optionsService.getState().playlist.value; index as i">
+            <div class="track">
+              <input type="radio" [id]="'track'+i" name="tracks" [value]="i" (click)="trackChange($event)"
+                [checked]="this.optionsService.currentTrack === i">
+
+              <div class="labelContainer">
+                <label class="trackLabel" [for]="'track'+i">{{i}} - {{track.title}}</label>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+
+
+      </mat-expansion-panel>
+
+    </mat-accordion>
   </div>
-  
+</div>

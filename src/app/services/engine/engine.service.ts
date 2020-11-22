@@ -59,7 +59,7 @@ export class EngineService {
   private matGroundCover;
   private tubeMat;
 
-  private showAxis;
+  public showAxis = false;
 
   private resizeObservable$: Observable<Event>;
   private resizeSubscription$: Subscription;
@@ -88,8 +88,9 @@ export class EngineService {
     public storageService: StorageService,
     public colorsService: ColorsService
   ) {
+    console.log('Engine Service Constructor');
 
-    this.showAxis = false;
+    // this.showAxis = false;
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
@@ -300,7 +301,7 @@ export class EngineService {
     //////    AXIS FOR DEBUGGING    //////
 
 
-    if (this.showAxis) {
+    if (this.optionsService.newBaseOptions.general.showAxis === true) {
       this.showWorldAxis(600);
 
       for (let index = -1000; index <= 1000; index += 100) {
@@ -341,7 +342,7 @@ export class EngineService {
 
     // this.createTitleText('Have Yourself a Merry Little Christmas');
 
-    console.log(this.scene);
+    // console.log(this.scene);
 
   }
 
@@ -595,7 +596,7 @@ export class EngineService {
   }
 
   showWorldAxis = (size) => {
-    console.log('in showWorldAxis');
+    // console.log('in showWorldAxis');
     const makeTextPlane = (text: string, color: string, textSize: number) => {
       const dynamicTexture = new BABYLON.DynamicTexture('DynamicTexture', 50, this.scene, true);
       dynamicTexture.hasAlpha = true;
@@ -847,10 +848,10 @@ export class EngineService {
     };
 
 
-    console.log('this.titleSPS');
-    console.log(this.titleSPS);
-    console.log('this.titleText');
-    console.log(this.titleText);
+    // console.log('this.titleSPS');
+    // console.log(this.titleSPS);
+    // console.log('this.titleText');
+    // console.log(this.titleText);
 
     this.titleText.getMesh().parent = this.camera1;
     // this.titleSPS.parent = this.camera1;
@@ -886,12 +887,12 @@ export class EngineService {
     text1.getMesh().material = color;
 
     let textSPS = text1.getSPS();
-    console.log('textSPS');
-    console.log(textSPS);
+    // console.log('textSPS');
+    // console.log(textSPS);
     textSPS.particles[1].position.y = 500;
 
-    console.log('text1');
-    console.log(text1);
+    // console.log('text1');
+    // console.log(text1);
 
     return text1;
   }

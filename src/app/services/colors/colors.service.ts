@@ -57,22 +57,19 @@ export class ColorsService implements OnDestroy {
     let g;
     let b;
 
-    const midLoc = this.optionsService.midLoc;
+    const midLoc = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.midLoc.value;
 
-    // const minVal = this.optionsService.options.minColor.value;
-    const minVal = this.optionsService.minColor;
+    const minVal = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.color[2].value;
     const minR = parseInt(minVal.substring(1, 3), 16);
     const minG = parseInt(minVal.substring(3, 5), 16);
     const minB = parseInt(minVal.substring(5), 16);
 
-    // const midVal = this.optionsService.options.midColor.value;
-    const midVal = this.optionsService.midColor;
+    const midVal = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.color[1].value;
     const midR = parseInt(midVal.substring(1, 3), 16);
     const midG = parseInt(midVal.substring(3, 5), 16);
     const midB = parseInt(midVal.substring(5), 16);
 
-    // const maxVal = this.optionsService.options.maxColor.value;
-    const maxVal = this.optionsService.maxColor;
+    const maxVal = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.color[0].value;
     const maxR = parseInt(maxVal.substring(1, 3), 16);
     const maxG = parseInt(maxVal.substring(3, 5), 16);
     const maxB = parseInt(maxVal.substring(5), 16);
@@ -93,8 +90,8 @@ export class ColorsService implements OnDestroy {
     ];
 
     // if (this.optionsService.options.customColors.value === false) {
-      if (this.optionsService.customColors === false) {
-        r = colorSets[this.startingColorSet].r +
+    if (this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.value === false) {
+      r = colorSets[this.startingColorSet].r +
         (colorSets[this.endingColorSet].r - colorSets[this.startingColorSet].r) *
         this.colorTime;
       g = colorSets[this.startingColorSet].g +

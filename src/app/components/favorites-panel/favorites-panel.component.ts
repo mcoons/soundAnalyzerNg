@@ -13,7 +13,7 @@ import { ColorsService } from '../../services/colors/colors.service';
   encapsulation: ViewEncapsulation.None
 })
 export class FavoritesPanelComponent implements OnInit, OnDestroy  {
-  @ViewChild('graduate', { static: true }) graduate: ElementRef;
+  // @ViewChild('graduate', { static: true }) graduate: ElementRef;
 
   objectKeys = Object.keys;
 
@@ -28,12 +28,12 @@ export class FavoritesPanelComponent implements OnInit, OnDestroy  {
   }
 
   ngOnInit() {
-    const percent = Math.round((this.optionsService.midLoc / 255) * 100);
+    const percent = Math.round((this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.midLoc.value / 255) * 100);
 
     // tslint:disable-next-line: max-line-length
-    setTimeout(() => {
-      this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
-    }, 10);
+    // setTimeout(() => {
+    //   this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
+    // }, 10);
   }
 
   randomizeList() {
@@ -164,11 +164,30 @@ export class FavoritesPanelComponent implements OnInit, OnDestroy  {
   }
 
 
+  logCurrentVisual(e) {
+    console.log(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual]);
+  }
+
+  logScene(e)
+  {
+    console.log(this.engineService.scene);
+  }
+
+  logOptions(e) {
+    console.log(this.optionsService.newBaseOptions);
+  }
+
+  showAxis(e) {
+    this.optionsService.newBaseOptions.general.showAxis = !this.optionsService.newBaseOptions.general.showAxis;
+  }
+
+
+
   colorChange(e) {
 
-    const percent = Math.round((this.optionsService.midLoc / 255) * 100);
+    // const percent = Math.round((this.optionsService.midLoc / 255) * 100);
     // tslint:disable-next-line: max-line-length
-    this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
+    // this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
 
   }
 

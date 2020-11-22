@@ -24,6 +24,9 @@ import { ColorComponent } from './components/color/color.component';
 import { DevOptionsComponent } from './components/dev-options/dev-options.component';
 import { LightOptionsComponent } from './components/light-options/light-options.component';
 import { LightComponent } from './components/light/light.component';
+import { PanelLeftComponent } from './components/panel-left/panel-left.component';
+import { PanelRightComponent } from './components/panel-right/panel-right.component';
+import { VisualSelectionComponent } from './components/visual-selection/visual-selection.component';
 
 @NgModule({
    declarations: [
@@ -43,6 +46,9 @@ import { LightComponent } from './components/light/light.component';
       DevOptionsComponent,
       LightOptionsComponent,
       LightComponent,
+      PanelLeftComponent,
+      PanelRightComponent,
+      VisualSelectionComponent,
    ],
    imports: [
       BrowserModule,

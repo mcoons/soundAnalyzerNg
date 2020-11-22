@@ -13,48 +13,60 @@ FFT Info
 https://www.rationalacoustics.com/files/FFT_Fundamentals.pdf
 
 
+ASSEMBLE ANTHOLOGIES???????
+
 
 
 TODO
 _______________________________________________________________________
 
-Move the 360 check out of when rotation is happening.
-Fix the slight Y offset issue that happens during explosion
-
 Create new options object with component access/building in mind (use arrays)
+Check into that separate Audio module 
+
 Create new UI with components
+    Strength/Gain should be -100 to +100
+    Add a hack to all sliders to only update when completed (have I done this some place?)
+    Add Audio tab with adjustments
+    Add image save capability.
+    Add Favorites save capability.
+    Add showAxis
 
-Add a hack to all sliders to only update when completed (have I done this some place?)
+SCENE options
+    Allow auto rotation of lights
+    Allow auto rotation of camera
+        Add sin() to camera movement
+    Allow auto rotation of object
 
-Re order lights so thy can be controlled per material 
-4 light material = top, left, front, camera
-8 light material = bottom, right, back, rimlight
+    Allow toggle of highlight layer & highlight color
+    Allow toggle of glow layer & color
+
+    Re order lights so thy can be controlled per material 
+    4 light material = top, left, front, camera
+    8 light material = bottom, right, back, rimlight
+
+
+
+Rename components to be more generic and uniform by type name for grouping
+
+
+BUGFIXES
+Move the 360 check out of global rotation++ when explosion is happening.
+Fix the slight Y offset issue that happens during explosion - if only 1 selected then dont explode
+Hide SPS visuals if SPS is not selected
+Fix playlist selection button highlight when canceling coming from mic
+
 
 Add Favorites/Visuals for end users.
 Saving, importing, exporting Favorites.
 
 Split Paid/Free options
 
-Allow scene rotation of light rig
-
-Allow auto rotation of lights
-Allow auto rotation of camera
-Allow auto rotation of object
-
-Allow toggle of highlight layer & highlight color
-Allow toggle of glow layer & color
-
-Hide SPS visuals if SPS is not selected
-
-
-
 
 
 A crystal ball with flickering light inside - Lindsey - When the stars align
+Dancing sign waves in smoke with a realistic look
+Turn Sphere Plane 2 into an Exploding SPS
 
-dancing sign waves in smoke with a realistic look
-
-Turn Sphere Plane 2 into a Exploding SPS
 
 Add universal materials for all visuals to use to allow material options
 PBR 
@@ -62,11 +74,11 @@ Standard 4
 Standard 8
 
 Add image save capability.
+Add Favorites save capability.
 
 Implement Star Zooming
 Implement 2D history layer in the back.
 
-Fix playlist selection button highlight when canceling coming from mic
 
 Multiple Cameras with scene fading???
 
@@ -77,7 +89,6 @@ Multiple Cameras with scene fading???
 Check for CSS cross browser changes
 
 Make the main player size constant
-Add sin() to camera movement on eq visual
 Clean up messaging.
 Pick a library to use and update code - Bootstrap, BootstrapNg, Material 
 Make variables private and assign types where possible
@@ -133,6 +144,8 @@ AudioNode.disconnect();
 
 MediaStreamTrackAudioSourceNode
 BiquadFilterNode
+
+
 
 
 

@@ -17,16 +17,17 @@ export class GeneralOptionsComponent implements OnInit {
     @Inject(OptionsService) public optionsService: OptionsService,
     @Inject(MessageService) private messageService: MessageService
   ) { 
+
+  }
+
+  ngOnInit(): void {
     this.currentVisualIndex = this.optionsService.newBaseOptions.currentVisual;
     this.currentVisual = this.optionsService.newBaseOptions.visual[this.currentVisualIndex];
     this.general = this.optionsService.newBaseOptions.general;
   }
 
-  ngOnInit(): void {
-  }
-
   radioNoteChange(e) {
-    console.log(e.target); 
+    // console.log(e.target); 
     this.optionsService.toggleNoteRadioNew(e.target.id, e.target.value);
     // this.optionsService.setOptionNew('currentNote', e.target.value);
     // this.optionsService.newBaseOptions.general[1].note

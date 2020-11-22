@@ -1,6 +1,7 @@
 
 import { Injectable, Inject, ɵɵpipeBind1 } from '@angular/core';
 import { Subscription, Observable, fromEvent, ObjectUnsubscribedError } from 'rxjs';
+import { runInContext } from 'vm';
 
 import { MessageService } from '../message/message.service';
 import { StorageService } from '../storage/storage.service';
@@ -102,12 +103,11 @@ export class OptionsService {
 
     currentVisual: 0,
 
-    // an array of objects to render using the array keyname as group dropdown name
     general: {
-      // general options
       showTitle: true,
       showWaveform: false,
       showSoundWave: false,
+      showAxis: false,
 
       showBars:
       {
@@ -229,7 +229,6 @@ export class OptionsService {
 
     },
 
-    // an array of objects to render using the array keyname as group dropdown name
     visual: [
       // singleSPSCube:
       {
@@ -239,10 +238,19 @@ export class OptionsService {
         checked: true,
 
         colorOptions: true,
-        cameraOptions: true,
-        calpha: 0.72,
-        cbeta: 1.57,
-        cradius: 1000,
+        cameraOptions: false,
+
+        calpha: 4.72,
+        cbeta: .01,
+        cradius: 1200,
+
+        autoRotate: {
+          // type: 'checkbox',
+          label: 'Auto Camera Movement',
+          value: true,
+
+          cameraCustom: true
+        },
 
         sampleGain: {
           // type: 'slider',
@@ -250,8 +258,9 @@ export class OptionsService {
           value: 1,
           // min: 1,
           // max: 10,
-          // step: 1
+          // step: 1,
         },
+
         smoothingConstant: {
           // type: 'slider',
           label: 'Smoothing Constant',
@@ -260,44 +269,50 @@ export class OptionsService {
           // max: 9.9,
           // step: .1
         },
-        autoRotate: {
-          // type: 'checkbox',
-          label: 'Auto Camera Movement',
-          value: true,
-          cameraCustom: true
-        },
+
         customColors: {
           // type: 'checkbox',
           label: 'Custom Colors',
-          value: true
+          value: true,
+
+          midLoc: {
+            // type: 'colorslider',
+            label: 'Midpoint Value',
+            value: 128,
+            // min: 20,
+            // max: 235,
+            // step: 5
+          },
+
+          color: [
+
+            // maxColor:
+            {
+              // type: 'color',
+              label: 'Maximum Color',
+              value: '#ff0000'
+            },
+            // midColor:
+            {
+              // type: 'color',
+              label: 'Middle Color',
+              value: '#000000'
+            },
+            // minColor:
+            {
+              // type: 'color',
+              label: 'Minimum Color',
+              value: '#0000ff'
+            },
+
+          ],
         },
-        maxColor: {
-          // type: 'color',
-          label: 'Maximum Color',
-          value: '#ff0000'
-        },
-        midColor: {
-          // type: 'color',
-          label: 'Middle Color',
-          value: '#000000'
-        },
-        minColor: {
-          // type: 'color',
-          label: 'Minimum Color',
-          value: '#0000ff'
-        },
-        midLoc: {
-          // type: 'colorslider',
-          label: 'Midpoint Value',
-          value: 128,
-          min: 20,
-          max: 235,
-          step: 5
-        },
-        lights: [  //  array of lights
+
+        light: [  //  array of lights
 
           // front light      options.lights[0].attribute
           {
+
             intensity: {
               // type: 'slider',
               label: 'Front Intensity',
@@ -320,7 +335,8 @@ export class OptionsService {
               // type: 'color',
               label: 'Light 0 Back Color',
               value: '#454545'
-            },
+            }
+
           },
 
           // rear light       options.lights[1].attribute
@@ -523,6 +539,7 @@ export class OptionsService {
           // max: 60,
           // step: 5,
         },
+        
         singleSPSExplosionSize: {
           // type: 'slider',
           label: 'Explosion Size',
@@ -603,9 +620,10 @@ export class OptionsService {
 
         ]
       },
+
       // starManager:
       {
-        type: 'radio',
+        // type: 'radio',
         label: 'Stars',
         value: 1,
         checked: false,
@@ -618,7 +636,7 @@ export class OptionsService {
         cradius: 1200,
 
         autoRotate: {
-          type: 'checkbox',
+          // type: 'checkbox',
           label: 'Auto Camera Movement',
           value: true,
 
@@ -626,54 +644,54 @@ export class OptionsService {
         },
 
         sampleGain: {
-          type: 'slider',
+          // type: 'slider',
           label: 'Visual Effect Strength',
           value: 1,
-          min: 1,
-          max: 10,
-          step: 1,
+          // min: 1,
+          // max: 10,
+          // step: 1,
         },
 
         smoothingConstant: {
-          type: 'slider',
+          // type: 'slider',
           label: 'Smoothing Constant',
           value: 8,
-          min: 1,
-          max: 9.9,
-          step: .1
+          // min: 1,
+          // max: 9.9,
+          // step: .1
         },
 
         customColors: {
-          type: 'checkbox',
+          // type: 'checkbox',
           label: 'Custom Colors',
           value: true,
 
           midLoc: {
-            type: 'colorslider',
+            // type: 'colorslider',
             label: 'Midpoint Value',
             value: 128,
-            min: 20,
-            max: 235,
-            step: 5
+            // min: 20,
+            // max: 235,
+            // step: 5
           },
 
           color: [
 
             // maxColor:
             {
-              type: 'color',
+              // type: 'color',
               label: 'Maximum Color',
               value: '#ff0000'
             },
             // midColor:
             {
-              type: 'color',
+              // type: 'color',
               label: 'Middle Color',
               value: '#000000'
             },
             // minColor:
             {
-              type: 'color',
+              // type: 'color',
               label: 'Minimum Color',
               value: '#0000ff'
             },
@@ -687,25 +705,25 @@ export class OptionsService {
           {
 
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Front Intensity',
               value: 80,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Light 0 Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Light 0 Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Light 0 Back Color',
               value: '#454545'
             }
@@ -715,25 +733,25 @@ export class OptionsService {
           // rear light       options.lights[1].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Rear Intensity',
               value: 30,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Rear Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Rear Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Rear Back Color',
               value: '#454545'
             },
@@ -742,25 +760,25 @@ export class OptionsService {
           // left light       options.lights[2].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Left Intensity',
               value: 10,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Left Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Left Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Left Back Color',
               value: '#454545'
             },
@@ -769,25 +787,25 @@ export class OptionsService {
           // right light      options.lights[3].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Right Intensity',
               value: 5,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Right Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Right Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Right Back Color',
               value: '#454545'
             },
@@ -796,25 +814,25 @@ export class OptionsService {
           // top light        options.lights[4].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Top Intensity',
               value: 5,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Top Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Top Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Top Back Color',
               value: '#454545'
             },
@@ -823,25 +841,25 @@ export class OptionsService {
           // bottom light     options.lights[5].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Bottom Intensity',
               value: 5,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Bottom Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Bottom Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Bottom Back Color',
               value: '#454545'
             },
@@ -850,25 +868,25 @@ export class OptionsService {
           // camera light     options.lights[6].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Camera Intensity',
               value: 5,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Camera Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Camera Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Camera Back Color',
               value: '#454545'
             },
@@ -877,25 +895,25 @@ export class OptionsService {
           // camera rimlight  options.lights[7].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Camera Rimlight Intensity',
               value: 5,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Camera Rimlight Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Camera Rimlight Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Camera Rimlight Back Color',
               value: '#454545'
             },
@@ -906,7 +924,7 @@ export class OptionsService {
 
       // spectrograph:
       {
-        type: 'radio',
+        // type: 'radio',
         label: 'Spectrograph',
         value: 2,
         checked: false,
@@ -915,11 +933,11 @@ export class OptionsService {
         cameraOptions: false,
 
         calpha: 4.72,
-        cbeta: .85,
+        cbeta: .01,
         cradius: 1200,
 
         autoRotate: {
-          type: 'checkbox',
+          // type: 'checkbox',
           label: 'Auto Camera Movement',
           value: true,
 
@@ -927,54 +945,54 @@ export class OptionsService {
         },
 
         sampleGain: {
-          type: 'slider',
+          // type: 'slider',
           label: 'Visual Effect Strength',
           value: 1,
-          min: 1,
-          max: 10,
-          step: 1,
+          // min: 1,
+          // max: 10,
+          // step: 1,
         },
 
         smoothingConstant: {
-          type: 'slider',
+          // type: 'slider',
           label: 'Smoothing Constant',
           value: 8,
-          min: 1,
-          max: 9.9,
-          step: .1
+          // min: 1,
+          // max: 9.9,
+          // step: .1
         },
 
         customColors: {
-          type: 'checkbox',
+          // type: 'checkbox',
           label: 'Custom Colors',
           value: true,
 
           midLoc: {
-            type: 'colorslider',
+            // type: 'colorslider',
             label: 'Midpoint Value',
             value: 128,
-            min: 20,
-            max: 235,
-            step: 5
+            // min: 20,
+            // max: 235,
+            // step: 5
           },
 
           color: [
 
             // maxColor:
             {
-              type: 'color',
+              // type: 'color',
               label: 'Maximum Color',
               value: '#ff0000'
             },
             // midColor:
             {
-              type: 'color',
+              // type: 'color',
               label: 'Middle Color',
               value: '#000000'
             },
             // minColor:
             {
-              type: 'color',
+              // type: 'color',
               label: 'Minimum Color',
               value: '#0000ff'
             },
@@ -988,25 +1006,25 @@ export class OptionsService {
           {
 
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Front Intensity',
               value: 80,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Light 0 Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Light 0 Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Light 0 Back Color',
               value: '#454545'
             }
@@ -1016,25 +1034,25 @@ export class OptionsService {
           // rear light       options.lights[1].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Rear Intensity',
               value: 30,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Rear Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Rear Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Rear Back Color',
               value: '#454545'
             },
@@ -1043,25 +1061,25 @@ export class OptionsService {
           // left light       options.lights[2].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Left Intensity',
               value: 10,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Left Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Left Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Left Back Color',
               value: '#454545'
             },
@@ -1070,25 +1088,25 @@ export class OptionsService {
           // right light      options.lights[3].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Right Intensity',
               value: 5,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Right Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Right Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Right Back Color',
               value: '#454545'
             },
@@ -1097,25 +1115,25 @@ export class OptionsService {
           // top light        options.lights[4].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Top Intensity',
               value: 5,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Top Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Top Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Top Back Color',
               value: '#454545'
             },
@@ -1124,25 +1142,25 @@ export class OptionsService {
           // bottom light     options.lights[5].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Bottom Intensity',
               value: 5,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Bottom Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Bottom Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Bottom Back Color',
               value: '#454545'
             },
@@ -1151,25 +1169,25 @@ export class OptionsService {
           // camera light     options.lights[6].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Camera Intensity',
               value: 5,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Camera Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Camera Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Camera Back Color',
               value: '#454545'
             },
@@ -1178,25 +1196,25 @@ export class OptionsService {
           // camera rimlight  options.lights[7].attribute
           {
             intensity: {
-              type: 'slider',
+              // type: 'slider',
               label: 'Camera Rimlight Intensity',
               value: 5,
-              min: -200,
-              max: 200,
-              step: 5
+              // min: -200,
+              // max: 200,
+              // step: 5
             },
             color: {
-              type: 'color',
+              // type: 'color',
               label: 'Camera Rimlight Color',
               value: '#ffffff'
             },
             specular: {
-              type: 'color',
+              // type: 'color',
               label: 'Camera Rimlight Specular',
               value: '#454545'
             },
             groundColor: {
-              type: 'color',
+              // type: 'color',
               label: 'Camera Rimlight Back Color',
               value: '#454545'
             },
@@ -1213,10 +1231,10 @@ export class OptionsService {
         checked: false,
 
         colorOptions: true,
-        cameraOptions: true,
+        cameraOptions: false,
 
         calpha: 4.72,
-        cbeta: .81,
+        cbeta: .01,
         cradius: 1200,
 
         autoRotate: {
@@ -1514,11 +1532,11 @@ export class OptionsService {
         checked: false,
 
         colorOptions: true,
-        cameraOptions: true,
+        cameraOptions: false,
 
         calpha: 4.72,
         cbeta: .01,
-        cradius: 3200,
+        cradius: 1200,
 
         autoRotate: {
           type: 'checkbox',
@@ -1818,7 +1836,7 @@ export class OptionsService {
         cameraOptions: false,
 
         calpha: 4.72,
-        cbeta: .81,
+        cbeta: .01,
         cradius: 1200,
 
         autoRotate: {
@@ -2116,10 +2134,311 @@ export class OptionsService {
         checked: false,
 
         colorOptions: true,
-        cameraOptions: true,
+        cameraOptions: false,
 
         calpha: 4.72,
-        cbeta: .91,
+        cbeta: .01,
+        cradius: 1200,
+
+        autoRotate: {
+          type: 'checkbox',
+          label: 'Auto Camera Movement',
+          value: true,
+
+          cameraCustom: true
+        },
+
+        sampleGain: {
+          type: 'slider',
+          label: 'Visual Effect Strength',
+          value: 1,
+          min: 1,
+          max: 10,
+          step: 1,
+        },
+
+        smoothingConstant: {
+          type: 'slider',
+          label: 'Smoothing Constant',
+          value: 8,
+          min: 1,
+          max: 9.9,
+          step: .1
+        },
+
+        customColors: {
+          type: 'checkbox',
+          label: 'Custom Colors',
+          value: true,
+
+          midLoc: {
+            type: 'colorslider',
+            label: 'Midpoint Value',
+            value: 128,
+            min: 20,
+            max: 235,
+            step: 5
+          },
+
+          color: [
+
+            // maxColor:
+            {
+              type: 'color',
+              label: 'Maximum Color',
+              value: '#ff0000'
+            },
+            // midColor:
+            {
+              type: 'color',
+              label: 'Middle Color',
+              value: '#000000'
+            },
+            // minColor:
+            {
+              type: 'color',
+              label: 'Minimum Color',
+              value: '#0000ff'
+            },
+
+          ],
+        },
+
+        light: [  //  array of lights
+
+          // front light      options.lights[0].attribute
+          {
+
+            intensity: {
+              type: 'slider',
+              label: 'Front Intensity',
+              value: 80,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Light 0 Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Light 0 Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Light 0 Back Color',
+              value: '#454545'
+            }
+
+          },
+
+          // rear light       options.lights[1].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Rear Intensity',
+              value: 30,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Rear Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Rear Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Rear Back Color',
+              value: '#454545'
+            },
+          },
+
+          // left light       options.lights[2].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Left Intensity',
+              value: 10,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Left Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Left Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Left Back Color',
+              value: '#454545'
+            },
+          },
+
+          // right light      options.lights[3].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Right Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Right Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Right Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Right Back Color',
+              value: '#454545'
+            },
+          },
+
+          // top light        options.lights[4].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Top Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Top Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Top Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Top Back Color',
+              value: '#454545'
+            },
+          },
+
+          // bottom light     options.lights[5].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Bottom Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Bottom Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Bottom Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Bottom Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera light     options.lights[6].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Back Color',
+              value: '#454545'
+            },
+          },
+
+          // camera rimlight  options.lights[7].attribute
+          {
+            intensity: {
+              type: 'slider',
+              label: 'Camera Rimlight Intensity',
+              value: 5,
+              min: -200,
+              max: 200,
+              step: 5
+            },
+            color: {
+              type: 'color',
+              label: 'Camera Rimlight Color',
+              value: '#ffffff'
+            },
+            specular: {
+              type: 'color',
+              label: 'Camera Rimlight Specular',
+              value: '#454545'
+            },
+            groundColor: {
+              type: 'color',
+              label: 'Camera Rimlight Back Color',
+              value: '#454545'
+            },
+          }
+
+        ]
+      },
+
+      // notes:
+      {
+        type: 'radio',
+        label: 'Notes',
+        value: 7,
+        checked: false,
+
+        colorOptions: true,
+        cameraOptions: false,
+
+        calpha: 4.72,
+        cbeta: .01,
         cradius: 1200,
 
         autoRotate: {
@@ -2411,271 +2730,6 @@ export class OptionsService {
 
     ],
 
-  };
-
-
-  newBaseOptionsSave = {
-    version: 'b_1.0',
-
-    // an array of objects to render using the array keyname as group dropdown name
-    general: [
-      // general options
-      // showTitle:
-      {
-        type: 'checkbox',
-        label: 'Show Title',
-        value: true,
-      },
-      // showBars:
-      {
-        type: 'checkbox',
-        label: 'Show Freq Bars',
-        value: false,
-
-        currentNote: 'None',   //  Internal only - no display
-
-        // key highlight options
-        // an array of objects to render using the array keyname as group dropdown name
-        notes: [
-
-          // C:
-          {
-            type: 'numeric',
-            label: 'C',
-            value: 33,
-            checked: false,
-
-            hertz: 32.703,
-          },
-          // 'C#':
-          {
-            type: 'numeric',
-            label: 'C#',
-            value: 39,
-            checked: false,
-
-            hertz: 34.648,
-          },
-          // D:
-          {
-            type: 'numeric',
-            label: 'D',
-            value: 45,
-            checked: false,
-
-            hertz: 36.708,
-          },
-          // 'D#':
-          {
-            type: 'numeric',
-            label: 'D#',
-            value: 52,
-            checked: false,
-
-            hertz: 38.891,
-          },
-          // E:
-          {
-            type: 'numeric',
-            label: 'E',
-            value: 58,
-            checked: false,
-
-            hertz: 41.2035,
-          },
-          // F:
-          {
-            type: 'numeric',
-            label: 'F',
-            value: 65,
-            checked: false,
-
-            hertz: 43.654,
-          },
-          // 'F#':
-          {
-            type: 'numeric',
-            label: 'F#',
-            value: 69,
-            checked: false,
-
-            hertz: 46.249,
-          },
-          // G:
-          {
-            type: 'numeric',
-            label: 'G',
-            value: 73,
-            checked: false,
-
-            hertz: 48.999,
-          },
-          // 'G#':
-          {
-            type: 'numeric',
-            label: 'G#',
-            value: 77,
-            checked: false,
-
-            hertz: 51.913,
-          },
-          // A:
-          {
-            type: 'numeric',
-            label: 'A',
-            value: 82,
-            checked: false,
-
-            hertz: 55,
-          },
-          // 'A#':
-          {
-            type: 'numeric',
-            label: 'A#',
-            value: 87,
-            checked: false,
-
-            hertz: 58.270,
-          },
-          // B:
-          {
-            type: 'numeric',
-            label: 'B',
-            value: 92,
-            checked: false,
-
-            hertz: 61.735,
-          },
-          // None:
-          {
-            type: 'numeric',
-            label: 'None',
-            value: 0,
-            checked: true,
-
-            hertz: 0,
-          },
-        ],
-      },
-      // showWaveform:
-      {
-        type: 'checkbox',
-        label: 'Show Waveform',
-        value: false
-      },
-
-    ],
-
-    // an array of objects to render using the array keyname as group dropdown name
-    visual: [
-      // starManager:
-      {
-        value: 1,
-        checked: false,
-
-        colorOptions: false,
-        cameraOptions: false,
-
-        calpha: 4.72,
-        cbeta: .01,
-        cradius: 1200,
-
-        customColors: {
-          value: true,
-
-          color: [
-            // maxColor:
-            { value: '#ff0000' },
-            // midColor:
-            { value: '#000000' },
-            // minColor:
-            { value: '#0000ff' },
-            // midLoc:
-            { value: 128 }
-          ],
-        },
-
-        audio: [
-          // sampleGain:
-          { value: 1 },
-          // smoothingConstant:
-          { value: 8 }
-        ],
-
-        autoRotate: {
-          value: true,
-
-          cameraCustom: true
-        },
-
-        light: [  //  array of lights
-
-          // front light      options.lights[0].attribute
-          {
-            intensity: { value: 80 },
-            color: { value: '#ffffff' },
-            specular: { value: '#454545' },
-            groundColor: { value: '#454545' }
-          },
-
-          // rear light       options.lights[1].attribute
-          {
-            intensity: { value: 30 },
-            color: { value: '#ffffff' },
-            specular: { value: '#454545' },
-            groundColor: { value: '#454545' }
-          },
-
-          // left light       options.lights[2].attribute
-          {
-            intensity: { value: 10 },
-            color: { value: '#ffffff' },
-            specular: { value: '#454545' },
-            groundColor: { value: '#454545' }
-          },
-
-          // right light      options.lights[3].attribute
-          {
-            intensity: { value: 5 },
-            color: { value: '#ffffff' },
-            specular: { value: '#454545' },
-            groundColor: { value: '#454545' }
-          },
-
-          // top light        options.lights[4].attribute
-          {
-            intensity: { value: 5 },
-            color: { value: '#ffffff' },
-            specular: { value: '#454545' },
-            groundColor: { value: '#454545' }
-          },
-
-          // bottom light     options.lights[5].attribute
-          {
-            intensity: { value: 5 },
-            color: { value: '#ffffff' },
-            specular: { value: '#454545' },
-            groundColor: { value: '#454545' }
-          },
-
-          // camera light     options.lights[6].attribute
-          {
-            intensity: { value: 5 },
-            color: { value: '#ffffff' },
-            specular: { value: '#454545' },
-            groundColor: { value: '#454545' }
-          },
-
-          // camera rimlight  options.lights[7].attribute
-          {
-            intensity: { value: 5 },
-            color: { value: '#ffffff' },
-            specular: { value: '#454545' },
-            groundColor: { value: '#454545' }
-          }
-        ]
-      }
-    ]
   };
 
 
@@ -3859,8 +3913,8 @@ export class OptionsService {
 
   ) {
     console.log('Options Service Constructor');
-    console.log('Options from start');
-    console.log(this.options);
+    // console.log('Options from start');
+    // console.log(this.options);
 
     this.resizeObservable = fromEvent(window, 'resize');
     this.resizeSubscription = this.resizeObservable.subscribe(evt => {
@@ -3896,8 +3950,8 @@ export class OptionsService {
       console.log('local options error');
     }
 
-    console.log('Options');
-    console.log(this.options);
+    // console.log('Options');
+    // console.log(this.options);
   }
 
   setOptionNew(itemName: string, value) {
@@ -3909,15 +3963,15 @@ export class OptionsService {
 
 
   toggleNoteRadioNew(itemName: string, index: number) {
-    console.log('itemName: ', itemName);
-    console.log('index: ', index);
+    // console.log('itemName: ', itemName);
+    // console.log('index: ', index);
     this.notes.forEach((n, i) => {
       this.newBaseOptions.general.showBars.note[i].checked = (itemName === n);
     });
     this.newBaseOptions.general.showBars.currentNote = index;
-    console.log(this.newBaseOptions.general.showBars.currentNote);
-    console.log(this.newBaseOptions);
-;    // TO DO:
+    // console.log(this.newBaseOptions.general.showBars.currentNote);
+    // console.log(this.newBaseOptions);
+    // TO DO:
     // this.storageService.saveOptions(this.options); 
   }
 
@@ -3969,48 +4023,48 @@ export class OptionsService {
 
   updateCustomOptions(visualIndex) {
 
-    this.options.smoothingConstant.value = this.options[this.visuals[visualIndex]].smoothingConstant;
-    this.options.sampleGain.value = this.options[this.visuals[visualIndex]].sampleGain;
-    this.options.autoRotate.value = this.options[this.visuals[visualIndex]].autoRotate;
-    this.options.customColors.value = this.options[this.visuals[visualIndex]].customColors;
-    this.options.minColor.value = this.options[this.visuals[visualIndex]].minColor;
-    this.options.midColor.value = this.options[this.visuals[visualIndex]].midColor;
-    this.options.maxColor.value = this.options[this.visuals[visualIndex]].maxColor;
-    this.options.midLoc.value = this.options[this.visuals[visualIndex]].midLoc;
+    // this.options.smoothingConstant.value = this.options[this.visuals[visualIndex]].smoothingConstant;
+    // this.options.sampleGain.value = this.options[this.visuals[visualIndex]].sampleGain;
+    // this.options.autoRotate.value = this.options[this.visuals[visualIndex]].autoRotate;
+    // this.options.customColors.value = this.options[this.visuals[visualIndex]].customColors;
+    // this.options.minColor.value = this.options[this.visuals[visualIndex]].minColor;
+    // this.options.midColor.value = this.options[this.visuals[visualIndex]].midColor;
+    // this.options.maxColor.value = this.options[this.visuals[visualIndex]].maxColor;
+    // this.options.midLoc.value = this.options[this.visuals[visualIndex]].midLoc;
 
-    this.options.light0Intensity.value = this.options[this.visuals[visualIndex]].light0Intensity;
-    this.options.light0Color.value = this.options[this.visuals[visualIndex]].light0Color;
-    this.options.light0Specular.value = this.options[this.visuals[visualIndex]].light0Specular;
-    this.options.light0GroundColor.value = this.options[this.visuals[visualIndex]].light0GroundColor;
-    this.options.light1Intensity.value = this.options[this.visuals[visualIndex]].light1Intensity;
-    this.options.light1Color.value = this.options[this.visuals[visualIndex]].light1Color;
-    this.options.light1Specular.value = this.options[this.visuals[visualIndex]].light1Specular;
-    this.options.light1GroundColor.value = this.options[this.visuals[visualIndex]].light1GroundColor;
-    this.options.light2Intensity.value = this.options[this.visuals[visualIndex]].light2Intensity;
-    this.options.light2Color.value = this.options[this.visuals[visualIndex]].light2Color;
-    this.options.light2Specular.value = this.options[this.visuals[visualIndex]].light2Specular;
-    this.options.light2GroundColor.value = this.options[this.visuals[visualIndex]].light2GroundColor;
-    this.options.light3Intensity.value = this.options[this.visuals[visualIndex]].light3Intensity;
-    this.options.light3Color.value = this.options[this.visuals[visualIndex]].light3Color;
-    this.options.light3Specular.value = this.options[this.visuals[visualIndex]].light3Specular;
-    this.options.light3GroundColor.value = this.options[this.visuals[visualIndex]].light3GroundColor;
+    // this.options.light0Intensity.value = this.options[this.visuals[visualIndex]].light0Intensity;
+    // this.options.light0Color.value = this.options[this.visuals[visualIndex]].light0Color;
+    // this.options.light0Specular.value = this.options[this.visuals[visualIndex]].light0Specular;
+    // this.options.light0GroundColor.value = this.options[this.visuals[visualIndex]].light0GroundColor;
+    // this.options.light1Intensity.value = this.options[this.visuals[visualIndex]].light1Intensity;
+    // this.options.light1Color.value = this.options[this.visuals[visualIndex]].light1Color;
+    // this.options.light1Specular.value = this.options[this.visuals[visualIndex]].light1Specular;
+    // this.options.light1GroundColor.value = this.options[this.visuals[visualIndex]].light1GroundColor;
+    // this.options.light2Intensity.value = this.options[this.visuals[visualIndex]].light2Intensity;
+    // this.options.light2Color.value = this.options[this.visuals[visualIndex]].light2Color;
+    // this.options.light2Specular.value = this.options[this.visuals[visualIndex]].light2Specular;
+    // this.options.light2GroundColor.value = this.options[this.visuals[visualIndex]].light2GroundColor;
+    // this.options.light3Intensity.value = this.options[this.visuals[visualIndex]].light3Intensity;
+    // this.options.light3Color.value = this.options[this.visuals[visualIndex]].light3Color;
+    // this.options.light3Specular.value = this.options[this.visuals[visualIndex]].light3Specular;
+    // this.options.light3GroundColor.value = this.options[this.visuals[visualIndex]].light3GroundColor;
 
-    this.options.light4Intensity.value = this.options[this.visuals[visualIndex]].light4Intensity;
-    this.options.light4Color.value = this.options[this.visuals[visualIndex]].light4Color;
-    this.options.light4Specular.value = this.options[this.visuals[visualIndex]].light4Specular;
-    this.options.light4GroundColor.value = this.options[this.visuals[visualIndex]].light4GroundColor;
-    this.options.light5Intensity.value = this.options[this.visuals[visualIndex]].light5Intensity;
-    this.options.light5Color.value = this.options[this.visuals[visualIndex]].light5Color;
-    this.options.light5Specular.value = this.options[this.visuals[visualIndex]].light5Specular;
-    this.options.light5GroundColor.value = this.options[this.visuals[visualIndex]].light5GroundColor;
-    this.options.light6Intensity.value = this.options[this.visuals[visualIndex]].light6Intensity;
-    this.options.light6Color.value = this.options[this.visuals[visualIndex]].light6Color;
-    this.options.light6Specular.value = this.options[this.visuals[visualIndex]].light6Specular;
-    this.options.light6GroundColor.value = this.options[this.visuals[visualIndex]].light6GroundColor;
-    this.options.light7Intensity.value = this.options[this.visuals[visualIndex]].light7Intensity;
-    this.options.light7Color.value = this.options[this.visuals[visualIndex]].light7Color;
-    this.options.light7Specular.value = this.options[this.visuals[visualIndex]].light7Specular;
-    this.options.light7GroundColor.value = this.options[this.visuals[visualIndex]].light7GroundColor;
+    // this.options.light4Intensity.value = this.options[this.visuals[visualIndex]].light4Intensity;
+    // this.options.light4Color.value = this.options[this.visuals[visualIndex]].light4Color;
+    // this.options.light4Specular.value = this.options[this.visuals[visualIndex]].light4Specular;
+    // this.options.light4GroundColor.value = this.options[this.visuals[visualIndex]].light4GroundColor;
+    // this.options.light5Intensity.value = this.options[this.visuals[visualIndex]].light5Intensity;
+    // this.options.light5Color.value = this.options[this.visuals[visualIndex]].light5Color;
+    // this.options.light5Specular.value = this.options[this.visuals[visualIndex]].light5Specular;
+    // this.options.light5GroundColor.value = this.options[this.visuals[visualIndex]].light5GroundColor;
+    // this.options.light6Intensity.value = this.options[this.visuals[visualIndex]].light6Intensity;
+    // this.options.light6Color.value = this.options[this.visuals[visualIndex]].light6Color;
+    // this.options.light6Specular.value = this.options[this.visuals[visualIndex]].light6Specular;
+    // this.options.light6GroundColor.value = this.options[this.visuals[visualIndex]].light6GroundColor;
+    // this.options.light7Intensity.value = this.options[this.visuals[visualIndex]].light7Intensity;
+    // this.options.light7Color.value = this.options[this.visuals[visualIndex]].light7Color;
+    // this.options.light7Specular.value = this.options[this.visuals[visualIndex]].light7Specular;
+    // this.options.light7GroundColor.value = this.options[this.visuals[visualIndex]].light7GroundColor;
 
 
     this.messageService.announceMessage('set lights');
@@ -4018,7 +4072,7 @@ export class OptionsService {
     this.announceChange('smoothingConstant');
     this.announceChange('sampleGain');
 
-    console.log(this.options);
+    // console.log(this.options);
 
   }
 
@@ -4110,7 +4164,8 @@ export class OptionsService {
   public getSelectedCubeSPSCount() {
     let count = 0;
     for (let index = 0; index < this.CubeSPSs.length; index++) {
-      count += (this.options[this.CubeSPSs[index]].value ? 1 : 0);
+      // count += (this.options[this.CubeSPSs[index]].value ? 1 : 0);
+      count += (this.newBaseOptions.visual[0].types[index].value ? 1 : 0);
     }
     return count;
   }
@@ -4123,23 +4178,23 @@ export class OptionsService {
   //   return count;
   // }
 
-  get showTitle(): boolean {
-    return this.options.showTitle.value;
-  }
+  // get showTitle(): boolean {
+  //   return this.options.showTitle.value;
+  // }
 
-  set showTitle(value: boolean) {
-    this.options.showTitle.value = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set showTitle(value: boolean) {
+  //   this.options.showTitle.value = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get showWaveform() {
-    return this.options.showWaveform.value;
-  }
+  // get showWaveform() {
+  //   return this.options.showWaveform.value;
+  // }
 
-  set showWaveform(value) {
-    this.options.showWaveform.value = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set showWaveform(value) {
+  //   this.options.showWaveform.value = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
 
 
@@ -4526,32 +4581,32 @@ export class OptionsService {
 
 
 
-  get waveformDelay(): number {
-    return this.options.waveformDelay.value;
-  }
+  // get waveformDelay(): number {
+  //   return this.options.waveformDelay.value;
+  // }
 
-  set waveformDelay(value: number) {
-    this.options.waveformDelay.value = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set waveformDelay(value: number) {
+  //   this.options.waveformDelay.value = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get waveformMultiplier(): number {
-    return this.options.waveformMultiplier.value;
-  }
+  // get waveformMultiplier(): number {
+  //   return this.options.waveformMultiplier.value;
+  // }
 
-  set waveformMultiplier(value: number) {
-    this.options.waveformMultiplier.value = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set waveformMultiplier(value: number) {
+  //   this.options.waveformMultiplier.value = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get showBars(): boolean {
-    return this.options.showBars.value;
-  }
+  // get showBars(): boolean {
+  //   return this.options.showBars.value;
+  // }
 
-  set showBars(value: boolean) {
-    this.options.showBars.value = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set showBars(value: boolean) {
+  //   this.options.showBars.value = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
   get renderPlayer(): boolean {
     return this.state.renderPlayer.value;
@@ -4580,229 +4635,229 @@ export class OptionsService {
     this.storageService.saveOptions(this.options);
   }
 
-  get sampleGain(): number {
-    return this.options.sampleGain.value;
-  }
+  // get sampleGain(): number {
+  //   return this.options.sampleGain.value;
+  // }
 
-  set sampleGain(value: number) {
-    this.options.sampleGain.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].sampleGain = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set sampleGain(value: number) {
+  //   this.options.sampleGain.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].sampleGain = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get smoothingConstant(): number {
-    return this.options.smoothingConstant.value;
-  }
+  // get smoothingConstant(): number {
+  //   return this.options.smoothingConstant.value;
+  // }
 
-  set smoothingConstant(value: number) {
-    this.options.smoothingConstant.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].smoothingConstant = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set smoothingConstant(value: number) {
+  //   this.options.smoothingConstant.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].smoothingConstant = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get singleSPSDelay(): number {
-    return this.options.singleSPSDelay.value;
-  }
+  // get singleSPSDelay(): number {
+  //   return this.options.singleSPSDelay.value;
+  // }
 
-  set singleSPSDelay(value: number) {
-    this.options.singleSPSDelay.value = value;
-    this.storageService.saveOptions(this.options);
-  }
-
-
-  get singleSPSExplosionSize(): number {
-    return this.options.singleSPSExplosionSize.value;
-  }
-
-  set singleSPSExplosionSize(value: number) {
-    this.options.singleSPSExplosionSize.value = value;
-    this.storageService.saveOptions(this.options);
-  }
-
-  get blockPlane(): boolean {
-    return this.options.blockPlane.value;
-  }
-
-  set blockPlane(value: boolean) {
-    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
-      this.options.blockPlane.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.blockPlane.value = !value;
-      (document.getElementById('blockPlane') as HTMLInputElement).checked = true;
-    }
-  }
-
-  get thing1(): boolean {
-    return this.options.thing1.value;
-  }
-
-  set thing1(value: boolean) {
-    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
-      this.options.thing1.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.thing1.value = !value;
-      (document.getElementById('thing1') as HTMLInputElement).checked = true;
-    }
-  }
-
-  get blockSpiral(): boolean {
-    return this.options.blockSpiral.value;
-  }
-
-  set blockSpiral(value: boolean) {
-    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
-      this.options.blockSpiral.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.blockSpiral.value = !value;
-      (document.getElementById('blockSpiral') as HTMLInputElement).checked = true;
-    }
-  }
-
-  get thing2(): boolean {
-    return this.options.thing2.value;
-  }
-
-  set thing2(value: boolean) {
-    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
-      this.options.thing2.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.thing2.value = !value;
-      (document.getElementById('thing2') as HTMLInputElement).checked = true;
-    }
-  }
-
-  get equation(): boolean {
-    return this.options.equation.value;
-  }
-
-  set equation(value: boolean) {
-    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
-      this.options.equation.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.equation.value = !value;
-      (document.getElementById('equation') as HTMLInputElement).checked = true;
-    }
-  }
+  // set singleSPSDelay(value: number) {
+  //   this.options.singleSPSDelay.value = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
 
-  get thing3(): boolean {
-    return this.options.thing3.value;
-  }
+  // get singleSPSExplosionSize(): number {
+  //   return this.options.singleSPSExplosionSize.value;
+  // }
 
-  set thing3(value: boolean) {
-    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
-      this.options.thing3.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.thing3.value = !value;
-      (document.getElementById('thing3') as HTMLInputElement).checked = true;
-    }
-  }
+  // set singleSPSExplosionSize(value: number) {
+  //   this.options.singleSPSExplosionSize.value = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
+  // get blockPlane(): boolean {
+  //   return this.options.blockPlane.value;
+  // }
 
-  get cube(): boolean {
-    return this.options.cube.value;
-  }
+  // set blockPlane(value: boolean) {
+  //   if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+  //     this.options.blockPlane.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.blockPlane.value = !value;
+  //     (document.getElementById('blockPlane') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
-  set cube(value: boolean) {
-    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
-      this.options.cube.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.cube.value = !value;
-      (document.getElementById('cube') as HTMLInputElement).checked = true;
-    }
-  }
+  // get thing1(): boolean {
+  //   return this.options.thing1.value;
+  // }
 
-  get sphere(): boolean {
-    return this.options.sphere.value;
-  }
+  // set thing1(value: boolean) {
+  //   if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+  //     this.options.thing1.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.thing1.value = !value;
+  //     (document.getElementById('thing1') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
-  set sphere(value: boolean) {
-    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
-      this.options.sphere.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.sphere.value = !value;
-      (document.getElementById('sphere') as HTMLInputElement).checked = true;
-    }
-  }
+  // get blockSpiral(): boolean {
+  //   return this.options.blockSpiral.value;
+  // }
 
-  get pole(): boolean {
-    return this.options.pole.value;
-  }
+  // set blockSpiral(value: boolean) {
+  //   if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+  //     this.options.blockSpiral.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.blockSpiral.value = !value;
+  //     (document.getElementById('blockSpiral') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
-  set pole(value: boolean) {
-    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
-      this.options.pole.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.pole.value = !value;
-      (document.getElementById('pole') as HTMLInputElement).checked = true;
-    }
-  }
+  // get thing2(): boolean {
+  //   return this.options.thing2.value;
+  // }
 
-  get heart(): boolean {
-    return this.options.heart.value;
-  }
+  // set thing2(value: boolean) {
+  //   if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+  //     this.options.thing2.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.thing2.value = !value;
+  //     (document.getElementById('thing2') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
-  set heart(value: boolean) {
-    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
-      this.options.heart.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.heart.value = !value;
-      (document.getElementById('heart') as HTMLInputElement).checked = true;
-    }
-  }
+  // get equation(): boolean {
+  //   return this.options.equation.value;
+  // }
 
-
-  get sineLoop(): boolean {
-    return this.options.sineLoop.value;
-  }
-
-  set sineLoop(value: boolean) {
-    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
-      this.options.sineLoop.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.sineLoop.value = !value;
-      (document.getElementById('sineLoop') as HTMLInputElement).checked = true;
-    }
-  }
+  // set equation(value: boolean) {
+  //   if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+  //     this.options.equation.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.equation.value = !value;
+  //     (document.getElementById('equation') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
 
+  // get thing3(): boolean {
+  //   return this.options.thing3.value;
+  // }
 
-  get sineLoop2(): boolean {
-    return this.options.sineLoop2.value;
-  }
+  // set thing3(value: boolean) {
+  //   if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+  //     this.options.thing3.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.thing3.value = !value;
+  //     (document.getElementById('thing3') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
-  set sineLoop2(value: boolean) {
-    if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
-      this.options.sineLoop2.value = value;
-      this.announceChange('sps change');
-      this.storageService.saveOptions(this.options);
-    } else {
-      this.options.sineLoop2.value = !value;
-      (document.getElementById('sineLoop2') as HTMLInputElement).checked = true;
-    }
-  }
+
+  // get cube(): boolean {
+  //   return this.options.cube.value;
+  // }
+
+  // set cube(value: boolean) {
+  //   if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+  //     this.options.cube.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.cube.value = !value;
+  //     (document.getElementById('cube') as HTMLInputElement).checked = true;
+  //   }
+  // }
+
+  // get sphere(): boolean {
+  //   return this.options.sphere.value;
+  // }
+
+  // set sphere(value: boolean) {
+  //   if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+  //     this.options.sphere.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.sphere.value = !value;
+  //     (document.getElementById('sphere') as HTMLInputElement).checked = true;
+  //   }
+  // }
+
+  // get pole(): boolean {
+  //   return this.options.pole.value;
+  // }
+
+  // set pole(value: boolean) {
+  //   if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+  //     this.options.pole.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.pole.value = !value;
+  //     (document.getElementById('pole') as HTMLInputElement).checked = true;
+  //   }
+  // }
+
+  // get heart(): boolean {
+  //   return this.options.heart.value;
+  // }
+
+  // set heart(value: boolean) {
+  //   if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+  //     this.options.heart.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.heart.value = !value;
+  //     (document.getElementById('heart') as HTMLInputElement).checked = true;
+  //   }
+  // }
+
+
+  // get sineLoop(): boolean {
+  //   return this.options.sineLoop.value;
+  // }
+
+  // set sineLoop(value: boolean) {
+  //   if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+  //     this.options.sineLoop.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.sineLoop.value = !value;
+  //     (document.getElementById('sineLoop') as HTMLInputElement).checked = true;
+  //   }
+  // }
+
+
+
+  // get sineLoop2(): boolean {
+  //   return this.options.sineLoop2.value;
+  // }
+
+  // set sineLoop2(value: boolean) {
+  //   if ((!value && this.getSelectedCubeSPSCount() > 1) || value) {
+  //     this.options.sineLoop2.value = value;
+  //     this.announceChange('sps change');
+  //     this.storageService.saveOptions(this.options);
+  //   } else {
+  //     this.options.sineLoop2.value = !value;
+  //     (document.getElementById('sineLoop2') as HTMLInputElement).checked = true;
+  //   }
+  // }
 
 
   ///////////////////////////////////////////////////////////////////////////
@@ -5081,69 +5136,69 @@ export class OptionsService {
   //   this.storageService.saveOptions(this.options);
   // }
 
-  get customColors(): boolean {
-    return this.options.customColors.value;
-  }
+  // get customColors(): boolean {
+  //   return this.options.customColors.value;
+  // }
 
-  set customColors(value: boolean) {
-    this.options.customColors.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].customColors = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set customColors(value: boolean) {
+  //   this.options.customColors.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].customColors = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get autoRotate(): boolean {
-    return this.options.autoRotate.value;
-  }
+  // get autoRotate(): boolean {
+  //   return this.options.autoRotate.value;
+  // }
 
-  set autoRotate(value: boolean) {
-    this.options.autoRotate.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].autoRotate = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set autoRotate(value: boolean) {
+  //   this.options.autoRotate.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].autoRotate = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
-  get minColor(): string {
-    return this.options.minColor.value;
-  }
+  // get minColor(): string {
+  //   return this.options.minColor.value;
+  // }
 
-  set minColor(value: string) {
-    this.options.minColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].minColor = value;
+  // set minColor(value: string) {
+  //   this.options.minColor.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].minColor = value;
 
-    this.storageService.saveOptions(this.options);
-  }
-
-
-  get midColor(): string {
-    return this.options.midColor.value;
-  }
-
-  set midColor(value: string) {
-    this.options.midColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].midColor = value;
-    this.storageService.saveOptions(this.options);
-  }
+  //   this.storageService.saveOptions(this.options);
+  // }
 
 
-  get maxColor(): string {
-    return this.options.maxColor.value;
-  }
+  // get midColor(): string {
+  //   return this.options.midColor.value;
+  // }
 
-  set maxColor(value: string) {
-    this.options.maxColor.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].maxColor = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set midColor(value: string) {
+  //   this.options.midColor.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].midColor = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
 
-  get midLoc(): number {
-    return this.options.midLoc.value;
-  }
+  // get maxColor(): string {
+  //   return this.options.maxColor.value;
+  // }
 
-  set midLoc(value: number) {
-    this.options.midLoc.value = value;
-    this.options[this.visuals[this.state.currentVisual.value]].midLoc = value;
-    this.storageService.saveOptions(this.options);
-  }
+  // set maxColor(value: string) {
+  //   this.options.maxColor.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].maxColor = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
+
+
+  // get midLoc(): number {
+  //   return this.options.midLoc.value;
+  // }
+
+  // set midLoc(value: number) {
+  //   this.options.midLoc.value = value;
+  //   this.options[this.visuals[this.state.currentVisual.value]].midLoc = value;
+  //   this.storageService.saveOptions(this.options);
+  // }
 
 
   get currentTrack(): number {

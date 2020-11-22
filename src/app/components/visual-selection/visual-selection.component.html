@@ -1,0 +1,63 @@
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
+    Visual Selection
+  </mat-expansion-panel-header>
+
+
+  <ng-container *ngFor="let visual of this.optionsService.newBaseOptions.visual; index as i">
+
+    <input type="radio" [id]="visual.label" [name]="visual.label" [value]="visual.value" (click)="radioChange($event)"
+      [checked]="visual.checked">
+    <label [for]="visual.label"> {{visual.label}}</label>
+    <br>
+
+  </ng-container>
+
+  <ng-container *ngIf="this.optionsService.newBaseOptions.currentVisual === 0">
+
+    <h6>Exploding Cube SPS Options</h6>
+
+    <!-- Change Delay (sec) -->
+    <b><label class="rangeLabel" for="Change Delay (sec)">
+        Change Delay (sec)
+        ({{this.optionsService.newBaseOptions.visual[0].singleSPSDelay.value}})
+      </label></b><br>
+
+    <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+
+    <input type="range" id="Change Delay (sec)" name="Change Delay (sec)" class="range" min="5" max="60" step="5"
+      [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].singleSPSDelay.value">
+
+    <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
+
+
+    <!-- Explosion Size -->
+
+    <b><label class="rangeLabel" for="Explosion Size">
+        Explosion Size
+        ({{this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value}})
+      </label></b><br>
+
+    <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+
+    <input type="range" id="Explosion Size" name="Explosion Size" class="range" min="0" max="150" step="10"
+      [(ngModel)]="this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value">
+
+    <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
+
+    <!-- SPS Types -->
+
+    <ng-container *ngFor="let type of this.optionsService.newBaseOptions.visual[0].types ; index as i">
+
+        <br>
+        <input type="checkbox" [id]="type.label" [name]="type.label" [(ngModel)]="type.value" (click)="spsChange($event)">
+        <label [for]="type.label">{{type.label}}</label>
+
+    </ng-container>
+
+
+  </ng-container>
+
+
+
+</mat-expansion-panel>

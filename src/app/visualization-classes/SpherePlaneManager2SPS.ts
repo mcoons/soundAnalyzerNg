@@ -55,7 +55,7 @@ export class SpherePlaneManager2SPS {
 
         this.SPS.setParticles();
 
-        if (this.optionsService.autoRotate) {
+        if (this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value) {
             this.rotation += Math.PI / 500;
             if (this.rotation >= Math.PI * 6) {
                 this.rotation = 0;

@@ -162,7 +162,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
         state:    JSON.parse(JSON.stringify(this.optionsService.state))
       });
 
-    console.log(JSON.stringify(this.optionsService.newBaseOptions));
+    // console.log(JSON.stringify(this.optionsService.newBaseOptions));
 
     // var encodedUri = encodeURI(JSON.stringify(this.optionsService.newBaseOptions));
     // window.open(encodedUri);

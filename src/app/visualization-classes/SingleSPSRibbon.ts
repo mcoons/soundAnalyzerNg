@@ -165,7 +165,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
         this.setDefaults();
 
-        console.log(this.getSPSNames());
+        // console.log(this.getSPSNames());
 
         this.master = BABYLON.MeshBuilder.CreateBox(('box'), {
             height: 1,
@@ -825,7 +825,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
     private startExpanding = () => {
 
-        console.log('start expansion');
+        // console.log('start expansion');
 
         clearTimeout(this.initialTimeout);
         clearInterval(this.conInterval);
@@ -858,7 +858,7 @@ export class SingleSPSRibbon implements OnDestroy {
 
     private startContracting = () => {
 
-        console.log('start contraction');
+        // console.log('start contraction');
 
         clearTimeout(this.initialTimeout);
         clearInterval(this.conInterval);
@@ -1255,7 +1255,7 @@ export class SingleSPSRibbon implements OnDestroy {
                     this.cameraSettingsNext = this.SPSFunctions[this.nextSPS].cameraDefault(this.cameraIndicies[this.nextSPS]);
                 }
 
-                if (this.optionsService.autoRotate) {
+                if (this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value) {
 
                     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha =
                         BABYLON.Scalar.Lerp(
@@ -1288,7 +1288,7 @@ export class SingleSPSRibbon implements OnDestroy {
     }
 
     remove = () => {
-        console.log('SingleSPSRibbon - remove');
+        // console.log('SingleSPSRibbon - remove');
         this.subscription.unsubscribe();
 
         clearTimeout(this.initialTimeout);

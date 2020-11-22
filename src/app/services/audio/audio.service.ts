@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { Subscription } from 'rxjs';
+// import { Subscription } from 'rxjs';
 
 import { OptionsService } from '../options/options.service';
 import { MessageService } from '../message/message.service';
@@ -26,39 +26,39 @@ export class AudioService {
 
   fr64Analyser: any;
   fr64DataArray: Uint8Array = new Uint8Array(64);
-  fr64DataArrayNormalized: Uint8Array = new Uint8Array(64);
+  // private fr64DataArrayNormalized: Uint8Array = new Uint8Array(64);
 
   fr128Analyser: any;
   fr128DataArray: Uint8Array = new Uint8Array(128);
-  fr128DataArrayNormalized: Uint8Array = new Uint8Array(128);
+  // private fr128DataArrayNormalized: Uint8Array = new Uint8Array(128);
 
   fr256Analyser: any;
   fr256DataArray: Uint8Array = new Uint8Array(256);
-  fr256DataArrayNormalized: Uint8Array = new Uint8Array(256);
+  // fr256DataArrayNormalized: Uint8Array = new Uint8Array(256);
 
   fr512Analyser: any;
   fr512DataArray: Uint8Array = new Uint8Array(512);
-  fr512DataArrayNormalized: Uint8Array = new Uint8Array(512);
+  // fr512DataArrayNormalized: Uint8Array = new Uint8Array(512);
 
   fr1024Analyser: any;
   fr1024DataArray: Uint8Array = new Uint8Array(1024);
-  fr1024DataArrayNormalized: Uint8Array = new Uint8Array(1024);
+  // fr1024DataArrayNormalized: Uint8Array = new Uint8Array(1024);
 
   fr2048Analyser: any;
   fr2048DataArray: Uint8Array = new Uint8Array(2048);
-  fr2048DataArrayNormalized: Uint8Array = new Uint8Array(2048);
+  // fr2048DataArrayNormalized: Uint8Array = new Uint8Array(2048);
 
   fr4096Analyser: any;
   fr4096DataArray: Uint8Array = new Uint8Array(4096);
-  fr4096DataArrayNormalized: Uint8Array = new Uint8Array(4096);
+  // fr4096DataArrayNormalized: Uint8Array = new Uint8Array(4096);
 
   fr8192Analyser: any;
   fr8192DataArray: Uint8Array = new Uint8Array(8192);
-  fr8192DataArrayNormalized: Uint8Array = new Uint8Array(8192);
+  // fr8192DataArrayNormalized: Uint8Array = new Uint8Array(8192);
 
   fr16384Analyser: any;
   fr16384DataArray: Uint8Array = new Uint8Array(16384);
-  fr16384DataArrayNormalized: Uint8Array = new Uint8Array(16384);
+  // fr16384DataArrayNormalized: Uint8Array = new Uint8Array(16384);
 
   gainNode: any;
   splitter: any;
@@ -66,7 +66,7 @@ export class AudioService {
 
   tdAnalyser: any;
   tdBufferLength: any;
-  tdDataLength: any;
+  // tdDataLength: any;
   tdDataArray;
   tdDataArrayNormalized: any;
 
@@ -79,9 +79,11 @@ export class AudioService {
   soundArrays: any;
   analyzersArray: any;
 
-  private noteStr = ['G ', 'G#', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#'];
+  // private noteStr = ['G ', 'G#', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#'];
   // private noteIndex = [73, 77, 82, 87, 92, 33, 39, 45, 52, 58, 65, 69];
-  private noteIndex = [137, 141, 146, 151, 156, 161, 167, 173, 180, 186, 129, 133];
+
+  // freq sample1 bucket index per note  +/- 64 for octives
+  private noteIndex = [137, 141, 146, 151, 156, 161, 167, 173, 180, 186, 129, 133];  
 
   noteAvgs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -96,11 +98,11 @@ export class AudioService {
         if (this.audio != null && message === 'volume change') {
           this.audio.volume = (this.optionsService.volume) / 10;
         }
-        if (this.audio != null && message === 'sampleGain') {
+        if (this.audio != null && message === 'Visual Effect Strength') {
           this.setGain();
         }
-        if (this.audio != null && message === 'smoothingConstant') {
-          this.smoothingConstant = this.optionsService.smoothingConstant / 10;
+        if (this.audio != null && message === 'Smoothing Constant') {
+          this.smoothingConstant = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value / 10;
           this.setSmoothingConstant();
         }
       });
@@ -162,7 +164,7 @@ export class AudioService {
         analyzer.fftSize = Math.pow(2, i + 7);
     });
 
-    console.log(this.fr128Analyser);
+    // console.log(this.fr128Analyser);
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
     this.tdAnalyser.fftSize = 1024;
@@ -170,9 +172,9 @@ export class AudioService {
     this.tdAnalyser.maxDecibels = this.maxDecibels;
     this.tdAnalyser.smoothingTimeConstant = this.smoothingConstant;
     this.tdBufferLength = this.tdAnalyser.frequencyBinCount;
-    this.tdDataLength = this.tdBufferLength;
+    // this.tdDataLength = this.tdBufferLength;
     this.tdDataArray = new Uint8Array(this.tdBufferLength);
-    this.tdDataArrayNormalized = new Uint8Array(this.tdBufferLength);
+    // this.tdDataArrayNormalized = new Uint8Array(this.tdBufferLength);
 
     // this.clearSampleArrays();
 
@@ -188,12 +190,13 @@ export class AudioService {
       this.fr16384Analyser
     ];
 
-    this.audioSrc.connect(this.tdAnalyser);
 
+
+    this.audioSrc.connect(this.tdAnalyser);
     this.tdAnalyser.connect(this.splitter);
 
-    this.splitter.connect(this.gainNode, 0);
     this.splitter.connect(this.audioCtx.destination, 1);
+    this.splitter.connect(this.gainNode, 0);
 
     this.gainNode.connect(this.splitter2);
 
@@ -208,6 +211,12 @@ export class AudioService {
     this.splitter2.connect(this.fr256Analyser);
     this.splitter2.connect(this.fr128Analyser);
     this.splitter2.connect(this.fr64Analyser);
+
+
+
+
+
+
 
     for (let index = 0; index < 151; index++) {
       let frTemp = [];
@@ -233,7 +242,7 @@ export class AudioService {
 
     this.setGain();
 
-    this.smoothingConstant = this.optionsService.smoothingConstant / 10;
+    this.smoothingConstant = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value / 10;
     this.setSmoothingConstant();
 
   }
@@ -369,7 +378,7 @@ export class AudioService {
   }
 
   setGain() {
-    this.gainNode.gain.setValueAtTime(this.optionsService.sampleGain, this.audioCtx.currentTime);
+    this.gainNode.gain.setValueAtTime(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value, this.audioCtx.currentTime);
   }
 
   setSmoothingConstant() {

@@ -1,20 +1,125 @@
+<mat-expansion-panel expanded="true">
+  <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
+    Visual Effects
+  </mat-expansion-panel-header>
 
 
-<div id="options2">
-    <div id="glowContainer2">
-      <mat-accordion multi="true">
-        <mat-expansion-panel expanded="true">
-          <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
-            Visual Effects
-          </mat-expansion-panel-header>
-  
-          <p>visual-effects works!</p>
-          
-          <app-custom-colors></app-custom-colors>
+  <!-- Visual Effect Strength -->
 
-  
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
-  </div>
-  
+  <b><label class="rangeLabel" for="Visual Effect Strength">
+      Visual Effect Strength ({{this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value}})
+    </label></b><br>
+
+  <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+
+  <input type="range" id="Visual Effect Strength" name="Visual Effect Strength" class="range" min="1" max="10" step="1"
+    (input)="updateItem($event)" (change)="updateItem($event)" [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value">
+
+  <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
+
+  <!-- Smoothing Constant -->
+
+  <b><label class="rangeLabel" for="Smoothing Constant">
+      Smoothing Constant ({{this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value}})
+    </label></b><br>
+
+  <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+
+  <input type="range" id="Smoothing Constant" name="Smoothing Constant" class="range" min="1" max="9.9" step=".1"
+    (input)="updateItem($event)" (change)="updateItem($event)" [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value">
+
+  <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
+
+
+
+  <!-- Auto Rotate -->
+
+  <br>
+  <input type="checkbox" id="Auto Rotate" name="Auto Rotate" [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value">
+  <label for="Auto Rotate"> Auto Rotate</label>
+
+
+  <!-- Custom Colors -->
+
+  <ng-container *ngIf="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].colorOptions === true">
+
+    <br>
+    <input type="checkbox" id="Custom Colors" name="Custom Colors" [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.value">
+    <label for="Custom Colors"> Custom Colors</label>
+
+    <ng-container *ngIf="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.value === true">
+      <h6>Custom Color Options</h6>
+
+
+      <input type="color" id="Maximum Color" [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.color[0].value"
+        (change)="colorChange($event)">
+      Maximum Color
+
+      <br>
+
+      <input type="color" id="Middle Color" [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.color[1].value"
+        (change)="colorChange($event)">
+      Middle Color
+
+      <br>
+
+      <input type="color" id="Minimum Color" [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.color[2].value"
+        (change)="colorChange($event)">
+      Minimum Color
+
+
+      <!-- Midpoint Value -->
+
+      <b><label class="rangeLabel" for="Midpoint Value">
+        Color Midpoint Value ({{this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.midLoc.value}})
+        </label></b><br>
+
+      <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+
+      <input type="range" id="Midpoint Value" name="Midpoint Value" class="range" min="20" max="235"
+        step="1" (input)="updateItem($event)" (change)="updateItem($event)"
+        [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.midLoc.value">
+
+      <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
+
+      <div #graduate id="graduate" style="width:155px; margin: 10px; border-radius:5px; text-align: center;">Color
+        Range</div>
+
+
+    </ng-container>
+
+
+  </ng-container>
+
+
+
+
+  <!-- <br>
+  <input type="checkbox" id="Show Freq Bars" name="Show Freq Bars" 
+    [(ngModel)]="this.general.showBars.value">
+  <label for="Show Freq Bars"> Show Freq Bars</label>
+  <br> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <app-custom-colors></app-custom-colors> -->
+
+
+</mat-expansion-panel>
