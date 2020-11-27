@@ -40,17 +40,6 @@ export class PanelRightComponent implements OnInit, OnDestroy  {
     console.log(JSON.stringify(this.optionsService.newBaseOptions));
 
     this.storageService.saveFavorites(this.optionsService.favorites);
-    // var encodedUri = encodeURI(JSON.stringify(this.optionsService.newBaseOptions));
-    // window.open(encodedUri);
   }
-
-  // radioNoteChange(e) {
-  //   this.optionsService.toggleNoteRadioNew(e.target.id, e.target.value);
-  // }
-
-  // updateItem(e) {
-  //   // console.log(e.target.id);
-  //   this.messageService.announceMessage(e.target.id);
-  // }
 
 }

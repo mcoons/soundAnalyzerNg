@@ -9,8 +9,9 @@ import { MessageService } from '../../services/message/message.service';
 })
 export class LightOptionsComponent implements OnInit {
 
-  constructor(    @Inject(OptionsService) public optionsService: OptionsService,
-  @Inject(MessageService) private messageService: MessageService) { }
+  constructor(
+    @Inject(OptionsService) public optionsService: OptionsService,
+    @Inject(MessageService) private messageService: MessageService) { }
 
   ngOnInit(): void {
   }

@@ -4,16 +4,20 @@
     General Options
   </mat-expansion-panel-header>
 
-  <input type="checkbox" id="Show Title" name="Show Title" [(ngModel)]="this.optionsService.newBaseOptions.general.showTitle">
+  <input type="checkbox" id="Show Title" name="Show Title"
+    [(ngModel)]="this.optionsService.newBaseOptions.general.showTitle">
   <label for="Show Title"> Show Title</label>
   <br>
-  <input type="checkbox" id="Show Waveform" name="Show Waveform" [(ngModel)]="this.optionsService.newBaseOptions.general.showWaveform">
+  <input type="checkbox" id="Show Waveform" name="Show Waveform"
+    [(ngModel)]="this.optionsService.newBaseOptions.general.showWaveform">
   <label for="Show Waveform"> Show Waveform</label>
   <br>
-  <input type="checkbox" id="Show Sound Wave" name="Show Sound Wave" [(ngModel)]="this.optionsService.newBaseOptions.general.showSoundWave">
+  <input type="checkbox" id="Show Sound Wave" name="Show Sound Wave"
+    [(ngModel)]="this.optionsService.newBaseOptions.general.showSoundWave">
   <label for="Show Sound Wave"> Show Sound Wave</label>
   <br>
-  <input type="checkbox" id="Show Freq Bars" name="Show Freq Bars" [(ngModel)]="this.optionsService.newBaseOptions.general.showBars.value">
+  <input type="checkbox" id="Show Freq Bars" name="Show Freq Bars"
+    [(ngModel)]="this.optionsService.newBaseOptions.general.showBars.value">
   <label for="Show Freq Bars"> Show Freq Bars</label>
   <br>
 
@@ -21,7 +25,8 @@
 
     <h6 style="margin-top:5px">Frequency Labels</h6>
 
-    <ng-container *ngFor="let note of this.optionsService.newBaseOptions.general.showBars.note; let indexOfElement=index;">
+    <ng-container
+      *ngFor="let note of this.optionsService.newBaseOptions.general.showBars.note; let indexOfElement=index;">
 
       <div style="display:inline-block; width:30%; margin: 1%; border: 1px solid black">
         <input type="radio" [id]="note.label" name="Notes" [value]="indexOfElement" (click)="radioNoteChange($event)"
@@ -33,31 +38,31 @@
   </ng-container>
 
   <b><label class="rangeLabel" for="Visual Effect Strength">
-    Visual Effect Strength ({{this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value}})
-  </label></b><br>
+      Visual Effect Strength
+      ({{this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value}})
+    </label></b><br>
 
-<i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+  <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
 
-<input type="range" id="Visual Effect Strength" name="Visual Effect Strength" class="range" min="1" max="10" step="1"
-  (input)="updateItem($event)" (change)="updateItem($event)" [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value">
+  <input type="range" id="Visual Effect Strength" name="Visual Effect Strength" class="range" min="1" max="10" step="1"
+    (input)="updateItem($event)" (change)="updateItem($event)"
+    [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value">
 
-<i id="gupicon" class="material-icons md-18">add_circle_outline</i>
+  <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
 
-<!-- Smoothing Constant -->
+  <!-- Smoothing Constant -->
 
-<b><label class="rangeLabel" for="Smoothing Constant">
-    Smoothing Constant ({{this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value}})
-  </label></b><br>
+  <b><label class="rangeLabel" for="Smoothing Constant">
+      Smoothing Constant
+      ({{this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value}})
+    </label></b><br>
 
-<i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
+  <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
 
-<input type="range" id="Smoothing Constant" name="Smoothing Constant" class="range" min="1" max="9.9" step=".1"
-  (input)="updateItem($event)" (change)="updateItem($event)" [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value">
+  <input type="range" id="Smoothing Constant" name="Smoothing Constant" class="range" min="1" max="9.9" step=".1"
+    (input)="updateItem($event)" (change)="updateItem($event)"
+    [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value">
 
-<i id="gupicon" class="material-icons md-18">add_circle_outline</i>
-
-
-
-  <!-- <app-note></app-note> -->
+  <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
 
 </mat-expansion-panel>

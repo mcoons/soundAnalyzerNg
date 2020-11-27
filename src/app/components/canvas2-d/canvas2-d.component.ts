@@ -48,15 +48,11 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
         if (this.optionsService.newBaseOptions.general.showBars.value && !this.optionsService.showSplash) {
           this.draw2DBars(this.audioService.sample1, 0);
           this.draw2DBars(this.audioService.fr128DataArray, 200);
-          // this.draw2DBars(this.audioService.noteAvgs, 400);
-
         }
-        
+
         if (this.optionsService.newBaseOptions.general.showSoundWave && !this.optionsService.showSplash) {
-
-        this.drawSoundWav();
+          this.drawSoundWav();
         }
-
 
         if (this.optionsService.newBaseOptions.general.showWaveform && !this.optionsService.showSplash) {
           this.waveFormDataSource = this.audioService.tdDataArray;
@@ -131,7 +127,9 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
         // draw diff bar
         const diff = this.audioService.sample1Topper[i] - dataSource[i] / 2;
-        if (diff > max_diff) { max_diff = diff; }
+        if (diff > max_diff) {
+          max_diff = diff;
+        }
 
         this.ctx.fillStyle = 'rgba(0, 247, 255,.7)';
         this.ctx.fillRect(x + 25, this.getTopOfPlayer() - (diff <= 1 ? 1 : (diff)) / 2 - height - 190, barWidth, (diff <= 1 ? 1 : (diff)));
@@ -146,10 +144,6 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       this.ctx.fillStyle = 'white';
 
       if (Number(ch) !== 12 && height === 0) {
-        // const keyOffset = this.optionsService.getOptions()[ch].value;
-        // const hertz = this.optionsService.getOptions()[ch].hertz * Math.pow(2, ((i - keyOffset) / 64 + 2) - 1);
-        // const label = this.optionsService.getOptions()[ch].label;
-
         const keyOffset = this.optionsService.newBaseOptions.general.showBars.note[Number(ch)].value;
         const hertz = this.optionsService.newBaseOptions.general.showBars.note[Number(ch)].hertz * Math.pow(2, ((i - keyOffset) / 64 + 2) - 1);
         const label = this.optionsService.newBaseOptions.general.showBars.note[Number(ch)].label;
@@ -207,31 +201,24 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     this.ctx.beginPath();
 
     for (let i = 0; i < width; i++) {
-
       const multiplier = Math.sin(map(i, 0, width - 1, 0, PI));
-      // const y = (this.waveFormDataSource[i] - 128) * multiplier * this.optionsService.waveformMultiplier;
-      const y = (this.waveFormDataSource[i] - 128) * multiplier ;
+      const y = (this.waveFormDataSource[i] - 128) * multiplier;
 
       this.ctx.lineTo(i * 2 + this.canvas2d.nativeElement.width / 2 - 512, y + 120);
     }
 
     this.ctx.strokeStyle = 'white';
     this.ctx.stroke();
-
   }
 
   drawSoundWav() {
     this.ctx.strokeStyle = 'white';
     this.ctx.lineWidth = 5;
     this.audioService.tdMaxHistory.forEach((d, i) => {
-
-      // console.log(d);
       this.ctx.beginPath();
-
       this.ctx.moveTo((i * 8) + this.canvas2d.nativeElement.width / 2 - 500, 250 - (d - 128));
       this.ctx.lineTo((i * 8) + this.canvas2d.nativeElement.width / 2 - 500, 250 + (d - 128));
       this.ctx.stroke();
-
     });
   }
 

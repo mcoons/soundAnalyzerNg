@@ -16,9 +16,7 @@ export class GeneralOptionsComponent implements OnInit {
   constructor(
     @Inject(OptionsService) public optionsService: OptionsService,
     @Inject(MessageService) private messageService: MessageService
-  ) { 
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.currentVisualIndex = this.optionsService.newBaseOptions.currentVisual;
@@ -27,46 +25,11 @@ export class GeneralOptionsComponent implements OnInit {
   }
 
   radioNoteChange(e) {
-    // console.log(e.target); 
     this.optionsService.toggleNoteRadioNew(e.target.id, e.target.value);
-    // this.optionsService.setOptionNew('currentNote', e.target.value);
-    // this.optionsService.newBaseOptions.general[1].note
   }
 
   updateItem(e) {
     console.log(e.target.id);
     this.messageService.announceMessage(e.target.id);
   }
-
-  // trackChange(e) {
-  //   this.optionsService.updateState('currentTrack', e.target.value);
-  //   this.messageService.announceMessage('track change');
-  // }
-
-  // siteListSelection() {
-  //   this.audioService.disableMic();
-  //   this.messageService.announceMessage('site list selection');
-  // }
-
-  // localListSelection() {
-  //   this.audioService.disableMic();
-  //   this.messageService.announceMessage('local list selection');
-  // }
-
-  // previousTrack() {
-  //   this.messageService.announceMessage('previousTrack');
-  // }
-
-  // nextTrack() {
-  //   this.messageService.announceMessage('nextTrack');
-  // }
-
-  // playPause() {
-  //   this.messageService.announceMessage('playPause');
-  // }
-
-  // onSliderChangeVolume(e) {
-  //   this.messageService.announceMessage('volume change');
-  // }
-
 }

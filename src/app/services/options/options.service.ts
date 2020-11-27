@@ -1,13 +1,9 @@
 
 import { Injectable, Inject, ɵɵpipeBind1 } from '@angular/core';
 import { Subscription, Observable, fromEvent, ObjectUnsubscribedError } from 'rxjs';
-// import { runInContext } from 'vm';
 
 import { MessageService } from '../message/message.service';
 import { StorageService } from '../storage/storage.service';
-// import { EngineService } from '../../services/engine/engine.service';
-
-// import { Single } from '../../visualization-classes/SingleSPS';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +17,6 @@ export class OptionsService {
 
   // public visuals = [
   //   'singleSPSCube',
-  //   // 'singleSPSRibbon',
   //   'starManager',
   //   'spectrograph',
   //   'spherePlaneManagerSPS',
@@ -43,7 +38,6 @@ export class OptionsService {
       'sphere',
       'pole',
       'heart',
-      // 'sineLoop',
       'sineLoop2'
     ];
 
@@ -2053,7 +2047,6 @@ export class OptionsService {
   public visuals = 
   [
     'singleSPSCube',
-    // 'singleSPSRibbon',
     'starManager',
     'spectrograph',
     'spherePlaneManagerSPS',
@@ -3237,23 +3230,16 @@ export class OptionsService {
 
   constructor(
     @Inject(MessageService) public messageService: MessageService,
-    @Inject(StorageService) public storageService: StorageService,
-    // @Inject(EngineService) private engineService: EngineService
-
+    @Inject(StorageService) public storageService: StorageService
   ) {
     console.log('Options Service Constructor');
-    // console.log('Options from start');
-    // console.log(this.options);
 
     this.resizeObservable = fromEvent(window, 'resize');
     this.resizeSubscription = this.resizeObservable.subscribe(evt => {
       this.windowResize();
     });
 
-    // this.SPSs = this.getSPSNames();
-
     const lOptions = storageService.loadOptions();
-
 
     if (lOptions.version) {
       if (lOptions.version !== this.baseOptions.version) {
@@ -3331,52 +3317,23 @@ export class OptionsService {
 
   }
 
-  // setOptionNew(itemName: string, value) {
-  //   this.options[itemName].value = value;
-  //   // this.windowResize();
-  //   this.announceChange('Item was changed: ' + itemName + ' to ' + value);
-  //   this.storageService.saveOptions(this.options);
-  // }
-
-
-
   toggleFavoritesRadio(itemName: string, index: number) {
-    // console.log('itemName: ', itemName);
-    // console.log('index: ', index);
-
-
     this.favorites.forEach((f, i) => {
       f.checked = (itemName === f.label);
     });
-    // this.newBaseOptions.general.showBars.currentNote = index;
-
-
-    // console.log(this.newBaseOptions.general.showBars.currentNote);
-    // console.log(this.newBaseOptions);
     // TO DO:
     // this.storageService.saveOptions(this.options); 
   }
 
   toggleNoteRadioNew(itemName: string, index: number) {
-    // console.log('itemName: ', itemName);
-    // console.log('index: ', index);
     this.notes.forEach((n, i) => {
       this.newBaseOptions.general.showBars.note[i].checked = (itemName === n);
     });
     this.newBaseOptions.general.showBars.currentNote = index;
-    // console.log(this.newBaseOptions.general.showBars.currentNote);
-    // console.log(this.newBaseOptions);
     // TO DO:
     // this.storageService.saveOptions(this.options); 
   }
 
-
-  // toggleOption(itemName: string) {
-  //   this.options[itemName].value = !this.options[itemName].value;
-  //   this.windowResize();
-  //   this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
-  //   // this.storageService.saveOptions(this.options);
-  // }
 
   toggleState(itemName: string) {
     this.state[itemName].value = !this.state[itemName].value;
@@ -3403,17 +3360,14 @@ export class OptionsService {
     this.announceChange('smoothingConstant');
     this.announceChange('sampleGain');
 
-    // console.log(this.options);
-
   }
+
   toggleNoteRadio(itemName: string, index: number) {
     this.notes.forEach(n => {
       this.options[n].checked = (itemName === n);
     });
     // this.storageService.saveOptions(this.options);
   }
-
-
 
   setOption(itemName: string, value) {
     this.options[itemName].value = value;

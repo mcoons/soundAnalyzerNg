@@ -4,17 +4,12 @@
   
         <button class="playlistButton" (click)="logCurrentVisual($event)">Log Visual</button>
   
-  
         <button class="playlistButton" (click)="logScene($event)">Log Scene</button>
-  
   
         <button class="playlistButton" (click)="logOptions($event)">Log Options</button>
   
-  
         <button class="playlistButton" (click)="logFavorites($event)">Log FAvorites</button>
-  
-        <!-- <button class="playlistButton" (click)="showAxis($event)">Show Axis</button> -->
-  
+    
         <br>
         <input type="checkbox" id="Show Axis" name="Show Axis"
           [(ngModel)]="this.optionsService.newBaseOptions.general.showAxis">
@@ -22,9 +17,6 @@
   
         <!-- General Options -->
         <app-general-options></app-general-options>
-  
-        <!-- Visual Effects
-        <app-visual-effects></app-visual-effects> -->
   
         <!-- Visual Favorites List -->
         <mat-expansion-panel expanded="true">
@@ -37,32 +29,13 @@
   
           <div class="optionsContainer" *ngFor="let favorite of this.optionsService.favorites">
             {{favorite.name}} - {{favorite.options.version}} -
-            <!-- {{this.optionsService.visuals[favorite.state.currentVisual.value]}} -->
-  
-  
   
             <input type="radio" [id]="favorite.label" name="favorites" [value]="favorite.value"
               (click)="favoriteChange($event)" [checked]="favorite.checked">
             <label [for]="favorite.label"> {{favorite.label}}</label>
             <br>
   
-  
           </div>
-  <!-- 
-          <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Index</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let fav of this.optionsService.favorites">
-                    <td>{{ fav.name }}</td>
-                    <td>{{ fav.value }}</td>
-                </tr>
-            </tbody>
-        </table> -->
   
         </mat-expansion-panel>
   

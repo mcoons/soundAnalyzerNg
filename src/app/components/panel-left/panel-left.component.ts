@@ -59,28 +59,10 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
   }
 
   favoriteChange(e) {
-    // this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
-    
-    // this.optionsService.newBaseOptions = JSON.parse(JSON.stringify(this.optionsService.favorites[e.target.value].options))
-    // this.optionsService.newBaseOptions = this.optionsService.favorites[e.target.value].options;
     Object.assign(this.optionsService.newBaseOptions, this.optionsService.favorites[e.target.value].options);
 
-
-
-
-    // this.optionsService.updateState('currentVisual', e.target.value);
     this.optionsService.updateState('currentVisual', this.optionsService.favorites[ e.target.value ].state.currentVisual.value);
-    
-    
     this.messageService.announceMessage('scene change');
-  }
-
-  colorChange(e) {
-
-    // const percent = Math.round((this.optionsService.midLoc / 255) * 100);
-    // tslint:disable-next-line: max-line-length
-    // this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
-
   }
 
   updateItem(e) {
