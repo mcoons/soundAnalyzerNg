@@ -22,6 +22,7 @@ _______________________________________________________________________
 
 Create new options object with component access/building in mind (use arrays)
 Check into that separate Audio module 
+Modify saving of favorite to be just a specific visual's settings instead of all settings for all visuals
 
 Create new UI with components
     Strength/Gain should be -100 to +100
@@ -32,8 +33,8 @@ Create new UI with components
     Add showAxis
 
 SCENE options
-    Allow auto rotation of lights
-    Allow auto rotation of camera
+    Allow auto rotation of light rigs
+    Allow auto rotation of camera rig
         Add sin() to camera movement
     Allow auto rotation of object
 
@@ -44,40 +45,35 @@ SCENE options
     4 light material = top, left, front, camera
     8 light material = bottom, right, back, rimlight
 
-
+Add "None" option for Visuals that skips render loop (can be used while viewing bars)
+Add Dynamic viewing of different data Bar graphs
+Add selection of different data sets - Rewrite all to use data.length to build/update
 
 Rename components to be more generic and uniform by type name for grouping
-
-
-BUGFIXES
-Move the 360 check out of global rotation++ when explosion is happening.
-Fix the slight Y offset issue that happens during explosion - if only 1 selected then dont explode
-Hide SPS visuals if SPS is not selected
-Fix playlist selection button highlight when canceling coming from mic
-
 
 Add Favorites/Visuals for end users.
 Saving, importing, exporting Favorites.
 
 Split Paid/Free options
-
-
-
-A crystal ball with flickering light inside - Lindsey - When the stars align
-Dancing sign waves in smoke with a realistic look
-Turn Sphere Plane 2 into an Exploding SPS
-
-
 Add universal materials for all visuals to use to allow material options
 PBR 
 Standard 4
 Standard 8
 
-Add image save capability.
-Add Favorites save capability.
-
-Implement Star Zooming
 Implement 2D history layer in the back.
+
+BUGFIXES
+Move the 360 check out of global rotation++ when explosion is happening.
+Fix the slight Y offset issue that happens during explosion - if only 1 selected then dont explode
+Fix playlist selection button highlight when canceling coming from mic
+
+
+FUTURE VISUAL IDEAS
+Implement Star Zooming
+A crystal ball with flickering light inside - Lindsey - When the stars align
+Dancing sign waves in smoke with a realistic look
+Turn Sphere Plane 2 into an Exploding SPS
+
 
 
 Multiple Cameras with scene fading???
@@ -144,6 +140,39 @@ AudioNode.disconnect();
 
 MediaStreamTrackAudioSourceNode
 BiquadFilterNode
+
+
+
+
+// 12th root of 2 for 1 key
+
+
+/*
+      this.fr64DataArray,  // 0
+      this.fr128DataArray, // 1
+      this.fr256DataArray,
+      this.fr512DataArray,
+      this.fr1024DataArray,
+      this.fr2048DataArray,
+      this.fr4096DataArray,
+      this.fr8192DataArray,
+      this.fr16384DataArray // 8
+*/
+
+// Low f           64                 +               64              High f          64-128 of 128
+//         64      +       64         +        64      +       64                     64-128 of 256
+//     64  +   64  +   64  +   64     +    64  +   64  +   64  +   64                 64-128 of 512
+//   64+64 + 64+64 + 64+64 + 64+64    +  64+64 + 64+64 + 64+64 + 64+64                64-128 of 1024
+//                                                                                    64-128 of 2048
+//                                                                                    64-128 of 4096
+//                                                                                    64-128 of 8182
+//                                                                                   0-128 of 16384
+
+//                                                                             32*9  =  288
+
+//                                                                             0-287 objects
+
+
 
 
 

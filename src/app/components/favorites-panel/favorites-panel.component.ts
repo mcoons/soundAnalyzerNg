@@ -40,129 +40,12 @@ export class FavoritesPanelComponent implements OnInit, OnDestroy  {
     this.messageService.announceMessage('randomize list');
   }
 
-  // lightColorChange(e) {
-  //   // console.log('light color change: ');
-  //   // console.log(e.target.value);  // #00ff00
-  //   // console.log('e.target.id: ');  // #00ff00
-  //   // console.log(e.target.id);  // #00ff00
 
-  //   switch (e.target.id) {
-  //     case 'light0Color':
-  //       this.engineService.scene.lights[0].diffuse = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light0Specular':
-  //       break;
-  //     case 'light0Intensity':
-  //       this.engineService.scene.lights[0].intensity = e.target.value / 100;
-  //       break;
-  //     case 'light0GroundColor':
-  //       (this.engineService.scene.lights[0] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
+  // addToFavorites(e) {
+  //   this.optionsService.favorites.push({name: 'Favorite ' + (this.optionsService.favorites.length + 1), options: this.optionsService.newBaseOptions});
 
-  //     case 'light1Color':
-  //       this.engineService.scene.lights[1].diffuse = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light1Specular':
-  //       this.engineService.scene.lights[1].specular = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light1Intensity':
-  //       this.engineService.scene.lights[1].intensity = e.target.value / 100;
-  //       break;
-  //     case 'light1GroundColor':
-  //       (this.engineService.scene.lights[1] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-
-  //     case 'light2Color':
-  //       this.engineService.scene.lights[2].diffuse = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light2Specular':
-  //       this.engineService.scene.lights[2].specular = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light2Intensity':
-  //       this.engineService.scene.lights[2].intensity = e.target.value / 100;
-  //       break;
-  //     case 'light2GroundColor':
-  //       (this.engineService.scene.lights[2] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-
-  //     case 'light3Color':
-  //       this.engineService.scene.lights[3].diffuse = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light3Specular':
-  //       this.engineService.scene.lights[3].specular = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light3Intensity':
-  //       this.engineService.scene.lights[3].intensity = e.target.value / 100;
-  //       break;
-  //     case 'light3GroundColor':
-  //       // tslint:disable-next-line: max-line-length
-  //       (this.engineService.scene.lights[3] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-
-  //     case 'light4Color':
-  //       this.engineService.scene.lights[4].diffuse = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light4Specular':
-  //       this.engineService.scene.lights[4].specular = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light4Intensity':
-  //       this.engineService.scene.lights[4].intensity = e.target.value / 100;
-  //       break;
-  //     case 'light4GroundColor':
-  //       (this.engineService.scene.lights[4] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-
-  //     case 'light5Color':
-  //       this.engineService.scene.lights[5].diffuse = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light5Specular':
-  //       this.engineService.scene.lights[5].specular = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light5Intensity':
-  //       this.engineService.scene.lights[5].intensity = e.target.value / 100;
-  //       break;
-  //     case 'light5GroundColor':
-  //       (this.engineService.scene.lights[5] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-
-  //     case 'light6Color':
-  //       this.engineService.scene.lights[6].diffuse = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light6Specular':
-  //       this.engineService.scene.lights[6].specular = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light6Intensity':
-  //       this.engineService.scene.lights[6].intensity = e.target.value / 100;
-  //       break;
-  //     case 'light6GroundColor':
-  //       (this.engineService.scene.lights[6] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-
-  //     case 'light7Color':
-  //       this.engineService.scene.lights[7].diffuse = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light7Specular':
-  //       this.engineService.scene.lights[7].specular = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-  //     case 'light7Intensity':
-  //       this.engineService.scene.lights[7].intensity = e.target.value / 100;
-  //       break;
-  //     case 'light7GroundColor':
-  //       (this.engineService.scene.lights[7] as unknown as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(e.target.value);
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-
+  //   console.log(this.optionsService.favorites);
   // }
-
-  addToFavorites(e) {
-    this.optionsService.favorites.push({name: 'Favorite ' + (this.optionsService.favorites.length + 1), options: this.optionsService.options});
-
-    console.log(this.optionsService.favorites);
-  }
-
 
   logCurrentVisual(e) {
     console.log(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual]);
@@ -177,11 +60,24 @@ export class FavoritesPanelComponent implements OnInit, OnDestroy  {
     console.log(this.optionsService.newBaseOptions);
   }
 
+  logFavorites(e) {
+    console.log(this.optionsService.favorites);
+  }
+
   showAxis(e) {
     this.optionsService.newBaseOptions.general.showAxis = !this.optionsService.newBaseOptions.general.showAxis;
   }
 
-
+  favoriteChange(e) {
+    // this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
+    
+    this.optionsService.newBaseOptions = JSON.parse(JSON.stringify(this.optionsService.favorites[e.target.value].options))
+    // this.optionsService.updateState('currentVisual', e.target.value);
+    this.optionsService.updateState('currentVisual', this.optionsService.favorites[ e.target.value ].state.currentVisual.value);
+    
+    
+    this.messageService.announceMessage('scene change');
+  }
 
   colorChange(e) {
 

@@ -11,20 +11,23 @@
       <button class="playlistButton" (click)="logOptions($event)">Log Options</button>
 
 
+      <button class="playlistButton" (click)="logFavorites($event)">Log FAvorites</button>
+
       <!-- <button class="playlistButton" (click)="showAxis($event)">Show Axis</button> -->
 
       <br>
-      <input type="checkbox" id="Show Axis" name="Show Axis" [(ngModel)]="this.optionsService.newBaseOptions.general.showAxis">
+      <input type="checkbox" id="Show Axis" name="Show Axis"
+        [(ngModel)]="this.optionsService.newBaseOptions.general.showAxis">
       <label for="Show Axis"> Show Axis</label>
 
       <!-- General Options -->
       <app-general-options></app-general-options>
 
-      <!-- Visual Effects -->
-      <app-visual-effects></app-visual-effects>
+      <!-- Visual Effects
+      <app-visual-effects></app-visual-effects> -->
 
       <!-- Visual Favorites List -->
-      <!-- <mat-expansion-panel expanded="true">
+      <mat-expansion-panel expanded="true">
 
         <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
           Visuals
@@ -34,115 +37,35 @@
 
         <div class="optionsContainer" *ngFor="let favorite of this.optionsService.favorites">
           {{favorite.name}} - {{favorite.options.version}} -
-          {{this.optionsService.visuals[favorite.state.currentVisual.value]}}
+          <!-- {{this.optionsService.visuals[favorite.state.currentVisual.value]}} -->
+
+
+
+          <input type="radio" [id]="favorite.label" name="favorites" [value]="favorite.value"
+            (click)="favoriteChange($event)" [checked]="favorite.checked">
+          <label [for]="favorite.label"> {{favorite.label}}</label>
+          <br>
+
+
         </div>
+<!-- 
+        <table>
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Index</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let fav of this.optionsService.favorites">
+                  <td>{{ fav.name }}</td>
+                  <td>{{ fav.value }}</td>
+              </tr>
+          </tbody>
+      </table> -->
 
-      </mat-expansion-panel> -->
+      </mat-expansion-panel>
 
-
-
-
-
-      <!-- Visual Effects -->
-      <!-- <mat-expansion-panel expanded="true">
-        <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
-          Visual Effects
-        </mat-expansion-panel-header>
-
-        <div class="optionsContainer" *ngFor="let option of objectKeys(this.optionsService.getOptions())">
-          <ng-container *ngIf="this.optionsService.getOptions()[option].group=='VisualEffect' ">
-
-            <ng-container *ngIf="this.optionsService.getOptions()[option].type=='slider'">
-              <b><label class="rangeLabel" [for]="option">{{this.optionsService.getOptions()[option].label}}
-                  ({{this.optionsService.getOptions()[option].value}})</label></b><br>
-              <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
-
-              <input type="range" [id]="option" [name]="option" class="range"
-                [min]="this.optionsService.getOptions()[option].min"
-                [max]="this.optionsService.getOptions()[option].max"
-                [step]="this.optionsService.getOptions()[option].step" (input)="updateItem($event)"
-                (change)="updateItem($event)" [(ngModel)]="this.optionsService[option]"
-                ng-model-options="{ getterSetter: true }">
-
-              <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
-            </ng-container>
-
-
-            <ng-container *ngIf="this.optionsService.getOptions()[option].type=='radio'">
-              <input type="radio" [id]="option" name="3DVisuals"
-                [value]="this.optionsService.getOptions()[option].value" (click)="radioChange($event)"
-                [checked]="this.optionsService.getOptions()[option].checked">
-              <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
-            </ng-container>
-
-
-            <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
-                  this.optionsService.getOptions()[option].label!='Custom Colors' && 
-                  this.optionsService.getOptions()[option].label!='Auto Rotate'
-                  ">
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]"
-                ng-model-options="{ getterSetter: true }">
-              <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
-            </ng-container>
-
-            <ng-container
-              *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
-                  this.optionsService.getOptions()[option].label!='Custom Colors' && 
-                  this.optionsService.getOptions()[option].group!='CubeSPS' && 
-                  this.optionsService.getOptions()[option].group!='RibbonSPS' && 
-                  this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].cameraOptions === true">
-              <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
-              <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
-            </ng-container>
-
-            <ng-container
-              *ngIf="this.optionsService.getOptions()[this.optionsService.visuals[this.optionsService.currentVisual] ].colorOptions === true">
-
-              <ng-container *ngIf="this.optionsService.getOptions()[option].type=='checkbox' && 
-                    this.optionsService.getOptions()[option].label!='Auto Rotate' &&
-                    this.optionsService.getOptions()[option].group!='CubeSPS' &&
-                    this.optionsService.getOptions()[option].group!='RibbonSPS'">
-                <input type="checkbox" [id]="option" [name]="option" [(ngModel)]="this.optionsService[option]">
-                <label [for]="option"> {{this.optionsService.getOptions()[option].label}}</label>
-              </ng-container>
-
-              <ng-container *ngIf="this.optionsService.customColors === true">
-                <ng-container *ngIf="this.optionsService.getOptions()[option].type=='color'">
-                  <input type="color" [id]="option" [(ngModel)]="this.optionsService[option]"
-                    (change)="colorChange($event)">
-                  {{this.optionsService.getOptions()[option].label}}
-
-                </ng-container>
-
-                <ng-container *ngIf="this.optionsService.getOptions()[option].type=='colorslider'">
-                  <b><label class="rangeLabel">{{this.optionsService.getOptions()[option].label}}
-                      ({{this.optionsService.getOptions()[option].value}})</label></b><br>
-
-                  <i id="gdownicon" class="material-icons md-18">remove_circle_outline</i>
-
-                  <input type="range" [id]="option" [name]="option" class="range"
-                    [min]="this.optionsService.getOptions()[option].min"
-                    [max]="this.optionsService.getOptions()[option].max"
-                    [step]="this.optionsService.getOptions()[option].step" [(ngModel)]="this.optionsService[option]"
-                    (change)="colorChange($event)" (input)="colorChange($event)"
-                    ng-model-options="{ getterSetter: true }">
-
-
-                  <i id="gupicon" class="material-icons md-18">add_circle_outline</i>
-
-                </ng-container>
-
-
-              </ng-container>
-
-
-            </ng-container>
-
-          </ng-container>
-        </div>
-
-      </mat-expansion-panel> -->
 
       <!-- Play List -->
       <mat-expansion-panel expanded="true">

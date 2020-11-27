@@ -4,10 +4,8 @@ import { AudioService } from '../services/audio/audio.service';
 
 import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
-// import { MaterialHelper } from 'babylonjs';
-// import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { OnDestroy } from '@angular/core';
 
+import { OnDestroy } from '@angular/core';
 
 export class Notes implements OnDestroy{
 
@@ -34,6 +32,10 @@ export class Notes implements OnDestroy{
         this.colorsService = colorsService;
 
         this.scene.registerBeforeRender(this.beforeRender);
+
+        this.material = new BABYLON.StandardMaterial('ballMat', this.scene);
+        this.material.maxSimultaneousLights = 8;
+
 
     }
 
@@ -128,6 +130,8 @@ export class Notes implements OnDestroy{
         const extrusion = BABYLON.MeshBuilder.ExtrudeShape('star', { shape: myShape, path: myPath, sideOrientation: BABYLON.Mesh.DOUBLESIDE, cap: 3 }, this.scene);
 
         extrusion.setPivotMatrix(BABYLON.Matrix.Identity());
+        extrusion.convertToFlatShadedMesh();
+
 
         extrusion.rotation.x = -Math.PI / 2;
         //    extrusion.position = new BABYLON.Vector3(0,0,0);
@@ -175,29 +179,22 @@ export class Notes implements OnDestroy{
 
             const index = particle.idx + 1;
 
-            // const row = 6 - Math.floor(particle.idx / 10);
             const row = Math.ceil(Math.sqrt(index));
             const startingRowIndex = ((row - 1) * (row - 1) + 1);
             const rowEndingIndex = row * row;
             const column = index - startingRowIndex;
 
-
             particle.color.r = ((index - startingRowIndex) % 2) ? 255 : 0;
 
             particle.position.x = (column - row) + 1;
-
-
             particle.position.z = -row * 1.732;
+            particle.position.z = particle.position.z + 1;
 
             particle.rotation.z = (index - startingRowIndex) % 2 ? Math.PI : 0;
 
-            particle.position.z = particle.position.z + 1;
-
-
             let y = this.audioService.sample1[particle.idx];
-            // y = (this.y / 200 * this.y / 200) * 255;
 
-            particle.scaling.z = -y/255;
+            particle.scaling.z = -y / 255;
 
             let c = this.colorsService.colors(y);
 
@@ -205,11 +202,12 @@ export class Notes implements OnDestroy{
             particle.color.g = c.g / 255;
             particle.color.b = c.b / 255;
 
-
         }
 
 
+        
         this.SPS.buildMesh();
+
         this.SPS.mesh.material = this.material;
         this.SPS.material = this.material;
 
@@ -220,7 +218,6 @@ export class Notes implements OnDestroy{
         this.SPS.mesh.scaling.z = 20;
 
         this.SPS.mesh.position.y = -50;
-
 
     }
 
@@ -248,24 +245,22 @@ export class Notes implements OnDestroy{
     remove() {
         this.engineService.scene.activeCamera = this.engineService.camera1;
 
-        
+
         this.notes.forEach(n => n.dispose());
-        
+
         this.SPS.mesh.dispose();
         // this.mesh.dispose();
         this.SPS.dispose();
         this.SPS = null; // tells the GC the reference can be cleaned up also
-        
+
         this.scene.unregisterBeforeRender(this.beforeRender);
-        
+
         this.audioService = null;
         // this.optionsService = null;
         // this.messageService = null;
         this.engineService = null;
         this.colorsService = null;
         this.scene = null;
-  
-        
 
     }
 }

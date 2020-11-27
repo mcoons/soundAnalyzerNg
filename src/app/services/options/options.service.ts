@@ -1,7 +1,7 @@
 
 import { Injectable, Inject, ɵɵpipeBind1 } from '@angular/core';
 import { Subscription, Observable, fromEvent, ObjectUnsubscribedError } from 'rxjs';
-import { runInContext } from 'vm';
+// import { runInContext } from 'vm';
 
 import { MessageService } from '../message/message.service';
 import { StorageService } from '../storage/storage.service';
@@ -19,17 +19,17 @@ export class OptionsService {
   resizeObservable: Observable<Event>;
   resizeSubscription: Subscription;
 
-  public visuals = [
-    'singleSPSCube',
-    // 'singleSPSRibbon',
-    'starManager',
-    'spectrograph',
-    'spherePlaneManagerSPS',
-    'spherePlaneManager2SPS',
-    'rings',
-    'hex',
-    'notes',
-  ];
+  // public visuals = [
+  //   'singleSPSCube',
+  //   // 'singleSPSRibbon',
+  //   'starManager',
+  //   'spectrograph',
+  //   'spherePlaneManagerSPS',
+  //   'spherePlaneManager2SPS',
+  //   'rings',
+  //   'hex',
+  //   'notes',
+  // ];
 
   CubeSPSs =
     [
@@ -63,7 +63,7 @@ export class OptionsService {
   //   ];
 
   notes = [
-    'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#',  'None'
+    'A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'None'
   ];
 
 
@@ -244,8 +244,19 @@ export class OptionsService {
         cbeta: .01,
         cradius: 1200,
 
+        material: {
+          diffuseColor : '#ffffff',
+          specularColor : '#ffffff',
+          emissiveColor : '#ffffff',
+          ambientColor : '#ffffff'
+        },
+
+        scene: {
+          glow: false,
+          glowIntensity: 0,
+        },
+
         autoRotate: {
-          // type: 'checkbox',
           label: 'Auto Camera Movement',
           value: true,
 
@@ -253,54 +264,34 @@ export class OptionsService {
         },
 
         sampleGain: {
-          // type: 'slider',
           label: 'Visual Effect Strength',
           value: 1,
-          // min: 1,
-          // max: 10,
-          // step: 1,
         },
 
         smoothingConstant: {
-          // type: 'slider',
           label: 'Smoothing Constant',
           value: 8,
-          // min: 1,
-          // max: 9.9,
-          // step: .1
         },
 
         customColors: {
-          // type: 'checkbox',
           label: 'Custom Colors',
           value: true,
 
           midLoc: {
-            // type: 'colorslider',
             label: 'Midpoint Value',
             value: 128,
-            // min: 20,
-            // max: 235,
-            // step: 5
           },
 
           color: [
-
-            // maxColor:
             {
-              // type: 'color',
               label: 'Maximum Color',
               value: '#ff0000'
             },
-            // midColor:
             {
-              // type: 'color',
               label: 'Middle Color',
               value: '#000000'
             },
-            // minColor:
             {
-              // type: 'color',
               label: 'Minimum Color',
               value: '#0000ff'
             },
@@ -313,7 +304,7 @@ export class OptionsService {
           {
             intensity: {
               label: 'Right Intensity',
-              value: 0,
+              value: 40,
             },
             color: {
               label: 'Right Color',
@@ -325,14 +316,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Right Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Top Intensity',
-              value: 5,
+              value: 30,
             },
             color: {
               label: 'Top Color',
@@ -344,14 +335,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Top Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Front Intensity',
-              value: 80,
+              value: 25,
             },
             color: {
               label: 'Front Color',
@@ -363,7 +354,7 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Front Back Color',
-              value: '#454545'
+              value: '#000000'
             }
           },
 
@@ -378,18 +369,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Left Intensity',
-              value: 10,
+              value: 0,
             },
             color: {
               label: 'Left Color',
@@ -397,18 +388,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Left Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Left Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Bottom Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Bottom Color',
@@ -416,18 +407,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Bottom Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Bottom Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Rear Intensity',
-              value: 30,
+              value: 0,
             },
             color: {
               label: 'Rear Color',
@@ -435,18 +426,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Rear Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Rear Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Camera Rimlight Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Camera Rimlight Color',
@@ -454,11 +445,11 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Rimlight Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Rimlight Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           }
 
@@ -466,88 +457,69 @@ export class OptionsService {
 
 
         singleSPSDelay: {
-          // type: 'slider',
           label: 'Change Delay (sec)',
-          value: 10,
-          // min: 5,
-          // max: 60,
-          // step: 5,
+          value: 5,
         },
-        
+
         singleSPSExplosionSize: {
-          // type: 'slider',
           label: 'Explosion Size',
           value: 0,
-          // min: 0,
-          // max: 150,
-          // step: 10,
         },
 
         types: [
 
           // blockPlane:
           {
-            // type: 'checkbox',
             label: 'Cube Block Plane',
             value: true,
           },
           // thing1:
           {
-            // type: 'checkbox',
             label: 'Cube Thing 1',
             value: true,
           },
           // blockSpiral:
           {
-            // type: 'checkbox',
             label: 'Cube Block Spiral',
             value: true,
           },
           // thing2:
           {
-            // type: 'checkbox',
             label: 'Cube Thing 2',
             value: true,
           },
           // equation:
           {
-            // type: 'checkbox',
             label: 'Cube Equation',
-            value: true,
+            value: false,
           },
           // thing3:
           {
-            // type: 'checkbox',
             label: 'Cube Thing 3',
-            value: true,
+            value: false,
           },
           // cube:
           {
-            // type: 'checkbox',
             label: 'Cube Cube',
             value: true,
           },
           // sphere:
           {
-            // type: 'checkbox',
             label: 'Cube Sphere',
             value: true,
           },
           // pole:
           {
-            // type: 'checkbox',
             label: 'Cube Pole',
-            value: true,
+            value: false,
           },
           // heart:
           {
-            // type: 'checkbox',
             label: 'Cube Heart',
             value: true,
           },
           // sineLoop2:
           {
-            // type: 'checkbox',
             label: 'Cube Sine Loop',
             value: true,
           }
@@ -570,7 +542,6 @@ export class OptionsService {
         cradius: 1200,
 
         autoRotate: {
-          // type: 'checkbox',
           label: 'Auto Camera Movement',
           value: true,
 
@@ -578,54 +549,38 @@ export class OptionsService {
         },
 
         sampleGain: {
-          // type: 'slider',
           label: 'Visual Effect Strength',
           value: 1,
-          // min: 1,
-          // max: 10,
-          // step: 1,
         },
 
         smoothingConstant: {
-          // type: 'slider',
           label: 'Smoothing Constant',
           value: 8,
-          // min: 1,
-          // max: 9.9,
-          // step: .1
         },
 
         customColors: {
-          // type: 'checkbox',
           label: 'Custom Colors',
           value: true,
 
           midLoc: {
-            // type: 'colorslider',
             label: 'Midpoint Value',
             value: 128,
-            // min: 20,
-            // max: 235,
-            // step: 5
           },
 
           color: [
 
             // maxColor:
             {
-              // type: 'color',
               label: 'Maximum Color',
               value: '#ff0000'
             },
             // midColor:
             {
-              // type: 'color',
               label: 'Middle Color',
               value: '#000000'
             },
             // minColor:
             {
-              // type: 'color',
               label: 'Minimum Color',
               value: '#0000ff'
             },
@@ -638,7 +593,7 @@ export class OptionsService {
           {
             intensity: {
               label: 'Right Intensity',
-              value: 0,
+              value: 40,
             },
             color: {
               label: 'Right Color',
@@ -650,14 +605,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Right Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Top Intensity',
-              value: 5,
+              value: 30,
             },
             color: {
               label: 'Top Color',
@@ -669,14 +624,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Top Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Front Intensity',
-              value: 80,
+              value: 25,
             },
             color: {
               label: 'Front Color',
@@ -688,7 +643,7 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Front Back Color',
-              value: '#454545'
+              value: '#000000'
             }
           },
 
@@ -703,18 +658,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Left Intensity',
-              value: 10,
+              value: 0,
             },
             color: {
               label: 'Left Color',
@@ -722,18 +677,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Left Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Left Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Bottom Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Bottom Color',
@@ -741,18 +696,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Bottom Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Bottom Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Rear Intensity',
-              value: 30,
+              value: 0,
             },
             color: {
               label: 'Rear Color',
@@ -760,18 +715,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Rear Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Rear Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Camera Rimlight Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Camera Rimlight Color',
@@ -779,11 +734,11 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Rimlight Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Rimlight Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           }
 
@@ -792,7 +747,6 @@ export class OptionsService {
 
       // spectrograph:
       {
-        // type: 'radio',
         label: 'Spectrograph',
         value: 2,
         checked: false,
@@ -805,7 +759,6 @@ export class OptionsService {
         cradius: 1200,
 
         autoRotate: {
-          // type: 'checkbox',
           label: 'Auto Camera Movement',
           value: true,
 
@@ -813,54 +766,38 @@ export class OptionsService {
         },
 
         sampleGain: {
-          // type: 'slider',
           label: 'Visual Effect Strength',
           value: 1,
-          // min: 1,
-          // max: 10,
-          // step: 1,
         },
 
         smoothingConstant: {
-          // type: 'slider',
           label: 'Smoothing Constant',
           value: 8,
-          // min: 1,
-          // max: 9.9,
-          // step: .1
         },
 
         customColors: {
-          // type: 'checkbox',
           label: 'Custom Colors',
           value: true,
 
           midLoc: {
-            // type: 'colorslider',
             label: 'Midpoint Value',
             value: 128,
-            // min: 20,
-            // max: 235,
-            // step: 5
           },
 
           color: [
 
             // maxColor:
             {
-              // type: 'color',
               label: 'Maximum Color',
               value: '#ff0000'
             },
             // midColor:
             {
-              // type: 'color',
               label: 'Middle Color',
               value: '#000000'
             },
             // minColor:
             {
-              // type: 'color',
               label: 'Minimum Color',
               value: '#0000ff'
             },
@@ -873,7 +810,7 @@ export class OptionsService {
           {
             intensity: {
               label: 'Right Intensity',
-              value: 0,
+              value: 40,
             },
             color: {
               label: 'Right Color',
@@ -885,14 +822,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Right Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Top Intensity',
-              value: 5,
+              value: 30,
             },
             color: {
               label: 'Top Color',
@@ -904,14 +841,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Top Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Front Intensity',
-              value: 80,
+              value: 25,
             },
             color: {
               label: 'Front Color',
@@ -923,7 +860,7 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Front Back Color',
-              value: '#454545'
+              value: '#000000'
             }
           },
 
@@ -938,18 +875,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Left Intensity',
-              value: 10,
+              value: 0,
             },
             color: {
               label: 'Left Color',
@@ -957,18 +894,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Left Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Left Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Bottom Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Bottom Color',
@@ -976,18 +913,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Bottom Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Bottom Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Rear Intensity',
-              value: 30,
+              value: 0,
             },
             color: {
               label: 'Rear Color',
@@ -995,18 +932,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Rear Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Rear Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Camera Rimlight Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Camera Rimlight Color',
@@ -1014,11 +951,11 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Rimlight Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Rimlight Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           }
 
@@ -1027,7 +964,6 @@ export class OptionsService {
 
       // spherePlaneManagerSPS:
       {
-        type: 'radio',
         label: 'Sphere Plane',
         value: 3,
         checked: false,
@@ -1040,7 +976,6 @@ export class OptionsService {
         cradius: 1200,
 
         autoRotate: {
-          type: 'checkbox',
           label: 'Auto Camera Movement',
           value: true,
 
@@ -1048,67 +983,50 @@ export class OptionsService {
         },
 
         sampleGain: {
-          type: 'slider',
           label: 'Visual Effect Strength',
           value: 1,
-          min: 1,
-          max: 10,
-          step: 1,
         },
 
         smoothingConstant: {
-          type: 'slider',
           label: 'Smoothing Constant',
           value: 8,
-          min: 1,
-          max: 9.9,
-          step: .1
         },
 
         customColors: {
-          type: 'checkbox',
           label: 'Custom Colors',
           value: true,
 
           midLoc: {
-            type: 'colorslider',
             label: 'Midpoint Value',
             value: 128,
-            min: 20,
-            max: 235,
-            step: 5
           },
 
           color: [
 
             // maxColor:
             {
-              type: 'color',
               label: 'Maximum Color',
               value: '#ff0000'
             },
             // midColor:
             {
-              type: 'color',
               label: 'Middle Color',
               value: '#000000'
             },
             // minColor:
             {
-              type: 'color',
               label: 'Minimum Color',
               value: '#0000ff'
             },
 
           ],
         },
-
         light: [  //  array of lights
 
           {
             intensity: {
               label: 'Right Intensity',
-              value: 0,
+              value: 40,
             },
             color: {
               label: 'Right Color',
@@ -1120,14 +1038,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Right Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Top Intensity',
-              value: 5,
+              value: 30,
             },
             color: {
               label: 'Top Color',
@@ -1139,14 +1057,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Top Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Front Intensity',
-              value: 80,
+              value: 25,
             },
             color: {
               label: 'Front Color',
@@ -1158,7 +1076,7 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Front Back Color',
-              value: '#454545'
+              value: '#000000'
             }
           },
 
@@ -1173,18 +1091,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Left Intensity',
-              value: 10,
+              value: 0,
             },
             color: {
               label: 'Left Color',
@@ -1192,18 +1110,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Left Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Left Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Bottom Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Bottom Color',
@@ -1211,18 +1129,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Bottom Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Bottom Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Rear Intensity',
-              value: 30,
+              value: 0,
             },
             color: {
               label: 'Rear Color',
@@ -1230,18 +1148,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Rear Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Rear Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Camera Rimlight Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Camera Rimlight Color',
@@ -1249,20 +1167,19 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Rimlight Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Rimlight Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           }
 
-        ]
+        ],
       },
 
       // spherePlaneManager2SPS:
       {
-        type: 'radio',
         label: 'Sphere Plane 2',
         value: 4,
         checked: false,
@@ -1275,7 +1192,6 @@ export class OptionsService {
         cradius: 1200,
 
         autoRotate: {
-          type: 'checkbox',
           label: 'Auto Camera Movement',
           value: true,
 
@@ -1283,54 +1199,38 @@ export class OptionsService {
         },
 
         sampleGain: {
-          type: 'slider',
           label: 'Visual Effect Strength',
           value: 1,
-          min: 1,
-          max: 10,
-          step: 1,
         },
 
         smoothingConstant: {
-          type: 'slider',
           label: 'Smoothing Constant',
           value: 8,
-          min: 1,
-          max: 9.9,
-          step: .1
         },
 
         customColors: {
-          type: 'checkbox',
           label: 'Custom Colors',
           value: true,
 
           midLoc: {
-            type: 'colorslider',
             label: 'Midpoint Value',
             value: 128,
-            min: 20,
-            max: 235,
-            step: 5
           },
 
           color: [
 
             // maxColor:
             {
-              type: 'color',
               label: 'Maximum Color',
               value: '#ff0000'
             },
             // midColor:
             {
-              type: 'color',
               label: 'Middle Color',
               value: '#000000'
             },
             // minColor:
             {
-              type: 'color',
               label: 'Minimum Color',
               value: '#0000ff'
             },
@@ -1343,7 +1243,7 @@ export class OptionsService {
           {
             intensity: {
               label: 'Right Intensity',
-              value: 0,
+              value: 40,
             },
             color: {
               label: 'Right Color',
@@ -1355,14 +1255,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Right Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Top Intensity',
-              value: 5,
+              value: 30,
             },
             color: {
               label: 'Top Color',
@@ -1374,14 +1274,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Top Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Front Intensity',
-              value: 80,
+              value: 25,
             },
             color: {
               label: 'Front Color',
@@ -1393,7 +1293,7 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Front Back Color',
-              value: '#454545'
+              value: '#000000'
             }
           },
 
@@ -1408,18 +1308,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Left Intensity',
-              value: 10,
+              value: 0,
             },
             color: {
               label: 'Left Color',
@@ -1427,18 +1327,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Left Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Left Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Bottom Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Bottom Color',
@@ -1446,18 +1346,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Bottom Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Bottom Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Rear Intensity',
-              value: 30,
+              value: 0,
             },
             color: {
               label: 'Rear Color',
@@ -1465,18 +1365,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Rear Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Rear Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Camera Rimlight Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Camera Rimlight Color',
@@ -1484,20 +1384,19 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Rimlight Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Rimlight Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           }
 
-        ]
+        ],
       },
 
       // rings:
       {
-        type: 'radio',
         label: 'Rings',
         value: 5,
         checked: false,
@@ -1510,7 +1409,6 @@ export class OptionsService {
         cradius: 1200,
 
         autoRotate: {
-          type: 'checkbox',
           label: 'Auto Camera Movement',
           value: true,
 
@@ -1518,54 +1416,38 @@ export class OptionsService {
         },
 
         sampleGain: {
-          type: 'slider',
           label: 'Visual Effect Strength',
           value: 1,
-          min: 1,
-          max: 10,
-          step: 1,
         },
 
         smoothingConstant: {
-          type: 'slider',
           label: 'Smoothing Constant',
           value: 8,
-          min: 1,
-          max: 9.9,
-          step: .1
         },
 
         customColors: {
-          type: 'checkbox',
           label: 'Custom Colors',
           value: true,
 
           midLoc: {
-            type: 'colorslider',
             label: 'Midpoint Value',
             value: 128,
-            min: 20,
-            max: 235,
-            step: 5
           },
 
           color: [
 
             // maxColor:
             {
-              type: 'color',
               label: 'Maximum Color',
               value: '#ff0000'
             },
             // midColor:
             {
-              type: 'color',
               label: 'Middle Color',
               value: '#000000'
             },
             // minColor:
             {
-              type: 'color',
               label: 'Minimum Color',
               value: '#0000ff'
             },
@@ -1578,7 +1460,7 @@ export class OptionsService {
           {
             intensity: {
               label: 'Right Intensity',
-              value: 0,
+              value: 40,
             },
             color: {
               label: 'Right Color',
@@ -1590,14 +1472,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Right Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Top Intensity',
-              value: 5,
+              value: 30,
             },
             color: {
               label: 'Top Color',
@@ -1609,14 +1491,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Top Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Front Intensity',
-              value: 80,
+              value: 25,
             },
             color: {
               label: 'Front Color',
@@ -1628,7 +1510,7 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Front Back Color',
-              value: '#454545'
+              value: '#000000'
             }
           },
 
@@ -1643,18 +1525,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Left Intensity',
-              value: 10,
+              value: 0,
             },
             color: {
               label: 'Left Color',
@@ -1662,18 +1544,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Left Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Left Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Bottom Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Bottom Color',
@@ -1681,18 +1563,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Bottom Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Bottom Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Rear Intensity',
-              value: 30,
+              value: 0,
             },
             color: {
               label: 'Rear Color',
@@ -1700,18 +1582,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Rear Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Rear Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Camera Rimlight Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Camera Rimlight Color',
@@ -1719,20 +1601,19 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Rimlight Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Rimlight Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           }
 
-        ]
+        ],
       },
 
       // hex:
       {
-        type: 'radio',
         label: 'Hex',
         value: 6,
         checked: false,
@@ -1745,7 +1626,6 @@ export class OptionsService {
         cradius: 1200,
 
         autoRotate: {
-          type: 'checkbox',
           label: 'Auto Camera Movement',
           value: true,
 
@@ -1753,54 +1633,38 @@ export class OptionsService {
         },
 
         sampleGain: {
-          type: 'slider',
           label: 'Visual Effect Strength',
           value: 1,
-          min: 1,
-          max: 10,
-          step: 1,
         },
 
         smoothingConstant: {
-          type: 'slider',
           label: 'Smoothing Constant',
           value: 8,
-          min: 1,
-          max: 9.9,
-          step: .1
         },
 
         customColors: {
-          type: 'checkbox',
           label: 'Custom Colors',
           value: true,
 
           midLoc: {
-            type: 'colorslider',
             label: 'Midpoint Value',
             value: 128,
-            min: 20,
-            max: 235,
-            step: 5
           },
 
           color: [
 
             // maxColor:
             {
-              type: 'color',
               label: 'Maximum Color',
               value: '#ff0000'
             },
             // midColor:
             {
-              type: 'color',
               label: 'Middle Color',
               value: '#000000'
             },
             // minColor:
             {
-              type: 'color',
               label: 'Minimum Color',
               value: '#0000ff'
             },
@@ -1813,7 +1677,7 @@ export class OptionsService {
           {
             intensity: {
               label: 'Right Intensity',
-              value: 0,
+              value: 40,
             },
             color: {
               label: 'Right Color',
@@ -1825,14 +1689,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Right Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Top Intensity',
-              value: 5,
+              value: 30,
             },
             color: {
               label: 'Top Color',
@@ -1844,14 +1708,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Top Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Front Intensity',
-              value: 80,
+              value: 25,
             },
             color: {
               label: 'Front Color',
@@ -1863,7 +1727,7 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Front Back Color',
-              value: '#454545'
+              value: '#000000'
             }
           },
 
@@ -1878,18 +1742,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Left Intensity',
-              value: 10,
+              value: 0,
             },
             color: {
               label: 'Left Color',
@@ -1897,18 +1761,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Left Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Left Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Bottom Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Bottom Color',
@@ -1916,18 +1780,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Bottom Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Bottom Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Rear Intensity',
-              value: 30,
+              value: 0,
             },
             color: {
               label: 'Rear Color',
@@ -1935,18 +1799,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Rear Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Rear Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Camera Rimlight Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Camera Rimlight Color',
@@ -1954,20 +1818,19 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Rimlight Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Rimlight Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           }
 
-        ]
+        ],
       },
 
       // notes:
       {
-        type: 'radio',
         label: 'Notes',
         value: 7,
         checked: false,
@@ -1980,7 +1843,6 @@ export class OptionsService {
         cradius: 1200,
 
         autoRotate: {
-          type: 'checkbox',
           label: 'Auto Camera Movement',
           value: true,
 
@@ -1988,54 +1850,38 @@ export class OptionsService {
         },
 
         sampleGain: {
-          type: 'slider',
           label: 'Visual Effect Strength',
           value: 1,
-          min: 1,
-          max: 10,
-          step: 1,
         },
 
         smoothingConstant: {
-          type: 'slider',
           label: 'Smoothing Constant',
           value: 8,
-          min: 1,
-          max: 9.9,
-          step: .1
         },
 
         customColors: {
-          type: 'checkbox',
           label: 'Custom Colors',
           value: true,
 
           midLoc: {
-            type: 'colorslider',
             label: 'Midpoint Value',
             value: 128,
-            min: 20,
-            max: 235,
-            step: 5
           },
 
           color: [
 
             // maxColor:
             {
-              type: 'color',
               label: 'Maximum Color',
               value: '#ff0000'
             },
             // midColor:
             {
-              type: 'color',
               label: 'Middle Color',
               value: '#000000'
             },
             // minColor:
             {
-              type: 'color',
               label: 'Minimum Color',
               value: '#0000ff'
             },
@@ -2048,7 +1894,7 @@ export class OptionsService {
           {
             intensity: {
               label: 'Right Intensity',
-              value: 0,
+              value: 40,
             },
             color: {
               label: 'Right Color',
@@ -2060,14 +1906,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Right Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Top Intensity',
-              value: 5,
+              value: 30,
             },
             color: {
               label: 'Top Color',
@@ -2079,14 +1925,14 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Top Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Front Intensity',
-              value: 80,
+              value: 25,
             },
             color: {
               label: 'Front Color',
@@ -2098,7 +1944,7 @@ export class OptionsService {
             },
             groundColor: {
               label: 'Front Back Color',
-              value: '#454545'
+              value: '#000000'
             }
           },
 
@@ -2113,18 +1959,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Left Intensity',
-              value: 10,
+              value: 0,
             },
             color: {
               label: 'Left Color',
@@ -2132,18 +1978,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Left Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Left Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Bottom Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Bottom Color',
@@ -2151,18 +1997,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Bottom Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Bottom Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Rear Intensity',
-              value: 30,
+              value: 0,
             },
             color: {
               label: 'Rear Color',
@@ -2170,18 +2016,18 @@ export class OptionsService {
             },
             specular: {
               label: 'Rear Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Rear Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           },
 
           {
             intensity: {
               label: 'Camera Rimlight Intensity',
-              value: 5,
+              value: 0,
             },
             color: {
               label: 'Camera Rimlight Color',
@@ -2189,22 +2035,33 @@ export class OptionsService {
             },
             specular: {
               label: 'Camera Rimlight Specular',
-              value: '#454545'
+              value: '#000000'
             },
             groundColor: {
               label: 'Camera Rimlight Back Color',
-              value: '#454545'
+              value: '#000000'
             },
           }
 
-        ]
+        ],
       }
 
     ]
 
   };
 
-
+  public visuals = 
+  [
+    'singleSPSCube',
+    // 'singleSPSRibbon',
+    'starManager',
+    'spectrograph',
+    'spherePlaneManagerSPS',
+    'spherePlaneManager2SPS',
+    'rings',
+    'hex',
+    'notes',
+  ];
   public favorites = [];
 
 
@@ -3396,6 +3253,8 @@ export class OptionsService {
     // this.SPSs = this.getSPSNames();
 
     const lOptions = storageService.loadOptions();
+
+
     if (lOptions.version) {
       if (lOptions.version !== this.baseOptions.version) {
         storageService.deleteOptions();
@@ -3424,15 +3283,79 @@ export class OptionsService {
 
     // console.log('Options');
     // console.log(this.options);
+
+
+    const lFavorites = storageService.loadFavorites();
+    console.log(lFavorites);
+    if (lFavorites.error ==='local storage error') {
+      this.favorites = [];
+      console.log('leaving favs as', lFavorites);
+    } else {
+      console.log('favs found in lFavorites');
+
+      this.favorites = lFavorites;
+      
+    }
+
+    // console.log('lFavorites: ');
+    // console.log(lFavorites);
+    // this.favorites = lFavorites ? lFavorites : [];
+
+    // if (lFavorites.version) {
+    //   if (lFavorites.version !== this.baseOptions.version) {
+    //     storageService.deleteOptions();
+    //     alert('Options have changed.  Clearing saved settings.');
+    //   } else {
+    //     // load user options
+    //     for (const [key, value] of Object.entries(lFavorites)) {
+    //       if (key in this.baseOptions) {
+    //         // console.log(`${key}: ${value}`);
+    //         if (typeof value === 'object' && value !== null) {
+
+    //           for (const [ikey, ivalue] of Object.entries(value)) {
+    //             this.options[key][ikey] = ivalue;
+    //           }
+
+    //         } else {
+    //           this.options[key] = value;
+    //         }
+    //       }
+    //     }
+    //     this.updateCustomOptions(this.state.currentVisual.value);
+    //   }
+    // } else {
+    //   console.log('local options error');
+    // }
+
+
+
   }
 
-  setOptionNew(itemName: string, value) {
-    this.options[itemName].value = value;
-    // this.windowResize();
-    this.announceChange('Item was changed: ' + itemName + ' to ' + value);
-    this.storageService.saveOptions(this.options);
-  }
+  // setOptionNew(itemName: string, value) {
+  //   this.options[itemName].value = value;
+  //   // this.windowResize();
+  //   this.announceChange('Item was changed: ' + itemName + ' to ' + value);
+  //   this.storageService.saveOptions(this.options);
+  // }
 
+
+
+  toggleFavoritesRadio(itemName: string, index: number) {
+    // console.log('itemName: ', itemName);
+    // console.log('index: ', index);
+
+
+    this.favorites.forEach((f, i) => {
+      f.checked = (itemName === f.label);
+    });
+    // this.newBaseOptions.general.showBars.currentNote = index;
+
+
+    // console.log(this.newBaseOptions.general.showBars.currentNote);
+    // console.log(this.newBaseOptions);
+    // TO DO:
+    // this.storageService.saveOptions(this.options); 
+  }
 
   toggleNoteRadioNew(itemName: string, index: number) {
     // console.log('itemName: ', itemName);
@@ -3448,12 +3371,12 @@ export class OptionsService {
   }
 
 
-  toggleOption(itemName: string) {
-    this.options[itemName].value = !this.options[itemName].value;
-    this.windowResize();
-    this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
-    this.storageService.saveOptions(this.options);
-  }
+  // toggleOption(itemName: string) {
+  //   this.options[itemName].value = !this.options[itemName].value;
+  //   this.windowResize();
+  //   this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
+  //   // this.storageService.saveOptions(this.options);
+  // }
 
   toggleState(itemName: string) {
     this.state[itemName].value = !this.state[itemName].value;
@@ -3470,54 +3393,10 @@ export class OptionsService {
 
     this.updateCustomOptions(index);
 
-    this.storageService.saveOptions(this.options);
+    // this.storageService.saveOptions(this.options);
   }
 
   updateCustomOptions(visualIndex) {
-
-    // this.options.smoothingConstant.value = this.options[this.visuals[visualIndex]].smoothingConstant;
-    // this.options.sampleGain.value = this.options[this.visuals[visualIndex]].sampleGain;
-    // this.options.autoRotate.value = this.options[this.visuals[visualIndex]].autoRotate;
-    // this.options.customColors.value = this.options[this.visuals[visualIndex]].customColors;
-    // this.options.minColor.value = this.options[this.visuals[visualIndex]].minColor;
-    // this.options.midColor.value = this.options[this.visuals[visualIndex]].midColor;
-    // this.options.maxColor.value = this.options[this.visuals[visualIndex]].maxColor;
-    // this.options.midLoc.value = this.options[this.visuals[visualIndex]].midLoc;
-
-    // this.options.light0Intensity.value = this.options[this.visuals[visualIndex]].light0Intensity;
-    // this.options.light0Color.value = this.options[this.visuals[visualIndex]].light0Color;
-    // this.options.light0Specular.value = this.options[this.visuals[visualIndex]].light0Specular;
-    // this.options.light0GroundColor.value = this.options[this.visuals[visualIndex]].light0GroundColor;
-    // this.options.light1Intensity.value = this.options[this.visuals[visualIndex]].light1Intensity;
-    // this.options.light1Color.value = this.options[this.visuals[visualIndex]].light1Color;
-    // this.options.light1Specular.value = this.options[this.visuals[visualIndex]].light1Specular;
-    // this.options.light1GroundColor.value = this.options[this.visuals[visualIndex]].light1GroundColor;
-    // this.options.light2Intensity.value = this.options[this.visuals[visualIndex]].light2Intensity;
-    // this.options.light2Color.value = this.options[this.visuals[visualIndex]].light2Color;
-    // this.options.light2Specular.value = this.options[this.visuals[visualIndex]].light2Specular;
-    // this.options.light2GroundColor.value = this.options[this.visuals[visualIndex]].light2GroundColor;
-    // this.options.light3Intensity.value = this.options[this.visuals[visualIndex]].light3Intensity;
-    // this.options.light3Color.value = this.options[this.visuals[visualIndex]].light3Color;
-    // this.options.light3Specular.value = this.options[this.visuals[visualIndex]].light3Specular;
-    // this.options.light3GroundColor.value = this.options[this.visuals[visualIndex]].light3GroundColor;
-
-    // this.options.light4Intensity.value = this.options[this.visuals[visualIndex]].light4Intensity;
-    // this.options.light4Color.value = this.options[this.visuals[visualIndex]].light4Color;
-    // this.options.light4Specular.value = this.options[this.visuals[visualIndex]].light4Specular;
-    // this.options.light4GroundColor.value = this.options[this.visuals[visualIndex]].light4GroundColor;
-    // this.options.light5Intensity.value = this.options[this.visuals[visualIndex]].light5Intensity;
-    // this.options.light5Color.value = this.options[this.visuals[visualIndex]].light5Color;
-    // this.options.light5Specular.value = this.options[this.visuals[visualIndex]].light5Specular;
-    // this.options.light5GroundColor.value = this.options[this.visuals[visualIndex]].light5GroundColor;
-    // this.options.light6Intensity.value = this.options[this.visuals[visualIndex]].light6Intensity;
-    // this.options.light6Color.value = this.options[this.visuals[visualIndex]].light6Color;
-    // this.options.light6Specular.value = this.options[this.visuals[visualIndex]].light6Specular;
-    // this.options.light6GroundColor.value = this.options[this.visuals[visualIndex]].light6GroundColor;
-    // this.options.light7Intensity.value = this.options[this.visuals[visualIndex]].light7Intensity;
-    // this.options.light7Color.value = this.options[this.visuals[visualIndex]].light7Color;
-    // this.options.light7Specular.value = this.options[this.visuals[visualIndex]].light7Specular;
-    // this.options.light7GroundColor.value = this.options[this.visuals[visualIndex]].light7GroundColor;
-
 
     this.messageService.announceMessage('set lights');
 
@@ -3531,7 +3410,7 @@ export class OptionsService {
     this.notes.forEach(n => {
       this.options[n].checked = (itemName === n);
     });
-    this.storageService.saveOptions(this.options);
+    // this.storageService.saveOptions(this.options);
   }
 
 
@@ -3540,7 +3419,7 @@ export class OptionsService {
     this.options[itemName].value = value;
     this.windowResize();
     this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
-    this.storageService.saveOptions(this.options);
+    // this.storageService.saveOptions(this.options);
   }
 
   getOptions() {
@@ -3593,7 +3472,7 @@ export class OptionsService {
 
   set renderPlayer(value: boolean) {
     this.state.renderPlayer.value = value;
-    this.storageService.saveOptions(this.options);
+    // this.storageService.saveOptions(this.options);
   }
 
   get showTrackTitle(): boolean {
@@ -3602,7 +3481,7 @@ export class OptionsService {
 
   set showTrackTitle(value: boolean) {
     this.state.showTrackTitle.value = value;
-    this.storageService.saveOptions(this.options);
+    // this.storageService.saveOptions(this.options);
   }
 
   get volume(): number {
@@ -3611,7 +3490,7 @@ export class OptionsService {
 
   set volume(value: number) {
     this.state.volume.value = value as number;
-    this.storageService.saveOptions(this.options);
+    // this.storageService.saveOptions(this.options);
   }
 
   get showPanel(): boolean {
@@ -3636,7 +3515,7 @@ export class OptionsService {
 
   set currentVisual(value: number) {
     this.state.currentVisual.value = value;
-    this.storageService.saveOptions(this.options);
+    // this.storageService.saveOptions(this.options);
 
   }
 
@@ -3651,7 +3530,7 @@ export class OptionsService {
 
   set input(value: string) {
     this.state.input.value = value;
-    this.storageService.saveOptions(this.options);
+    // this.storageService.saveOptions(this.options);
   }
 
   get playing(): boolean {
@@ -3660,7 +3539,7 @@ export class OptionsService {
 
   set playing(value: boolean) {
     this.state.playing.value = value;
-    this.storageService.saveOptions(this.options);
+    // this.storageService.saveOptions(this.options);
   }
 
   get microphone(): boolean {
@@ -3669,7 +3548,7 @@ export class OptionsService {
 
   set microphone(value: boolean) {
     this.state.microphone.value = value;
-    this.storageService.saveOptions(this.options);
+    // this.storageService.saveOptions(this.options);
   }
 
 }

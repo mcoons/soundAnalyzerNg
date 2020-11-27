@@ -1,1 +1,19 @@
-<p>panel-right works!</p>
+<div id="options">
+  <div id="glowContainer">
+    <mat-accordion multi="true">
+
+      <div id="listBtnContainer">
+        <div class="btnContainer">
+          <button class="playlistButton" (click)="addToFavorites($event)">Save Favorite</button>
+        </div>
+      </div>
+
+      <app-visual-selection></app-visual-selection>
+      <app-visual-effects></app-visual-effects>
+      <app-light-options></app-light-options>
+
+    </mat-accordion>
+  </div>
+
+
+</div>

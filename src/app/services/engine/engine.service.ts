@@ -102,7 +102,7 @@ export class EngineService {
     this.subscription = messageService.messageAnnounced$.subscribe(
       message => {
         if (message === 'scene change') {
-          this.selectVisual(this.optionsService.currentVisual);
+          this.selectVisual(this.optionsService.newBaseOptions.currentVisual);
         }
 
         if (message === 'set lights') {
@@ -110,8 +110,9 @@ export class EngineService {
         }
       });
 
-    this.visualClassIndex = this.optionsService.currentVisual;
-    this.visualClasses = [
+    this.visualClassIndex = this.optionsService.newBaseOptions.currentVisual;
+
+    this.visualClasses =  [
       SingleSPSCube,
       // SingleSPSRibbon,
       StarManager,
@@ -338,13 +339,13 @@ export class EngineService {
     // console.log(this.visualClassIndex);
 
 
-    const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 100}, this.scene);
-    sphere.position.y = 50;
+    // const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 100}, this.scene);
+    // sphere.position.y = 50;
 
-    let testMat = new BABYLON.StandardMaterial("test",this.scene);
-    testMat.maxSimultaneousLights = 8;
+    // let testMat = new BABYLON.StandardMaterial("test",this.scene);
+    // testMat.maxSimultaneousLights = 8;
 
-    sphere.material = testMat;
+    // sphere.material = testMat;
 
 
     // this.titleMat = new BABYLON.StandardMaterial('titleMat', this.scene);
@@ -407,88 +408,12 @@ export class EngineService {
   public setLights() {
 
     for (let index = 0; index < 8; index++) {
-
       this.scene.lights[index].intensity = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].intensity.value / 100;
-      this.scene.lights[index].diffuse = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].color.value);
-      this.scene.lights[index].specular = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].specular.value);
+      this.scene.lights[index].diffuse   = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].color.value);
+      this.scene.lights[index].specular  = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].specular.value);
       (this.scene.lights[index] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].groundColor.value);
 
     }
-
-    // // right
-
-    // // top
-    // this.scene.lights[1].intensity = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[1].intensity.value / 100;
-    // this.scene.lights[1].diffuse = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[1].color.value );
-    // this.scene.lights[1].specular = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[1].specular.value );
-    // (this.scene.lights[1] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[1].groundColor.value );
-
-
-    // // front
-    // this.scene.lights[2].intensity = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[2].intensity.value / 100;
-    // this.scene.lights[2].diffuse = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[2].color.value );
-    // this.scene.lights[2].specular = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[2].specular.value );
-    // (this.scene.lights[2] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[2].groundColor.value );
-
-
-
-
-
-
-
-    // // back
-    // this.scene.lights[1].intensity = this.optionsService.light1Intensity / 100;
-    // this.scene.lights[1].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light1Color);
-    // this.scene.lights[1].specular = BABYLON.Color3.FromHexString(this.optionsService.light1Specular);
-    // (this.scene.lights[1] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light1GroundColor);
-
-    // // left
-    // this.scene.lights[2].intensity = this.optionsService.light2Intensity / 100;
-    // this.scene.lights[2].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light2Color);
-    // this.scene.lights[2].specular = BABYLON.Color3.FromHexString(this.optionsService.light2Specular);
-    // (this.scene.lights[2] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light2GroundColor);
-
-    // // right
-    // this.scene.lights[3].intensity = this.optionsService.light3Intensity / 100;
-    // this.scene.lights[3].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light3Color);
-    // this.scene.lights[3].specular = BABYLON.Color3.FromHexString(this.optionsService.light3Specular);
-    // (this.scene.lights[3] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light3GroundColor);
-
-    // // top
-    // this.scene.lights[4].intensity = this.optionsService.light4Intensity / 100;
-    // this.scene.lights[4].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light4Color);
-    // this.scene.lights[4].specular = BABYLON.Color3.FromHexString(this.optionsService.light4Specular);
-    // (this.scene.lights[4] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light4GroundColor);
-
-    // // bottom
-    // this.scene.lights[5].intensity = this.optionsService.light5Intensity / 100;
-    // this.scene.lights[5].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light5Color);
-    // this.scene.lights[5].specular = BABYLON.Color3.FromHexString(this.optionsService.light5Specular);
-    // (this.scene.lights[5] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light5GroundColor);
-
-    // // camera
-    // this.scene.lights[6].intensity = this.optionsService.light6Intensity / 100;
-    // this.scene.lights[6].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light6Color);
-    // this.scene.lights[6].specular = BABYLON.Color3.FromHexString(this.optionsService.light6Specular);
-    // (this.scene.lights[6] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light6GroundColor);
-
-    // // rim
-    // this.scene.lights[7].intensity = this.optionsService.light7Intensity / 100;
-    // this.scene.lights[7].diffuse = BABYLON.Color3.FromHexString(this.optionsService.light7Color);
-    // this.scene.lights[7].specular = BABYLON.Color3.FromHexString(this.optionsService.light7Specular);
-    // (this.scene.lights[7] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.light7GroundColor);
-
-
-
-
-
-
-
-
-
-
-
-
 
   }
 
@@ -520,29 +445,24 @@ export class EngineService {
     });
   }
 
-  // resizeCanvas = () => {
-  //   console.log('in resizeCanvas');
-  //   this.canvas.width = +window.getComputedStyle(this.canvas).width.slice(0, -2);
+  // saveCamera() {
+  //   // console.log('in saveCamera');
+  //   this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].calpha
+  //     = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha;
+
+  //   this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].cbeta
+  //     = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta;
+
+  //   this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].cradius
+  //     = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius;
+
+  //   // this.storageService.saveOptions(this.optionsService.options);
+
   // }
-
-  saveCamera() {
-    // console.log('in saveCamera');
-    this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].calpha
-      = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha;
-
-    this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].cbeta
-      = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta;
-
-    this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].cradius
-      = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius;
-
-    this.storageService.saveOptions(this.optionsService.options);
-
-  }
 
   selectVisual(index) {
     // console.log('in selectVisual');
-    this.saveCamera();
+    // this.saveCamera();
 
     this.currentVisual.remove();
 

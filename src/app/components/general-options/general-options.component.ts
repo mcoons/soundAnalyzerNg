@@ -33,6 +33,11 @@ export class GeneralOptionsComponent implements OnInit {
     // this.optionsService.newBaseOptions.general[1].note
   }
 
+  updateItem(e) {
+    console.log(e.target.id);
+    this.messageService.announceMessage(e.target.id);
+  }
+
   // trackChange(e) {
   //   this.optionsService.updateState('currentTrack', e.target.value);
   //   this.messageService.announceMessage('track change');

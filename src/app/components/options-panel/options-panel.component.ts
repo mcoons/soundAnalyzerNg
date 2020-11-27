@@ -4,7 +4,6 @@ import { OptionsService } from '../../services/options/options.service';
 import { MessageService } from '../../services/message/message.service';
 import { AudioService } from '../../services/audio/audio.service';
 import { EngineService } from '../../services/engine/engine.service';
-// import { SmartArrayNoDuplicate } from 'babylonjs';
 
 @Component({
   selector: 'app-options-panel',
@@ -158,7 +157,7 @@ export class OptionsPanelComponent implements OnInit, OnDestroy {
     this.optionsService.favorites.push(
       {
         name: 'Favorite ' + (this.optionsService.favorites.length + 1),
-        options:  JSON.parse(JSON.stringify(this.optionsService.options)) ,
+        options:  JSON.parse(JSON.stringify(this.optionsService.newBaseOptions)) ,
         state:    JSON.parse(JSON.stringify(this.optionsService.state))
       });
 

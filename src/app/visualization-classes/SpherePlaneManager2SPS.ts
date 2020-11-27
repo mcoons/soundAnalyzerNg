@@ -37,18 +37,17 @@ export class SpherePlaneManager2SPS {
 
         this.scene.registerBeforeRender(this.beforeRender);
 
-        this.setDefaults();
+        // this.setDefaults();
     }
 
     setDefaults() {
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
 
-
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = -Math.PI / 2;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = Math.PI / 2; // 1
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 2000;
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = -Math.PI / 2;
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = Math.PI / 2; // 1
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 2000;
     }
 
     beforeRender = () => {
@@ -72,19 +71,12 @@ export class SpherePlaneManager2SPS {
         let z: number;
 
         let theta: number;
-
-
         let radius = 100;
-        // const width = 100;
-        // const depth = 15;
-        // const height = 20;
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = false;
         this.mat.maxSimultaneousLights = 8;
         this.mat.specularColor = new BABYLON.Color3(0, 0, 0);
-
-
 
         // this.mat.diffuseTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
         // this.mat.opacityTexture = new BABYLON.Texture('../../assets/mats/glow2.png', this.scene);
@@ -116,7 +108,6 @@ export class SpherePlaneManager2SPS {
 
         const build0 = () => {
             radius = 500;
-            
 
             const innerPositionFunction = (particle, i, s) => {
                 particle.position.x = (radius - 12 * z) * Math.cos(theta) * 1.5;
@@ -241,7 +232,6 @@ export class SpherePlaneManager2SPS {
         this.SPS = null; // tells the GC the reference can be cleaned up also
 
         this.scene.unregisterBeforeRender(this.beforeRender);
-
 
         this.audioService = null;
         this.optionsService = null;
