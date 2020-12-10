@@ -45,6 +45,11 @@ SCENE options
     4 light material = top, left, front, camera
     8 light material = bottom, right, back, rimlight
 
+AUDIO options
+    Adjust gain per octive
+    data Source selection
+    
+
 Add "None" option for Visuals that skips render loop (can be used while viewing bars)
 Add Dynamic viewing of different data Bar graphs
 Add selection of different data sets - Rewrite all to use data.length to build/update
@@ -165,13 +170,25 @@ BiquadFilterNode
 //   64+64 + 64+64 + 64+64 + 64+64    +  64+64 + 64+64 + 64+64 + 64+64                64-128 of 1024
 //                                                                                    64-128 of 2048
 //                                                                                    64-128 of 4096
-//                                                                                    64-128 of 8182
+//                                                                                    64-128 of 8192
 //                                                                                   0-128 of 16384
 
 //                                                                             32*9  =  288
 
 //                                                                             0-287 objects
 
+
+
+16 - 32 of 32
+16 - 32 of 64
+16 - 32 of 128
+16 - 32 of 256
+16 - 32 of 512
+16 - 32 of 1024
+16 - 32 of 2048
+16 - 32 of 4096
+
+16 X 8 =  128
 
 
 
@@ -327,5 +344,18 @@ SPECTROGRAPH
         this.ground.material.specularColor = new BABYLON.Color3(0, 0, 0); // black is no shine
 
 
+
+
+
+
+New Base Options
+
+
+
+Favorites[]
+State{}
+Options{}
+    General{}
+    Visual[]
 
 

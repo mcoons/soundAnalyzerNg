@@ -20,9 +20,19 @@ export class AudioService {
   streams;
   lastVolume;
 
-  minDecibels = -100;
-  maxDecibels = -30;  // -30;
+  // minDecibels = -100;
+  // maxDecibels = -30; 
+
+  minDecibels = -90;
+  maxDecibels = -10; 
+
   smoothingConstant = .9;
+
+  fr16Analyser: any;
+  fr16DataArray: Uint8Array = new Uint8Array(16);
+
+  fr32Analyser: any;
+  fr32DataArray: Uint8Array = new Uint8Array(32);
 
   fr64Analyser: any;
   fr64DataArray: Uint8Array = new Uint8Array(64);
@@ -66,6 +76,8 @@ export class AudioService {
   sample1BufferHistory = [];
   sample1Topper = [];
 
+  sample2: Uint8Array = new Uint8Array(224);
+
   soundArrays: any;
   analyzersArray: any;
 
@@ -73,7 +85,7 @@ export class AudioService {
   // private noteIndex = [73, 77, 82, 87, 92, 33, 39, 45, 52, 58, 65, 69];
 
   // freq sample1 bucket index per note  +/- 64 for octives
-  private noteIndex = [137, 141, 146, 151, 156, 161, 167, 173, 180, 186, 129, 133];  
+  private noteIndex = [137, 141, 146, 151, 156, 161, 167, 173, 180, 186, 129, 133];
 
   noteAvgs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -92,6 +104,7 @@ export class AudioService {
           this.setGain();
         }
         if (this.audio != null && message === 'Smoothing Constant') {
+          // tslint:disable-next-line: max-line-length
           this.smoothingConstant = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value / 10;
           this.setSmoothingConstant();
         }
@@ -127,8 +140,10 @@ export class AudioService {
 
     this.gainNode = this.audioCtx.createGain();
     this.splitter = this.audioCtx.createChannelSplitter(2);
-    this.splitter2 = this.audioCtx.createChannelSplitter(9);
+    this.splitter2 = this.audioCtx.createChannelSplitter(11);
 
+    this.fr16Analyser = this.audioCtx.createAnalyser();
+    this.fr32Analyser = this.audioCtx.createAnalyser();
     this.fr64Analyser = this.audioCtx.createAnalyser();
     this.fr128Analyser = this.audioCtx.createAnalyser();
     this.fr256Analyser = this.audioCtx.createAnalyser();
@@ -158,12 +173,22 @@ export class AudioService {
         analyzer.fftSize = Math.pow(2, i + 7);
     });
 
+    
+    this.fr16Analyser.fftSize = 32;
+    this.fr16Analyser.minDecibels = this.minDecibels;
+    this.fr16Analyser.maxDecibels = this.maxDecibels;
+    this.fr16Analyser.smoothingTimeConstant = this.smoothingConstant;
+
+    this.fr32Analyser.fftSize = 64;
+    this.fr32Analyser.minDecibels = this.minDecibels;
+    this.fr32Analyser.maxDecibels = this.maxDecibels;
+    this.fr32Analyser.smoothingTimeConstant = this.smoothingConstant;
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
     this.tdAnalyser.fftSize = 1024;
-    this.tdAnalyser.minDecibels = this.minDecibels;
-    this.tdAnalyser.maxDecibels = this.maxDecibels;
-    this.tdAnalyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.tdAnalyser.minDecibels = this.minDecibels;
+    // this.tdAnalyser.maxDecibels = this.maxDecibels;
+    // this.tdAnalyser.smoothingTimeConstant = this.smoothingConstant;
     this.tdBufferLength = this.tdAnalyser.frequencyBinCount;
     this.tdDataArray = new Uint8Array(this.tdBufferLength);
 
@@ -186,6 +211,8 @@ export class AudioService {
     this.splitter2.connect(this.fr256Analyser);
     this.splitter2.connect(this.fr128Analyser);
     this.splitter2.connect(this.fr64Analyser);
+    this.splitter2.connect(this.fr32Analyser);
+    this.splitter2.connect(this.fr16Analyser);
 
 
     for (let index = 0; index < 151; index++) {
@@ -195,11 +222,16 @@ export class AudioService {
     }
 
     for (let index = 0; index < 576; index++) {
-      this.sample1Topper[index] = 0;
+      // this.sample1Topper[index] = 0;
+      this.sample1Topper[index] = {
+        value: 0,
+        age: 0
+      };
     }
 
     this.setGain();
 
+    // tslint:disable-next-line: max-line-length
     this.smoothingConstant = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value / 10;
     this.setSmoothingConstant();
 
@@ -213,6 +245,9 @@ export class AudioService {
     this.analyzersArray.forEach( (element, i) => {
       element.getByteFrequencyData(this.soundArrays[i]);
     });
+
+    this.fr16Analyser.getByteFrequencyData(this.fr16DataArray);
+    this.fr32Analyser.getByteFrequencyData(this.fr32DataArray);
 
     // combine for sample set
     for (let index = 0; index < 64; index++) { //  64*9 = 576
@@ -233,6 +268,30 @@ export class AudioService {
       this.sample1BufferHistory.reverse();
       this.sample1BufferHistory.pop();
       this.sample1BufferHistory.reverse();
+    }
+
+    // this.soundArrays = [
+    //   this.fr64DataArray,  // 0
+    //   this.fr128DataArray, // 1
+    //   this.fr256DataArray,
+    //   this.fr512DataArray,
+    //   this.fr1024DataArray,
+    //   this.fr2048DataArray,  // 5
+    //   this.fr4096DataArray,
+    //   this.fr8192DataArray,
+    //   this.fr16384DataArray // 8
+    // ];
+
+
+    // combine for sample2 set
+    for (let index = 0; index < 32; index++) { //  32*7 = 224
+      this.sample2[index + 0] = (this.soundArrays[5])[index];          
+      this.sample2[index + 32] = (this.soundArrays[5])[index + 32];    
+      this.sample2[index + 64] = (this.soundArrays[4])[index + 32];   
+      this.sample2[index + 96] = (this.soundArrays[3])[index + 32];  
+      this.sample2[index + 128] = (this.soundArrays[2])[index + 32];  
+      this.sample2[index + 160] = (this.soundArrays[1])[index + 32];  
+      this.sample2[index + 192] = (this.soundArrays[0])[index + 32];  
     }
 
     //////////////////////////////////////
@@ -261,24 +320,24 @@ export class AudioService {
     // private noteStr = ['G ', 'G#', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#'];
     // private noteIndex = [73, 77, 82, 87, 92, 33, 39, 45, 52, 58, 65, 69];
 
-    let historyPeek = 5;
+    const historyPeek = 5;
 
 
     this.noteIndex.forEach((n, i) => {
 
-      let temp = ( // this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n] +
+      const temp = ( // this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n] +
         this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 64] +
         this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 128] +
-        this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 192] //+
+        this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 192] // +
         // this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 256] //+
         // this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 320]
         ) / 3;
 
 
-      let temp2 = ( // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n] +
+      const temp2 = ( // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n] +
         this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 64] +
         this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 128] +
-        this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 192] //+
+        this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 192] // +
         // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 256] //+
         // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 320]
         ) / 3;
@@ -286,7 +345,7 @@ export class AudioService {
       this.noteAvgs[i] = this.noteAvgs[i] - 1 / historyPeek * temp;
       this.noteAvgs[i] = this.noteAvgs[i] + 1 / historyPeek * temp2;
 
-    })
+    });
 
     // console.log(this.noteAvgs);
 
@@ -299,6 +358,7 @@ export class AudioService {
   }
 
   setGain() {
+    // tslint:disable-next-line: max-line-length
     this.gainNode.gain.setValueAtTime(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value, this.audioCtx.currentTime);
   }
 
@@ -307,6 +367,9 @@ export class AudioService {
     this.analyzersArray.forEach(element => {
       element.smoothingTimeConstant = this.smoothingConstant;
     });
+
+    this.fr16Analyser.smoothingTimeConstant = this.smoothingConstant;
+    this.fr32Analyser.smoothingTimeConstant = this.smoothingConstant;
 
   }
 

@@ -247,7 +247,7 @@ export class Rings {
         const reflector = BABYLON.Plane.FromPositionAndNormal(this.glass.position, glassNormal.scale(-1));
 
         const mirrorMaterial = new BABYLON.StandardMaterial('MirrorMat', this.scene);
-        mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture('mirror', 512, this.scene, true);
+        mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture('mirror', 1024, this.scene, true);
         (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).mirrorPlane = reflector;
         // tslint:disable-next-line: max-line-length
         (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).renderList = [this.ring1SPS.mesh, this.ring3SPS.mesh, this.ring5SPS.mesh];

@@ -77,6 +77,7 @@ export class SpherePlaneManagerSPS {
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = false;
         this.mat.maxSimultaneousLights = 8;
+        // this.mat.emissiveColor = new BABYLON.Color3(1,1,1);
 
 
         // BUILD INNER SPS ////////////////////////////////
@@ -89,7 +90,7 @@ export class SpherePlaneManagerSPS {
         };
 
         this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
-        const sphere = BABYLON.MeshBuilder.CreateSphere('s', { diameter: 6, segments: 8, updatable: true }, this.scene);
+        const sphere = BABYLON.MeshBuilder.CreateSphere('s', { diameter: 6, segments: 16, updatable: true }, this.scene);
 
         for (z = -15; z < 15; z++) {
             for (x = -15; x < 15; x++) {
@@ -129,7 +130,11 @@ export class SpherePlaneManagerSPS {
 
     }
 
-    update() { }
+    update() { 
+        this.engineService.lightParent.rotation.x += .004;
+        this.engineService.lightParent.rotation.y -= .006;
+        this.engineService.lightParent.rotation.z += .008;
+    }
 
     remove() {
         this.SPS.mesh.dispose();

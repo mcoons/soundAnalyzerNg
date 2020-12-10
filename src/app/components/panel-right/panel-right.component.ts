@@ -27,11 +27,34 @@ export class PanelRightComponent implements OnInit, OnDestroy  {
   }
 
   addToFavorites(e) {
+
+    const timestamp = new Date();
+    // const month = timestamp.getMonth() ;
+    const month = ('0' + timestamp.getMonth()).slice (-2);
+    // const day = timestamp.getDate();
+    const day = ('0' + timestamp.getDate()).slice (-2);
+    const year = timestamp.getFullYear();
+    const hours = ('0' + timestamp.getHours()).slice (-2);
+    const minutes = ('0' + timestamp.getMinutes()).slice (-2);
+    const seconds = ('0' + timestamp.getSeconds()).slice (-2);
+
+    // const timeString = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].label + ` ${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
+    const timeString = ` ${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
+    console.log(timeString);
+
     this.optionsService.favorites.push(
+      // {
+      //   label: 'Favorite ' + (this.optionsService.favorites.length + 1),
+      //   value: this.optionsService.favorites.length,
+      //   name: 'Favorite ' + (this.optionsService.favorites.length + 1),
+      //   checked: false,
+      //   options:  JSON.parse(JSON.stringify(this.optionsService.newBaseOptions)) ,
+      //   state:    JSON.parse(JSON.stringify(this.optionsService.state))
+      // });
       {
-        label: 'Favorite ' + (this.optionsService.favorites.length + 1),
+        label: 'Favorite ' + timeString,
         value: this.optionsService.favorites.length,
-        name: 'Favorite ' + (this.optionsService.favorites.length + 1),
+        name: 'Favorite ' + timeString,
         checked: false,
         options:  JSON.parse(JSON.stringify(this.optionsService.newBaseOptions)) ,
         state:    JSON.parse(JSON.stringify(this.optionsService.state))
@@ -40,6 +63,7 @@ export class PanelRightComponent implements OnInit, OnDestroy  {
     console.log(JSON.stringify(this.optionsService.newBaseOptions));
 
     this.storageService.saveFavorites(this.optionsService.favorites);
+
   }
 
 }

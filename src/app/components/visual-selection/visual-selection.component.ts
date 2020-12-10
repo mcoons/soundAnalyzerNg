@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation, Inject, ElementRef, ViewChild } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { OptionsService } from '../../services/options/options.service';
 import { MessageService } from '../../services/message/message.service';
 
@@ -7,34 +7,20 @@ import { MessageService } from '../../services/message/message.service';
   templateUrl: './visual-selection.component.html',
   styleUrls: ['./visual-selection.component.css']
 })
-export class VisualSelectionComponent implements OnInit {
-
-  public currentVisualIndex;
-  public currentVisual;
-  public general;
-  public visuals;
-
+export class VisualSelectionComponent {
 
   constructor(
     @Inject(OptionsService) public optionsService: OptionsService,
     @Inject(MessageService) private messageService: MessageService
-  ) {
+  ) {}
 
-  }
-
-  ngOnInit(): void {
-    this.visuals = this.optionsService.newBaseOptions.visual;
-    this.currentVisualIndex = this.optionsService.newBaseOptions.currentVisual;
-    this.currentVisual = this.visuals[this.currentVisualIndex];
-    this.general = this.optionsService.newBaseOptions.general;
-  }
 
   spsChange(e) {
 
-    let value = e.target.checked;
+    const value = e.target.checked;
 
-    let isMatch = (element) => element.label === e.target.id ;
-    let typeIndex = this.optionsService.newBaseOptions.visual[0].types.findIndex(isMatch);
+    const isMatch = (element) => element.label === e.target.id ;
+    const typeIndex = this.optionsService.newBaseOptions.visual[0].types.findIndex(isMatch);
 
     if ((!value && this.optionsService.getSelectedCubeSPSCount() > 1) || value) {
       this.optionsService.newBaseOptions.visual[0].types[typeIndex].value = value;
@@ -56,7 +42,6 @@ export class VisualSelectionComponent implements OnInit {
 
     this.optionsService.updateState('currentVisual', e.target.value);
     this.optionsService.newBaseOptions.currentVisual = Number(e.target.value);
-
 
     this.messageService.announceMessage('scene change');
     this.messageService.announceMessage('Smoothing Constant');

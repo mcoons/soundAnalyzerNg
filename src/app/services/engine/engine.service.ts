@@ -25,6 +25,7 @@ import { Rings } from '../../visualization-classes/Rings';
 import { Hex } from '../../visualization-classes/Hex';
 import { Notes } from '../../visualization-classes/Notes';
 import { SingleSPSCube } from '../../visualization-classes/SingleSPSCube';
+import { SingleSPSTriangle } from '../../visualization-classes/SingleSPSTriangle';
 import { APP_BASE_HREF } from '@angular/common';
 // import { SingleSPSRibbon } from '../../visualization-classes/SingleSPSRibbon';
 
@@ -79,6 +80,8 @@ export class EngineService {
   cameraTarget;
   lightParent;
 
+  axisParent;
+
 
   public constructor(
     private ngZone: NgZone,
@@ -92,6 +95,7 @@ export class EngineService {
     console.log('Engine Service Constructor');
 
     // this.showAxis = false;
+
 
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
@@ -121,7 +125,8 @@ export class EngineService {
       SpherePlaneManager2SPS,
       Rings,
       Hex,
-      Notes
+      Notes,
+      SingleSPSTriangle
     ];
 
   }
@@ -157,7 +162,7 @@ export class EngineService {
 
     this.highlightLayer = new BABYLON.HighlightLayer('hl1', this.scene);
 
-    this.setGlowLayer(1);
+    // this.setGlowLayer(1);
 
     this.skyboxMaterial = new BABYLON.StandardMaterial('skyBox', this.scene);
     this.skyboxMaterial.backFaceCulling = false;
@@ -224,6 +229,23 @@ export class EngineService {
     // console.log(this.camera2);
 
     this.scene.activeCamera = this.camera1;
+
+    // var parameters = {
+    //   chromatic_aberration: 0.0,  //1.0,
+    //   edge_blur: 0, // 1.0,
+    //   // distortion: .5, // 1.0,
+    //   grain_amount: 0.5,
+    //   // dof_focus_distance: 100,  // 2000,
+    //   // dof_aperture: 10, // 1,
+    //   // dof_darken: .1, // 0,
+    //   // dof_pentagon: true,
+    //   // dof_gain: 1,
+    //   // dof_threshold: 1,
+    //   blur_noise: true
+    //   // etc.
+    // };
+
+    // var lensEffect = new BABYLON.LensRenderingPipeline('lensEffects', parameters, this.scene, 1.0, this.scene.cameras);
 
 
     //////   LIGHTING   //////
@@ -306,24 +328,21 @@ export class EngineService {
 
     //////    AXIS FOR DEBUGGING    //////
 
+    this.axisParent = new BABYLON.TransformNode('axisParent', this.scene);
+
+    this.buildWorldAxis(600);
 
     if (this.optionsService.newBaseOptions.general.showAxis === true) {
-      this.showWorldAxis(600);
-
-      for (let index = -1000; index <= 1000; index += 100) {
-        const hexX100 = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 1, tessellation: 6, height: 100 }, this.scene);
-        hexX100.position = new BABYLON.Vector3(index, 0, 0);
-
-        const hexZ100 = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 1, tessellation: 6, height: 100 }, this.scene);
-        hexZ100.position = new BABYLON.Vector3(0, 0, index);
-      }
+      this.showWorldAxis();
+    } else {
+      this.hideWorldAxis();
     }
 
 
 
     //////    SCENE INITIALIZATIONS    //////
 
-    this.scene.createDefaultEnvironment();
+    // this.scene.createDefaultEnvironment();
 
 
     // tslint:disable-next-line: max-line-length
@@ -495,42 +514,88 @@ export class EngineService {
     this.canvas.setAttribute('height', (style.height() * dpi).toString());
   }
 
-  showWorldAxis = (size) => {
+
+
+  makeTextPlane = (text: string, color: string, textSize: number) => {
+    const dynamicTexture = new BABYLON.DynamicTexture('DynamicTexture', 50, this.scene, true);
+    dynamicTexture.hasAlpha = true;
+    dynamicTexture.drawText(text, 5, 40, 'bold 36px Arial', color, 'transparent', true);
+    // @todo fix <any> - actual a hack for @types Error...
+    const plane = BABYLON.Mesh.CreatePlane('TextPlane', textSize, this.scene, true);
+    const material = new BABYLON.StandardMaterial('TextPlaneMaterial', this.scene);
+    plane.material = material;
+    material.backFaceCulling = false;
+    material.specularColor = new BABYLON.Color3(0, 0, 0);
+    material.diffuseTexture = dynamicTexture;
+    return plane;
+  };
+
+
+  buildWorldAxis = (size) => {
     // console.log('in showWorldAxis');
-    const makeTextPlane = (text: string, color: string, textSize: number) => {
-      const dynamicTexture = new BABYLON.DynamicTexture('DynamicTexture', 50, this.scene, true);
-      dynamicTexture.hasAlpha = true;
-      dynamicTexture.drawText(text, 5, 40, 'bold 36px Arial', color, 'transparent', true);
-      // @todo fix <any> - actual a hack for @types Error...
-      const plane = BABYLON.Mesh.CreatePlane('TextPlane', textSize, this.scene, true);
-      const material = new BABYLON.StandardMaterial('TextPlaneMaterial', this.scene);
-      plane.material = material;
-      material.backFaceCulling = false;
-      material.specularColor = new BABYLON.Color3(0, 0, 0);
-      material.diffuseTexture = dynamicTexture;
-      return plane;
-    };
+    // const makeTextPlane = (text: string, color: string, textSize: number) => {
+    //   const dynamicTexture = new BABYLON.DynamicTexture('DynamicTexture', 50, this.scene, true);
+    //   dynamicTexture.hasAlpha = true;
+    //   dynamicTexture.drawText(text, 5, 40, 'bold 36px Arial', color, 'transparent', true);
+    //   // @todo fix <any> - actual a hack for @types Error...
+    //   const plane = BABYLON.Mesh.CreatePlane('TextPlane', textSize, this.scene, true);
+    //   const material = new BABYLON.StandardMaterial('TextPlaneMaterial', this.scene);
+    //   plane.material = material;
+    //   material.backFaceCulling = false;
+    //   material.specularColor = new BABYLON.Color3(0, 0, 0);
+    //   material.diffuseTexture = dynamicTexture;
+    //   return plane;
+    // };
+    
     const axisX = BABYLON.Mesh.CreateLines('axisX', [
       BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0),
       new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, -0.05 * size, 0)
     ], this.scene);
     axisX.color = new BABYLON.Color3(1, 0, 0);
-    const xChar = makeTextPlane('X', 'red', size / 10);
+    const xChar = this.makeTextPlane('X', 'red', size / 10);
     xChar.position = new BABYLON.Vector3(0.9 * size, -0.05 * size, 0);
+    axisX.parent = this.axisParent;
+    xChar.parent = this.axisParent;
+
     const axisY = BABYLON.Mesh.CreateLines('axisY', [
       BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(-0.05 * size, size * 0.95, 0),
       new BABYLON.Vector3(0, size, 0), new BABYLON.Vector3(0.05 * size, size * 0.95, 0)
     ], this.scene);
     axisY.color = new BABYLON.Color3(0, 1, 0);
-    const yChar = makeTextPlane('Y', 'green', size / 10);
+    const yChar = this.makeTextPlane('Y', 'green', size / 10);
     yChar.position = new BABYLON.Vector3(0, 0.9 * size, -0.05 * size);
+    axisY.parent = this.axisParent;
+    yChar.parent = this.axisParent;
+
     const axisZ = BABYLON.Mesh.CreateLines('axisZ', [
       BABYLON.Vector3.Zero(), new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, -0.05 * size, size * 0.95),
       new BABYLON.Vector3(0, 0, size), new BABYLON.Vector3(0, 0.05 * size, size * 0.95)
     ], this.scene);
     axisZ.color = new BABYLON.Color3(0, 0, 1);
-    const zChar = makeTextPlane('Z', 'blue', size / 10);
+    const zChar = this.makeTextPlane('Z', 'blue', size / 10);
     zChar.position = new BABYLON.Vector3(0, 0.05 * size, 0.9 * size);
+    axisZ.parent = this.axisParent;
+    zChar.parent = this.axisParent;
+
+
+    for (let index = -1000; index <= 1000; index += 100) {
+      const hexX100 = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 1, tessellation: 6, height: 100 }, this.scene);
+      hexX100.position = new BABYLON.Vector3(index, 0, 0);
+      hexX100.parent = this.axisParent;
+
+      const hexZ100 = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 1, tessellation: 6, height: 100 }, this.scene);
+      hexZ100.position = new BABYLON.Vector3(0, 0, index);
+      hexZ100.parent = this.axisParent;
+
+    }
+  }
+
+  showWorldAxis = () => {
+    this.axisParent.setEnabled(true);
+  }
+
+  hideWorldAxis = () => {
+    this.axisParent.setEnabled(false);
   }
 
   createHexObj() {

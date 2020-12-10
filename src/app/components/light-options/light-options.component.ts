@@ -17,7 +17,7 @@ export class LightOptionsComponent implements OnInit {
   }
 
   colorChange(e) {
-    console.log('In colorChange');
+    // console.log('In colorChange');
     this.messageService.announceMessage('set lights');
   }
 

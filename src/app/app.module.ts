@@ -20,6 +20,7 @@ import { LightOptionsComponent } from './components/light-options/light-options.
 import { PanelLeftComponent } from './components/panel-left/panel-left.component';
 import { PanelRightComponent } from './components/panel-right/panel-right.component';
 import { VisualSelectionComponent } from './components/visual-selection/visual-selection.component';
+import { CanvasEffectsComponent } from './components/canvas-effects/canvas-effects.component';
 
 @NgModule({
    declarations: [
@@ -35,6 +36,7 @@ import { VisualSelectionComponent } from './components/visual-selection/visual-s
       PanelLeftComponent,
       PanelRightComponent,
       VisualSelectionComponent,
+      CanvasEffectsComponent,
    ],
    imports: [
       BrowserModule,

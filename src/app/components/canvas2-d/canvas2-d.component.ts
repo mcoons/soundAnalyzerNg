@@ -47,7 +47,13 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
         if (this.optionsService.newBaseOptions.general.showBars.value && !this.optionsService.showSplash) {
           this.draw2DBars(this.audioService.sample1, 0);
-          this.draw2DBars(this.audioService.fr128DataArray, 200);
+          // this.draw2DBars(this.audioService.fr128DataArray, 200);
+          this.draw2DBars(this.audioService.fr16DataArray, 200);
+          // this.draw2DBars(this.audioService.fr32DataArray, 340);
+          this.draw2DBars(this.audioService.fr64DataArray, 340);
+          this.draw2DBars(this.audioService.fr256DataArray, 480);
+          this.draw2DBars(this.audioService.sample2, 620);
+          // this.draw2DBars(this.audioService.fr512DataArray, 900);
         }
 
         if (this.optionsService.newBaseOptions.general.showSoundWave && !this.optionsService.showSplash) {
@@ -97,13 +103,13 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
     if (height === 0) {
       this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
       this.ctx.beginPath();
-      this.ctx.moveTo(25, this.getTopOfPlayer() - this.audioService.sample1Topper[0] - height - 42);
+      this.ctx.moveTo(25, this.getTopOfPlayer() - this.audioService.sample1Topper[0].value - height - 42);
     }
 
     let x = 0;
 
     this.ctx.strokeStyle = 'rgba(0, 247, 255,.7)';
-    let max_diff = 0;
+    let maxDiff = 0;
 
     // loop data
 
@@ -126,16 +132,16 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
         this.bumpTopper(i, barHeight, x);
 
         // draw diff bar
-        const diff = this.audioService.sample1Topper[i] - dataSource[i] / 2;
-        if (diff > max_diff) {
-          max_diff = diff;
+        const diff = this.audioService.sample1Topper[i].value - dataSource[i] / 2;
+        if (diff > maxDiff) {
+          maxDiff = diff;
         }
 
         this.ctx.fillStyle = 'rgba(0, 247, 255,.7)';
         this.ctx.fillRect(x + 25, this.getTopOfPlayer() - (diff <= 1 ? 1 : (diff)) / 2 - height - 190, barWidth, (diff <= 1 ? 1 : (diff)));
 
         // // draw topper
-        this.ctx.lineTo(x + 25, this.getTopOfPlayer() - this.audioService.sample1Topper[i] - height - 42);
+        this.ctx.lineTo(x + 25, this.getTopOfPlayer() - this.audioService.sample1Topper[i].value - height - 42);
       }
 
       // draw key/freq designators
@@ -145,6 +151,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
       if (Number(ch) !== 12 && height === 0) {
         const keyOffset = this.optionsService.newBaseOptions.general.showBars.note[Number(ch)].value;
+        // tslint:disable-next-line: max-line-length
         const hertz = this.optionsService.newBaseOptions.general.showBars.note[Number(ch)].hertz * Math.pow(2, ((i - keyOffset) / 64 + 2) - 1);
         const label = this.optionsService.newBaseOptions.general.showBars.note[Number(ch)].label;
 
@@ -171,17 +178,18 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
   }
 
   bumpTopper(i, height, x) {
-    if (this.audioService.sample1Topper[i] <= height) {
-      this.audioService.sample1Topper[i] = height;
+    if (this.audioService.sample1Topper[i].value <= height) {
+      this.audioService.sample1Topper[i].value = height;
+      this.audioService.sample1Topper[i].age = 0;
     } else {
-      this.audioService.sample1Topper[i] -= .5;
+      this.audioService.sample1Topper[i].value -= (this.audioService.sample1Topper[i].age++) / 10;
     }
 
-    if (this.audioService.sample1Topper[i] < 0) {
-      this.audioService.sample1Topper[i] = 0;
+    if (this.audioService.sample1Topper[i].value < 0) {
+      this.audioService.sample1Topper[i].value = 0;
     }
 
-    this.ctx.lineTo(x + 25, this.getTopOfPlayer() - this.audioService.sample1Topper[i] - 42);
+    this.ctx.lineTo(x + 25, this.getTopOfPlayer() - this.audioService.sample1Topper[i].value - 42);
   }
 
   drawWaveform() {

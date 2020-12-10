@@ -21,14 +21,16 @@
 
     <!-- Light Color -->
     <br>
-    <input type="color" [id]="light.color.label" [(ngModel)]="light.color.value" (change)="colorChange($event)"
+    <input type="color" [id]="light.color.label" [(ngModel)]="light.color.value" 
+      (change)="colorChange($event)"
       (input)="colorChange($event)">
     {{light.color.label}}
 
 
     <!-- Light Specular -->
     <br>
-    <input type="color" [id]="light.specular.label" [(ngModel)]="light.specular.value" (change)="colorChange($event)"
+    <input type="color" [id]="light.specular.label" [(ngModel)]="light.specular.value" 
+      (change)="colorChange($event)"
       (input)="colorChange($event)">
     {{light.specular.label}}
 
@@ -36,7 +38,8 @@
     <!-- Light groundColor -->
     <br>
     <input type="color" [id]="light.groundColor.label" [(ngModel)]="light.groundColor.value"
-      (change)="colorChange($event)" (input)="colorChange($event)">
+      (change)="colorChange($event)" 
+      (input)="colorChange($event)">
     {{light.groundColor.label}}<br><br>
 
   </ng-container>
