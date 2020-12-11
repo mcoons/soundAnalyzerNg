@@ -48,6 +48,10 @@ SCENE options
 AUDIO options
     Adjust gain per octive
     data Source selection
+
+Camera Options
+    Focus
+    Aperture
     
 
 Add "None" option for Visuals that skips render loop (can be used while viewing bars)

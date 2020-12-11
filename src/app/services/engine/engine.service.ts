@@ -24,6 +24,7 @@ import { Spectrograph } from '../../visualization-classes/Spectrograph';
 import { Rings } from '../../visualization-classes/Rings';
 import { Hex } from '../../visualization-classes/Hex';
 import { Notes } from '../../visualization-classes/Notes';
+import { DancingRainbow } from '../../visualization-classes/DancingRainbow';
 import { SingleSPSCube } from '../../visualization-classes/SingleSPSCube';
 import { SingleSPSTriangle } from '../../visualization-classes/SingleSPSTriangle';
 import { APP_BASE_HREF } from '@angular/common';
@@ -126,7 +127,8 @@ export class EngineService {
       Rings,
       Hex,
       Notes,
-      SingleSPSTriangle
+      SingleSPSTriangle,
+      DancingRainbow
     ];
 
   }
@@ -230,22 +232,22 @@ export class EngineService {
 
     this.scene.activeCamera = this.camera1;
 
-    // var parameters = {
-    //   chromatic_aberration: 0.0,  //1.0,
-    //   edge_blur: 0, // 1.0,
-    //   // distortion: .5, // 1.0,
-    //   grain_amount: 0.5,
-    //   // dof_focus_distance: 100,  // 2000,
-    //   // dof_aperture: 10, // 1,
-    //   // dof_darken: .1, // 0,
-    //   // dof_pentagon: true,
-    //   // dof_gain: 1,
-    //   // dof_threshold: 1,
-    //   blur_noise: true
-    //   // etc.
-    // };
+    var parameters = {
+      chromatic_aberration: 0.0,  //1.0,
+      edge_blur: 0, // 1.0,
+      distortion: .5, // 1.0,
+      grain_amount: 0.5,
+      dof_focus_distance: 100,  // 2000,
+      dof_aperture: 10, // 1,
+      dof_darken: .1, // 0,
+      dof_pentagon: true,
+      dof_gain: 1,
+      dof_threshold: 1,
+      blur_noise: true
+      // etc.
+    };
 
-    // var lensEffect = new BABYLON.LensRenderingPipeline('lensEffects', parameters, this.scene, 1.0, this.scene.cameras);
+    var lensEffect = new BABYLON.LensRenderingPipeline('lensEffects', parameters, this.scene, 1.0, this.scene.cameras);
 
 
     //////   LIGHTING   //////

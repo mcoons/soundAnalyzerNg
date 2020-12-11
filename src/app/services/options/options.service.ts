@@ -2246,6 +2246,233 @@ export class OptionsService {
       },
 
 
+      // dancingRainbow:
+      {
+        // type: 'radio',
+        label: 'DancingRainbow',
+        value: 9,
+        checked: true,
+
+        colorOptions: true,
+        cameraOptions: false,
+
+        calpha: 4.72,
+        cbeta: .01,
+        cradius: 1200,
+
+        material: {
+          diffuseColor: '#ffffff',
+          specularColor: '#ffffff',
+          emissiveColor: '#ffffff',
+          ambientColor: '#ffffff'
+        },
+
+        scene: {
+          glow: false,
+          glowIntensity: 0,
+        },
+
+        autoRotate: {
+          label: 'Auto Camera Movement',
+          value: true,
+
+          cameraCustom: true
+        },
+
+        sampleGain: {
+          label: 'Visual Effect Strength',
+          value: 1,
+        },
+
+        smoothingConstant: {
+          label: 'Smoothing Constant',
+          value: 8,
+        },
+
+        customColors: {
+          label: 'Custom Colors',
+          value: true,
+
+          midLoc: {
+            label: 'Midpoint Value',
+            value: 150,
+          },
+
+          color: [
+            {
+              label: 'Maximum Color',
+              value: '#ffffff'
+            },
+            {
+              label: 'Middle Color',
+              value: '#a3a3a3'
+            },
+            {
+              label: 'Minimum Color',
+              value: '#000000'
+            },
+
+          ],
+        },
+
+        light: [  //  array of lights
+
+          {
+            intensity: {
+              label: 'Right Intensity',
+              value: 40,
+            },
+            color: {
+              label: 'Right Color',
+              value: '#d10000'
+            },
+            specular: {
+              label: 'Right Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Right Back Color',
+              value: '#00ffff'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Top Intensity',
+              value: 40,
+            },
+            color: {
+              label: 'Top Color',
+              value: '#00ff2a'
+            },
+            specular: {
+              label: 'Top Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Top Back Color',
+              value: '#ff00ff'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Front Intensity',
+              value: 40,
+            },
+            color: {
+              label: 'Front Color',
+              value: '#1100ff'
+            },
+            specular: {
+              label: 'Front Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Front Back Color',
+              value: '#ffff00'
+            }
+          },
+
+          {
+            intensity: {
+              label: 'Camera Intensity',
+              value: 0,
+            },
+            color: {
+              label: 'Camera Color',
+              value: '#ffffff'
+            },
+            specular: {
+              label: 'Camera Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Camera Back Color',
+              value: '#000000'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Left Intensity',
+              value: 0,
+            },
+            color: {
+              label: 'Left Color',
+              value: '#ff00ff'
+            },
+            specular: {
+              label: 'Left Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Left Back Color',
+              value: '#000000'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Bottom Intensity',
+              value: 0,
+            },
+            color: {
+              label: 'Bottom Color',
+              value: '#ffff00'
+            },
+            specular: {
+              label: 'Bottom Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Bottom Back Color',
+              value: '#000000'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Rear Intensity',
+              value: 0,
+            },
+            color: {
+              label: 'Rear Color',
+              value: '#00ffee'
+            },
+            specular: {
+              label: 'Rear Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Rear Back Color',
+              value: '#000000'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Camera Rimlight Intensity',
+              value: 10,
+            },
+            color: {
+              label: 'Camera Rimlight Color',
+              value: '#ffffff'
+            },
+            specular: {
+              label: 'Camera Rimlight Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Camera Rimlight Back Color',
+              value: '#000000'
+            },
+          }
+
+        ],
+
+      },
+
     ]
 
   };
@@ -2260,6 +2487,7 @@ export class OptionsService {
     'hex',
     'notes',
     'singleSPSTriangle',
+    'dancingRainbow'
   ];
 
   public favorites = [];

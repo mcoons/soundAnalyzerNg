@@ -12,4 +12,14 @@ export class CanvasEffectsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+
+// //grab the context from your destination canvas
+// var destCtx = destinationCanvas.getContext('2d');
+
+// //call its drawImage() function passing it the source canvas directly
+// destCtx.drawImage(sourceCanvas, 0, 0);
+
+
+
 }

@@ -120,7 +120,7 @@ export class SingleSPSTriangle implements OnDestroy {
 
             let y = this.audioService.sample1[particle.idx];
 
-            particle.scaling.z = -y / 200;
+            particle.scaling.z = -y / 180;
 
             let c = this.colorsService.colors(y);
 
