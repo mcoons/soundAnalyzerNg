@@ -20,7 +20,7 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
     @Inject(OptionsService) public optionsService: OptionsService,
     @Inject(AudioService) public audioService: AudioService,
     @Inject(MessageService) private messageService: MessageService,
-    @Inject(EngineService) private engineService: EngineService,
+    @Inject(EngineService) public engineService: EngineService,
     @Inject(StorageService) private storageService: StorageService
   ) { }
 

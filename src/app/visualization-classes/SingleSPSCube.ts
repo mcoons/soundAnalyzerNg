@@ -268,11 +268,11 @@ export class SingleSPSCube implements OnDestroy {
             },
             currentCameraIndex: 0,
             mainUpdate: () => {
-                this.engineService.highlightLayer.removeMesh(this.mesh);
-                this.engineService.highlightLayer.addMesh(this.mesh,
-                    new BABYLON.Color3(this.colorsService.colors(128).r / 255,
-                        this.colorsService.colors(128).g / 255,
-                        this.colorsService.colors(128).b / 255));
+                // this.engineService.highlightLayer.removeMesh(this.mesh);
+                // this.engineService.highlightLayer.addMesh(this.mesh,
+                //     new BABYLON.Color3(this.colorsService.colors(128).r / 255,
+                //         this.colorsService.colors(128).g / 255,
+                //         this.colorsService.colors(128).b / 255));
             }
         },
 

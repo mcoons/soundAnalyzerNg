@@ -158,7 +158,7 @@ export class DancingRainbow implements OnDestroy {
         this.material = new BABYLON.StandardMaterial('ballMat', this.scene);
         this.material.diffuseColor = new BABYLON.Color3(1, 0, 0);
         this.material.maxSimultaneousLights = 8;
-        
+
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         // this.mat.backFaceCulling = false;
         this.mat.maxSimultaneousLights = 8;
@@ -331,8 +331,8 @@ export class DancingRainbow implements OnDestroy {
             yy = (yy / 230) * (yy / 230) * (yy / 230) * (yy / 230) * (yy / 230) * (yy / 230) * (yy / 230) * 3000;
             yy2 = (yy2 / 230) * (yy2 / 230) * (yy2 / 230) * (yy2 / 230) * (yy2 / 230) * (yy2 / 230) * (yy2 / 230) * 3000;
             yy3 = (yy3 / 230) * (yy3 / 230) * (yy3 / 230) * (yy3 / 230) * (yy3 / 230) * (yy3 / 230) * (yy3 / 230) * 3000;
-            yy4 = (yy4 / 230) * (yy4 / 230) * (yy4 / 230) * (yy4 / 230) * (yy4 / 230) * (yy4 / 230) * 2700;
-            yy5 = (yy5 / 230) * (yy5 / 230) * (yy5 / 230) * (yy5 / 230) * (yy5 / 230) * (yy5 / 230) * 2500;
+            yy4 = (yy4 / 230) * (yy4 / 230) * (yy4 / 230) * (yy4 / 230) * (yy4 / 230) * (yy4 / 230) * (yy4 / 230) * 2700;
+            yy5 = (yy5 / 230) * (yy5 / 230) * (yy5 / 230) * (yy5 / 230) * (yy5 / 230) * (yy5 / 230) * (yy5 / 230) * 2500;
             yy6 = (yy6 / 230) * (yy6 / 230) * (yy6 / 230) * (yy6 / 230) * (yy6 / 230) * (yy6 / 230) * 2500;
             // yy7 = (yy7 / 230) * (yy7 / 230) * (yy7 / 230) * (yy7 / 230) * (yy7 / 230) * (yy7 / 230) * 2500;
             yy7 = (yy7 / 230) * 120;

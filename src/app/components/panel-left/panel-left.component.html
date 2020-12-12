@@ -14,12 +14,14 @@
           <button class="playlistButton" (click)="logFavorites($event)">Log Favorites</button>
         </div>
       </div>
-
       <br>
       <input type="checkbox" id="Show Axis" name="Show Axis"
         [(ngModel)]="this.optionsService.newBaseOptions.general.showAxis" (click)="axisChange($event)">
       <label for="Show Axis"> Show Axis</label>
-
+      <!-- <p>
+      Alpha:  {{this.engineService.scene.cameras[0] as BABYLON.ArcRotateCamera.alpha}}<br>
+      Beta:   {{this.engineService.scene.cameras[0].beta}}<br>
+      Radius: {{this.engineService.scene.cameras[0].radius}}</p> -->
       <!-- General Options -->
       <app-general-options></app-general-options>
 

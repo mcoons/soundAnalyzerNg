@@ -33,7 +33,11 @@ import { APP_BASE_HREF } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class EngineService {
+
   private canvas: HTMLCanvasElement;
+  private effectsCanvas: HTMLCanvasElement;
+  private tmpCanvas: HTMLCanvasElement;
+
   public engine: BABYLON.Engine;
   public camera1: BABYLON.ArcRotateCamera;
   public camera2: BABYLON.FollowCamera;
@@ -151,15 +155,19 @@ export class EngineService {
   }
 
 
-  public createScene(canvas: ElementRef<HTMLCanvasElement>): void {
+  public createScene(canvas: ElementRef<HTMLCanvasElement>, effects: ElementRef<HTMLCanvasElement>, tmp: ElementRef<HTMLCanvasElement>): void {
 
     this.canvas = canvas.nativeElement;
+    this.effectsCanvas = effects.nativeElement;
+    this.tmpCanvas = tmp.nativeElement;
+
     this.engine = new BABYLON.Engine(this.canvas, true, { stencil: true });
 
     this.scene = new BABYLON.Scene(this.engine);
     this.scene.registerBeforeRender(this.beforeRender);
 
     this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+
     this.scene.ambientColor = new BABYLON.Color3(1, 1, 1);
 
     this.highlightLayer = new BABYLON.HighlightLayer('hl1', this.scene);
@@ -219,7 +227,8 @@ export class EngineService {
     this.camera2.maxCameraSpeed = 5;
 
     // This attaches the camera to the canvas
-    this.camera2.attachControl(this.canvas, true);
+    // this.camera2.attachControl(this.canvas, true);
+    this.camera2.attachControl(true);
 
 
     // NOTE:: SET CAMERA TARGET AFTER THE TARGET'S CREATION AND NOTE CHANGE FROM BABYLONJS V 2.5
@@ -232,22 +241,22 @@ export class EngineService {
 
     this.scene.activeCamera = this.camera1;
 
-    var parameters = {
-      chromatic_aberration: 0.0,  //1.0,
-      edge_blur: 0, // 1.0,
-      distortion: .5, // 1.0,
-      grain_amount: 0.5,
-      dof_focus_distance: 100,  // 2000,
-      dof_aperture: 10, // 1,
-      dof_darken: .1, // 0,
-      dof_pentagon: true,
-      dof_gain: 1,
-      dof_threshold: 1,
-      blur_noise: true
-      // etc.
-    };
+    // var parameters = {
+    //   chromatic_aberration: 0.0,  //1.0,
+    //   edge_blur: 0, // 1.0,
+    //   distortion: .5, // 1.0,
+    //   grain_amount: 0.5,
+    //   dof_focus_distance: 100,  // 2000,
+    //   dof_aperture: 10, // 1,
+    //   dof_darken: .1, // 0,
+    //   dof_pentagon: true,
+    //   dof_gain: 1,
+    //   dof_threshold: 1,
+    //   blur_noise: true
+    //   // etc.
+    // };
 
-    var lensEffect = new BABYLON.LensRenderingPipeline('lensEffects', parameters, this.scene, 1.0, this.scene.cameras);
+    // var lensEffect = new BABYLON.LensRenderingPipeline('lensEffects', parameters, this.scene, 1.0, this.scene.cameras);
 
 
     //////   LIGHTING   //////
@@ -377,7 +386,8 @@ export class EngineService {
 
     // this.createTitleText('Have Yourself a Merry Little Christmas');
 
-    // console.log(this.scene);
+    // console.log(this.scene.cameras[0].alpha);
+
 
   }
 
@@ -454,6 +464,39 @@ export class EngineService {
         this.currentVisual.update();
         this.scene.render();
 
+        var effectsCtx = this.effectsCanvas.getContext("2d");
+        var tmpCtx = this.tmpCanvas.getContext("2d");
+
+        tmpCtx.save();
+        effectsCtx.save();
+
+        // clear Tmp
+        tmpCtx.clearRect(0,0,5000,5000);
+        // tmpCtx.globalAlpha = .98;
+
+        // Effects to Tmp
+        tmpCtx.drawImage(this.effectsCanvas, 0, 0);
+
+        // clear effects
+        effectsCtx.clearRect(0,0,5000,5000);
+        
+        effectsCtx.translate(-this.effectsCanvas.width * .1/2, -this.effectsCanvas.height *.1/2);
+        effectsCtx.scale(1.1, 1.1);
+
+        // effectsCtx.rotate(.05);  // increasing lowers termination point and adds more loops
+        // effectsCtx.translate(10, -80);   // increasing y lowers termination point 
+
+        //  tmp to effects
+        effectsCtx.drawImage(this.tmpCanvas, 0, 0);
+        
+        effectsCtx.drawImage(this.canvas, 0, 0);
+        effectsCtx.restore();
+
+        // effectsCtx.translate(this.effectsCanvas.width / 2, -this.effectsCanvas.height / 2);
+
+
+        tmpCtx.restore();
+
       };
 
       if (this.windowRef.document.readyState !== 'loading') {
@@ -502,6 +545,7 @@ export class EngineService {
     // console.log('in fixdpi');
     // create a style object that returns width and height
     const dpi = window.devicePixelRatio;
+
     const styles = window.getComputedStyle(this.canvas);
     const style = {
       height() {
@@ -513,7 +557,35 @@ export class EngineService {
     };
     // set the correct canvas attributes for device dpi
     this.canvas.setAttribute('width', (style.width() * dpi).toString());
-    this.canvas.setAttribute('height', (style.height() * dpi).toString());
+    this.canvas.setAttribute('height', (style.height() * dpi).toString());   
+    
+
+    const styles2 = window.getComputedStyle(this.effectsCanvas);
+    const style2 = {
+      height() {
+        return +styles2.height.slice(0, -2);
+      },
+      width() {
+        return +styles2.width.slice(0, -2);
+      }
+    };
+    
+    this.effectsCanvas.setAttribute('width', (style2.width() * dpi).toString());
+    this.effectsCanvas.setAttribute('height', (style2.height() * dpi).toString());
+
+
+    const styles3 = window.getComputedStyle(this.tmpCanvas);
+    const style3 = {
+      height() {
+        return +styles3.height.slice(0, -2);
+      },
+      width() {
+        return +styles3.width.slice(0, -2);
+      }
+    };
+    
+    this.tmpCanvas.setAttribute('width', (style3.width() * dpi).toString());
+    this.tmpCanvas.setAttribute('height', (style3.height() * dpi).toString()); 
   }
 
 

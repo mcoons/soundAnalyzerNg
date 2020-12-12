@@ -7,6 +7,8 @@
   -ms-touch-action: none;
   touch-action: none;
   z-index: 20;
+  /* border: 3px solid blue; */
+
 }
 
 #backgroundCanvas {
@@ -16,7 +18,7 @@
   width: 100%;
   height: 100%;
   z-index: 0;
-  border: 4px solid green;
+  /* border: 4px solid green; */
   touch-action: none;
   pointer-events: none;
 }
