@@ -52,7 +52,7 @@ export class SingleSPSTriangle implements OnDestroy {
             new BABYLON.Vector3(-1, -1.732 / 2, 0)
         ];
 
-        myShape.push(myShape[0]);  // close profile
+        // myShape.push(myShape[0]);  // close profile
 
         const myPath = [
             new BABYLON.Vector3(0, 0, 0),

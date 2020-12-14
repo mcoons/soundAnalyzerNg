@@ -308,6 +308,14 @@ export class DancingRainbow implements OnDestroy {
         const radius6 = 450;
         const radius7 = 350;
 
+        // const radius = 500;
+        // const radius2 = 500;
+        // const radius3 = 500;
+        // const radius4 = 500;
+        // const radius5 = 500;
+        // const radius6 = 500;
+        // const radius7 = 500;
+
         let index = 0;
         let yy = 0;
         let yy2 = 0;

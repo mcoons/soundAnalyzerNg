@@ -25,9 +25,9 @@ import { Rings } from '../../visualization-classes/Rings';
 import { Hex } from '../../visualization-classes/Hex';
 import { Notes } from '../../visualization-classes/Notes';
 import { DancingRainbow } from '../../visualization-classes/DancingRainbow';
+import { Morph } from '../../visualization-classes/Morph';
 import { SingleSPSCube } from '../../visualization-classes/SingleSPSCube';
 import { SingleSPSTriangle } from '../../visualization-classes/SingleSPSTriangle';
-import { APP_BASE_HREF } from '@angular/common';
 // import { SingleSPSRibbon } from '../../visualization-classes/SingleSPSRibbon';
 
 
@@ -37,6 +37,10 @@ export class EngineService {
   private canvas: HTMLCanvasElement;
   private effectsCanvas: HTMLCanvasElement;
   private tmpCanvas: HTMLCanvasElement;
+
+  private tmpCtx;
+  private effectsCtx;
+  // private canvasCtx;
 
   public engine: BABYLON.Engine;
   public camera1: BABYLON.ArcRotateCamera;
@@ -132,8 +136,10 @@ export class EngineService {
       Hex,
       Notes,
       SingleSPSTriangle,
-      DancingRainbow
+      DancingRainbow,
+      Morph
     ];
+
 
   }
 
@@ -160,6 +166,9 @@ export class EngineService {
     this.canvas = canvas.nativeElement;
     this.effectsCanvas = effects.nativeElement;
     this.tmpCanvas = tmp.nativeElement;
+
+    this.effectsCtx = this.effectsCanvas.getContext("2d",{ alpha: true });
+    this.tmpCtx = this.tmpCanvas.getContext("2d",{ alpha: true });
 
     this.engine = new BABYLON.Engine(this.canvas, true, { stencil: true });
 
@@ -388,6 +397,16 @@ export class EngineService {
 
     // console.log(this.scene.cameras[0].alpha);
 
+    // this.effectsCtx = this.effectsCanvas.getContext("2d");
+    // this.tmpCtx = this.tmpCanvas.getContext("2d");
+    // this.tmpCtx.globalAlpha = .99;
+    // this.effectsCtx.globalAlpha = .99;
+
+    // this.effectsCtx.translate(-this.effectsCanvas.width * .11/2, -this.effectsCanvas.height *.11/2);
+    // this.effectsCtx.scale(1.11, 1.11);
+
+    //  this.effectsCtx.fillStyle = "red";
+    //  this.effectsCtx.fillRect(10, 10, 500, 500);
 
   }
 
@@ -464,38 +483,144 @@ export class EngineService {
         this.currentVisual.update();
         this.scene.render();
 
-        var effectsCtx = this.effectsCanvas.getContext("2d");
-        var tmpCtx = this.tmpCanvas.getContext("2d");
 
-        tmpCtx.save();
-        effectsCtx.save();
+        // var effectsCtx = this.effectsCanvas.getContext("2d");
+        // var tmpCtx = this.tmpCanvas.getContext("2d");
+
+        // tmpCtx.save();
+        // effectsCtx.save();
+
+        // // clear Tmp
+        // tmpCtx.clearRect(0,0,5000,5000);
+
+        // // Effects to Tmp
+        // tmpCtx.drawImage(this.effectsCanvas, 0, 0);
+
+        // // clear effects
+        // effectsCtx.clearRect(0,0,5000,5000);
+        
+        // effectsCtx.translate(-this.effectsCanvas.width * .1/2, -this.effectsCanvas.height *.1/2);
+        // effectsCtx.scale(1.1, 1.1);
+
+        // //  tmp to effects
+        // effectsCtx.drawImage(this.tmpCanvas, 0, 0);
+        
+        // effectsCtx.drawImage(this.canvas, 0, 0);
+        // effectsCtx.restore();
+
+        // tmpCtx.restore();
+
+        // this.effectsCtx.fillStyle = "red";
+        // this.effectsCtx.fillRect(10, 10, 500, 500);
+
+
+
+
+        /////////////////
+
+        // let imageData = this.effectsCtx.getImageData(0, 0, this.effectsCanvas.width, this.effectsCanvas.height);
+
+        // // this.tmpCtx.save();
+        // // this.effectsCtx.save();
+        // // this.effectsCtx.clearRect(0,0,5000,5000);
+        // this.effectsCtx.translate(-this.effectsCanvas.width * .1/2, -this.effectsCanvas.height *.1/2);
+        // // this.effectsCtx.scale(1.2, 1.2);
+        // // clear Tmp
+        // // this.tmpCtx.clearRect(0,0,5000,5000);
+        // // this.tmpCtx.globalAlpha = .98;
+        // // Effects to Tmp
+        // // this.effectsCtx.putImageData(imageData, 0, 0);
+        // this.effectsCtx.scale(1.1, 1.1);
+
+        // // clear effects
+        // // this.effectsCtx.rotate(.05);  // increasing lowers termination point and adds more loops
+        // // this.effectsCtx.translate(0, -80);   // increasing y lowers termination point 
+        // //  tmp to effects
+        // // this.effectsCtx.drawImage(this.tmpCanvas, 0, 0);
+        // this.effectsCtx.drawImage(this.canvas, 0, 0);
+        // // this.effectsCtx.restore();
+        // // this.effectsCtx.translate(this.effectsCanvas.width / 2, -this.effectsCanvas.height / 2);
+        // // this.tmpCtx.restore();
+
+        // this.effectsCtx.translate(-this.effectsCanvas.width * .2/2, -this.effectsCanvas.height *.2/2);
+
+        // this.effectsCtx.scale(1.2, 1.2);
+        // this.effectsCtx.drawImage(this.canvas, 0, 0);
+
+
+        ////////////////////
+
+
+
+
+        // // this.tmpCtx.save();
+        // this.effectsCtx.save();
+
+        // this.tmpCtx.clearRect(0,0,5000,5000);
+        // this.tmpCtx.globalAlpha = .98;
+        // this.tmpCtx.drawImage(this.effectsCanvas, 0, 0);
+
+        // this.effectsCtx.clearRect(0,0,5000,5000);
+        // this.effectsCtx.translate(-this.effectsCanvas.width / 2, this.effectsCanvas.height / 2);
+        // this.effectsCtx.rotate(.05);  // increasing lowers termination point and adds more loops
+        // this.effectsCtx.translate(this.effectsCanvas.width / 2, -this.effectsCanvas.height / 2);
+        // this.effectsCtx.scale(.95, .95);
+        // this.effectsCtx.translate(10, -80);   // increasing y lowers termination point 
+
+        // this.effectsCtx.drawImage(this.tmpCanvas, 0, 0);
+        // this.effectsCtx.restore();
+        // this.effectsCtx.drawImage(this.canvas, 0, 0);
+        // // this.tmpCtx.restore();
+
+
+
+
+        // this.tmpCtx.globalAlpha = .99;
+        // this.effectsCtx.globalAlpha = .99;
+        // this.effectsCtx.translate(-this.effectsCanvas.width * .11/2, -this.effectsCanvas.height *.11/2);
+        // this.effectsCtx.scale(1.11, 1.11);
+
+        // this.tmpCtx.save();
+        // this.effectsCtx.save();
+
 
         // clear Tmp
-        tmpCtx.clearRect(0,0,5000,5000);
-        // tmpCtx.globalAlpha = .98;
+        // this.tmpCtx.clearRect(0,0,5000,5000);
 
-        // Effects to Tmp
-        tmpCtx.drawImage(this.effectsCanvas, 0, 0);
-
-        // clear effects
-        effectsCtx.clearRect(0,0,5000,5000);
+        // let data;
+        // // Set translation and scale
+        // this.tmpCtx.translate(-this.effectsCanvas.width * .11/2, -this.effectsCanvas.height *.11/2);
+        // this.tmpCtx.scale(1.11, 1.11);
         
-        effectsCtx.translate(-this.effectsCanvas.width * .1/2, -this.effectsCanvas.height *.1/2);
-        effectsCtx.scale(1.1, 1.1);
+        // // Old historical Effects to Tmp w/ a scaling
+        // this.tmpCtx.drawImage(this.effectsCanvas, 0, 0);        
+        // this.effectsCtx.drawImage(this.tmpCanvas, 0, 0);
+        // this.effectsCtx.drawImage(this.canvas, 0, 0);
 
+
+        // #d Canvas image to Tmp
+
+        // effectsCtx.clearRect(0,0,5000,5000);
+
+
+
+        // this.tmpCtx.globalAlpha = .98;
+        // clear effects
         // effectsCtx.rotate(.05);  // increasing lowers termination point and adds more loops
         // effectsCtx.translate(10, -80);   // increasing y lowers termination point 
-
         //  tmp to effects
-        effectsCtx.drawImage(this.tmpCanvas, 0, 0);
-        
-        effectsCtx.drawImage(this.canvas, 0, 0);
-        effectsCtx.restore();
-
+        // effectsCtx.drawImage(this.canvas, 0, 0);
+        // effectsCtx.restore();
         // effectsCtx.translate(this.effectsCanvas.width / 2, -this.effectsCanvas.height / 2);
+        // this.tmpCtx.restore();
 
 
-        tmpCtx.restore();
+
+
+
+
+
+
 
       };
 
