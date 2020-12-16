@@ -44,7 +44,10 @@ export class EngineService {
 
   public engine: BABYLON.Engine;
   public camera1: BABYLON.ArcRotateCamera;
-  public camera2: BABYLON.FollowCamera;
+  public camera2: BABYLON.ArcRotateCamera;
+  public renderTargetTexture;
+  public camera2Material;
+
   public hLight1;
   public hLight2;
   public hLight3;
@@ -88,6 +91,8 @@ export class EngineService {
   skyboxMaterial;
   cameraTarget;
   lightParent;
+  yyMax = 0;
+  yyMin = 1000000;
 
   axisParent;
 
@@ -125,7 +130,7 @@ export class EngineService {
 
     this.visualClassIndex = this.optionsService.newBaseOptions.currentVisual;
 
-    this.visualClasses =  [
+    this.visualClasses = [
       SingleSPSCube,
       // SingleSPSRibbon,
       StarManager,
@@ -140,11 +145,10 @@ export class EngineService {
       Morph
     ];
 
-
   }
 
 
-  public setGlowLayer(intensity) {
+  public setGlowLayer = (intensity) => {
 
     // var gl = new BABYLON.GlowLayer("glow", this.scene, {
     //   mainTextureFixedSize: 1024,
@@ -154,10 +158,92 @@ export class EngineService {
     if (this.glowLayer) {
       this.glowLayer.intensity = intensity;
     } else {
-      this.glowLayer = new BABYLON.GlowLayer('glow', this.scene);
+      this.glowLayer = new BABYLON.GlowLayer('glow', this.scene
+        ,{ 
+          // mainTextureFixedSize: 1024,
+          blurKernelSize: 16
+        }
+      );
       this.glowLayer.intensity = intensity;
+
+      this.glowLayer.customEmissiveColorSelector = (mesh, subMesh, material, result) => {
+
+        if (this.optionsService.newBaseOptions.currentVisual != 10) {
+          return;
+        }
+
+        let data = mesh.name.split('-');
+        // console.log(data);
+        let series = data[0];
+        let index = Number(data[1]);
+        let yy;
+
+        if (index >= 193) {
+          result.set(0, 0, 0, 0);
+          return;
+        }
+        // console.log(index);
+
+        switch (series) {
+          case 'balls1':
+            yy = (Math.sqrt(this.currentVisual.ballsGroupArray[0][index].position.x * this.currentVisual.ballsGroupArray[0][index].position.x + this.currentVisual.ballsGroupArray[0][index].position.y * this.currentVisual.ballsGroupArray[0][index].position.y) - 175 * 1.01);
+            // yy = yy * yy * yy * yy * yy;
+            yy = yy / 70;
+            // yy = yy < 1 ? yy : 1;
+            result.set(yy/4, yy/4, yy, 1);
+            break;
+
+          case 'balls2':
+            yy = (Math.sqrt(this.currentVisual.ballsGroupArray[1][index].position.x * this.currentVisual.ballsGroupArray[1][index].position.x + this.currentVisual.ballsGroupArray[1][index].position.y * this.currentVisual.ballsGroupArray[1][index].position.y) - 160 * 1.01);
+            // yy = yy * yy * yy * yy * yy;
+            yy = yy / 70;
+            // yy = yy < 1 ? yy : 1;
+            result.set(yy/4, yy/4, yy, 1);
+            break;
+
+          case 'balls3':
+            yy = (Math.sqrt(this.currentVisual.ballsGroupArray[2][index].position.x * this.currentVisual.ballsGroupArray[2][index].position.x + this.currentVisual.ballsGroupArray[2][index].position.y * this.currentVisual.ballsGroupArray[2][index].position.y) - 145 * 1.01);
+            // yy = yy * yy * yy * yy * yy;
+            yy = yy / 70;
+            // yy = yy < 1 ? yy : 1;
+            result.set(yy/4, yy/4, yy, 1);
+            break;
+
+          case 'balls4':
+            yy = (Math.sqrt(this.currentVisual.ballsGroupArray[3][index].position.x * this.currentVisual.ballsGroupArray[3][index].position.x + this.currentVisual.ballsGroupArray[3][index].position.y * this.currentVisual.ballsGroupArray[3][index].position.y) - 130 * 1.01);
+            // yy = yy * yy * yy * yy * yy;
+            yy = yy / 70;
+            // yy = yy < 1 ? yy : 1;
+            result.set(yy/4, yy/4, yy, 1);
+            break;
+
+          case 'balls5':
+            yy = (Math.sqrt(this.currentVisual.ballsGroupArray[4][index].position.x * this.currentVisual.ballsGroupArray[4][index].position.x + this.currentVisual.ballsGroupArray[4][index].position.y * this.currentVisual.ballsGroupArray[4][index].position.y) - 115 * 1.01);
+            // yy = yy * yy * yy * yy * yy;
+            yy = yy / 70;
+            // yy = yy < 1 ? yy : 1;
+            result.set(yy/4, yy/4, yy, 1);
+            break;
+
+
+          case 'balls6':
+            yy = (Math.sqrt(this.currentVisual.ballsGroupArray[5][index].position.x * this.currentVisual.ballsGroupArray[5][index].position.x + this.currentVisual.ballsGroupArray[5][index].position.y * this.currentVisual.ballsGroupArray[5][index].position.y) - 100 * 1.01);
+            // yy = yy * yy * yy * yy * yy;
+            yy = yy / 70;
+            // yy = yy < 1 ? yy : 1;
+            result.set(yy/4, yy/4, yy, 1);
+            break;
+
+          default:
+            result.set(0, 0, 0, 0);
+            break;
+        }
+
+
+      }
     }
 
+    console.log(this.glowLayer);
   }
 
 
@@ -167,8 +253,8 @@ export class EngineService {
     this.effectsCanvas = effects.nativeElement;
     this.tmpCanvas = tmp.nativeElement;
 
-    this.effectsCtx = this.effectsCanvas.getContext("2d",{ alpha: true });
-    this.tmpCtx = this.tmpCanvas.getContext("2d",{ alpha: true });
+    this.effectsCtx = this.effectsCanvas.getContext("2d", { alpha: true });
+    this.tmpCtx = this.tmpCanvas.getContext("2d", { alpha: true });
 
     this.engine = new BABYLON.Engine(this.canvas, true, { stencil: true });
 
@@ -181,7 +267,7 @@ export class EngineService {
 
     this.highlightLayer = new BABYLON.HighlightLayer('hl1', this.scene);
 
-    // this.setGlowLayer(1);
+    this.setGlowLayer(10.75);
 
     this.skyboxMaterial = new BABYLON.StandardMaterial('skyBox', this.scene);
     this.skyboxMaterial.backFaceCulling = false;
@@ -211,44 +297,34 @@ export class EngineService {
     this.camera1.attachControl(this.canvas, true);
     this.camera1.fovMode = BABYLON.Camera.FOVMODE_HORIZONTAL_FIXED;
     // this.camera1.fovMode = BABYLON.Camera.FOVMODE_VERTICAL_FIXED;
-
-
-    const x = 500 * Math.cos(0);
-    const z = 500 * Math.sin(0);
-    const y = 100;
-
-    // Parameters: name, position, scene
-    this.camera2 = new BABYLON.FollowCamera('FollowCam', new BABYLON.Vector3(x, y, z), this.scene);
-
-    // The goal distance of camera from target
-    this.camera2.radius = 5; // 100;
-
-    // The goal height of camera above local origin (centre) of target
-    this.camera2.heightOffset = 0; // 80;
-
-    // The goal rotation of camera around local origin (centre) of target in x y plane
-    this.camera2.rotationOffset = 160;
-
-    // Acceleration of camera in moving from current to goal position
-    this.camera2.cameraAcceleration = 0.5; // .005
-
-    // The speed at which acceleration is halted
-    this.camera2.maxCameraSpeed = 5;
-
-    // This attaches the camera to the canvas
-    // this.camera2.attachControl(this.canvas, true);
-    this.camera2.attachControl(true);
-
-
-    // NOTE:: SET CAMERA TARGET AFTER THE TARGET'S CREATION AND NOTE CHANGE FROM BABYLONJS V 2.5
-    // targetMesh created here.
-    // this.camera2.target = this.cameraTarget;   // version 2.4 and earlier
-    this.camera2.lockedTarget = this.cameraTarget; // version 2.5 onwards
-
-    // console.log('this.camera2');
-    // console.log(this.camera2);
-
     this.scene.activeCamera = this.camera1;
+
+
+    ////// CAMERA 2 is rendered to a target texture 
+    //// this.camera2Material;
+    //// this.renderTargetTexture
+
+    this.camera2 = new BABYLON.ArcRotateCamera('ArcRotateCam2', Math.PI / 2, Math.PI / 2, 1000, new BABYLON.Vector3(0, 0, 0), this.scene);
+
+    this.renderTargetTexture = new BABYLON.RenderTargetTexture(
+      'render to texture', // name 
+      4096, // texture size
+      this.scene // the scene
+    );
+    this.renderTargetTexture.activeCamera = this.camera2;
+    this.renderTargetTexture.updateSamplingMode(BABYLON.Texture.NEAREST_SAMPLINGMODE);
+    
+    this.scene.customRenderTargets.push(this.renderTargetTexture); // add RTT to the scene
+   
+    this.camera2Material = new BABYLON.StandardMaterial('mat', this.scene);
+    this.camera2Material.diffuseTexture = this.renderTargetTexture;
+    
+    // var txplane = BABYLON.Mesh.CreatePlane("txplane", 1, this.scene);
+    // txplane.position.z = 3;
+    // txplane.position.y = -0.7;
+    // txplane.parent = this.camera1;
+    // txplane.material = this.camera2Material;
+
 
     // var parameters = {
     //   chromatic_aberration: 0.0,  //1.0,
@@ -459,8 +535,8 @@ export class EngineService {
 
     for (let index = 0; index < 8; index++) {
       this.scene.lights[index].intensity = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].intensity.value / 100;
-      this.scene.lights[index].diffuse   = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].color.value);
-      this.scene.lights[index].specular  = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].specular.value);
+      this.scene.lights[index].diffuse = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].color.value);
+      this.scene.lights[index].specular = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].specular.value);
       (this.scene.lights[index] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].groundColor.value);
 
     }
@@ -498,13 +574,13 @@ export class EngineService {
 
         // // clear effects
         // effectsCtx.clearRect(0,0,5000,5000);
-        
+
         // effectsCtx.translate(-this.effectsCanvas.width * .1/2, -this.effectsCanvas.height *.1/2);
         // effectsCtx.scale(1.1, 1.1);
 
         // //  tmp to effects
         // effectsCtx.drawImage(this.tmpCanvas, 0, 0);
-        
+
         // effectsCtx.drawImage(this.canvas, 0, 0);
         // effectsCtx.restore();
 
@@ -591,7 +667,7 @@ export class EngineService {
         // // Set translation and scale
         // this.tmpCtx.translate(-this.effectsCanvas.width * .11/2, -this.effectsCanvas.height *.11/2);
         // this.tmpCtx.scale(1.11, 1.11);
-        
+
         // // Old historical Effects to Tmp w/ a scaling
         // this.tmpCtx.drawImage(this.effectsCanvas, 0, 0);        
         // this.effectsCtx.drawImage(this.tmpCanvas, 0, 0);
@@ -682,8 +758,8 @@ export class EngineService {
     };
     // set the correct canvas attributes for device dpi
     this.canvas.setAttribute('width', (style.width() * dpi).toString());
-    this.canvas.setAttribute('height', (style.height() * dpi).toString());   
-    
+    this.canvas.setAttribute('height', (style.height() * dpi).toString());
+
 
     const styles2 = window.getComputedStyle(this.effectsCanvas);
     const style2 = {
@@ -694,7 +770,7 @@ export class EngineService {
         return +styles2.width.slice(0, -2);
       }
     };
-    
+
     this.effectsCanvas.setAttribute('width', (style2.width() * dpi).toString());
     this.effectsCanvas.setAttribute('height', (style2.height() * dpi).toString());
 
@@ -708,9 +784,9 @@ export class EngineService {
         return +styles3.width.slice(0, -2);
       }
     };
-    
+
     this.tmpCanvas.setAttribute('width', (style3.width() * dpi).toString());
-    this.tmpCanvas.setAttribute('height', (style3.height() * dpi).toString()); 
+    this.tmpCanvas.setAttribute('height', (style3.height() * dpi).toString());
   }
 
 
@@ -745,7 +821,7 @@ export class EngineService {
     //   material.diffuseTexture = dynamicTexture;
     //   return plane;
     // };
-    
+
     const axisX = BABYLON.Mesh.CreateLines('axisX', [
       BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0),
       new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, -0.05 * size, 0)

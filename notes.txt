@@ -24,6 +24,8 @@ Create new options object with component access/building in mind (use arrays)
 Check into that separate Audio module 
 Modify saving of favorite to be just a specific visual's settings instead of all settings for all visuals
 
+Create a materialManager service.
+
 Create new UI with components
     Strength/Gain should be -100 to +100
     Add a hack to all sliders to only update when completed (have I done this some place?)
