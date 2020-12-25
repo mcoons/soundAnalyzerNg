@@ -15,20 +15,7 @@ export class OptionsService {
   resizeObservable: Observable<Event>;
   resizeSubscription: Subscription;
 
-  CubeSPSs =
-    [
-      'blockPlane',
-      'thing1',
-      'blockSpiral',
-      'thing2',
-      'equation',
-      'thing3',
-      'cube',
-      'sphere',
-      'pole',
-      'heart',
-      'sineLoop2'
-    ];
+
 
   // RibbonSPSs =
   //   [
@@ -199,12 +186,12 @@ export class OptionsService {
         cbeta: .01,
         cradius: 1200,
 
-        material: {
-          diffuseColor: '#ffffff',
-          specularColor: '#ffffff',
-          emissiveColor: '#ffffff',
-          ambientColor: '#ffffff'
-        },
+        // material: {
+        //   diffuseColor: '#ffffff',
+        //   specularColor: '#ffffff',
+        //   emissiveColor: '#ffffff',
+        //   ambientColor: '#ffffff'
+        // },
 
         scene: {
           backgroundColor: '#000000',
@@ -427,7 +414,6 @@ export class OptionsService {
 
         ],
 
-
         singleSPSDelay: {
           label: 'Change Delay (sec)',
           value: 5,
@@ -444,56 +430,67 @@ export class OptionsService {
           {
             label: 'Cube Block Plane',
             value: true,
+            function: 'blockPlane'
           },
           // thing1:
           {
             label: 'Cube Thing 1',
             value: true,
+            function: 'thing1'
           },
           // blockSpiral:
           {
             label: 'Cube Block Spiral',
             value: true,
+            function: 'blockSpiral'
           },
           // thing2:
           {
             label: 'Cube Thing 2',
             value: true,
+            function: 'thing2'
           },
           // equation:
           {
             label: 'Cube Equation',
             value: false,
+            function: 'equation'
           },
           // thing3:
           {
             label: 'Cube Thing 3',
             value: false,
+            function: 'thing3'
           },
           // cube:
           {
             label: 'Cube Cube',
             value: true,
+            function: 'cube'
           },
           // sphere:
           {
             label: 'Cube Sphere',
             value: true,
+            function: 'sphere'
           },
           // pole:
           {
             label: 'Cube Pole',
             value: false,
+            function: 'pole'
           },
           // heart:
           {
             label: 'Cube Heart',
             value: true,
+            function: 'heart'
           },
           // sineLoop2:
           {
             label: 'Cube Sine Loop',
             value: true,
+            function: 'sineLoop2'
           }
 
         ]
@@ -1199,7 +1196,7 @@ export class OptionsService {
             // midColor:
             {
               label: 'Middle Color',
-              value: '#000000'
+              value: '#00ff00'
             },
             // minColor:
             {
@@ -1416,7 +1413,7 @@ export class OptionsService {
             // midColor:
             {
               label: 'Middle Color',
-              value: '#000000'
+              value: '#00ff00'
             },
             // minColor:
             {
@@ -1850,7 +1847,7 @@ export class OptionsService {
             // midColor:
             {
               label: 'Middle Color',
-              value: '#000000'
+              value: '#00ff00'
             },
             // minColor:
             {
@@ -2023,7 +2020,7 @@ export class OptionsService {
         // type: 'radio',
         label: 'Triangle SPS',
         value: 8,
-        checked: true,
+        checked: false,
 
         colorOptions: true,
         cameraOptions: false,
@@ -2251,7 +2248,7 @@ export class OptionsService {
         // type: 'radio',
         label: 'DancingRainbow',
         value: 9,
-        checked: true,
+        checked: false,
 
         colorOptions: true,
         cameraOptions: false,
@@ -2479,7 +2476,235 @@ export class OptionsService {
         // type: 'radio',
         label: 'Morph',
         value: 10,
-        checked: true,
+        checked: false,
+
+        colorOptions: true,
+        cameraOptions: false,
+
+        calpha: 4.72,
+        cbeta: .01,
+        cradius: 1200,
+
+        material: {
+          diffuseColor: '#ffffff',
+          specularColor: '#ffffff',
+          emissiveColor: '#ffffff',
+          ambientColor: '#ffffff'
+        },
+
+        scene: {
+          glow: false,
+          glowIntensity: 0,
+        },
+
+        autoRotate: {
+          label: 'Auto Camera Movement',
+          value: true,
+
+          cameraCustom: true
+        },
+
+        sampleGain: {
+          label: 'Visual Effect Strength',
+          value: 1,
+        },
+
+        smoothingConstant: {
+          label: 'Smoothing Constant',
+          value: 6,
+        },
+
+        customColors: {
+          label: 'Custom Colors',
+          value: true,
+
+          midLoc: {
+            label: 'Midpoint Value',
+            value: 150,
+          },
+
+          color: [
+            {
+              label: 'Maximum Color',
+              value: '#ffffff'
+            },
+            {
+              label: 'Middle Color',
+              value: '#a3a3a3'
+            },
+            {
+              label: 'Minimum Color',
+              value: '#000000'
+            },
+
+          ],
+        },
+
+        light: [  //  array of lights
+
+          {
+            intensity: {
+              label: 'Right Intensity',
+              value: 50,
+            },
+            color: {
+              label: 'Right Color',
+              value: '#d10000'
+            },
+            specular: {
+              label: 'Right Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Right Back Color',
+              value: '#00ffff'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Top Intensity',
+              value: 50,
+            },
+            color: {
+              label: 'Top Color',
+              value: '#00ff2a'
+            },
+            specular: {
+              label: 'Top Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Top Back Color',
+              value: '#ff00ff'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Front Intensity',
+              value: 50,
+            },
+            color: {
+              label: 'Front Color',
+              value: '#1100ff'
+            },
+            specular: {
+              label: 'Front Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Front Back Color',
+              value: '#ffff00'
+            }
+          },
+
+          {
+            intensity: {
+              label: 'Camera Intensity',
+              value: -45,
+            },
+            color: {
+              label: 'Camera Color',
+              value: '#ffffff'
+            },
+            specular: {
+              label: 'Camera Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Camera Back Color',
+              value: '#000000'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Left Intensity',
+              value: 0,
+            },
+            color: {
+              label: 'Left Color',
+              value: '#ff00ff'
+            },
+            specular: {
+              label: 'Left Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Left Back Color',
+              value: '#000000'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Bottom Intensity',
+              value: 0,
+            },
+            color: {
+              label: 'Bottom Color',
+              value: '#ffff00'
+            },
+            specular: {
+              label: 'Bottom Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Bottom Back Color',
+              value: '#000000'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Rear Intensity',
+              value: 0,
+            },
+            color: {
+              label: 'Rear Color',
+              value: '#00ffee'
+            },
+            specular: {
+              label: 'Rear Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Rear Back Color',
+              value: '#000000'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Camera Rimlight Intensity',
+              value: 10,
+            },
+            color: {
+              label: 'Camera Rimlight Color',
+              value: '#ffffff'
+            },
+            specular: {
+              label: 'Camera Rimlight Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Camera Rimlight Back Color',
+              value: '#ffffff'
+            },
+          }
+
+        ],
+
+      },
+
+
+      // lights:
+      {
+        // type: 'radio',
+        label: 'Lights',
+        value: 11,
+        checked: false,
 
         colorOptions: true,
         cameraOptions: false,
@@ -2700,6 +2925,238 @@ export class OptionsService {
         ],
 
       },
+
+
+      // mirrors:
+      {
+        // type: 'radio',
+        label: 'Mirrors',
+        value: 12,
+        checked: false,
+
+        colorOptions: true,
+        cameraOptions: false,
+
+        calpha: 4.72,
+        cbeta: .01,
+        cradius: 1200,
+
+        material: {
+          diffuseColor: '#ffffff',
+          specularColor: '#ffffff',
+          emissiveColor: '#ffffff',
+          ambientColor: '#ffffff'
+        },
+
+        scene: {
+          glow: false,
+          glowIntensity: 0,
+        },
+
+        autoRotate: {
+          label: 'Auto Camera Movement',
+          value: true,
+
+          cameraCustom: true
+        },
+
+        sampleGain: {
+          label: 'Visual Effect Strength',
+          value: 1,
+        },
+
+        smoothingConstant: {
+          label: 'Smoothing Constant',
+          value: 8,
+        },
+
+        customColors: {
+          label: 'Custom Colors',
+          value: true,
+
+          midLoc: {
+            label: 'Midpoint Value',
+            value: 150,
+          },
+
+          color: [
+            {
+              label: 'Maximum Color',
+              value: '#ffffff'
+            },
+            {
+              label: 'Middle Color',
+              value: '#a3a3a3'
+            },
+            {
+              label: 'Minimum Color',
+              value: '#000000'
+            },
+
+          ],
+        },
+
+        light: [  //  array of lights
+
+          {
+            intensity: {
+              label: 'Right Intensity',
+              value: 40,
+            },
+            color: {
+              label: 'Right Color',
+              value: '#d10000'
+            },
+            specular: {
+              label: 'Right Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Right Back Color',
+              value: '#00ffff'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Top Intensity',
+              value: 40,
+            },
+            color: {
+              label: 'Top Color',
+              value: '#00ff2a'
+            },
+            specular: {
+              label: 'Top Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Top Back Color',
+              value: '#ff00ff'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Front Intensity',
+              value: 40,
+            },
+            color: {
+              label: 'Front Color',
+              value: '#1100ff'
+            },
+            specular: {
+              label: 'Front Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Front Back Color',
+              value: '#ffff00'
+            }
+          },
+
+          {
+            intensity: {
+              label: 'Camera Intensity',
+              value: 0,
+            },
+            color: {
+              label: 'Camera Color',
+              value: '#ffffff'
+            },
+            specular: {
+              label: 'Camera Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Camera Back Color',
+              value: '#000000'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Left Intensity',
+              value: 0,
+            },
+            color: {
+              label: 'Left Color',
+              value: '#ff00ff'
+            },
+            specular: {
+              label: 'Left Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Left Back Color',
+              value: '#000000'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Bottom Intensity',
+              value: 0,
+            },
+            color: {
+              label: 'Bottom Color',
+              value: '#ffff00'
+            },
+            specular: {
+              label: 'Bottom Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Bottom Back Color',
+              value: '#000000'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Rear Intensity',
+              value: 0,
+            },
+            color: {
+              label: 'Rear Color',
+              value: '#00ffee'
+            },
+            specular: {
+              label: 'Rear Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Rear Back Color',
+              value: '#000000'
+            },
+          },
+
+          {
+            intensity: {
+              label: 'Camera Rimlight Intensity',
+              value: 10,
+            },
+            color: {
+              label: 'Camera Rimlight Color',
+              value: '#ffffff'
+            },
+            specular: {
+              label: 'Camera Rimlight Specular',
+              value: '#000000'
+            },
+            groundColor: {
+              label: 'Camera Rimlight Back Color',
+              value: '#000000'
+            },
+          }
+
+        ],
+
+      },
+
+
+
+
     ]
 
   };
@@ -2715,8 +3172,11 @@ export class OptionsService {
     'notes',
     'singleSPSTriangle',
     'dancingRainbow',
-    'Morph'
+    'Morph',
+    'Lights'
   ];
+
+  public CubeSPSs = [];
 
   public favorites = [];
 
@@ -3895,6 +4355,10 @@ export class OptionsService {
     @Inject(StorageService) public storageService: StorageService
   ) {
     console.log('Options Service Constructor');
+    // sData.map( element => element.toUpperCase() );
+    // console.log(this.newBaseOptions.visual.map( element => element.label ));
+
+    this.CubeSPSs = this.newBaseOptions.visual[0].types.map(element => element.function);
 
     this.resizeObservable = fromEvent(window, 'resize');
     this.resizeSubscription = this.resizeObservable.subscribe(evt => {
@@ -3933,7 +4397,7 @@ export class OptionsService {
 
 
     const lFavorites = storageService.loadFavorites();
-    console.log(lFavorites);
+    // console.log(lFavorites);
     if (lFavorites.error === 'local storage error') {
       this.favorites = [];
       console.log('leaving favs as', lFavorites);
@@ -3941,6 +4405,8 @@ export class OptionsService {
       console.log('favs found in lFavorites');
 
       this.favorites = lFavorites;
+
+      this.updateCustomOptions(this.favorites.length - 1);
 
     }
 
@@ -3976,11 +4442,11 @@ export class OptionsService {
 
   }
 
-  toggleFavoritesRadio(itemName: string, index: number) {
-    this.favorites.forEach((f, i) => {
-      f.checked = (itemName === f.label);
-    });
-  }
+  // toggleFavoritesRadio(itemName: string, index: number) {
+  //   this.favorites.forEach((f, i) => {
+  //     f.checked = (itemName === f.label);
+  //   });
+  // }
 
   toggleNoteRadioNew(itemName: string, index: number) {
     this.notes.forEach((n, i) => {
@@ -3996,19 +4462,30 @@ export class OptionsService {
     this.announceChange('Item was changed: ' + itemName + ' to ' + this.state[itemName].value);
   }
 
-  toggleVisualRadio(itemName: string, index: number) {
 
-    this.visuals.forEach((v, i) => {
-      this.newBaseOptions.visual[i].checked = (itemName === v);
-    });
-  }
+  // toggleVisualRadio(itemName: string, index: number) {    // e.target.id, e.target.value
+
+  //   this.visuals.forEach((v, i) => {
+  //     this.newBaseOptions.visual[i].checked = (itemName === v);
+  //   });
+
+  //   // this.newBaseOptions.visual.forEach((v, i) => {
+  //   //   this.newBaseOptions.visual[i].checked = (itemName === v.);
+  //   // });
+
+
+  // }
 
   updateCustomOptions(visualIndex) {
 
-    this.messageService.announceMessage('set lights');
+    setTimeout(() => {
 
-    this.announceChange('smoothingConstant');
-    this.announceChange('sampleGain');
+      this.messageService.announceMessage('set lights');
+
+      this.announceChange('smoothingConstant');
+      this.announceChange('sampleGain');
+
+    }, .05);
 
   }
 

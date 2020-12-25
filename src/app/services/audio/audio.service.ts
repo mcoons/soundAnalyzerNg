@@ -285,7 +285,7 @@ export class AudioService {
 
     // combine for sample2 set
     for (let index = 0; index < 32; index++) { //  32*7 = 224
-      this.sample2[index + 0] = (this.soundArrays[5])[index];          
+      this.sample2[index + 0] = (this.soundArrays[5])[index + 0];          
       this.sample2[index + 32] = (this.soundArrays[5])[index + 32];    
       this.sample2[index + 64] = (this.soundArrays[4])[index + 32];   
       this.sample2[index + 96] = (this.soundArrays[3])[index + 32];  

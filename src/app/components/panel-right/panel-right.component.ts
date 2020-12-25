@@ -40,7 +40,7 @@ export class PanelRightComponent implements OnInit, OnDestroy  {
 
     // const timeString = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].label + ` ${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
     const timeString = ` ${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
-    console.log(timeString);
+    // console.log(timeString);
 
     this.optionsService.favorites.push(
       // {
@@ -60,9 +60,12 @@ export class PanelRightComponent implements OnInit, OnDestroy  {
         state:    JSON.parse(JSON.stringify(this.optionsService.state))
       });
 
-    console.log(JSON.stringify(this.optionsService.newBaseOptions));
+    // console.log(JSON.stringify(this.optionsService.newBaseOptions));
 
     this.storageService.saveFavorites(this.optionsService.favorites);
+
+    this.optionsService.favorites[this.optionsService.favorites.length-1].checked = true;
+
 
   }
 

@@ -135,7 +135,7 @@ export class SingleSPSCube implements OnDestroy {
 
         this.initialTimeout = setTimeout(this.startExpanding, this.optionsService.newBaseOptions.visual[0].singleSPSDelay.value * 1000);
 
-        // this.setDefaults();
+        this.setDefaults();
 
         this.master = BABYLON.MeshBuilder.CreateBox(('box'), {
             height: 1,
@@ -884,6 +884,20 @@ export class SingleSPSCube implements OnDestroy {
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = this.cameraSettingsCurrent.alpha;
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = this.cameraSettingsCurrent.beta;
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = this.cameraSettingsCurrent.radius;
+
+        this.cameraSettingsCurrent = this.SPSFunctions[this.currentSPS].cameraDefault(this.cameraIndicies[this.currentSPS]); // :
+        if (this.optionsService.getSelectedCubeSPSCount() === 1) {
+            this.cameraSettingsNext = this.SPSFunctions[this.currentSPS].cameraDefault((this.cameraIndicies[this.currentSPS] + 1) % 3);
+        } else {
+            this.cameraSettingsNext = this.SPSFunctions[this.nextSPS].cameraDefault(this.cameraIndicies[this.nextSPS]);
+        }
+
+        if (this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value) {
+            (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = this.cameraSettingsCurrent.alpha;
+            (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = this.cameraSettingsCurrent.beta;
+            (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = this.cameraSettingsCurrent.radius;
+            
+        }
     }
 
     create = () => {
@@ -1015,9 +1029,14 @@ export class SingleSPSCube implements OnDestroy {
 
         this.forwardRotation = (this.forwardRotation + this.PId1000) % this.TwoPI;
         this.backwardRotation -= this.PId1000;
-        if (this.backwardRotation < 0) {
-            this.backwardRotation = this.TwoPI - this.backwardRotation;
-        }
+
+        // if (this.backwardRotation < 0) {
+        //     this.backwardRotation = this.backwardRotation + this.TwoPI;
+        // } 
+
+        // if (this.forwardRotation > this.TwoPI) {
+        //     this.forwardRotation = this.forwardRotation - this.TwoPI;
+        // }
 
         if (this.expanding) {
             this.SPS.mesh.rotation = (BABYLON.Vector3.Lerp(
@@ -1061,6 +1080,13 @@ export class SingleSPSCube implements OnDestroy {
                     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
                 }
             } else {
+                if (this.backwardRotation < 0) {
+                    this.backwardRotation = this.backwardRotation + this.TwoPI;
+                } 
+        
+                if (this.forwardRotation > this.TwoPI) {
+                    this.forwardRotation = this.forwardRotation - this.TwoPI;
+                }
 
                 this.SPS.mesh.rotation = this.SPSFunctions[this.currentSPS].spsRotation();
 

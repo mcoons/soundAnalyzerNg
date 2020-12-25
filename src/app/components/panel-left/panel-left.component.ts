@@ -34,6 +34,12 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line: max-line-length
     //   this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
     // }, 10);
+
+    if (this.optionsService.favorites.length > 0) {
+      this.favoriteChange({target: {value: this.optionsService.favorites.length-1}}); 
+      this.optionsService.favorites[this.optionsService.favorites.length-1].checked = true;
+
+    }
   }
 
   randomizeList() {
@@ -85,21 +91,23 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
 
   favoriteChange(e) {
     Object.assign(this.optionsService.newBaseOptions, JSON.parse(JSON.stringify(this.optionsService.favorites[e.target.value].options)));
-    
-
+  
     this.optionsService.updateState('currentVisual', this.optionsService.favorites[ e.target.value ].state.currentVisual.value);
     this.messageService.announceMessage('scene change');
+
+// TODO: Run update on all customized values as proc that can be used other places
+
   }
 
   updateItem(e) {
     this.messageService.announceMessage(e.target.id);
   }
 
-  radioChange(e) {
-    this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
-    this.optionsService.updateState('currentVisual', e.target.value);
-    this.messageService.announceMessage('scene change');
-  }
+  // radioChange(e) {
+  //   this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
+  //   this.optionsService.updateState('currentVisual', e.target.value);
+  //   this.messageService.announceMessage('scene change');
+  // }
 
   radioNoteChange(e) {
     this.optionsService.toggleNoteRadio(e.target.id, e.target.value);

@@ -26,6 +26,8 @@ import { Hex } from '../../visualization-classes/Hex';
 import { Notes } from '../../visualization-classes/Notes';
 import { DancingRainbow } from '../../visualization-classes/DancingRainbow';
 import { Morph } from '../../visualization-classes/Morph';
+import { Lights } from '../../visualization-classes/Lights';
+import { Mirror } from '../../visualization-classes/Mirror';
 import { SingleSPSCube } from '../../visualization-classes/SingleSPSCube';
 import { SingleSPSTriangle } from '../../visualization-classes/SingleSPSTriangle';
 // import { SingleSPSRibbon } from '../../visualization-classes/SingleSPSRibbon';
@@ -129,6 +131,7 @@ export class EngineService {
       });
 
     this.visualClassIndex = this.optionsService.newBaseOptions.currentVisual;
+    // console.log(this.optionsService.newBaseOptions.visual.map(element => element.label));
 
     this.visualClasses = [
       SingleSPSCube,
@@ -142,7 +145,9 @@ export class EngineService {
       Notes,
       SingleSPSTriangle,
       DancingRainbow,
-      Morph
+      Morph,
+      Lights,
+      Mirror
     ];
 
   }
@@ -159,79 +164,33 @@ export class EngineService {
       this.glowLayer.intensity = intensity;
     } else {
       this.glowLayer = new BABYLON.GlowLayer('glow', this.scene
-        ,{ 
-          // mainTextureFixedSize: 1024,
-          blurKernelSize: 16
+        , {
+          // mainTextureFixedSize: 128,
+          mainTextureRatio: 1,
+          blurKernelSize: 360
         }
       );
       this.glowLayer.intensity = intensity;
 
       this.glowLayer.customEmissiveColorSelector = (mesh, subMesh, material, result) => {
 
-        if (this.optionsService.newBaseOptions.currentVisual != 10) {
-          return;
-        }
-
         let data = mesh.name.split('-');
-        // console.log(data);
         let series = data[0];
         let index = Number(data[1]);
-        let yy;
 
-        if (index >= 193) {
-          result.set(0, 0, 0, 0);
-          return;
-        }
-        // console.log(index);
+        let yy = this.audioService.sample2[index];
+
+        let columnGroup = Math.trunc(index / 32);
+        let row = index % 32;
 
         switch (series) {
-          case 'balls1':
-            yy = (Math.sqrt(this.currentVisual.ballsGroupArray[0][index].position.x * this.currentVisual.ballsGroupArray[0][index].position.x + this.currentVisual.ballsGroupArray[0][index].position.y * this.currentVisual.ballsGroupArray[0][index].position.y) - 175 * 1.01);
-            // yy = yy * yy * yy * yy * yy;
-            yy = yy / 70;
-            // yy = yy < 1 ? yy : 1;
-            result.set(yy/4, yy/4, yy, 1);
-            break;
 
-          case 'balls2':
-            yy = (Math.sqrt(this.currentVisual.ballsGroupArray[1][index].position.x * this.currentVisual.ballsGroupArray[1][index].position.x + this.currentVisual.ballsGroupArray[1][index].position.y * this.currentVisual.ballsGroupArray[1][index].position.y) - 160 * 1.01);
-            // yy = yy * yy * yy * yy * yy;
-            yy = yy / 70;
-            // yy = yy < 1 ? yy : 1;
-            result.set(yy/4, yy/4, yy, 1);
-            break;
+          case 'torusLight':
+            yy = this.audioService.sample2[index];
 
-          case 'balls3':
-            yy = (Math.sqrt(this.currentVisual.ballsGroupArray[2][index].position.x * this.currentVisual.ballsGroupArray[2][index].position.x + this.currentVisual.ballsGroupArray[2][index].position.y * this.currentVisual.ballsGroupArray[2][index].position.y) - 145 * 1.01);
-            // yy = yy * yy * yy * yy * yy;
-            yy = yy / 70;
-            // yy = yy < 1 ? yy : 1;
-            result.set(yy/4, yy/4, yy, 1);
-            break;
-
-          case 'balls4':
-            yy = (Math.sqrt(this.currentVisual.ballsGroupArray[3][index].position.x * this.currentVisual.ballsGroupArray[3][index].position.x + this.currentVisual.ballsGroupArray[3][index].position.y * this.currentVisual.ballsGroupArray[3][index].position.y) - 130 * 1.01);
-            // yy = yy * yy * yy * yy * yy;
-            yy = yy / 70;
-            // yy = yy < 1 ? yy : 1;
-            result.set(yy/4, yy/4, yy, 1);
-            break;
-
-          case 'balls5':
-            yy = (Math.sqrt(this.currentVisual.ballsGroupArray[4][index].position.x * this.currentVisual.ballsGroupArray[4][index].position.x + this.currentVisual.ballsGroupArray[4][index].position.y * this.currentVisual.ballsGroupArray[4][index].position.y) - 115 * 1.01);
-            // yy = yy * yy * yy * yy * yy;
-            yy = yy / 70;
-            // yy = yy < 1 ? yy : 1;
-            result.set(yy/4, yy/4, yy, 1);
-            break;
-
-
-          case 'balls6':
-            yy = (Math.sqrt(this.currentVisual.ballsGroupArray[5][index].position.x * this.currentVisual.ballsGroupArray[5][index].position.x + this.currentVisual.ballsGroupArray[5][index].position.y * this.currentVisual.ballsGroupArray[5][index].position.y) - 100 * 1.01);
-            // yy = yy * yy * yy * yy * yy;
-            yy = yy / 70;
-            // yy = yy < 1 ? yy : 1;
-            result.set(yy/4, yy/4, yy, 1);
+            yy = ( yy / 255 * yy / 255 * yy / 255 * yy / 255 * yy / 255) * 245 * (columnGroup + 1);
+            // console.log('yy',yy);
+            result.set(yy, yy, yy, 1);
             break;
 
           default:
@@ -239,11 +198,10 @@ export class EngineService {
             break;
         }
 
-
       }
     }
 
-    console.log(this.glowLayer);
+    // console.log(this.glowLayer);
   }
 
 
@@ -260,14 +218,15 @@ export class EngineService {
 
     this.scene = new BABYLON.Scene(this.engine);
     this.scene.registerBeforeRender(this.beforeRender);
+    
+    this.setGlowLayer(1.0);
+    this.glowLayer.isEnabled = false;
 
     this.scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
     this.scene.ambientColor = new BABYLON.Color3(1, 1, 1);
 
     this.highlightLayer = new BABYLON.HighlightLayer('hl1', this.scene);
-
-    this.setGlowLayer(10.75);
 
     this.skyboxMaterial = new BABYLON.StandardMaterial('skyBox', this.scene);
     this.skyboxMaterial.backFaceCulling = false;
@@ -313,12 +272,12 @@ export class EngineService {
     );
     this.renderTargetTexture.activeCamera = this.camera2;
     this.renderTargetTexture.updateSamplingMode(BABYLON.Texture.NEAREST_SAMPLINGMODE);
-    
+
     this.scene.customRenderTargets.push(this.renderTargetTexture); // add RTT to the scene
-   
+
     this.camera2Material = new BABYLON.StandardMaterial('mat', this.scene);
     this.camera2Material.diffuseTexture = this.renderTargetTexture;
-    
+
     // var txplane = BABYLON.Mesh.CreatePlane("txplane", 1, this.scene);
     // txplane.position.z = 3;
     // txplane.position.y = -0.7;
@@ -692,12 +651,6 @@ export class EngineService {
 
 
 
-
-
-
-
-
-
       };
 
       if (this.windowRef.document.readyState !== 'loading') {
@@ -709,21 +662,6 @@ export class EngineService {
       }
     });
   }
-
-  // saveCamera() {
-  //   // console.log('in saveCamera');
-  //   this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].calpha
-  //     = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha;
-
-  //   this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].cbeta
-  //     = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta;
-
-  //   this.optionsService.options[this.optionsService.visuals[this.visualClassIndex]].cradius
-  //     = (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius;
-
-  //   // this.storageService.saveOptions(this.optionsService.options);
-
-  // }
 
   selectVisual(index) {
     // console.log('in selectVisual');
@@ -789,8 +727,6 @@ export class EngineService {
     this.tmpCanvas.setAttribute('height', (style3.height() * dpi).toString());
   }
 
-
-
   makeTextPlane = (text: string, color: string, textSize: number) => {
     const dynamicTexture = new BABYLON.DynamicTexture('DynamicTexture', 50, this.scene, true);
     dynamicTexture.hasAlpha = true;
@@ -804,7 +740,6 @@ export class EngineService {
     material.diffuseTexture = dynamicTexture;
     return plane;
   };
-
 
   buildWorldAxis = (size) => {
     // console.log('in showWorldAxis');

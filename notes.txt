@@ -4,7 +4,6 @@ https://soundanalyzerng.herokuapp.com/
 https://github.com/mcoons/soundAnalyzerNg
 
 
-
 Ribbon Particle Shapes
 https://www.babylonjs-playground.com/#1HSC2O#242
 
@@ -13,7 +12,66 @@ FFT Info
 https://www.rationalacoustics.com/files/FFT_Fundamentals.pdf
 
 
+
+
+
+
 ASSEMBLE ANTHOLOGIES???????
+
+38,794 
+
+Checking (20,000) + 794
+
+Savings (18,000)
+
+
+
+Options Service
+    Constructor
+        Favorites Load
+        Update Custom Options
+                this.messageService.announceMessage('set lights');
+                this.announceChange('smoothingConstant');
+                this.announceChange('sampleGain');
+
+
+
+
+
+
+
+BUGS
+_______________________________________________________________________
+
+Toggle correct Visuals\Favorite upon startup (left pane)
+Toggle correct Visual Selection upon startup (right pane)
+
+(Initiate/Simulate mouse click of last favorite?)
+
+Toggle new Visuals\Favorite after Save Favorite
+
+Move the 360 check out of global rotation++ when explosion is happening.
+
+
+If your going to use the lighting rig then reset it when you are done!!
+
+Set correct camera starting positions upon selection of Visual
+Set correct camera position for specific Exploding SPS
+
+Fix the slight Y offset issue that happens during explosion - if only 1 selected then dont explode
+Fix playlist selection button highlight when canceling coming from mic
+
+
+
+DEFAULTS
+_______________________________________________________________________
+
+Fix all defaults for light rig rotations
+Fix all defaults for light glow intensity
+Fix all defaults for Custom Colors (remove middle black)
+Stars are too dim or the glow layer needs bumped up
+Remove Autorotate for SPECTROGRAPH, STARS
+
 
 
 
@@ -35,6 +93,8 @@ Create new UI with components
     Add showAxis
 
 SCENE options
+    Glow Layer Intensity Adjustment
+
     Allow auto rotation of light rigs
     Allow auto rotation of camera rig
         Add sin() to camera movement
@@ -73,19 +133,27 @@ Standard 8
 
 Implement 2D history layer in the back.
 
-BUGFIXES
-Move the 360 check out of global rotation++ when explosion is happening.
-Fix the slight Y offset issue that happens during explosion - if only 1 selected then dont explode
-Fix playlist selection button highlight when canceling coming from mic
 
 
 FUTURE VISUAL IDEAS
+
 Implement Star Zooming
 A crystal ball with flickering light inside - Lindsey - When the stars align
 Dancing sign waves in smoke with a realistic look
 Turn Sphere Plane 2 into an Exploding SPS
 
 
+
+Multiple particle emitters. 7 total 1 per octive .
+
+Amount:
+Color:
+Age:
+Speed:
+
+
+
+Predefined shape.  Fill it out more per.
 
 Multiple Cameras with scene fading???
 
@@ -365,3 +433,44 @@ Options{}
     Visual[]
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const SPS = new BABYLON.SolidParticleSystem("SPS", scene);
+    const tetra = BABYLON.MeshBuilder.CreatePolyhedron("tetra", {size: 1});
+    SPS.addShape(tetra, 1000);
+    tetra.dispose();
+
+    const mesh = SPS.buildMesh(); // finally builds and displays the SPS mesh
+    
+    // recycle particles function
+    //sets particles to an intial state
+    recycleParticle = (particle) => { 
+        ... 
+        
+    }
+
+    //Initate by recycling through all particles
+    SPS.initParticles = () => {
+        for (let p = 0; p < SPS.nbParticles; p++) {
+            recycleParticle(SPS.particles[p])
+        }
+    }
+
+
+    //Initiate SPS mesh
+    SPS.initParticles();
+    SPS.setParticles();
+
+    //Update function
+    SPS.updateParticle = (particle) => {

@@ -250,7 +250,7 @@ export class Rings {
         mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture('mirror', 1024, this.scene, true);
         (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).mirrorPlane = reflector;
         // tslint:disable-next-line: max-line-length
-        (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).renderList = [this.ring1SPS.mesh, this.ring3SPS.mesh, this.ring5SPS.mesh];
+        // (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).renderList = [this.ring1SPS.mesh, this.ring3SPS.mesh, this.ring5SPS.mesh];
         mirrorMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
         mirrorMaterial.backFaceCulling = true; // not working??
         mirrorMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
