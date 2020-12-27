@@ -44,6 +44,8 @@ export class VisualSelectionComponent {
     this.optionsService.newBaseOptions.currentVisual = Number(e.target.value);
 
     this.messageService.announceMessage('scene change');
+    this.messageService.announceMessage('set lights');
+    this.messageService.announceMessage('set camera');
     this.messageService.announceMessage('Smoothing Constant');
     this.messageService.announceMessage('Visual Effect Strength');
   }

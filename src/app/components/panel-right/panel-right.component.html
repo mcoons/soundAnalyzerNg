@@ -8,6 +8,29 @@
         </div>
       </div>
 
+      <div id="listBtnContainer">
+
+        <div class="btnContainer">
+          <button class="playlistButton" (click)="logCurrentVisual($event)">Log Visual</button>
+          <button class="playlistButton" (click)="logScene($event)">Log Scene</button>
+        </div>
+
+        <div class="btnContainer">
+          <button class="playlistButton" (click)="logOptions($event)">Log Options</button>
+          <button class="playlistButton" (click)="logFavorites($event)">Log Favorites</button>
+        </div>
+
+        <div class="btnContainer">
+          <button class="playlistButton" (click)="logCamera($event)">Log Camera</button>
+        </div>
+
+      </div>
+      <br>
+      <input type="checkbox" id="Show Axis" name="Show Axis"
+        [(ngModel)]="this.optionsService.newBaseOptions.general.showAxis" (click)="axisChange($event)">
+      <label for="Show Axis"> Show Axis</label>
+
+
       <app-visual-selection></app-visual-selection>
       <app-visual-effects></app-visual-effects>
       <app-light-options></app-light-options>

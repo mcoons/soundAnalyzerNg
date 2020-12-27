@@ -1,4 +1,3 @@
-
 import { Component, OnInit, OnDestroy, ViewEncapsulation, Inject, ElementRef, ViewChild } from '@angular/core';
 import { OptionsService } from '../../services/options/options.service';
 import { MessageService } from '../../services/message/message.service';
@@ -16,14 +15,14 @@ export class PanelRightComponent implements OnInit, OnDestroy  {
   constructor(
     @Inject(OptionsService) public optionsService: OptionsService,
     @Inject(MessageService) private messageService: MessageService,
-    @Inject(StorageService) private storageService: StorageService
+    @Inject(StorageService) private storageService: StorageService,
+    @Inject(EngineService) private engineService: EngineService
   ) { }
 
   ngOnInit(): void {
   }
 
   ngOnDestroy() {
-
   }
 
   addToFavorites(e) {
@@ -42,21 +41,23 @@ export class PanelRightComponent implements OnInit, OnDestroy  {
     const timeString = ` ${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
     // console.log(timeString);
 
+    this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].calpha = this.engineService.camera1.alpha;
+    this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cbeta = this.engineService.camera1.beta;
+    this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cradius = this.engineService.camera1.radius;
+    
+
+    let t = JSON.parse(JSON.stringify(this.optionsService.newBaseOptions));
+    // this.removeProps(t, 'label');
+    // this.removeProps(t, 'hertz');
+    // this.removeProps(t, 'label');
+    
     this.optionsService.favorites.push(
-      // {
-      //   label: 'Favorite ' + (this.optionsService.favorites.length + 1),
-      //   value: this.optionsService.favorites.length,
-      //   name: 'Favorite ' + (this.optionsService.favorites.length + 1),
-      //   checked: false,
-      //   options:  JSON.parse(JSON.stringify(this.optionsService.newBaseOptions)) ,
-      //   state:    JSON.parse(JSON.stringify(this.optionsService.state))
-      // });
       {
         label: 'Favorite ' + timeString,
         value: this.optionsService.favorites.length,
         name: 'Favorite ' + timeString,
         checked: false,
-        options:  JSON.parse(JSON.stringify(this.optionsService.newBaseOptions)) ,
+        options:  t,
         state:    JSON.parse(JSON.stringify(this.optionsService.state))
       });
 
@@ -66,7 +67,47 @@ export class PanelRightComponent implements OnInit, OnDestroy  {
 
     this.optionsService.favorites[this.optionsService.favorites.length-1].checked = true;
 
-
   }
 
+  logCurrentVisual(e) {
+    console.log(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual]);
+  }
+
+  logScene(e) {
+    console.log(this.engineService.scene);
+  }
+
+  logOptions(e) {
+    console.log(this.optionsService.newBaseOptions);
+  }
+
+  logFavorites(e) {
+    console.log(this.optionsService.favorites);
+  }
+
+  logCamera(e) {
+    console.log(this.engineService.camera1);
+  }
+
+  axisChange(e) {
+    if (this.optionsService.newBaseOptions.general.showAxis) {
+      this.engineService.hideWorldAxis();
+    } else {
+      this.engineService.showWorldAxis();
+     }
+  }
+
+  removeProps(obj,keys){
+    if(obj instanceof Array){
+      obj.forEach((item) =>{
+        this.removeProps(item,keys)
+      });
+    }
+    else if(typeof obj === 'object'){
+      Object.getOwnPropertyNames(obj).forEach((key) => {
+        if(keys.indexOf(key) !== -1)delete obj[key];
+        else this.removeProps(obj[key],keys);
+      });
+    }
+  }
 }

@@ -18,12 +18,6 @@ https://www.rationalacoustics.com/files/FFT_Fundamentals.pdf
 
 ASSEMBLE ANTHOLOGIES???????
 
-38,794 
-
-Checking (20,000) + 794
-
-Savings (18,000)
-
 
 
 Options Service
@@ -43,15 +37,8 @@ Options Service
 BUGS
 _______________________________________________________________________
 
-Toggle correct Visuals\Favorite upon startup (left pane)
-Toggle correct Visual Selection upon startup (right pane)
-
-(Initiate/Simulate mouse click of last favorite?)
-
-Toggle new Visuals\Favorite after Save Favorite
-
-Move the 360 check out of global rotation++ when explosion is happening.
-
+Fix initial camera move glitch on SPS cubes 
+Fix/remove mirror on Rings
 
 If your going to use the lighting rig then reset it when you are done!!
 
@@ -78,9 +65,10 @@ Remove Autorotate for SPECTROGRAPH, STARS
 TODO
 _______________________________________________________________________
 
-Create new options object with component access/building in mind (use arrays)
+Revamp saving of favorite to only save specific visual instead of whole visual arrays
+Name should be based off of visual type
+
 Check into that separate Audio module 
-Modify saving of favorite to be just a specific visual's settings instead of all settings for all visuals
 
 Create a materialManager service.
 

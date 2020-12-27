@@ -72,7 +72,7 @@ export class EngineService {
   private groundCover;
   private tube1;
   private tube2;
-  private matGroundCover;
+  private groundMatCover;
   private tubeMat;
 
   public showAxis = true;
@@ -128,6 +128,10 @@ export class EngineService {
         if (message === 'set lights') {
           this.setLights();
         }
+
+        if (message === 'set camera') {
+          this.setCamera();
+        }
       });
 
     this.visualClassIndex = this.optionsService.newBaseOptions.currentVisual;
@@ -141,15 +145,21 @@ export class EngineService {
       SpherePlaneManagerSPS,
       SpherePlaneManager2SPS,
       Rings,
+      DancingRainbow,
+      Morph,
       Hex,
       Notes,
       SingleSPSTriangle,
-      DancingRainbow,
-      Morph,
       Lights,
       Mirror
     ];
 
+  }
+
+  public setCamera() {
+    this.camera1.alpha = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].calpha;
+    this.camera1.beta = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cbeta;
+    this.camera1.radius = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cradius;
   }
 
 
@@ -188,7 +198,7 @@ export class EngineService {
           case 'torusLight':
             yy = this.audioService.sample2[index];
 
-            yy = ( yy / 255 * yy / 255 * yy / 255 * yy / 255 * yy / 255) * 245 * (columnGroup + 1);
+            yy = (yy / 255 * yy / 255 * yy / 255 * yy / 255 * yy / 255) * 245 * (columnGroup + 1);
             // console.log('yy',yy);
             result.set(yy, yy, yy, 1);
             break;
@@ -218,7 +228,7 @@ export class EngineService {
 
     this.scene = new BABYLON.Scene(this.engine);
     this.scene.registerBeforeRender(this.beforeRender);
-    
+
     this.setGlowLayer(1.0);
     this.glowLayer.isEnabled = false;
 
@@ -633,7 +643,7 @@ export class EngineService {
         // this.effectsCtx.drawImage(this.canvas, 0, 0);
 
 
-        // #d Canvas image to Tmp
+        // 3d Canvas image to Tmp
 
         // effectsCtx.clearRect(0,0,5000,5000);
 
@@ -742,20 +752,6 @@ export class EngineService {
   };
 
   buildWorldAxis = (size) => {
-    // console.log('in showWorldAxis');
-    // const makeTextPlane = (text: string, color: string, textSize: number) => {
-    //   const dynamicTexture = new BABYLON.DynamicTexture('DynamicTexture', 50, this.scene, true);
-    //   dynamicTexture.hasAlpha = true;
-    //   dynamicTexture.drawText(text, 5, 40, 'bold 36px Arial', color, 'transparent', true);
-    //   // @todo fix <any> - actual a hack for @types Error...
-    //   const plane = BABYLON.Mesh.CreatePlane('TextPlane', textSize, this.scene, true);
-    //   const material = new BABYLON.StandardMaterial('TextPlaneMaterial', this.scene);
-    //   plane.material = material;
-    //   material.backFaceCulling = false;
-    //   material.specularColor = new BABYLON.Color3(0, 0, 0);
-    //   material.diffuseTexture = dynamicTexture;
-    //   return plane;
-    // };
 
     const axisX = BABYLON.Mesh.CreateLines('axisX', [
       BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0),
@@ -817,40 +813,52 @@ export class EngineService {
     let z: number;
 
     this.hexMat = new BABYLON.StandardMaterial(`material`, this.scene);
-    // this.hexMat.bumpTexture = new BABYLON.Texture('../../assets/mats/normal2.jpg', this.scene);
-    // this.hexMat.bumpTexture.uScale = 4;
-    // this.hexMat.bumpTexture.vScale = 4;
-    // this.hexMat.emmisiveColor =
-
+    this.hexMat.bumpTexture = new BABYLON.Texture('../../assets/mats/normal2.jpg', this.scene);
+    this.hexMat.bumpTexture.uScale = 4;
+    this.hexMat.bumpTexture.vScale = 4;
     this.hexMat.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse2.jpg', this.scene);
     this.hexMat.diffuseTexture.uScale = 4;
     this.hexMat.diffuseTexture.vScale = 4;
     this.hexMat.maxSimultaneousLights = 8;
 
+    const groundMat = new BABYLON.StandardMaterial('mat1', this.scene);
+    groundMat.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse2.jpg', this.scene);
+    groundMat.bumpTexture = new BABYLON.Texture('../../assets/mats/normal2.jpg', this.scene);
+    groundMat.backFaceCulling = false;
 
-    const groundBox = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 880, tessellation: 6, height: 48 }, this.scene);
-    groundBox.position.y = -24;
-    const groundCSG = BABYLON.CSG.FromMesh(groundBox);
-    groundBox.dispose();
+    (groundMat.diffuseTexture as BABYLON.Texture).uScale = 10;
+    (groundMat.diffuseTexture as BABYLON.Texture).vScale = 10;
+    (groundMat.bumpTexture as BABYLON.Texture).uScale = 10;
+    (groundMat.bumpTexture as BABYLON.Texture).vScale = 10;
 
     // BUILD SPS ////////////////////////////////
 
-    const innerPositionFunction = (particle, i, s) => {
+    const hex = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 38, tessellation: 6, height: 50 }, this.scene);
+    hex.convertToFlatShadedMesh();
 
+    const innerPositionFunction = (particle, i, s) => {
       particle.position.x = (x2) * 35.5;
       particle.position.y = -24.5;
       particle.position.z = (z) * 31;
       particle.color = new BABYLON.Color3(.5, .5, .5);
       particle.rotation.y = Math.PI / 6;
-
     };
 
     this.hexSPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
-    const hex = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 38, tessellation: 6, height: 50 }, this.scene);
-    hex.convertToFlatShadedMesh();
+    this.hexSPS.updateParticle = (particle) => {
+      let yy = this.audioService.sample1[555 - particle.idx];
+      yy = (yy / 255 * yy / 255) * 255;
 
+      particle.color.r = this.colorsService.colors(yy).r / 255;
+      particle.color.g = this.colorsService.colors(yy).g / 255;
+      particle.color.b = this.colorsService.colors(yy).b / 255;
 
+      particle.position.y = -24.5 + yy / 3;
+      particle.scaling.x = .9;
+      particle.scaling.z = .9;
+    };
 
+    // add hex shapes
 
     for (z = -15; z < 15; z++) {
       for (x = -15; x < 15; x++) {
@@ -865,101 +873,107 @@ export class EngineService {
       }
     }
 
+    hex.dispose();
 
     this.hexMesh = this.hexSPS.buildMesh();
+    
     this.hexMesh.material = this.hexMat;
+
     this.hexMesh.scaling.x = .8;
     this.hexMesh.scaling.y = .8;
     this.hexMesh.scaling.z = .8;
-    this.hexMesh.parent = this.hexParent;
 
-    // this.highlightLayer.addMesh(this.hexMesh,
-    //       new BABYLON.Color3(0, .75, .75));
+    this.hexMesh.parent = this.hexParent;
+    
+    
+    
+    // create honeycomb ground mesh
 
     const spsCSG = BABYLON.CSG.FromMesh(this.hexMesh);
+
+    const groundBox = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 880, tessellation: 6, height: 48 }, this.scene);
+    groundBox.position.y = -24;
+
+    const groundCSG = BABYLON.CSG.FromMesh(groundBox);
+    groundBox.dispose();
+
     const holyGroundCSG = groundCSG.subtract(spsCSG);
-    this.finalHexGround = holyGroundCSG.toMesh('ground', this.groundMat, this.scene);
+
+    this.finalHexGround = holyGroundCSG.toMesh('ground', this.groundMat, this.scene, true);
     this.finalHexGround.position.y = -19;
 
-    hex.dispose();
-
-    this.hexSPS.updateParticle = (particle) => {
-      let yy = this.audioService.sample1[555 - particle.idx];
-      yy = (yy / 255 * yy / 255) * 255;
-
-      particle.color.r = this.colorsService.colors(yy).r / 255;
-      particle.color.g = this.colorsService.colors(yy).g / 255;
-      particle.color.b = this.colorsService.colors(yy).b / 255;
-
-      particle.position.y = -24.5 + yy / 3;
-      particle.scaling.x = .9;
-      particle.scaling.z = .9;
-    };
-
-    this.matGroundCover = new BABYLON.StandardMaterial('mat1', this.scene);
-    this.matGroundCover.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse1.jpg', this.scene);
-    this.matGroundCover.bumpTexture = new BABYLON.Texture('../../assets/mats/normal1.jpg', this.scene);
-    (this.matGroundCover.diffuseTexture as BABYLON.Texture).vScale = 2;
-    (this.matGroundCover.bumpTexture as BABYLON.Texture).vScale = 2;
-    (this.matGroundCover.diffuseTexture as BABYLON.Texture).uScale = 100;
-    (this.matGroundCover.bumpTexture as BABYLON.Texture).uScale = 100;
-
-    const matGround = new BABYLON.StandardMaterial('mat1', this.scene);
-    matGround.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse2.jpg', this.scene);
-    matGround.bumpTexture = new BABYLON.Texture('../../assets/mats/normal2.jpg', this.scene);
-
-    (matGround.diffuseTexture as BABYLON.Texture).uScale = 10;
-    (matGround.diffuseTexture as BABYLON.Texture).vScale = 10;
-    (matGround.bumpTexture as BABYLON.Texture).uScale = 10;
-    (matGround.bumpTexture as BABYLON.Texture).vScale = 10;
-
-    this.finalHexGround.material = matGround;
+    this.finalHexGround.material = groundMat;
     this.finalHexGround.parent = this.hexParent;
 
-    const path = [];
-    const segLength = 100;
-    const numSides = 6;
 
-    const mat = new BABYLON.StandardMaterial('mat1', this.scene);
-    mat.diffuseColor = new BABYLON.Color3(1, 1, 1);
-    mat.backFaceCulling = false;
 
-    for (let i = -1; i <= 0; i++) {
-      const xx = (i / 2) * segLength;
-      const yy = 0;
-      const zz = 0;
-      path.push(new BABYLON.Vector3(xx, yy, zz));
-    }
+    //  Create a sheath cover for easier material mapping 
 
-    this.groundCover = BABYLON.Mesh.CreateTube('tube', path, 441, numSides, null, 0, this.scene);
-    this.groundCover.rotation.z = Math.PI / 2;
-    this.groundCover.rotation.y = Math.PI / 6;
+    (() => {
 
-    this.groundCover.material = this.matGroundCover;
-    this.groundCover.convertToFlatShadedMesh();
-    this.groundCover.position.y = 6;
+      this.groundMatCover = new BABYLON.StandardMaterial('mat1', this.scene);
+      this.groundMatCover.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse1.jpg', this.scene);
+      this.groundMatCover.bumpTexture = new BABYLON.Texture('../../assets/mats/normal1.jpg', this.scene);
+      this.groundMatCover.backFaceCulling = false;
 
-    this.groundCover.parent = this.hexParent;
+      (this.groundMatCover.diffuseTexture as BABYLON.Texture).vScale = 2;
+      (this.groundMatCover.bumpTexture as BABYLON.Texture).vScale = 2;
+      (this.groundMatCover.diffuseTexture as BABYLON.Texture).uScale = 100;
+      (this.groundMatCover.bumpTexture as BABYLON.Texture).uScale = 100;
 
-    this.tubeMat = new BABYLON.StandardMaterial('mat1', this.scene);
-    this.tubeMat.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse3.jpg', this.scene);
-    this.tubeMat.bumpTexture = new BABYLON.Texture('../../assets/mats/normal3.jpg', this.scene);
-    (this.tubeMat.diffuseTexture as BABYLON.Texture).uScale = 50;
+      const path = [];
+      const segLength = 100;
+      const numSides = 6;
 
-    this.tube1 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 880, thickness: 13, tessellation: 6 }, this.scene);
-    this.tube1.material = mat;
-    this.tube1.position.y = 7.5;
-    this.tube1.parent = this.hexParent;
-    this.tube1.scaling.y = .5;
-    this.tube1.material = this.tubeMat;
-    this.tube1.rotation.y = Math.PI / 6;
+      for (let i = -1; i <= 0; i++) {
+        const xx = (i / 2) * segLength;
+        const yy = 0;
+        const zz = 0;
+        path.push(new BABYLON.Vector3(xx, yy, zz));
+      }
 
-    this.tube2 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 880, thickness: 13, tessellation: 6 }, this.scene);
-    this.tube2.material = mat;
-    this.tube2.position.y = -48;
-    this.tube2.parent = this.hexParent;
-    this.tube2.material = this.tubeMat;
-    this.tube2.rotation.y = Math.PI / 6;
+      this.groundCover = BABYLON.Mesh.CreateTube('tube', path, 441, numSides, null, 0, this.scene);
+      this.groundCover.rotation.z = Math.PI / 2;
+      this.groundCover.rotation.y = Math.PI / 6;
+
+      this.groundCover.material = this.groundMatCover;
+      this.groundCover.convertToFlatShadedMesh();
+      this.groundCover.position.y = 6;
+
+      this.groundCover.parent = this.hexParent;
+
+    })();
+
+
+    // Draw gold tubes around seams
+
+    (() => {
+
+      this.tubeMat = new BABYLON.StandardMaterial('mat1', this.scene);
+      this.tubeMat.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse3.jpg', this.scene);
+      this.tubeMat.bumpTexture = new BABYLON.Texture('../../assets/mats/normal3.jpg', this.scene);
+      (this.tubeMat.diffuseTexture as BABYLON.Texture).uScale = 50;
+
+      this.tube1 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 880, thickness: 13, tessellation: 6 }, this.scene);
+      this.tube1.position.y = 7.5;
+      this.tube1.parent = this.hexParent;
+      this.tube1.scaling.y = .5;
+      this.tube1.material = this.tubeMat;
+      this.tube1.rotation.y = Math.PI / 6;
+
+      this.tube2 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 880, thickness: 13, tessellation: 6 }, this.scene);
+      this.tube2.position.y = -48;
+      this.tube2.parent = this.hexParent;
+      this.tube2.material = this.tubeMat;
+      this.tube2.rotation.y = Math.PI / 6;
+
+      this.hexParent.rotation.y = Math.PI;
+      
+    })();
+    
+    this.hexParent.setEnabled(false);
+
+
 
     // this.Writer = MeshWriter(this.scene, { scale: 1 });
     // this.Writer = new MESHWRITER(this.scene, { scale: 1 });
@@ -974,9 +988,6 @@ export class EngineService {
     //   }
     // }
     // )
-
-    this.hexParent.rotation.y = Math.PI;
-    this.hexParent.setEnabled(false);
 
   }
 

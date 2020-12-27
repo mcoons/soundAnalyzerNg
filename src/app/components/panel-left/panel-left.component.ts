@@ -26,53 +26,15 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    // tslint:disable-next-line: max-line-length
-    // const percent = Math.round((this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].customColors.midLoc.value / 255) * 100);
-
-    // tslint:disable-next-line: max-line-length
-    // setTimeout(() => {
-    // tslint:disable-next-line: max-line-length
-    //   this.graduate.nativeElement.style.background = 'linear-gradient(to right, ' + this.optionsService.minColor + ',' + this.optionsService.midColor + ' ' + percent + '% ,' + this.optionsService.maxColor + ')';
-    // }, 10);
-
     if (this.optionsService.favorites.length > 0) {
       this.favoriteChange({target: {value: this.optionsService.favorites.length-1}}); 
       this.optionsService.favorites[this.optionsService.favorites.length-1].checked = true;
-
     }
   }
 
   randomizeList() {
     this.messageService.announceMessage('randomize list');
   }
-
-  logCurrentVisual(e) {
-    console.log(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual]);
-  }
-
-  logScene(e) {
-    console.log(this.engineService.scene);
-  }
-
-  logOptions(e) {
-    console.log(this.optionsService.newBaseOptions);
-  }
-
-  logFavorites(e) {
-    console.log(this.optionsService.favorites);
-  }
-
-  axisChange(e) {
-    if (this.optionsService.newBaseOptions.general.showAxis) {
-      this.engineService.hideWorldAxis();
-    } else {
-      this.engineService.showWorldAxis();
-     }
-  }
-
-  // showAxis(e) {
-  //   this.optionsService.newBaseOptions.general.showAxis = !this.optionsService.newBaseOptions.general.showAxis;
-  // }
 
   favoriteDelete(e) {
     console.log(e.target);
@@ -90,10 +52,16 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
   }
 
   favoriteChange(e) {
+    this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].calpha = this.engineService.camera1.alpha;
+    this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cbeta = this.engineService.camera1.beta;
+    this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cradius = this.engineService.camera1.radius;
+
     Object.assign(this.optionsService.newBaseOptions, JSON.parse(JSON.stringify(this.optionsService.favorites[e.target.value].options)));
   
     this.optionsService.updateState('currentVisual', this.optionsService.favorites[ e.target.value ].state.currentVisual.value);
     this.messageService.announceMessage('scene change');
+    this.messageService.announceMessage('set lights');
+    this.messageService.announceMessage('set camera');
 
 // TODO: Run update on all customized values as proc that can be used other places
 
