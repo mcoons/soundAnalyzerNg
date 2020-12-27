@@ -942,7 +942,7 @@ export class OptionsService {
 
         calpha: 4.72,
         cbeta: 1.01,
-        cradius: 1700,
+        cradius: 1780,
 
         autoRotate: {
           label: 'Auto Camera Movement',
@@ -1159,7 +1159,7 @@ export class OptionsService {
         calpha: 4.72,
         // cbeta: .01,
         cbeta: Math.PI/2,
-        cradius: 2420,
+        cradius: 1780,
 
         autoRotate: {
           label: 'Auto Camera Movement',
@@ -1821,7 +1821,7 @@ export class OptionsService {
         cameraOptions: false,
 
         calpha: 4.72,
-        cbeta: 2.1,
+        cbeta: 1.95,
         cradius: 1900,
 
         material: {

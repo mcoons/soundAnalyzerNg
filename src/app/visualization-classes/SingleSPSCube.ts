@@ -600,60 +600,6 @@ export class SingleSPSCube implements OnDestroy {
             }
         },
 
-        // // Sine loop
-        // {
-        //     name: 'sineLoop',
-        //     position: (particle) => {
-        //         const radius = 15;
-        //         // const loop = particle.idx % 2 + 1;
-        //         const loop = Math.trunc(particle.idx / 72) + 1;
-        //         let x;
-        //         let z;
-        //         let y;
-        //         // const gtheta = this.TwoPId576 * particle.idx * 8;
-        //         const gtheta = this.SixteenPId576 * particle.idx;
-
-        //         x = loop * radius * Math.cos(gtheta);
-        //         z = loop * radius * Math.sin(gtheta);
-        //         // y = .6 * loop * Math.sin(map(particle.idx % 72, 0, 72, 0, 10 * this.TwoPI));
-        //         y = .6 * loop * Math.sin(map(particle.idx % 72, 0, 72, 0, this.TwentyPI));
-
-        //         return new BABYLON.Vector3(x, y, z);
-        //     },
-        //     scaling: (particle, yy) => {
-        //         const loop = Math.trunc(particle.idx / 72) + 1;
-
-        //         return new BABYLON.Vector3(loop * yy / 30, yy / 60, yy / 60);
-        //     },
-        //     rotation: (particle, yy) => {
-        //         // const radian = 2 * Math.PI / 72;
-        //         const radian = this.TwoPId72;
-        //         const gtheta = (radian * particle.idx) % this.TwoPI;
-
-        //         return new BABYLON.Vector3(0, -gtheta % this.TwoPI, 0);
-        //     },
-        //     color: (particle, yy) => {
-        //         const c = this.colorsService.colors(yy);
-        //         return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
-        //     },
-        //     spsRotation: () => {
-        //         return new BABYLON.Vector3(0, this.forwardRotation, 0);
-        //     },
-        //     cameraDefault: (cIndex) => {
-        //         const cameraPositions = [
-        //             { alpha: this.PId2, beta: .01, radius: 1200 },
-        //             { alpha: this.PId2, beta: .01, radius: 1200 },
-        //             { alpha: this.PId2, beta: .01, radius: 1200 }
-        //         ];
-
-        //         return cameraPositions[cIndex];
-        //     },
-        //     currentCameraIndex: 0,
-        //     mainUpdate: () => {
-
-        //     }
-        // },
-
 
         // Sine loop
         {
@@ -709,35 +655,6 @@ export class SingleSPSCube implements OnDestroy {
 
             }
         },
-
-
-        // // Thing Template
-        // {
-        //     position: (particle) => {
-        //         const gtheta = this.PId32 * particle.idx;
-        //         const radius = 20 + .12 * particle.idx;
-        //         const x = radius * Math.cos(gtheta);
-        //         const z = radius * Math.sin(gtheta);
-        //         const y = (particle.scaling.y / 2 - particle.idx / 16) + 20;
-        //         return new BABYLON.Vector3(x, y, z);
-        //     },
-        //     scaling: (particle, yy) => {
-        //         return new BABYLON.Vector3(1, 1, 1);
-        //     },
-        //     rotation: (particle, yy) => {
-        //         return new BABYLON.Vector3(0, 0, 0);
-        //     },
-        //     color: (particle, yy) => {
-        //         return new BABYLON.Color4(.5, .5, .5, 1);
-        //     },
-        //     spsRotation: () => {
-        //         return new BABYLON.Vector3(0, 0, 0);
-        //     },
-        //     mainUpdate: () => {
-
-        //     }
-        // }
-
 
     ];
 
@@ -872,18 +789,6 @@ export class SingleSPSCube implements OnDestroy {
     }
 
     setDefaults = () => {
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
-
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.712;
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .01;
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
-
-        // this.cameraSettingsCurrent = this.SPSFunctions[this.currentSPS].cameraDefault(this.cameraIndicies[this.currentSPS]);
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = this.cameraSettingsCurrent.alpha;
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = this.cameraSettingsCurrent.beta;
-        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = this.cameraSettingsCurrent.radius;
 
         this.cameraSettingsCurrent = this.SPSFunctions[this.currentSPS].cameraDefault(this.cameraIndicies[this.currentSPS]); // :
         if (this.optionsService.getSelectedCubeSPSCount() === 1) {
@@ -1030,14 +935,6 @@ export class SingleSPSCube implements OnDestroy {
         this.forwardRotation = (this.forwardRotation + this.PId1000) % this.TwoPI;
         this.backwardRotation -= this.PId1000;
 
-        // if (this.backwardRotation < 0) {
-        //     this.backwardRotation = this.backwardRotation + this.TwoPI;
-        // } 
-
-        // if (this.forwardRotation > this.TwoPI) {
-        //     this.forwardRotation = this.forwardRotation - this.TwoPI;
-        // }
-
         if (this.expanding) {
             this.SPS.mesh.rotation = (BABYLON.Vector3.Lerp(
                 this.SPSFunctions[this.currentSPS].spsRotation(),
@@ -1151,6 +1048,8 @@ export class SingleSPSCube implements OnDestroy {
         }
 
         master.dispose();
+
+        console.log(this.ptsOnSphere);
 
     }
 
