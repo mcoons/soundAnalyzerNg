@@ -23,9 +23,11 @@ export class SplashScreenComponent {
     this.optionsService.toggleState('showPlayer');
     this.optionsService.toggleState('showSplash');
     this.optionsService.currentVisual = 0;
-    this.optionsService.toggleVisualRadio('singleSPSCube', 0);
+    // this.optionsService.toggleVisualRadio('singleSPSCube', 0);
 
     this.messageService.announceMessage('scene change');
+    this.messageService.announceMessage('set lights');
+    this.messageService.announceMessage('set camera');
 
     setTimeout(() => {
       this.optionsService.toggleState('showPanel');

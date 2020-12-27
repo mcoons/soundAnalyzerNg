@@ -8,7 +8,8 @@
     [@favoritesPanelOpenClose]="this.optionsService.showFavorites == true ? 'favoritesPanelOpen' : 'favoritesPanelClosed'"
     *ngIf="this.optionsService.showSplash == false">
 
-    <app-favorites-panel></app-favorites-panel>
+    <!-- <app-favorites-panel></app-favorites-panel> -->
+    <app-panel-left> </app-panel-left>
 
   </div>
 
@@ -21,6 +22,7 @@
 
     <app-my-player id="ngPlayerDIV" *ngIf="this.optionsService.showPlayer == true"></app-my-player>
 
+    <!-- <app-canvas-effects></app-canvas-effects> -->
     <app-canvas3-d></app-canvas3-d>
     <app-canvas2-d></app-canvas2-d>
 
@@ -34,7 +36,9 @@
     [@optionsPanelOpenClose]="this.optionsService.showPanel == true ? 'optionsPanelOpen' : 'optionsPanelClosed'"
     *ngIf="this.optionsService.showSplash == false">
 
-    <app-options-panel></app-options-panel>
+    <!-- <app-options-panel></app-options-panel> -->
+    <app-panel-right> </app-panel-right>
+    
 
   </div>
 

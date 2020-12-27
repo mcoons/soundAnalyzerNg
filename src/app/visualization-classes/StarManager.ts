@@ -47,6 +47,7 @@ export class StarManager {
         this.currentProcedure = this.createStarGroupRandom5;
 
         this.setDefaults();
+        this.engineService.glowLayer.isEnabled = true;
 
     }
 
@@ -291,6 +292,8 @@ export class StarManager {
     }
 
     remove() {
+        this.engineService.glowLayer.isEnabled = false;
+
         this.objects.forEach(obj => obj.remove());
         this.objects = [];
 

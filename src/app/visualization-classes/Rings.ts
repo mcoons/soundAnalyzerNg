@@ -5,7 +5,6 @@ import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
-import * as MESHWRITER from 'meshwriter';
 
 import { map } from './utilities.js';
 
@@ -73,23 +72,17 @@ export class Rings {
 
         this.scene.registerBeforeRender(this.beforeRender);
 
-        // this.lineMat = new BABYLON.StandardMaterial('lineMat', this.scene);
-        // this.lineMat.alpha = 1;
-        // this.lineMat.specularColor = new BABYLON.Color3(0, 0, 0);
-        // this.lineMat.emissiveColor = new BABYLON.Color3(0, 0, 0);
-        // this.lineMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
-
-        this.setDefaults();
+        // this.setDefaults();
     }
 
     setDefaults() {
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
 
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .81; // 1
-        (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1900;
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .81; // 1
+        // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1900;
     }
 
     beforeRender = () => {
@@ -254,10 +247,10 @@ export class Rings {
         const reflector = BABYLON.Plane.FromPositionAndNormal(this.glass.position, glassNormal.scale(-1));
 
         const mirrorMaterial = new BABYLON.StandardMaterial('MirrorMat', this.scene);
-        mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture('mirror', 512, this.scene, true);
+        mirrorMaterial.reflectionTexture = new BABYLON.MirrorTexture('mirror', 1024, this.scene, true);
         (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).mirrorPlane = reflector;
         // tslint:disable-next-line: max-line-length
-        (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).renderList = [this.ring1SPS.mesh, this.ring3SPS.mesh, this.ring5SPS.mesh];
+        // (mirrorMaterial.reflectionTexture as BABYLON.MirrorTexture).renderList = [this.ring1SPS.mesh, this.ring3SPS.mesh, this.ring5SPS.mesh];
         mirrorMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
         mirrorMaterial.backFaceCulling = true; // not working??
         mirrorMaterial.specularColor = new BABYLON.Color3(0, 0, 0);

@@ -99,7 +99,7 @@ export class Star extends BaseObject {
         // this.mesh.doNotSyncBoundingInfo = true;
 
         if (this.reflect) {
-            this.reflect.addToRenderList(this.mesh);
+            // this.reflect.addToRenderList(this.mesh);
         }
 
         return this.mesh;

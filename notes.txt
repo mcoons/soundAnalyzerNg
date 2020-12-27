@@ -4,66 +4,146 @@ https://soundanalyzerng.herokuapp.com/
 https://github.com/mcoons/soundAnalyzerNg
 
 
-
 Ribbon Particle Shapes
 https://www.babylonjs-playground.com/#1HSC2O#242
+
+
+FFT Info
+https://www.rationalacoustics.com/files/FFT_Fundamentals.pdf
+
+
+
+
+
+
+ASSEMBLE ANTHOLOGIES???????
+
+
+
+Options Service
+    Constructor
+        Favorites Load
+        Update Custom Options
+                this.messageService.announceMessage('set lights');
+                this.announceChange('smoothingConstant');
+                this.announceChange('sampleGain');
+
+
+
+
+
+
+
+BUGS
+_______________________________________________________________________
+
+Fix initial camera move glitch on SPS cubes 
+Fix/remove mirror on Rings
+
+If your going to use the lighting rig then reset it when you are done!!
+
+Set correct camera starting positions upon selection of Visual
+Set correct camera position for specific Exploding SPS
+
+Fix the slight Y offset issue that happens during explosion - if only 1 selected then dont explode
+Fix playlist selection button highlight when canceling coming from mic
+
+
+
+DEFAULTS
+_______________________________________________________________________
+
+Fix all defaults for light rig rotations
+Fix all defaults for light glow intensity
+Fix all defaults for Custom Colors (remove middle black)
+Stars are too dim or the glow layer needs bumped up
+Remove Autorotate for SPECTROGRAPH, STARS
+
 
 
 
 TODO
 _______________________________________________________________________
-crystal ball with flickering light inbside - Lindsey - When the stars align
 
-Add a universal material for all visuals to use to allow material options
+Revamp saving of favorite to only save specific visual instead of whole visual arrays
+Name should be based off of visual type
 
-Flesh out Exploding SPS options in panel
-Add camera positioning to Exploding SPS (remove use interaction?)
-Fix camera options for things
+Check into that separate Audio module 
 
-Add OnResize events to canvas 
+Create a materialManager service.
 
-Separate default options from current/player options;
-Implement Star Zooming
+Create new UI with components
+    Strength/Gain should be -100 to +100
+    Add a hack to all sliders to only update when completed (have I done this some place?)
+    Add Audio tab with adjustments
+    Add image save capability.
+    Add Favorites save capability.
+    Add showAxis
+
+SCENE options
+    Glow Layer Intensity Adjustment
+
+    Allow auto rotation of light rigs
+    Allow auto rotation of camera rig
+        Add sin() to camera movement
+    Allow auto rotation of object
+
+    Allow toggle of highlight layer & highlight color
+    Allow toggle of glow layer & color
+
+    Re order lights so thy can be controlled per material 
+    4 light material = top, left, front, camera
+    8 light material = bottom, right, back, rimlight
+
+AUDIO options
+    Adjust gain per octive
+    data Source selection
+
+Camera Options
+    Focus
+    Aperture
+    
+
+Add "None" option for Visuals that skips render loop (can be used while viewing bars)
+Add Dynamic viewing of different data Bar graphs
+Add selection of different data sets - Rewrite all to use data.length to build/update
+
+Rename components to be more generic and uniform by type name for grouping
+
+Add Favorites/Visuals for end users.
+Saving, importing, exporting Favorites.
+
+Split Paid/Free options
+Add universal materials for all visuals to use to allow material options
+PBR 
+Standard 4
+Standard 8
+
 Implement 2D history layer in the back.
 
-Fix playlist selection button highlight when canceling coming from mic
+
+
+FUTURE VISUAL IDEAS
+
+Implement Star Zooming
+A crystal ball with flickering light inside - Lindsey - When the stars align
+Dancing sign waves in smoke with a realistic look
+Turn Sphere Plane 2 into an Exploding SPS
+
+
+
+Multiple particle emitters. 7 total 1 per octive .
+
+Amount:
+Color:
+Age:
+Speed:
+
+
+
+Predefined shape.  Fill it out more per.
 
 Multiple Cameras with scene fading???
-
-Load scene with multiple lights
-2 Top Front
-2 Bottom Front 
-2 Top Back
-2 Bottom Back 
-
-1 Camera light
-1 Camera Backlight
-
-
-Parent all lights to a center Parent 
-Parent camera light and backlight to camera
-
-Allow checkbox selection but only 4 selection max at a time 1 selected min
-
-Allow rotation of lights
-Allow rotation of camera
-Allow rotation of object
-Allow toggle of highlight layer & color
-Allow toggle of glow layer & color
-
-
-Hide SPS visuals if SPS is not selected
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -72,13 +152,11 @@ Hide SPS visuals if SPS is not selected
 Check for CSS cross browser changes
 
 Make the main player size constant
-Add sin() to camera movement on eq visual
 Clean up messaging.
 Pick a library to use and update code - Bootstrap, BootstrapNg, Material 
 Make variables private and assign types where possible
 Do something cool with Title
 Add auto change of visual between songs.  User selectable list?
-
 
 Add multiple scenes, one for each visual, then render the current selected scene
 
@@ -129,6 +207,53 @@ AudioNode.disconnect();
 
 MediaStreamTrackAudioSourceNode
 BiquadFilterNode
+
+
+
+
+// 12th root of 2 for 1 key
+
+
+/*
+      this.fr64DataArray,  // 0
+      this.fr128DataArray, // 1
+      this.fr256DataArray,
+      this.fr512DataArray,
+      this.fr1024DataArray,
+      this.fr2048DataArray,
+      this.fr4096DataArray,
+      this.fr8192DataArray,
+      this.fr16384DataArray // 8
+*/
+
+// Low f           64                 +               64              High f          64-128 of 128
+//         64      +       64         +        64      +       64                     64-128 of 256
+//     64  +   64  +   64  +   64     +    64  +   64  +   64  +   64                 64-128 of 512
+//   64+64 + 64+64 + 64+64 + 64+64    +  64+64 + 64+64 + 64+64 + 64+64                64-128 of 1024
+//                                                                                    64-128 of 2048
+//                                                                                    64-128 of 4096
+//                                                                                    64-128 of 8192
+//                                                                                   0-128 of 16384
+
+//                                                                             32*9  =  288
+
+//                                                                             0-287 objects
+
+
+
+16 - 32 of 32
+16 - 32 of 64
+16 - 32 of 128
+16 - 32 of 256
+16 - 32 of 512
+16 - 32 of 1024
+16 - 32 of 2048
+16 - 32 of 4096
+
+16 X 8 =  128
+
+
+
 
 
 
@@ -283,3 +408,57 @@ SPECTROGRAPH
 
 
 
+
+
+New Base Options
+
+
+
+Favorites[]
+State{}
+Options{}
+    General{}
+    Visual[]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const SPS = new BABYLON.SolidParticleSystem("SPS", scene);
+    const tetra = BABYLON.MeshBuilder.CreatePolyhedron("tetra", {size: 1});
+    SPS.addShape(tetra, 1000);
+    tetra.dispose();
+
+    const mesh = SPS.buildMesh(); // finally builds and displays the SPS mesh
+    
+    // recycle particles function
+    //sets particles to an intial state
+    recycleParticle = (particle) => { 
+        ... 
+        
+    }
+
+    //Initate by recycling through all particles
+    SPS.initParticles = () => {
+        for (let p = 0; p < SPS.nbParticles; p++) {
+            recycleParticle(SPS.particles[p])
+        }
+    }
+
+
+    //Initiate SPS mesh
+    SPS.initParticles();
+    SPS.setParticles();
+
+    //Update function
+    SPS.updateParticle = (particle) => {

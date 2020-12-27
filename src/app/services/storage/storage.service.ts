@@ -27,4 +27,25 @@ export class StorageService {
     this.windowRefService.localStore.removeItem('options');
   }
 
+
+
+  loadFavorites() {
+    const retrievedFavorites = this.windowRefService.localStore.getItem('favorites');
+    if (retrievedFavorites) {
+      return JSON.parse(retrievedFavorites);
+    } else {
+      return { error: 'local storage error' };
+    }
+  }
+
+  saveFavorites(favorites) {
+    this.windowRefService.localStore.setItem('favorites', JSON.stringify(favorites));
+  }
+
+  deleteFavorites() {
+    this.windowRefService.localStore.removeItem('favorites');
+  }
+
+
+
 }
