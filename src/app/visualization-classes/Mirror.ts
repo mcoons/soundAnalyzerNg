@@ -47,9 +47,9 @@ export class Mirror implements OnDestroy {
         for (let a = 0; a <= 2 * Math.PI + Math.PI / 8; a += Math.PI / 8) {
             const path = [];
             for (let i = 0; i < 32; i++) {
-                let x = 200 * Math.cos(a);
-                let z = 200 * Math.sin(a);
-                let y = (i - 32/2) * 100;
+                const x = 200 * Math.cos(a);
+                const z = 200 * Math.sin(a);
+                const y = (i - 32/2) * 100;
                 path.push(new BABYLON.Vector3(x, y, z))
             }
             path.push(path[0]); // close circle
@@ -62,9 +62,9 @@ export class Mirror implements OnDestroy {
         for (let a = 0; a <= 2 * Math.PI + Math.PI / 8; a += Math.PI / 8) {
             const path = [];
             for (let i = 0; i < 32 * this.nbPoints + 1; i++) {
-                let x = 200 * Math.cos(a);
-                let z = 200 * Math.sin(a);
-                let y = (i - 32/2) * 100;
+                const x = 200 * Math.cos(a);
+                const z = 200 * Math.sin(a);
+                const y = (i - 32/2) * 100;
                 path.push(new BABYLON.Vector3(x, y, z))
             }
             // path.push(path[0]); // close circle
@@ -85,9 +85,9 @@ export class Mirror implements OnDestroy {
 
     }
 
-    update() {
+    update(): void {
 
-        let offset = 32;
+        const offset = 32;
         for (let a = 0; a <= 2 * Math.PI + Math.PI / 8; a += Math.PI / 8) {
             let index = 0;
             for (let i = 0; i <= 32; i++) {
@@ -108,8 +108,8 @@ export class Mirror implements OnDestroy {
         // console.log('create Splines');
 
         this.ribbonPaths.forEach( (rp,i) => {
-            let cSpine = BABYLON.Curve3.CreateCatmullRomSpline(this.audioPaths[i], this.nbPoints, this.closed);
-            let trp = cSpine.getPoints(); 
+            const cSpine = BABYLON.Curve3.CreateCatmullRomSpline(this.audioPaths[i], this.nbPoints, this.closed);
+            const trp = cSpine.getPoints(); 
             rp.forEach( (p,ii) => {
                 p = trp[ii];
             });
@@ -122,7 +122,7 @@ export class Mirror implements OnDestroy {
 
     }
 
-    remove() {
+    remove(): void {
         
         // console.log('this.ribbonPaths');
         // console.log(this.ribbonPaths);

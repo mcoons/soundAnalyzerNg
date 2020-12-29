@@ -171,7 +171,7 @@ export class Star extends BaseObject {
     }
 
     setOptions(PinnerStartIndex, PouterStartIndex, PinnerSlices, PouterSlices, PinnerRadius, PouterRadius,
-               Presolution, Preflect, PxRotation, PyRotation, PzRotation) {
+        Presolution, Preflect, PxRotation, PyRotation, PzRotation): void {
         // reset other things in here too like color, reset rotations
 
         this.innerSlices = PinnerSlices ? PinnerSlices : this.innerSlices;

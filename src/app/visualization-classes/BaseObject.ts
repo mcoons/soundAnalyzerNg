@@ -32,15 +32,15 @@ export class BaseObject {
 
     }
 
-    create() {
+    create(): string {
         return `${this.name} reports create from BaseObject: ${this.mesh}`;
     }
 
-    update(oo) {
+    update(oo): string {
         return `${this.name} reports update from BaseObject: ${this.mesh}`;
     }
 
-    remove() {
+    remove(): void {
         if (this.mesh) {
             this.mesh.dispose();
         }

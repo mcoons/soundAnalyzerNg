@@ -75,6 +75,7 @@ export class AudioService {
 
   sample1: Uint8Array = new Uint8Array(576);
   sample1BufferHistory = [];
+  sample2BufferHistory = [];
   sample1Topper = [];
 
   sample2: Uint8Array = new Uint8Array(224);
@@ -220,6 +221,16 @@ export class AudioService {
       this.sample1BufferHistory.push(frTemp);
     }
 
+    
+
+    for (let index = 0; index < 151; index++) {
+      let frTemp = [];
+      frTemp = Array(224).fill(0);
+      this.sample2BufferHistory.push(frTemp);
+    }
+
+    
+
     for (let index = 0; index < 576; index++) {
       // this.sample1Topper[index] = 0;
       this.sample1Topper[index] = {
@@ -292,6 +303,16 @@ export class AudioService {
       this.sample2[index + 160] = (this.soundArrays[1])[index + 32];  
       this.sample2[index + 192] = (this.soundArrays[0])[index + 32];  
     }
+
+
+    this.sample2BufferHistory[this.sample2BufferHistory.length] = this.sample2.slice(0);
+
+    if (this.sample2BufferHistory.length > 150) {
+      this.sample2BufferHistory.reverse();
+      this.sample2BufferHistory.pop();
+      this.sample2BufferHistory.reverse();
+    }
+
 
     //////////////////////////////////////
     // get TIME DOMAIN data for this frame
