@@ -4,7 +4,7 @@ import { OptionsService } from '../../services/options/options.service';
 import { MessageService } from '../../services/message/message.service';
 import { AudioService } from '../../services/audio/audio.service';
 import { EngineService } from '../../services/engine/engine.service';
-import { ColorsService } from '../../services/colors/colors.service';
+// import { ColorsService } from '../../services/colors/colors.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
@@ -25,22 +25,22 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
   ) { }
 
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.optionsService.favorites.length > 0) {
       this.favoriteChange({target: {value: this.optionsService.favorites.length-1}}); 
       this.optionsService.favorites[this.optionsService.favorites.length-1].checked = true;
     }
   }
 
-  randomizeList() {
+  randomizeList(): void {
     this.messageService.announceMessage('randomize list');
   }
 
-  favoriteDelete(e) {
-    console.log(e.target);
+  favoriteDelete(e): void {
+    console.log(e);
     this.optionsService.favorites = this.optionsService.favorites.filter( (v, i, a) => {
       // console.log(v);
-      return v.name !== e.target.id;
+      return v.value.toString() !== e.target.id.toString();
     });
 
     this.optionsService.favorites.forEach( (v, i, a) => {
@@ -51,7 +51,7 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
 
   }
 
-  favoriteChange(e) {
+  favoriteChange(e): void {
     this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].calpha = this.engineService.camera1.alpha;
     this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cbeta = this.engineService.camera1.beta;
     this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cradius = this.engineService.camera1.radius;
@@ -77,44 +77,44 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
   //   this.messageService.announceMessage('scene change');
   // }
 
-  radioNoteChange(e) {
+  radioNoteChange(e): void {
     this.optionsService.toggleNoteRadio(e.target.id, e.target.value);
     this.optionsService.setOption('currentNote', e.target.value);
   }
 
-  trackChange(e) {
+  trackChange(e): void {
     this.optionsService.updateState('currentTrack', e.target.value);
     this.messageService.announceMessage('track change');
   }
 
-  siteListSelection() {
+  siteListSelection(): void {
     this.audioService.disableMic();
     this.messageService.announceMessage('site list selection');
   }
 
-  localListSelection() {
+  localListSelection(): void {
     this.audioService.disableMic();
     this.messageService.announceMessage('local list selection');
   }
 
 
-  previousTrack() {
+  previousTrack(): void {
     this.messageService.announceMessage('previousTrack');
   }
 
-  nextTrack() {
+  nextTrack(): void {
     this.messageService.announceMessage('nextTrack');
   }
 
-  playPause() {
+  playPause(): void {
     this.messageService.announceMessage('playPause');
   }
 
-  onSliderChangeVolume(e) {
+  onSliderChangeVolume(e): void {
     this.messageService.announceMessage('volume change');
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     // prevent memory leak when component destroyed
     // this.subscription.unsubscribe();
   }

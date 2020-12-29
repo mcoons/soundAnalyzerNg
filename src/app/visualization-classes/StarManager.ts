@@ -30,7 +30,7 @@ export class StarManager {
 
     masterTransform;
 
-    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+    constructor(scene: BABYLON.Scene, audioService: AudioService, optionsService: OptionsService, messageService: MessageService, engineService: EngineService, colorsService: ColorsService) {
 
         this.scene = scene;
 

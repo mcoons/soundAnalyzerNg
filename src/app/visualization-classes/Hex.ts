@@ -22,7 +22,7 @@ export class Hex {
         // this.audioService = audioService;
         this.optionsService = optionsService;
         // this.messageService = messageService;
-        this.engineService = engineService;
+        this.engineService  = engineService;
         // this.colorsService = colorsService;
 
         this.scene.registerBeforeRender(this.beforeRender);

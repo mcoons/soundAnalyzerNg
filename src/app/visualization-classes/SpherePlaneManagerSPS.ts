@@ -26,7 +26,7 @@ export class SpherePlaneManagerSPS {
 
     private rotation = 0;
 
-    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+    constructor(scene: BABYLON.Scene, audioService: AudioService, optionsService: OptionsService, messageService: MessageService, engineService: EngineService, colorsService: ColorsService) {
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
@@ -39,7 +39,7 @@ export class SpherePlaneManagerSPS {
         this.setDefaults();
     }
 
-    setDefaults() {
+    setDefaults(): void {
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target = new BABYLON.Vector3(0, 0, 0);
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
@@ -50,7 +50,7 @@ export class SpherePlaneManagerSPS {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1000;
     }
 
-    beforeRender = () => {
+    beforeRender = (): void => {
 
         this.SPS.setParticles();
 
@@ -64,15 +64,15 @@ export class SpherePlaneManagerSPS {
         }
     }
 
-    create() {
+    create(): void {
 
         let x: number;
         let z: number;
 
-        const radius = 520;
-        const width = 100;
-        const depth = 15;
-        const height = 20;
+        // const radius = 520;
+        // const width = 100;
+        // const depth = 15;
+        // const height = 20;
 
         this.mat = new BABYLON.StandardMaterial('mat1', this.scene);
         this.mat.backFaceCulling = false;
@@ -82,7 +82,8 @@ export class SpherePlaneManagerSPS {
 
         // BUILD INNER SPS ////////////////////////////////
 
-        const innerPositionFunction = (particle, i, s) => {
+        // const innerPositionFunction = (particle, i, s) => {
+        const innerPositionFunction = (particle) => {
             particle.position.x = x * 35;
             particle.position.y = 0;
             particle.position.z = z * 35;
@@ -130,19 +131,24 @@ export class SpherePlaneManagerSPS {
 
     }
 
-    update() { 
+    update(): void { 
         this.engineService.lightParent.rotation.x += .004;
         this.engineService.lightParent.rotation.y -= .006;
         this.engineService.lightParent.rotation.z += .008;
     }
 
-    remove() {
+    remove(): void {
         this.SPS.mesh.dispose();
         this.mesh1.dispose();
         this.SPS.dispose();
         this.SPS = null; // tells the GC the reference can be cleaned up also
 
         this.scene.unregisterBeforeRender(this.beforeRender);
+
+
+        this.engineService.lightParent.rotation.x = 0;
+        this.engineService.lightParent.rotation.y = 0;
+        this.engineService.lightParent.rotation.z = 0;
 
         this.audioService = null;
         this.optionsService = null;

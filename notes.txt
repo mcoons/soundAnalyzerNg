@@ -16,34 +16,12 @@ https://www.rationalacoustics.com/files/FFT_Fundamentals.pdf
 
 
 
-ASSEMBLE ANTHOLOGIES???????
-
-
-
-Options Service
-    Constructor
-        Favorites Load
-        Update Custom Options
-                this.messageService.announceMessage('set lights');
-                this.announceChange('smoothingConstant');
-                this.announceChange('sampleGain');
-
-
-
-
-
-
 
 BUGS
 _______________________________________________________________________
 
-Fix initial camera move glitch on SPS cubes 
+
 Fix/remove mirror on Rings
-
-If your going to use the lighting rig then reset it when you are done!!
-
-Set correct camera starting positions upon selection of Visual
-Set correct camera position for specific Exploding SPS
 
 Fix the slight Y offset issue that happens during explosion - if only 1 selected then dont explode
 Fix playlist selection button highlight when canceling coming from mic
@@ -56,9 +34,6 @@ _______________________________________________________________________
 Fix all defaults for light rig rotations
 Fix all defaults for light glow intensity
 Fix all defaults for Custom Colors (remove middle black)
-Stars are too dim or the glow layer needs bumped up
-Remove Autorotate for SPECTROGRAPH, STARS
-
 
 
 
@@ -77,8 +52,6 @@ Create new UI with components
     Add a hack to all sliders to only update when completed (have I done this some place?)
     Add Audio tab with adjustments
     Add image save capability.
-    Add Favorites save capability.
-    Add showAxis
 
 SCENE options
     Glow Layer Intensity Adjustment

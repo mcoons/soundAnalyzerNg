@@ -35,11 +35,11 @@
         <div class="optionsContainer" *ngFor="let favorite of this.optionsService.favorites">
           <!-- {{favorite.name}} - {{favorite.options.version}} - -->
 
-          <input type="radio" [id]="favorite.label" name="favorites" [value]="favorite.value"
+          <input type="radio" [id]="favorite.value" name="favorites" [value]="favorite.value"
             (click)="favoriteChange($event)" [checked]="favorite.checked">
           <label [for]="favorite.label"> {{favorite.label}} </label>
           <i 
-          (click)="favoriteDelete($event)" [id]="favorite.label" class="material-icons"
+          (click)="favoriteDelete($event)" [id]="favorite.value" class="material-icons"
             style="cursor: no-drop; display: inline; vertical-align: middle;">delete_forever</i>
           <br>
         </div>

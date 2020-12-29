@@ -3,7 +3,12 @@
     Visual Selection
   </mat-expansion-panel-header>
 
-
+  <div id="listBtnContainer">
+    <div class="btnContainer">
+      <button class="playlistButton" (click)="addToFavorites($event)">Save Favorite</button>
+    </div>
+  </div>
+  
   <ng-container *ngFor="let visual of this.optionsService.newBaseOptions.visual; index as i">
 
     <input type="radio" [id]="visual.label" [name]="visual.label" [value]="visual.value" (click)="radioChange($event)"
@@ -15,7 +20,7 @@
 
   <ng-container *ngIf="this.optionsService.newBaseOptions.currentVisual === 0">
     <br>
-    <h6>Exploding Cube SPS Options</h6>
+    <h6>Morphing Cube Options</h6>
 
     <!-- Change Delay (sec) -->
     <b><label class="rangeLabel" for="Change Delay (sec)">
