@@ -56,8 +56,8 @@ export class Mirror implements OnDestroy {
             this.audioPaths.push(path);
         }
 
-        console.log('this.audioPaths');
-        console.log(this.audioPaths);
+        // console.log('this.audioPaths');
+        // console.log(this.audioPaths);
 
         for (let a = 0; a <= 2 * Math.PI + Math.PI / 8; a += Math.PI / 8) {
             const path = [];
@@ -71,8 +71,8 @@ export class Mirror implements OnDestroy {
             this.ribbonPaths.push(path)
         }
         
-        console.log('this.ribbonPaths');
-        console.log(this.ribbonPaths);
+        // console.log('this.ribbonPaths');
+        // console.log(this.ribbonPaths);
 
         const ribbon = BABYLON.MeshBuilder.CreateRibbon("ribbon", {pathArray: this.ribbonPaths, sideOrientation: BABYLON.Mesh.DOUBLESIDE, updatable: true, closeArray: false, closePath: false}, this.scene);
         ribbon.material = new BABYLON.StandardMaterial("ribbonMaterial", this.scene);
@@ -124,11 +124,11 @@ export class Mirror implements OnDestroy {
 
     remove() {
         
-        console.log('this.ribbonPaths');
-        console.log(this.ribbonPaths);
+        // console.log('this.ribbonPaths');
+        // console.log(this.ribbonPaths);
 
-        console.log('this.ribbonArray');
-        console.log(this.ribbonArray);
+        // console.log('this.ribbonArray');
+        // console.log(this.ribbonArray);
 
         this.ribbonArray.forEach(  (ra) => {
             ra.dispose();  

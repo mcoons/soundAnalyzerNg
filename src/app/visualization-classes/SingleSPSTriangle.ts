@@ -6,6 +6,8 @@ import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
 
 import { OnDestroy } from '@angular/core';
+import { OptionsService } from '../services/options/options.service';
+import { MessageService } from '../services/message/message.service';
 
 export class SingleSPSTriangle implements OnDestroy {
 
@@ -22,7 +24,7 @@ export class SingleSPSTriangle implements OnDestroy {
     material;
     pbr;
 
-    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+    constructor(scene: BABYLON.Scene, audioService: AudioService, optionsService: OptionsService, messageService: MessageService, engineService: EngineService, colorsService: ColorsService) {
 
         this.scene = scene;
         this.audioService = audioService;
@@ -35,15 +37,15 @@ export class SingleSPSTriangle implements OnDestroy {
         this.material.maxSimultaneousLights = 8;
     }
 
-    ngOnDestroy = () => {
+    ngOnDestroy = (): void => {
         this.remove();
     }
 
-    beforeRender = () => {
+    beforeRender = (): void => {
         this.SPS.setParticles();
     }
 
-    create() {
+    create = (): void => {
 
         const myShape = [
             new BABYLON.Vector3(-1, -1.732 / 2, 0),
@@ -67,8 +69,8 @@ export class SingleSPSTriangle implements OnDestroy {
 
         this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
 
-        const buildT = () => {
-            const radius = 500;
+        const buildT = (): void => {
+            // const radius = 500;
             // let theta;
             let x;
             let y;
@@ -76,8 +78,8 @@ export class SingleSPSTriangle implements OnDestroy {
 
             const innerPositionFunction = (particle, i, s) => {
                 // console.log('In Build0 innerPosition for of notes.create', i);
-                const row = 10 - Math.floor(particle.idx / 10);
-                const column = particle.idx % 10;
+                // const row = 10 - Math.floor(particle.idx / 10);
+                // const column = particle.idx % 10;
 
                 particle.scaling.x = .8;
                 particle.scaling.y = .8;
@@ -106,7 +108,7 @@ export class SingleSPSTriangle implements OnDestroy {
 
             const row = Math.ceil(Math.sqrt(index));
             const startingRowIndex = ((row - 1) * (row - 1) + 1);
-            const rowEndingIndex = row * row;
+            // const rowEndingIndex = row * row;
             const column = index - startingRowIndex;
             // items per row = (2 * row) - 1
 
@@ -118,11 +120,11 @@ export class SingleSPSTriangle implements OnDestroy {
 
             particle.rotation.z = (index - startingRowIndex) % 2 ? Math.PI : 0;
 
-            let y = this.audioService.sample1[particle.idx];
+            const y = this.audioService.sample1[particle.idx];
 
             particle.scaling.z = -y / 180;
 
-            let c = this.colorsService.colors(y);
+            const c = this.colorsService.colors(y);
 
             particle.color.r = c.r / 255;
             particle.color.g = c.g / 255;
@@ -143,13 +145,13 @@ export class SingleSPSTriangle implements OnDestroy {
 
     }
 
-    update() {
+    update = (): void => {
         this.engineService.lightParent.rotation.x += .004;
         this.engineService.lightParent.rotation.y -= .006;
         this.engineService.lightParent.rotation.z += .008;
     }
 
-    remove() {
+    remove(): void {
         this.engineService.scene.activeCamera = this.engineService.camera1;
 
         this.engineService.lightParent.rotation.x = 0;

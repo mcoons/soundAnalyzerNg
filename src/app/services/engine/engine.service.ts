@@ -513,7 +513,7 @@ export class EngineService {
   }
 
   public animate(): void {
-    console.log('starting animate');
+    // console.log('starting animate');
     // We have to run this outside angular zones,
     // because it could trigger heavy changeDetection cycles.
     this.ngZone.runOutsideAngular(() => {

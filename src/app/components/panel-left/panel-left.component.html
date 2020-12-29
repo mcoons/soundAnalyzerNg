@@ -32,21 +32,19 @@
           Favorite Settings
         </mat-expansion-panel-header>
 
-        <div class="optionsContainer" *ngFor="let favorite of this.optionsService.favorites">
+        <div class="optionsContainer" style="height: 24px;" *ngFor="let favorite of this.optionsService.favorites">
           <!-- {{favorite.name}} - {{favorite.options.version}} - -->
 
-          <input type="radio" [id]="favorite.label" name="favorites" [value]="favorite.value"
+          <input type="radio" [id]="favorite.value" name="favorites" [value]="favorite.value"
             (click)="favoriteChange($event)" [checked]="favorite.checked">
-          <label [for]="favorite.label"> {{favorite.label}} </label>
+          <label [for]="favorite.label">{{favorite.label}}</label>
           <i 
-          (click)="favoriteDelete($event)" [id]="favorite.label" class="material-icons"
-            style="cursor: no-drop; display: inline; vertical-align: middle;">delete_forever</i>
-          <br>
+          (click)="favoriteDelete($event)" [id]="favorite.value" class="material-icons"
+            style="cursor: no-drop; vertical-align: middle; float: right;">delete_forever</i>
         </div>
 
       </mat-expansion-panel>
-
-
+      
       <!-- Play List -->
       <mat-expansion-panel expanded="true">
 

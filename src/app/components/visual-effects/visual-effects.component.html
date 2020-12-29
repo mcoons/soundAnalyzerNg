@@ -4,9 +4,11 @@
   </mat-expansion-panel-header>
 
   <!-- Auto Rotate -->
+  <ng-container *ngIf="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cameraOptions === true">
+    <input type="checkbox" id="Auto Rotate" name="Auto Rotate" [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value">
+    <label for="Auto Rotate"> Auto Rotate</label>
+  </ng-container>
 
-  <input type="checkbox" id="Auto Rotate" name="Auto Rotate" [(ngModel)]="this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value">
-  <label for="Auto Rotate"> Auto Rotate</label>
 
   <!-- Custom Colors -->
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Injectable } from '@angular/core';
 // import { Subscription } from 'rxjs';
@@ -78,7 +79,17 @@ export class AudioService {
 
   sample2: Uint8Array = new Uint8Array(224);
 
-  soundArrays: any;
+  public soundArrays = [
+    this.fr64DataArray,  // 0
+    this.fr128DataArray, // 1
+    this.fr256DataArray,
+    this.fr512DataArray,
+    this.fr1024DataArray,
+    this.fr2048DataArray,
+    this.fr4096DataArray,
+    this.fr8192DataArray,
+    this.fr16384DataArray // 8
+  ];
   analyzersArray: any;
 
   // private noteStr = ['G ', 'G#', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#'];
@@ -114,23 +125,11 @@ export class AudioService {
 
   }
 
-  public setAudio = (audio: HTMLAudioElement) => {
+  public setAudio = (audio: HTMLAudioElement): void => {
 
     if (audio == null) {
       return;
     }
-
-    this.soundArrays = [
-      this.fr64DataArray,  // 0
-      this.fr128DataArray, // 1
-      this.fr256DataArray,
-      this.fr512DataArray,
-      this.fr1024DataArray,
-      this.fr2048DataArray,
-      this.fr4096DataArray,
-      this.fr8192DataArray,
-      this.fr16384DataArray // 8
-    ];
 
     this.audio = audio;
     this.audio.volume = (this.optionsService.volume) / 10;
@@ -238,7 +237,7 @@ export class AudioService {
   }
 
 
-  analyzeData = () => {
+  analyzeData = (): void => {
     ////////////////////////////////////
     // get FREQUENCY data for this frame
 
@@ -351,18 +350,18 @@ export class AudioService {
 
   }
 
-  clearSampleArrays() {
+  clearSampleArrays(): void {
     for (let index = 0; index < 576; index++) {
       this.sample1[index] = 0;
     }
   }
 
-  setGain() {
+  setGain(): void {
     // tslint:disable-next-line: max-line-length
     this.gainNode.gain.setValueAtTime(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value, this.audioCtx.currentTime);
   }
 
-  setSmoothingConstant() {
+  setSmoothingConstant(): void {
 
     this.analyzersArray.forEach(element => {
       element.smoothingTimeConstant = this.smoothingConstant;
@@ -373,7 +372,7 @@ export class AudioService {
 
   }
 
-  disableMic() {
+  disableMic(): void {
 
     if (!this.optionsService.microphone) {
       return;
@@ -395,7 +394,7 @@ export class AudioService {
 
   }
 
-  enableMic = () => {
+  enableMic = (): void => {
 
     if (this.optionsService.microphone) {
       return;

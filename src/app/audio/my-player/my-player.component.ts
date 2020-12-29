@@ -110,6 +110,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    null;
   }
 
   ngAfterViewInit(): void {
@@ -128,12 +129,12 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.playPause();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     // prevent memory leak when component destroyed
     this.subscription.unsubscribe();
   }
 
-  randomizeList() {
+  randomizeList(): void {
 
     function shuffle(array) {
       let currentIndex = array.length;
@@ -169,13 +170,13 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.playPause();
   }
 
-  setPlaySource() {
+  setPlaySource(): void {
     this.audio.nativeElement.src = this.playList[this.optionsService.currentTrack].link;
     this.currentTime = 0;
     this.duration = 0;
   }
 
-  playPause() {
+  playPause(): void {
     if (this.audio.nativeElement.paused) {
       this.audio.nativeElement.play()
         .then(() => {
@@ -191,14 +192,14 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  selectTrack(index: number) {
+  selectTrack(index: number): void {
     this.audio.nativeElement.pause();
     this.optionsService.updateState('currentTrack', index);
     this.setPlaySource();
     this.playPause();
   }
 
-  previousTrack() {
+  previousTrack(): void {
     this.audio.nativeElement.pause();
     let ct = this.optionsService.currentTrack;
     ct--;
@@ -210,7 +211,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.playPause();
   }
 
-  nextTrack() {
+  nextTrack(): void {
     this.audio.nativeElement.pause();
     let ct = this.optionsService.currentTrack;
     ct++;
@@ -222,33 +223,33 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.playPause();
   }
 
-  onSliderChangeVolume(e) {
+  onSliderChangeVolume(e): void {
     this.audio.nativeElement.volume = this.optionsService.volume / 10;
   }
 
-  onSliderChangeTime(e) {
+  onSliderChangeTime(e): void {
     this.seekTo(e.target.value);
   }
 
-  seekTo(seconds) {
+  seekTo(seconds: number): void {
     this.audio.nativeElement.currentTime = seconds;
     this.currentTime = seconds;
   }
 
-  formatTime(time: number, format: string = 'HH:mm:ss') {
+  formatTime(time: number, format = 'HH:mm:ss'): string {
     const momentTime = time * 1000;
     return moment.utc(momentTime).format(format);
   }
 
-  getDuration() {
+  getDuration(): void {
     this.duration = this.audio.nativeElement.duration || 0;
   }
 
-  timeUpdate() {
+  timeUpdate(): void {
     this.currentTime = this.audio.nativeElement.currentTime;
   }
 
-  loadSiteTracks() {
+  loadSiteTracks(): void {
     this.audio.nativeElement.pause();
     this.optionsService.updateState('currentTrack', 0);
     this.playList = this.siteTracks;
@@ -258,7 +259,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.playPause();
   }
 
-  loadUserTracks() {
+  loadUserTracks(): void {
     if (this.userTracks.length === 0) {
       return;
     }
@@ -271,7 +272,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.playPause();
   }
 
-  public fileChangeEvent(fileInput: any) {
+  public fileChangeEvent(fileInput): void {
 
     const newUserTracks = [];
 
@@ -297,7 +298,7 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loadUserTracks();
   }
 
-  togglePlayer() {
+  togglePlayer(): void {
     this.optionsService.toggleState('renderPlayer');
   }
 

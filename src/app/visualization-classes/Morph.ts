@@ -6,6 +6,7 @@ import { ColorsService } from '../services/colors/colors.service';
 
 import { OnDestroy } from '@angular/core';
 import { OptionsService } from '../services/options/options.service';
+import { MessageService } from '../services/message/message.service';
 
 // import { map } from './utilities.js';
 
@@ -16,6 +17,7 @@ export class Morph implements OnDestroy {
     private engineService: EngineService;
     private colorsService: ColorsService;
     private optionsService: OptionsService;
+    private messageService: MessageService;
 
     masterParent = new BABYLON.TransformNode('mainParent');
     nbPoints = 8;                     // the number of points between each Vector3 control points
@@ -99,7 +101,7 @@ export class Morph implements OnDestroy {
     ];
 
     scaleFnArray = [
-        (i, distance) => {
+        (i: number, distance: number): number => {
             if (i === 2) {
                 return 1.08;
             }
@@ -109,7 +111,7 @@ export class Morph implements OnDestroy {
                 return 1;
             }
         },
-        (i, distance) => {
+        (i: number, distance: number): number => {
             if (i === 2) {
                 return 1.08;
             }
@@ -119,7 +121,7 @@ export class Morph implements OnDestroy {
                 return 1;
             }
         },
-        (i, distance) => {
+        (i: number, distance: number): number => {
             if (i === 2) {
                 return 1.1;
             }
@@ -129,7 +131,7 @@ export class Morph implements OnDestroy {
                 return 1;
             }
         },
-        (i, distance) => {
+        (i: number, distance: number): number => {
             if (i === 2) {
                 return 1.13;
             }
@@ -139,7 +141,7 @@ export class Morph implements OnDestroy {
                 return 1;
             }
         },
-        (i, distance) => {
+        (i: number, distance: number): number => {
             if (i === 2) {
                 return 1.18;
             }
@@ -149,7 +151,7 @@ export class Morph implements OnDestroy {
                 return 1;
             }
         },
-        (i, distance) => {
+        (i: number, distance: number): number => {
             if (i === 2) {
                 return 1.24;
             }
@@ -159,7 +161,7 @@ export class Morph implements OnDestroy {
                 return 1;
             }
         },
-        (i, distance) => {
+        (i: number, distance: number): number => {
             if (i === 2) {
                 return 1.35;
             }
@@ -171,7 +173,7 @@ export class Morph implements OnDestroy {
         }
     ];
 
-    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+    constructor(scene: BABYLON.Scene, audioService: AudioService, optionsService: OptionsService, messageService: MessageService, engineService: EngineService, colorsService: ColorsService) {
 
         this.scene = scene;
         this.audioService = audioService;
@@ -182,29 +184,29 @@ export class Morph implements OnDestroy {
         this.scene.registerBeforeRender(this.beforeRender);
     }
 
-    beforeRender = () => {
+    beforeRender = (): void => {
         this.SPS.setParticles();
     }
 
-    ngOnDestroy = () => {
+    ngOnDestroy = (): void => {
         this.remove();
     }
 
-    create() {
+    create(): void {
 
-        let mat = new BABYLON.StandardMaterial('ballMat', this.scene);
+        const mat = new BABYLON.StandardMaterial('ballMat', this.scene);
         mat.maxSimultaneousLights = 8;
         mat.diffuseColor = BABYLON.Color3.FromHexString('#ffffff');
         mat.emissiveColor = BABYLON.Color3.FromHexString('#000000');
 
         this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
 
-        const innerPositionFunction = (particle, i, s) => {
-
+        const innerPositionFunction = (particle, i, s): void => {
+            null;
         };
 
-        this.SPS.updateParticle = (particle) => {
-
+        this.SPS.updateParticle = (particle): void => {
+            null;
         };
 
         // for (let count = 0; count < 2123; count++) {
@@ -252,7 +254,7 @@ export class Morph implements OnDestroy {
             this.pointsArray[6].push(new BABYLON.Vector3(0, 0, 0));
         }
 
-        var oldpoints = [];
+        const oldpoints = [];
 
         // LOOP 192    64 * 3   64 * this.nbPoints + 1
         // for (let i = 0; i < 193; i++) {
@@ -270,7 +272,7 @@ export class Morph implements OnDestroy {
         this.masterParent.rotation.x = Math.PI;
     }
 
-    update() {
+    update(): void {
         this.engineService.lightParent.rotation.x += .001;
         this.engineService.lightParent.rotation.y -= .002;
         this.engineService.lightParent.rotation.z += .003;
@@ -310,12 +312,16 @@ export class Morph implements OnDestroy {
 
     }
 
-    remove() {
+    remove(): void {
 
         // this.SPS.mesh.dispose();
         // this.mesh1.dispose();
         // this.SPS.dispose();
         // this.SPS = null; // tells the GC the reference can be cleaned up also
+
+        this.engineService.lightParent.rotation.x = 0;
+        this.engineService.lightParent.rotation.y = 0;
+        this.engineService.lightParent.rotation.z = 0;
 
         this.engineService.scene.activeCamera = this.engineService.camera1;
 
