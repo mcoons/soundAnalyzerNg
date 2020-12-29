@@ -37,7 +37,7 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
   }
 
   favoriteDelete(e): void {
-    console.log(e);
+    // console.log(e);
     this.optionsService.favorites = this.optionsService.favorites.filter( (v, i, a) => {
       // console.log(v);
       return v.value.toString() !== e.target.id.toString();
