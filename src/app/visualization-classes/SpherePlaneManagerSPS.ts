@@ -26,6 +26,8 @@ export class SpherePlaneManagerSPS {
 
     private rotation = 0;
 
+    private audioSample;
+
     constructor(scene: BABYLON.Scene, audioService: AudioService, optionsService: OptionsService, messageService: MessageService, engineService: EngineService, colorsService: ColorsService) {
         this.scene = scene;
         this.audioService = audioService;
@@ -37,6 +39,8 @@ export class SpherePlaneManagerSPS {
         this.scene.registerBeforeRender(this.beforeRender);
 
         this.setDefaults();
+
+        this.audioSample = this.audioService.sample2;
     }
 
     setDefaults(): void {
@@ -69,6 +73,8 @@ export class SpherePlaneManagerSPS {
         let x: number;
         let z: number;
 
+        let magicDiameter: number;
+
         // const radius = 520;
         // const width = 100;
         // const depth = 15;
@@ -79,6 +85,15 @@ export class SpherePlaneManagerSPS {
         this.mat.maxSimultaneousLights = 8;
         // this.mat.emissiveColor = new BABYLON.Color3(1,1,1);
 
+        if (this.audioSample.length === 224) {
+            magicDiameter = 8.5;
+        } else if (this.audioSample.length === 576) {
+            magicDiameter = 13.46;
+        } else {
+            magicDiameter = 8.5;
+        }
+
+        magicDiameter = 9.05;
 
         // BUILD INNER SPS ////////////////////////////////
 
@@ -96,11 +111,15 @@ export class SpherePlaneManagerSPS {
         for (z = -15; z < 15; z++) {
             for (x = -15; x < 15; x++) {
                 const d = Math.sqrt((x * x) + (z * z));
-                if (d <= 13.46) {
+                // if (d <= 13.46) {
+                // if (d <= 8.5) {
+                if (d <= magicDiameter) {
                     this.SPS.addShape(sphere, 1, { positionFunction: innerPositionFunction });
                 }
             }
         }
+        console.log('this.SPS.nbParticles');
+        console.log(this.SPS.nbParticles);
 
         this.mesh1 = this.SPS.buildMesh();
         this.mesh1.material = this.mat;
@@ -112,7 +131,7 @@ export class SpherePlaneManagerSPS {
         sphere.dispose();
 
         this.SPS.updateParticle = (particle) => {
-            this.y = this.audioService.sample1[particle.idx];
+            this.y = this.audioSample[particle.idx];
             this.y = (this.y / 200 * this.y / 200) * 255;
 
             this.c = this.colorsService.colors(this.y);
@@ -131,7 +150,7 @@ export class SpherePlaneManagerSPS {
 
     }
 
-    update(): void { 
+    update(): void {
         this.engineService.lightParent.rotation.x += .004;
         this.engineService.lightParent.rotation.y -= .006;
         this.engineService.lightParent.rotation.z += .008;
@@ -144,7 +163,6 @@ export class SpherePlaneManagerSPS {
         this.SPS = null; // tells the GC the reference can be cleaned up also
 
         this.scene.unregisterBeforeRender(this.beforeRender);
-
 
         this.engineService.lightParent.rotation.x = 0;
         this.engineService.lightParent.rotation.y = 0;

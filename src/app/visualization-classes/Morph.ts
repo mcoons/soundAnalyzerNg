@@ -30,7 +30,7 @@ export class Morph implements OnDestroy {
     mat;
     mesh1;
 
-    private SPS;
+    // private SPS;
 
     radiusArray = [200, 175, 150, 125, 100, 75, 50]
     indexDeltaArray = [0, 32, 64, 96, 112, 128, 160];
@@ -101,7 +101,7 @@ export class Morph implements OnDestroy {
     ];
 
     scaleFnArray = [
-        (i: number, distance: number): number => {
+        (i: number): number => {
             if (i === 2) {
                 return 1.08;
             }
@@ -111,7 +111,7 @@ export class Morph implements OnDestroy {
                 return 1;
             }
         },
-        (i: number, distance: number): number => {
+        (i: number): number => {
             if (i === 2) {
                 return 1.08;
             }
@@ -121,7 +121,7 @@ export class Morph implements OnDestroy {
                 return 1;
             }
         },
-        (i: number, distance: number): number => {
+        (i: number): number => {
             if (i === 2) {
                 return 1.1;
             }
@@ -131,7 +131,7 @@ export class Morph implements OnDestroy {
                 return 1;
             }
         },
-        (i: number, distance: number): number => {
+        (i: number): number => {
             if (i === 2) {
                 return 1.13;
             }
@@ -141,7 +141,7 @@ export class Morph implements OnDestroy {
                 return 1;
             }
         },
-        (i: number, distance: number): number => {
+        (i: number): number => {
             if (i === 2) {
                 return 1.18;
             }
@@ -151,7 +151,7 @@ export class Morph implements OnDestroy {
                 return 1;
             }
         },
-        (i: number, distance: number): number => {
+        (i: number): number => {
             if (i === 2) {
                 return 1.24;
             }
@@ -161,7 +161,7 @@ export class Morph implements OnDestroy {
                 return 1;
             }
         },
-        (i: number, distance: number): number => {
+        (i: number): number => {
             if (i === 2) {
                 return 1.35;
             }
@@ -185,7 +185,7 @@ export class Morph implements OnDestroy {
     }
 
     beforeRender = (): void => {
-        this.SPS.setParticles();
+        // this.SPS.setParticles();
     }
 
     ngOnDestroy = (): void => {
@@ -199,15 +199,15 @@ export class Morph implements OnDestroy {
         mat.diffuseColor = BABYLON.Color3.FromHexString('#ffffff');
         mat.emissiveColor = BABYLON.Color3.FromHexString('#000000');
 
-        this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
+        // this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
 
-        const innerPositionFunction = (particle, i, s): void => {
-            null;
-        };
+        // const innerPositionFunction = (particle, i, s): void => {
+        //     null;
+        // };
 
-        this.SPS.updateParticle = (particle): void => {
-            null;
-        };
+        // this.SPS.updateParticle = (particle): void => {
+        //     null;
+        // };
 
         // for (let count = 0; count < 2123; count++) {
         //     this.tmpMesh = BABYLON.MeshBuilder.CreateSphere('balls1-' + count, { diameter: 4, segments: 16, updatable: true }, this.scene);

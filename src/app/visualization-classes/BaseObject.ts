@@ -32,11 +32,11 @@ export class BaseObject {
 
     }
 
-    create(): string {
+    create(){
         return `${this.name} reports create from BaseObject: ${this.mesh}`;
     }
 
-    update(oo): string {
+    update(oo) {
         return `${this.name} reports update from BaseObject: ${this.mesh}`;
     }
 

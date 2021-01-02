@@ -5,6 +5,8 @@ import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
 
 import { OnDestroy } from '@angular/core';
+import { OptionsService } from '../services/options/options.service';
+import { MessageService } from '../services/message/message.service';
 
 export class DancingRainbow implements OnDestroy {
 
@@ -54,7 +56,7 @@ export class DancingRainbow implements OnDestroy {
 
     private SPS;
 
-    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+    constructor(scene: BABYLON.Scene, audioService: AudioService, optionsService: OptionsService, messageService: MessageService, engineService: EngineService, colorsService: ColorsService) {
 
         this.scene = scene;
         this.audioService = audioService;
@@ -116,15 +118,15 @@ export class DancingRainbow implements OnDestroy {
     }
 
 
-    beforeRender = () => {
+    beforeRender = (): void => {
         this.SPS.setParticles();
     }
 
-    ngOnDestroy = () => {
+    ngOnDestroy = (): void => {
         this.remove();
     }
 
-    create() {
+    create(): void {
 
         this.tubeMaterial = new BABYLON.StandardMaterial('tubeMat', this.scene);
         this.tubeMaterial.maxSimultaneousLights = 8;
@@ -172,9 +174,9 @@ export class DancingRainbow implements OnDestroy {
         let s;
         let c;
 
-        let counter = 0;
+        // let counter = 0;
 
-        const innerPositionFunction = (particle, i, s) => {
+        const innerPositionFunction = (particle) => {
             particle.position.x = x * 35;
             particle.position.y = 0;
             particle.position.z = z * 35;
@@ -186,7 +188,7 @@ export class DancingRainbow implements OnDestroy {
                 const d = Math.sqrt((x * x) + (z * z));
                 if (d <= 8.5) {
                     this.SPS.addShape(sphere, 1, { positionFunction: innerPositionFunction });
-                    counter++;
+                    // counter++;
                 }
             }
         }
@@ -221,7 +223,7 @@ export class DancingRainbow implements OnDestroy {
 
 
 
-        let radius = 1000;
+        const radius = 1000;
 
         for (let theta = Math.PI / 2; theta <= 2 * Math.PI + Math.PI / 2; theta += Math.PI / 32) {
             this.points.push(new BABYLON.Vector3(radius * Math.cos(theta), -120, radius * Math.sin(theta)));
@@ -241,13 +243,13 @@ export class DancingRainbow implements OnDestroy {
         // this.points4.push(this.points4[0]);
         // this.points5.push(this.points5[0]);
 
-        var oldpoints = [];
-        var oldpoints2 = [];
-        var oldpoints3 = [];
-        var oldpoints4 = [];
-        var oldpoints5 = [];
-        var oldpoints6 = [];
-        var oldpoints7 = [];
+        const oldpoints = [];
+        const oldpoints2 = [];
+        const oldpoints3 = [];
+        const oldpoints4 = [];
+        const oldpoints5 = [];
+        const oldpoints6 = [];
+        const oldpoints7 = [];
 
         for (let i = 0; i < 193; i++) {
             // for (let i = 0; i < 385; i++) {
@@ -298,7 +300,7 @@ export class DancingRainbow implements OnDestroy {
 
     }
 
-    update() {
+    update(): void {
 
         const radius = 950;
         const radius2 = 850;
@@ -390,26 +392,26 @@ export class DancingRainbow implements OnDestroy {
             index++;
         }
 
-        var nbPoints = 3;                     // the number of points between each Vector3 control points
-        var closed = false;                     // closes the curve when true
+        const nbPoints = 3;                     // the number of points between each Vector3 control points
+        const closed = false;                     // closes the curve when true
 
-        var catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(this.points, nbPoints, closed);
-        var catmullRom2 = BABYLON.Curve3.CreateCatmullRomSpline(this.points2, nbPoints, closed);
-        var catmullRom3 = BABYLON.Curve3.CreateCatmullRomSpline(this.points3, nbPoints, closed);
-        var catmullRom4 = BABYLON.Curve3.CreateCatmullRomSpline(this.points4, nbPoints, closed);
-        var catmullRom5 = BABYLON.Curve3.CreateCatmullRomSpline(this.points5, nbPoints, closed);
-        var catmullRom6 = BABYLON.Curve3.CreateCatmullRomSpline(this.points6, nbPoints, closed);
-        var catmullRom7 = BABYLON.Curve3.CreateCatmullRomSpline(this.points7, nbPoints, closed);
+        const catmullRom = BABYLON.Curve3.CreateCatmullRomSpline(this.points, nbPoints, closed);
+        const catmullRom2 = BABYLON.Curve3.CreateCatmullRomSpline(this.points2, nbPoints, closed);
+        const catmullRom3 = BABYLON.Curve3.CreateCatmullRomSpline(this.points3, nbPoints, closed);
+        const catmullRom4 = BABYLON.Curve3.CreateCatmullRomSpline(this.points4, nbPoints, closed);
+        const catmullRom5 = BABYLON.Curve3.CreateCatmullRomSpline(this.points5, nbPoints, closed);
+        const catmullRom6 = BABYLON.Curve3.CreateCatmullRomSpline(this.points6, nbPoints, closed);
+        const catmullRom7 = BABYLON.Curve3.CreateCatmullRomSpline(this.points7, nbPoints, closed);
 
         // var test = BABYLON.Curve3.CreateCatmullRomSpline(this.points7, 6, true);
 
-        var newpath = catmullRom.getPoints();
-        var newpath2 = catmullRom2.getPoints();
-        var newpath3 = catmullRom3.getPoints();
-        var newpath4 = catmullRom4.getPoints();
-        var newpath5 = catmullRom5.getPoints();
-        var newpath6 = catmullRom6.getPoints();
-        var newpath7 = catmullRom7.getPoints();
+        const newpath = catmullRom.getPoints();
+        const newpath2 = catmullRom2.getPoints();
+        const newpath3 = catmullRom3.getPoints();
+        const newpath4 = catmullRom4.getPoints();
+        const newpath5 = catmullRom5.getPoints();
+        const newpath6 = catmullRom6.getPoints();
+        const newpath7 = catmullRom7.getPoints();
 
         // var tp = test.getPoints();
 
@@ -431,7 +433,7 @@ export class DancingRainbow implements OnDestroy {
 
 
 
-    remove() {
+    remove(): void {
         this.engineService.scene.activeCamera = this.engineService.camera1;
 
         this.tube.dispose();

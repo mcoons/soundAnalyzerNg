@@ -36,8 +36,8 @@ export class Spectrograph {
         this.ground.material = new BABYLON.StandardMaterial('gmat', this.scene);
         this.ground.material.backFaceCulling = false;
         this.ground.material.specularColor = new BABYLON.Color3(0, 0, 0); // black is no shine
-
-        this.ground.scaling = new BABYLON.Vector3(350, .25, 350);
+        this.ground.position.z -= 250;
+        this.ground.scaling = new BABYLON.Vector3(350, .25, 800);
 
         this.groundVertices = this.ground.getVerticesData(BABYLON.VertexBuffer.PositionKind);
 
@@ -63,21 +63,21 @@ export class Spectrograph {
         let colorIndex = 0;
         this.colorsBuffer = [];
 
-        for (let x = 0; x < w; x++) {
+        for (let x = w-1; x >= 0; x--) {
             const currentData = this.audioService.sample2BufferHistory[x];
             for (let y = 0; y < h; y++) {
 
-                const r = currentData[y];
-                const g = 128 * y / 224;
-                const b = 255 - 128 * y / 112;
+                const r = currentData[y] * 1.25;
+                const g = 100 * y / 224;
+                const b = 255 - 128 * y / 160;
 
-                this.colorsBuffer[colorIndex] = r / 255;
+                this.colorsBuffer[colorIndex] = r / 235;
                 this.colorsBuffer[colorIndex + 1] = g / 255;
                 this.colorsBuffer[colorIndex + 2] = b / 255;
                 this.colorsBuffer[colorIndex + 3] = 1;
 
                 // set y value of ground vertex data
-                this.groundVertices[yVertexDataIndex] = currentData[y];
+                this.groundVertices[yVertexDataIndex] = currentData[y] * 1.25;
 
                 colorIndex += 4;
                 yVertexDataIndex += 3;

@@ -51,8 +51,8 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
           // this.draw2DBars(this.audioService.fr16DataArray, 200);
           // this.draw2DBars(this.audioService.fr32DataArray, 340);
           // this.draw2DBars(this.audioService.fr64DataArray, 340);
-          this.draw2DBars(this.audioService.fr256DataArray, 200);
-          this.draw2DBars(this.audioService.sample2, 340);
+          // this.draw2DBars(this.audioService.fr256DataArray, 200);
+          this.draw2DBars(this.audioService.sample2, 200);
           // this.draw2DBars(this.audioService.fr512DataArray, 900);
         }
 

@@ -6,6 +6,7 @@ import { ColorsService } from '../services/colors/colors.service';
 
 import { OnDestroy } from '@angular/core';
 import { OptionsService } from '../services/options/options.service';
+import { MessageService } from '../services/message/message.service';
 
 // import { map } from './utilities.js';
 
@@ -28,7 +29,7 @@ export class Mirror implements OnDestroy {
     ribbonPaths = [];
     audioPaths = [];
 
-    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+    constructor(scene: BABYLON.Scene, audioService: AudioService, optionsService: OptionsService, messageService: MessageService, engineService: EngineService, colorsService: ColorsService) {
 
         this.scene = scene;
         this.audioService = audioService;
@@ -38,11 +39,11 @@ export class Mirror implements OnDestroy {
 
     }
 
-    ngOnDestroy = () => {
+    ngOnDestroy = (): void => {
         this.remove();
     }
 
-    create() {
+    create(): void {
 
         for (let a = 0; a <= 2 * Math.PI + Math.PI / 8; a += Math.PI / 8) {
             const path = [];

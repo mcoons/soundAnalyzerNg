@@ -37,7 +37,7 @@
 
           <input type="radio" [id]="favorite.value" name="favorites" [value]="favorite.value"
             (click)="favoriteChange($event)" [checked]="favorite.checked">
-          <label [for]="favorite.label">{{favorite.label}}</label>
+          <label [for]="favorite.value">{{favorite.label}}</label>
           <i 
           (click)="favoriteDelete($event)" [id]="favorite.value" class="material-icons"
             style="cursor: no-drop; vertical-align: middle; float: right;">delete_forever</i>
@@ -80,15 +80,24 @@
 
         <div id="listBtnContainer">
           <div class="btnContainer">
-            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'site'}"
-              (click)="siteListSelection()">Site Music</button>
-            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'local'}"
-              (click)="localListSelection()">Local Music</button>
+            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'site'}" (click)="siteListSelection()">
+              <i id="gdownicon" class="material-icons md-18" style="cursor: no-drop; vertical-align: middle; float: left;">queue_music</i> 
+              Site Music
+            </button>
+            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'local'}" (click)="localListSelection()">
+              <i id="gdownicon" class="material-icons md-18" style="cursor: no-drop; vertical-align: middle; float: left;">queue_music</i> 
+              Local Music
+            </button>
           </div>
           <div class="btnContainer">
-            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'mic'}"
-              (click)="this.audioService.enableMic()">Mic</button>
-            <button class="playlistButton" (click)="randomizeList()">Randomize</button>
+            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'mic'}" (click)="this.audioService.enableMic()">
+              <i id="gdownicon" class="material-icons md-18" style="cursor: no-drop; vertical-align: middle; float: left;">mic</i> 
+              Microphone
+            </button>
+            <button class="playlistButton" (click)="randomizeList()">
+              <i id="gdownicon" class="material-icons md-18" style="cursor: no-drop; vertical-align: middle; float: left;">shuffle</i> 
+              Randomize
+            </button>
           </div>
         </div>
 

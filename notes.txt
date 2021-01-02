@@ -40,6 +40,8 @@ Fix all defaults for Custom Colors (remove middle black)
 TODO
 _______________________________________________________________________
 
+Review different camera initializations
+
 Revamp saving of favorite to only save specific visual instead of whole visual arrays
 Name should be based off of visual type
 

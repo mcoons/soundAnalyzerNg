@@ -51,7 +51,7 @@ export class StarManager {
 
     }
 
-    setDefaults() {
+    setDefaults(): void {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
@@ -61,7 +61,7 @@ export class StarManager {
         (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 800;
     }
 
-    create() {
+    create(): void {
         let starMaster;
         this.masterTransform = new BABYLON.TransformNode('root');
         this.masterTransform.position = new BABYLON.Vector3(0, 0, 0);
@@ -268,7 +268,7 @@ export class StarManager {
     ////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////
 
-    update() {
+    update(): void {
 
         const setStar = (n: number, show: boolean) => {
             this.objects[n * 5 + 0].mesh.setEnabled(show);
@@ -291,7 +291,7 @@ export class StarManager {
         });
     }
 
-    remove() {
+    remove(): void {
         this.engineService.glowLayer.isEnabled = false;
 
         this.objects.forEach(obj => obj.remove());
@@ -419,7 +419,7 @@ export class StarManager {
     //     }
     // }
 
-    createStarGroupRandom5(colorBias, rotationBias, parent, dataSource) {
+    createStarGroupRandom5(colorBias, rotationBias, parent, dataSource): void {
 
         for (let index = 0; index < 5; index++) {
 

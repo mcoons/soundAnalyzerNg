@@ -78,7 +78,7 @@ export class AudioService {
   sample2BufferHistory = [];
   sample1Topper = [];
 
-  sample2: Uint8Array = new Uint8Array(224);
+  sample2: Uint8Array = new Uint8Array(256);
 
   public soundArrays = [
     this.fr64DataArray,  // 0
@@ -225,7 +225,7 @@ export class AudioService {
 
     for (let index = 0; index < 151; index++) {
       let frTemp = [];
-      frTemp = Array(224).fill(0);
+      frTemp = Array(256).fill(0);
       this.sample2BufferHistory.push(frTemp);
     }
 
@@ -293,16 +293,33 @@ export class AudioService {
     // ];
 
 
+    // // combine for sample2 set
+    // for (let index = 0; index < 32; index++) { //  32*7 = 224
+    //   this.sample2[index + 0] = (this.soundArrays[5])[index + 0];          
+    //   this.sample2[index + 32] = (this.soundArrays[5])[index + 32];    
+    //   this.sample2[index + 64] = (this.soundArrays[4])[index + 32];   
+    //   this.sample2[index + 96] = (this.soundArrays[3])[index + 32];  
+    //   this.sample2[index + 128] = (this.soundArrays[2])[index + 32];  
+    //   this.sample2[index + 160] = (this.soundArrays[1])[index + 32];  
+    //   this.sample2[index + 192] = (this.soundArrays[0])[index + 32];  
+    // }
+
+
     // combine for sample2 set
-    for (let index = 0; index < 32; index++) { //  32*7 = 224
-      this.sample2[index + 0] = (this.soundArrays[5])[index + 0];          
-      this.sample2[index + 32] = (this.soundArrays[5])[index + 32];    
-      this.sample2[index + 64] = (this.soundArrays[4])[index + 32];   
-      this.sample2[index + 96] = (this.soundArrays[3])[index + 32];  
-      this.sample2[index + 128] = (this.soundArrays[2])[index + 32];  
-      this.sample2[index + 160] = (this.soundArrays[1])[index + 32];  
-      this.sample2[index + 192] = (this.soundArrays[0])[index + 32];  
+    for (let index = 0; index < 32; index++) { //  32*7 = 224   32 * 8 = 256
+      this.sample2[index + 0] = (this.soundArrays[6])[index + 0];          
+      this.sample2[index + 32] = (this.soundArrays[6])[index + 32];    
+      this.sample2[index + 64] = (this.soundArrays[5])[index + 32];   
+      this.sample2[index + 96] = (this.soundArrays[4])[index + 32];  
+      this.sample2[index + 128] = (this.soundArrays[3])[index + 32];  
+      this.sample2[index + 160] = (this.soundArrays[2])[index + 32];  
+      this.sample2[index + 192] = (this.soundArrays[1])[index + 32];  
+      this.sample2[index + 224] = (this.soundArrays[0])[index + 32];  
     }
+
+
+    
+
 
 
     this.sample2BufferHistory[this.sample2BufferHistory.length] = this.sample2.slice(0);

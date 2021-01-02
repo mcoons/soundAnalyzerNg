@@ -31,7 +31,7 @@ export class Star extends BaseObject {
     yOffset;
 
 
-    constructor(name, parent, palette, material, resolution, reflect, scene, dataSource, yOffset) {
+    constructor(name, parent, palette, material, resolution, reflect, scene, dataSource, yOffset: number) {
 
         super(name, parent, palette, material, resolution, reflect, scene, dataSource);
 
@@ -73,8 +73,8 @@ export class Star extends BaseObject {
     create() {
         const PI = Math.PI;
         const TwoPI = PI * 2;
-        const PId2 = PI / 2;
-        const PId32 = PI / 32;
+        // const PId2 = PI / 2;
+        // const PId32 = PI / 32;
         const TwoPIdRes = TwoPI / this.resolution;
 
         for (let r = 1; r <= 2; r++) {
@@ -105,11 +105,11 @@ export class Star extends BaseObject {
         return this.mesh;
     }
 
-    update(zindex) {
+    update(zindex: number) {
         const PI = Math.PI;
         const TwoPI = PI * 2;
-        const PId2 = PI / 2;
-        const PId32 = PI / 32;
+        // const PId2 = PI / 2;
+        // const PId32 = PI / 32;
         const TwoPIdRes = TwoPI / this.resolution;
 
         const data = this.dataSource;
@@ -163,7 +163,7 @@ export class Star extends BaseObject {
         return `${this.name} says updated from star.`;
     }
 
-    remove() {
+    remove(): void {
         if (this.mesh) {
             this.mesh.dispose();
         }

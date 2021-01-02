@@ -723,9 +723,10 @@ export class OptionsService {
         colorOptions: false,
         cameraOptions: false,
 
-        calpha: 4.72,
-        cbeta: .72,
-        cradius: 1200,
+        // calpha: 10.41,
+        calpha: 4.675,
+        cbeta: 1.04,
+        cradius: 1155,
 
         autoRotate: {
           label: 'Auto Camera Movement',
@@ -741,7 +742,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 6,
+          value: 4,
         },
 
         customColors: {
@@ -3317,7 +3318,8 @@ export class OptionsService {
 
 
 
-      this.updateCustomOptions(this.favorites.length - 1);
+      // this.updateCustomOptions(this.favorites.length - 1);
+      this.updateCustomOptions();
 
     }
 
@@ -3343,9 +3345,10 @@ export class OptionsService {
     this.announceChange('Item was changed: ' + itemName + ' to ' + this.state[itemName].value);
   }
 
-  updateCustomOptions(visualIndex: number): void {
+  // updateCustomOptions(visualIndex: number): void {
 
-    setTimeout(() => {
+    updateCustomOptions(): void {
+      setTimeout(() => {
 
       this.messageService.announceMessage('set lights');
       this.messageService.announceMessage('set camera');
@@ -3357,19 +3360,19 @@ export class OptionsService {
 
   }
 
-  toggleNoteRadio(itemName: string, index: number): void {
-    // this.notes.forEach(n => {
-    //   this.options[n].checked = (itemName === n);
-    // });
-    // this.storageService.saveOptions(this.options);
-  }
+  // toggleNoteRadio(itemName: string, index: number): void {
+  //   // this.notes.forEach(n => {
+  //   //   this.options[n].checked = (itemName === n);
+  //   // });
+  //   // this.storageService.saveOptions(this.options);
+  // }
 
-  setOption(itemName: string, value): void {
-    // this.options[itemName].value = value;
-    this.windowResize();
-    // this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
-    // this.storageService.saveOptions(this.options);
-  }
+  // setOption(itemName: string, value): void {
+  //   // this.options[itemName].value = value;
+  //   this.windowResize();
+  //   // this.announceChange('Item was changed: ' + itemName + ' to ' + this.options[itemName].value);
+  //   // this.storageService.saveOptions(this.options);
+  // }
 
   updateState(itemName: string, value): void {
     this.state[itemName].value = value;

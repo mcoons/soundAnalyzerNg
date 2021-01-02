@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const compression = require('compression');
+const port = process.env.PORT || 8080;
 
 
 const app = express();
@@ -17,10 +18,17 @@ app.get('/robots.txt', function (req, res) {
     res.send("User-agent: *\nDisallow: /");
 });
 
+
+app.get('/test', function(req,res) {
+    res.sendFile(path.join(__dirname+'/testing.html'));
+    });
+
 app.get('/*', function(req,res) {
-    
 res.sendFile(path.join(__dirname+'/dist/soundanalyzerng/index.html'));
 });
 
 // Start the app by listening on the default Heroku port
-app.listen(process.env.PORT || 8080);
+// app.listen(process.env.PORT || 8080);
+app.listen(port, () => {
+    console.log("Server listening on port:", port);
+  });
