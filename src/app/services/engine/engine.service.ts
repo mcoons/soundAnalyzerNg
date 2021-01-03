@@ -184,14 +184,14 @@ export class EngineService {
 
       this.glowLayer.customEmissiveColorSelector = (mesh, subMesh, material, result) => {
 
-        let data = mesh.name.split('-');
-        let series = data[0];
-        let index = Number(data[1]);
+        const data = mesh.name.split('-');
+        const series = data[0];
+        const index = Number(data[1]);
 
         let yy = this.audioService.sample2[index];
 
-        let columnGroup = Math.trunc(index / 32);
-        let row = index % 32;
+        const columnGroup = Math.trunc(index / 32);
+        // const row = index % 32;
 
         switch (series) {
 
@@ -199,7 +199,6 @@ export class EngineService {
             yy = this.audioService.sample2[index];
 
             yy = (yy / 255 * yy / 255 * yy / 255 * yy / 255 * yy / 255) * 245 * (columnGroup + 1);
-            // console.log('yy',yy);
             result.set(yy, yy, yy, 1);
             break;
 
@@ -211,7 +210,6 @@ export class EngineService {
       }
     }
 
-    // console.log(this.glowLayer);
   }
 
 
@@ -673,7 +671,7 @@ export class EngineService {
     });
   }
 
-  selectVisual(index) {
+  selectVisual(index: number): void {
     // console.log('in selectVisual');
     // this.saveCamera();
 
@@ -690,7 +688,7 @@ export class EngineService {
 
   }
 
-  fixDpi = () => {
+  fixDpi = ():void => {
     // console.log('in fixdpi');
     // create a style object that returns width and height
     const dpi = window.devicePixelRatio;
@@ -751,7 +749,7 @@ export class EngineService {
     return plane;
   };
 
-  buildWorldAxis = (size) => {
+  buildWorldAxis = (size: number): void => {
 
     const axisX = BABYLON.Mesh.CreateLines('axisX', [
       BABYLON.Vector3.Zero(), new BABYLON.Vector3(size, 0, 0), new BABYLON.Vector3(size * 0.95, 0.05 * size, 0),
@@ -796,15 +794,15 @@ export class EngineService {
     }
   }
 
-  showWorldAxis = () => {
+  showWorldAxis = (): void => {
     this.axisParent.setEnabled(true);
   }
 
-  hideWorldAxis = () => {
+  hideWorldAxis = (): void => {
     this.axisParent.setEnabled(false);
   }
 
-  createHexObj() {
+  createHexObj():void {
 
     this.hexParent = new BABYLON.TransformNode('root');
 
@@ -991,7 +989,7 @@ export class EngineService {
 
   }
 
-  createTitleText(text) {
+  createTitleText(text: string): void {
     const scale = 10;
     const depth = .75;
 
@@ -1044,7 +1042,7 @@ export class EngineService {
 
   }
 
-  beforeRender = () => {
+  beforeRender = (): void => {
     // this.titleSPS.setParticles();
   }
 
@@ -1072,7 +1070,7 @@ export class EngineService {
     text1.getMesh().rotation.x = -Math.PI / 2;
     text1.getMesh().material = color;
 
-    let textSPS = text1.getSPS();
+    const textSPS = text1.getSPS();
     // console.log('textSPS');
     // console.log(textSPS);
     textSPS.particles[1].position.y = 500;

@@ -5,8 +5,6 @@ import { OptionsService } from '../services/options/options.service';
 import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
-import { couldStartTrivia } from 'typescript';
-
 
 export class SpherePlaneManager2SPS {
 
@@ -27,7 +25,7 @@ export class SpherePlaneManager2SPS {
 
     private rotation = 0;
 
-    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+    constructor(scene: BABYLON.Scene, audioService: AudioService, optionsService: OptionsService, messageService: MessageService, engineService: EngineService, colorsService: ColorsService) {
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
@@ -40,7 +38,7 @@ export class SpherePlaneManager2SPS {
         // this.setDefaults();
     }
 
-    setDefaults() {
+    setDefaults(): void {
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
@@ -50,7 +48,7 @@ export class SpherePlaneManager2SPS {
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 2000;
     }
 
-    beforeRender = () => {
+    beforeRender = (): void => {
 
         this.SPS.setParticles();
 
@@ -64,7 +62,7 @@ export class SpherePlaneManager2SPS {
         }
     }
 
-    create() {
+    create(): void {
 
         let x: number;
         let y: number;
@@ -109,7 +107,7 @@ export class SpherePlaneManager2SPS {
         const build0 = () => {
             radius = 500;
 
-            const innerPositionFunction = (particle, i, s) => {
+            const innerPositionFunction = (particle) => {
                 particle.position.x = (radius - 12 * z) * Math.cos(theta) * 1.5;
                 particle.position.z = (z - 9) * 80;
                 particle.position.y = (radius - 12 * z) * Math.sin(theta);
@@ -127,7 +125,7 @@ export class SpherePlaneManager2SPS {
         const build1 = () => {
 
 
-            const innerPositionFunction = (particle, i, s) => {
+            const innerPositionFunction = (particle, i) => {
                 particle.position.x = (radius + 12 * y) * Math.cos(theta) * 1.5;
                 particle.position.y = ((i % 16) - 8) * 35;
                 particle.position.z = (radius + 12 * y) * Math.sin(theta);
@@ -145,7 +143,7 @@ export class SpherePlaneManager2SPS {
         const build2 = () => {
 
 
-            const innerPositionFunction = (particle, i, s) => {
+            const innerPositionFunction = (particle, i: number) => {
                 particle.position.x = (radius + 20 * y) * Math.cos(theta) * 1.5;
                 particle.position.y = ((i % 16) - 8) * 35;
                 particle.position.z = (radius + 20 * y) * Math.sin(theta);
@@ -161,7 +159,7 @@ export class SpherePlaneManager2SPS {
 
 
         const build3 = () => {
-            const innerPositionFunction = (particle, i, s) => {
+            const innerPositionFunction = (particle) => {
                 particle.position.x = x * 35;
                 particle.position.y = 0;
                 particle.position.z = z * 35;
@@ -185,7 +183,7 @@ export class SpherePlaneManager2SPS {
             build3
         ];
 
-        const buildFunctionIndex = 2;
+        const buildFunctionIndex = 3;
 
         buildFunctions[buildFunctionIndex]();
 
@@ -223,9 +221,11 @@ export class SpherePlaneManager2SPS {
 
     }
 
-    update() { }
+    update(): void {
+        null;
+     }
 
-    remove() {
+    remove(): void {
         this.SPS.mesh.dispose();
         this.mesh1.dispose();
         this.SPS.dispose();

@@ -38,12 +38,12 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
 
   favoriteDelete(e): void {
     // console.log(e);
-    this.optionsService.favorites = this.optionsService.favorites.filter( (v, i, a) => {
+    this.optionsService.favorites = this.optionsService.favorites.filter( (v) => {
       // console.log(v);
       return v.value.toString() !== e.target.id.toString();
     });
 
-    this.optionsService.favorites.forEach( (v, i, a) => {
+    this.optionsService.favorites.forEach( (v, i) => {
       v.value = i;
     });
 
@@ -67,7 +67,7 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
 
   }
 
-  updateItem(e) {
+  updateItem(e): void {
     this.messageService.announceMessage(e.target.id);
   }
 
@@ -77,10 +77,10 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
   //   this.messageService.announceMessage('scene change');
   // }
 
-  radioNoteChange(e): void {
-    this.optionsService.toggleNoteRadio(e.target.id, e.target.value);
-    this.optionsService.setOption('currentNote', e.target.value);
-  }
+  // radioNoteChange(e): void {
+  //   // this.optionsService.toggleNoteRadio(e.target.id, e.target.value);
+  //   // this.optionsService.setOption('currentNote', e.target.value);
+  // }
 
   trackChange(e): void {
     this.optionsService.updateState('currentTrack', e.target.value);

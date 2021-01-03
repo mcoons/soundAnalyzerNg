@@ -7,8 +7,8 @@ import { ColorsService } from '../services/colors/colors.service';
 import { OnDestroy } from '@angular/core';
 import { OptionsService } from '../services/options/options.service';
 
-import { map } from './utilities.js';
-import { convertCompilerOptionsFromJson } from 'typescript';
+// import { map } from './utilities.js';
+import { MessageService } from '../services/message/message.service';
 
 export class Lights implements OnDestroy {
 
@@ -42,7 +42,7 @@ export class Lights implements OnDestroy {
 
     // private SPS;
 
-    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+    constructor(scene: BABYLON.Scene, audioService: AudioService, optionsService: OptionsService, messageService: MessageService, engineService: EngineService, colorsService: ColorsService) {
 
         this.scene = scene;
         this.audioService = audioService;
@@ -53,15 +53,15 @@ export class Lights implements OnDestroy {
         this.scene.registerBeforeRender(this.beforeRender);
     }
 
-    beforeRender = () => {
+    beforeRender = (): void => {
         // this.SPS.setParticles();
     }
 
-    ngOnDestroy = () => {
+    ngOnDestroy = (): void => {
         this.remove();
     }
 
-    create() {
+    create(): void {
 
 
         this.mat = new BABYLON.StandardMaterial('ballMat', this.scene);
@@ -192,7 +192,7 @@ export class Lights implements OnDestroy {
             // this.tmpMesh = BABYLON.MeshBuilder.CreateTarus('balls1-' + count, { diameter: 5, segments: 16, updatable: true }, this.scene);
 
             // let tmpMesh = BABYLON.Mesh.CreateTorus("torusLight-" + count, 4, 1, 32, this.scene);
-            let tmpMesh = BABYLON.Mesh.CreateSphere("torusLight-" + count, 32, .5, this.scene);
+            const tmpMesh = BABYLON.Mesh.CreateSphere("torusLight-" + count, 32, .5, this.scene);
             tmpMesh.material = this.mat;
 
             // this.s = this.y / 40 + .5;
@@ -299,7 +299,7 @@ export class Lights implements OnDestroy {
 
         // GROUND
 
-        let groundMaterial = new BABYLON.StandardMaterial('groundMat', this.scene);
+        const groundMaterial = new BABYLON.StandardMaterial('groundMat', this.scene);
         groundMaterial.maxSimultaneousLights = 8;
         groundMaterial.diffuseColor = new BABYLON.Color3(.1, 0, .45);
         // groundMaterial.bumpTexture = new BABYLON.Texture('../../assets/mats/normal2.jpg', this.scene);
@@ -321,7 +321,7 @@ export class Lights implements OnDestroy {
 
 
         this.tmpMesh = BABYLON.MeshBuilder.CreateSphere('SKY', { diameter: 10000 }, this.scene);
-        let skyMaterial = new BABYLON.StandardMaterial('groundMat', this.scene);
+        const skyMaterial = new BABYLON.StandardMaterial('groundMat', this.scene);
         skyMaterial.diffuseColor = BABYLON.Color3.Black();
         skyMaterial.backFaceCulling = false;
         this.tmpMesh.material = skyMaterial;
@@ -333,7 +333,7 @@ export class Lights implements OnDestroy {
 
     }
 
-    update() {
+    update(): void {
         // this.engineService.lightParent.rotation.x += .004;
         // this.engineService.lightParent.rotation.y -= .006;
         // this.engineService.lightParent.rotation.z += .008;
@@ -360,7 +360,7 @@ export class Lights implements OnDestroy {
 
     }
 
-    remove() {
+    remove(): void {
         this.engineService.glowLayer.isEnabled = false;
 
         // this.SPS.mesh.dispose();

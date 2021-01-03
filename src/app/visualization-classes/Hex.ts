@@ -1,29 +1,29 @@
 
 import * as BABYLON from 'babylonjs';
-// import { AudioService } from '../services/audio/audio.service';
+import { AudioService } from '../services/audio/audio.service';
 import { OptionsService } from '../services/options/options.service';
-// import { MessageService } from '../services/message/message.service';
+import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
-// import { ColorsService } from '../services/colors/colors.service';
+import { ColorsService } from '../services/colors/colors.service';
 
 export class Hex {
 
     private scene: BABYLON.Scene;
-    // private audioService: AudioService;
+    private audioService: AudioService;
     private optionsService: OptionsService;
-    // private messageService: MessageService;
+    private messageService: MessageService;
     private engineService: EngineService;
-    // private colorsService: ColorsService;
+    private colorsService: ColorsService;
 
     private rotation = 0;
 
-    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+    constructor(scene: BABYLON.Scene, audioService: AudioService, optionsService: OptionsService, messageService: MessageService, engineService: EngineService, colorsService: ColorsService) {
         this.scene = scene;
-        // this.audioService = audioService;
+        this.audioService = audioService;
         this.optionsService = optionsService;
-        // this.messageService = messageService;
+        this.messageService = messageService;
         this.engineService  = engineService;
-        // this.colorsService = colorsService;
+        this.colorsService = colorsService;
 
         this.scene.registerBeforeRender(this.beforeRender);
 
@@ -40,7 +40,7 @@ export class Hex {
     //     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1400;
     // }
 
-    beforeRender = () => {
+    beforeRender = (): void => {
         this.engineService.hexSPS.setParticles();
 
         if (this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value) {
@@ -52,13 +52,15 @@ export class Hex {
         }
     }
 
-    create() {
+    create(): void {
         this.engineService.hexParent.setEnabled(true);
     }
 
-    update() { }
+    update(): void { 
+        null;
+    }
 
-    remove() {
+    remove(): void {
 
         this.scene.unregisterBeforeRender(this.beforeRender);
 

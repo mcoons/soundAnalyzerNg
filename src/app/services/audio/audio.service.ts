@@ -75,9 +75,10 @@ export class AudioService {
 
   sample1: Uint8Array = new Uint8Array(576);
   sample1BufferHistory = [];
+  sample2BufferHistory = [];
   sample1Topper = [];
 
-  sample2: Uint8Array = new Uint8Array(224);
+  sample2: Uint8Array = new Uint8Array(256);
 
   public soundArrays = [
     this.fr64DataArray,  // 0
@@ -220,6 +221,16 @@ export class AudioService {
       this.sample1BufferHistory.push(frTemp);
     }
 
+    
+
+    for (let index = 0; index < 151; index++) {
+      let frTemp = [];
+      frTemp = Array(256).fill(0);
+      this.sample2BufferHistory.push(frTemp);
+    }
+
+    
+
     for (let index = 0; index < 576; index++) {
       // this.sample1Topper[index] = 0;
       this.sample1Topper[index] = {
@@ -282,16 +293,43 @@ export class AudioService {
     // ];
 
 
+    // // combine for sample2 set
+    // for (let index = 0; index < 32; index++) { //  32*7 = 224
+    //   this.sample2[index + 0] = (this.soundArrays[5])[index + 0];          
+    //   this.sample2[index + 32] = (this.soundArrays[5])[index + 32];    
+    //   this.sample2[index + 64] = (this.soundArrays[4])[index + 32];   
+    //   this.sample2[index + 96] = (this.soundArrays[3])[index + 32];  
+    //   this.sample2[index + 128] = (this.soundArrays[2])[index + 32];  
+    //   this.sample2[index + 160] = (this.soundArrays[1])[index + 32];  
+    //   this.sample2[index + 192] = (this.soundArrays[0])[index + 32];  
+    // }
+
+
     // combine for sample2 set
-    for (let index = 0; index < 32; index++) { //  32*7 = 224
-      this.sample2[index + 0] = (this.soundArrays[5])[index + 0];          
-      this.sample2[index + 32] = (this.soundArrays[5])[index + 32];    
-      this.sample2[index + 64] = (this.soundArrays[4])[index + 32];   
-      this.sample2[index + 96] = (this.soundArrays[3])[index + 32];  
-      this.sample2[index + 128] = (this.soundArrays[2])[index + 32];  
-      this.sample2[index + 160] = (this.soundArrays[1])[index + 32];  
-      this.sample2[index + 192] = (this.soundArrays[0])[index + 32];  
+    for (let index = 0; index < 32; index++) { //  32*7 = 224   32 * 8 = 256
+      this.sample2[index + 0] = (this.soundArrays[6])[index + 0];          
+      this.sample2[index + 32] = (this.soundArrays[6])[index + 32];    
+      this.sample2[index + 64] = (this.soundArrays[5])[index + 32];   
+      this.sample2[index + 96] = (this.soundArrays[4])[index + 32];  
+      this.sample2[index + 128] = (this.soundArrays[3])[index + 32];  
+      this.sample2[index + 160] = (this.soundArrays[2])[index + 32];  
+      this.sample2[index + 192] = (this.soundArrays[1])[index + 32];  
+      this.sample2[index + 224] = (this.soundArrays[0])[index + 32];  
     }
+
+
+    
+
+
+
+    this.sample2BufferHistory[this.sample2BufferHistory.length] = this.sample2.slice(0);
+
+    if (this.sample2BufferHistory.length > 150) {
+      this.sample2BufferHistory.reverse();
+      this.sample2BufferHistory.pop();
+      this.sample2BufferHistory.reverse();
+    }
+
 
     //////////////////////////////////////
     // get TIME DOMAIN data for this frame

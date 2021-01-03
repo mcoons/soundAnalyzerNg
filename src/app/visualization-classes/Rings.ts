@@ -6,7 +6,7 @@ import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
 
-import { map } from './utilities.js';
+// import { map } from './utilities.js';
 
 export class Rings {
 
@@ -53,7 +53,7 @@ export class Rings {
     lineMat;
     textSPS;
 
-    constructor(scene, audioService, optionsService, messageService, engineService, colorsService) {
+    constructor(scene: BABYLON.Scene, audioService: AudioService, optionsService: OptionsService, messageService: MessageService, engineService: EngineService, colorsService: ColorsService) {
 
         this.scene = scene;
         this.audioService = audioService;
@@ -75,7 +75,7 @@ export class Rings {
         // this.setDefaults();
     }
 
-    setDefaults() {
+    setDefaults(): void {
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = 0;
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
@@ -85,14 +85,14 @@ export class Rings {
         // (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1900;
     }
 
-    beforeRender = () => {
+    beforeRender = (): void => {
         this.ring1SPS.setParticles();
         this.ring3SPS.setParticles();
         this.ring5SPS.setParticles();
         // this.textSPS.setParticles();
     }
 
-    create() {
+    create(): void {
 
         const radius1 = 100;
         const radius3 = 500;
@@ -113,7 +113,7 @@ export class Rings {
 
         // BUILD RING1 SPS ////////////////////////////////
 
-        const ring1PositionFunction = (particle, i, s) => {
+        const ring1PositionFunction = (particle) => {
             particle.position.x = radius1 * Math.cos(gtheta);
             particle.position.z = radius1 * Math.sin(gtheta);
             particle.position.y = 100;
@@ -151,7 +151,7 @@ export class Rings {
 
         // BUILD RING3 SPS ////////////////////////////////
 
-        const ring3PositionFunction = (particle, i, s) => {
+        const ring3PositionFunction = (particle) => {
             particle.position.x = radius3 * Math.cos(gtheta);
             particle.position.z = radius3 * Math.sin(gtheta);
             particle.position.y = 100;
@@ -189,7 +189,7 @@ export class Rings {
 
         // // BUILD RING5 SPS ////////////////////////////////
 
-        const ring5PositionFunction = (particle, i, s) => {
+        const ring5PositionFunction = (particle) => {
             particle.position.x = radius5 * Math.cos(gtheta);
             particle.position.z = radius5 * Math.sin(gtheta);
             particle.position.y = 100;
@@ -307,9 +307,11 @@ export class Rings {
 
 
 
-    update() { }
+    update(): void { 
+        null;
+    }
 
-    remove() {
+    remove(): void {
         this.ring1SPS.mesh.dispose();
         this.mesh1.dispose();
         this.ring1SPS.dispose();

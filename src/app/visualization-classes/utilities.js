@@ -1,6 +1,7 @@
 ///////////////////////////////////////////////////
 //   UTILITIES
 ////////////////////////////////////////////////////
+import * as BABYLON from 'babylonjs';
 
 // build full scectrum ROYGBIV palettes [0..1529]
 // build single color palettes [0..255]

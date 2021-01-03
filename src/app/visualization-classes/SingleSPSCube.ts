@@ -178,7 +178,7 @@ export class SingleSPSCube implements OnDestroy {
             spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, -this.PI, 0);
             },
-            cameraDefault: (cIndex: number) => {
+            cameraDefault: (cIndex: number): Record<string, unknown> => {
                 const cameraPositions = [
                     { alpha: -1 * this.PId2, beta: 1.05, radius: 830 },
                     { alpha: -1 * this.PId2, beta: .01, radius: 350 },
@@ -187,7 +187,9 @@ export class SingleSPSCube implements OnDestroy {
                 return cameraPositions[cIndex];
             },
             currentCameraIndex: 0,
-            mainUpdate: () => null
+            mainUpdate: (): void => {
+                null;
+            }
         },
 
         // Thing1
@@ -343,11 +345,11 @@ export class SingleSPSCube implements OnDestroy {
                 return this.getLookatOriginRotation(particle);
 
             },
-            color: (particle, yy: number) => {
+            color: (particle, yy: number): BABYLON.Color4 => {
                 this.c = this.colorsService.colors(yy);
                 return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
             },
-            spsRotation: () => {
+            spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, this.forwardRotation, 0);
             },
             cameraDefault: (cIndex: number) => {
@@ -608,7 +610,7 @@ export class SingleSPSCube implements OnDestroy {
         // Sine loop
         {
             name: 'sineLoop2',
-            position: (particle) => {
+            position: (particle): BABYLON.Vector3 => {
                 const radius = 15;
                 // const loop = particle.idx % 2 + 1;
                 const loop = Math.trunc(particle.idx / 72) + 1;
@@ -625,27 +627,27 @@ export class SingleSPSCube implements OnDestroy {
 
                 return new BABYLON.Vector3(x, y, z);
             },
-            scaling: (particle, yy: number) => {
+            scaling: (particle, yy: number): BABYLON.Vector3 => {
                 const loop = Math.trunc(particle.idx / 72) + 1;
                 yy = yy + 20;
 
                 return new BABYLON.Vector3(loop * yy / 30, yy / 65, yy / 65);
             },
-            rotation: (particle, yy: number) => {
+            rotation: (particle, yy: number): BABYLON.Vector3 => {
                 // const radian = 2 * Math.PI / 72;
                 const radian = this.TwoPId72;
                 const gtheta = (radian * particle.idx) % this.TwoPI;
 
                 return new BABYLON.Vector3(Math.PI / 8, -gtheta % this.TwoPI, 0);
             },
-            color: (particle, yy: number) => {
+            color: (particle, yy: number): BABYLON.Color4 => {
                 const c = this.colorsService.colors(yy);
                 return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
             },
-            spsRotation: () => {
+            spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, this.forwardRotation, 0);
             },
-            cameraDefault: (cIndex: number) => {
+            cameraDefault: (cIndex: number): Record<string, unknown> => {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: .01, radius: 1200 },
                     { alpha: -this.PId2, beta: this.PId32, radius: 1200 },
@@ -670,7 +672,7 @@ export class SingleSPSCube implements OnDestroy {
     }
 
 
-    getSPSNames() {
+    getSPSNames(): string[] {
         return this.SPSFunctions.map(e => e.name);
     }
 

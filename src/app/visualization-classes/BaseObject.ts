@@ -32,7 +32,7 @@ export class BaseObject {
 
     }
 
-    create() {
+    create(){
         return `${this.name} reports create from BaseObject: ${this.mesh}`;
     }
 
@@ -40,7 +40,7 @@ export class BaseObject {
         return `${this.name} reports update from BaseObject: ${this.mesh}`;
     }
 
-    remove() {
+    remove(): void {
         if (this.mesh) {
             this.mesh.dispose();
         }

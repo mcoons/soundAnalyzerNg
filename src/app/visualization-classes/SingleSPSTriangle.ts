@@ -72,11 +72,11 @@ export class SingleSPSTriangle implements OnDestroy {
         const buildT = (): void => {
             // const radius = 500;
             // let theta;
-            let x;
-            let y;
-            let z;
+            let x: number;
+            let y: number;
+            // let z;
 
-            const innerPositionFunction = (particle, i, s) => {
+            const innerPositionFunction = (particle, i) => {
                 // console.log('In Build0 innerPosition for of notes.create', i);
                 // const row = 10 - Math.floor(particle.idx / 10);
                 // const column = particle.idx % 10;
@@ -91,10 +91,10 @@ export class SingleSPSTriangle implements OnDestroy {
                 particle.rotation.z = i % 2 ? Math.PI : 0;
             };
 
-            z = 0;
+            // z = 0;
             for (let index = 0; index < 576; index++) {
                 this.SPS.addShape(extrusion, 1, { positionFunction: innerPositionFunction });
-                z += 1 / 32;
+                // z += 1 / 32;
             }
         };
 
