@@ -13,6 +13,7 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 })
 export class PanelRightComponent implements OnInit, OnDestroy  {
 
+
   constructor(
     @Inject(OptionsService) public optionsService: OptionsService,
     @Inject(MessageService) private messageService: MessageService,

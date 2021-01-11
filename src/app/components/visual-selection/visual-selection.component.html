@@ -10,6 +10,9 @@
         Save Favorite
       </button>
     </div>
+    <label for="saveNameElement">Favorite Name: </label>
+    <input type="text" name="saveNameElement" id="saveNameElement" [(ngModel)]="this.saveName" [(value)]="this.saveName" size="27" maxlength="27">
+
   </div>
   
   <ng-container *ngFor="let visual of this.optionsService.newBaseOptions.visual; index as i">

@@ -112,7 +112,6 @@ export class EngineService {
 
     // this.showAxis = false;
 
-
     this.resizeObservable$ = fromEvent(window, 'resize');
     this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
       this.engine.resize();
@@ -266,6 +265,7 @@ export class EngineService {
     // this.camera1.fovMode = BABYLON.Camera.FOVMODE_VERTICAL_FIXED;
     this.scene.activeCamera = this.camera1;
 
+    this.camera1.speed = 1;
 
     ////// CAMERA 2 is rendered to a target texture 
     //// this.camera2Material;
@@ -453,7 +453,7 @@ export class EngineService {
 
   }
 
-  public setCameraLightVectors() {
+  public setCameraLightVectors(): void {
 
     // TO DO: only set normal light vectors if rotation has changed
     const l1Position = BABYLON.Vector3.TransformCoordinates(this.hLight1Mimic.position, this.hLight1Mimic.getWorldMatrix());
@@ -498,7 +498,7 @@ export class EngineService {
     (this.scene.lights[7] as BABYLON.HemisphericLight).direction.z = -this.camera1.position.z;
   }
 
-  public setLights() {
+  public setLights(): void {
 
     for (let index = 0; index < 8; index++) {
       this.scene.lights[index].intensity = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].intensity.value / 100;
@@ -684,6 +684,7 @@ export class EngineService {
     this.currentVisual = new this.visualClasses[index](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
     this.currentVisual.create();
     this.setLights();
+
 
 
   }

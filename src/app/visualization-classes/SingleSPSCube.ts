@@ -196,11 +196,18 @@ export class SingleSPSCube implements OnDestroy {
         {
             name: 'thing1',
             position: (particle): BABYLON.Vector3 => {
-                const gtheta = this.PId32 * particle.idx - this.PId2;
-                const radius = 30 + .12 * particle.idx;
+                // const gtheta = this.PId32 * particle.idx - this.PId2;
+                // const radius = 30 + .12 * particle.idx;
+                // this.x = radius * Math.cos(gtheta);
+                // this.z = radius * Math.sin(gtheta) * Math.cos(gtheta);
+                // this.y = (particle.scaling.y / 2 - particle.idx / 10) + 20;
+                // return new BABYLON.Vector3(this.x, this.y, this.z);
+
+                const gtheta = this.PId32 * (576 - particle.idx) - this.PId2;
+                const radius = 30 + .12 * (576 - particle.idx);
                 this.x = radius * Math.cos(gtheta);
                 this.z = radius * Math.sin(gtheta) * Math.cos(gtheta);
-                this.y = (particle.scaling.y / 2 - particle.idx / 10) + 20;
+                this.y = (particle.scaling.y / 2 - (576 - particle.idx) / 10) + 20;
                 return new BABYLON.Vector3(this.x, this.y, this.z);
             },
             scaling: (particle, yy: number): BABYLON.Vector3 => {

@@ -62,6 +62,9 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
     this.messageService.announceMessage('scene change');
     this.messageService.announceMessage('set lights');
     this.messageService.announceMessage('set camera');
+    this.messageService.announceMessage('Visual Effect Strength');
+    this.messageService.announceMessage('Smoothing Constant');
+
 
 // TODO: Run update on all customized values as proc that can be used other places
 
