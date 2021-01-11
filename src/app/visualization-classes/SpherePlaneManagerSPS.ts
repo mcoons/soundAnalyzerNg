@@ -118,8 +118,8 @@ export class SpherePlaneManagerSPS {
                 }
             }
         }
-        console.log('this.SPS.nbParticles');
-        console.log(this.SPS.nbParticles);
+        // console.log('this.SPS.nbParticles');
+        // console.log(this.SPS.nbParticles);
 
         this.mesh1 = this.SPS.buildMesh();
         this.mesh1.material = this.mat;

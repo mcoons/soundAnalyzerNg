@@ -397,6 +397,7 @@ export class AudioService {
   setGain(): void {
     // tslint:disable-next-line: max-line-length
     this.gainNode.gain.setValueAtTime(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value, this.audioCtx.currentTime);
+    // console.log('Setting gain: ' +  this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value);    
   }
 
   setSmoothingConstant(): void {

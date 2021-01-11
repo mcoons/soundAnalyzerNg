@@ -81,8 +81,8 @@ export class Mirror implements OnDestroy {
 
         this.ribbonArray.push(ribbon);
 
-        console.log('this.ribbonArray');
-        console.log(this.ribbonArray);
+        // console.log('this.ribbonArray');
+        // console.log(this.ribbonArray);
 
     }
 

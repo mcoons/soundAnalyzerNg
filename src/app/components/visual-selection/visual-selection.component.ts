@@ -11,12 +11,22 @@ import { EngineService } from 'src/app/services/engine/engine.service';
 })
 export class VisualSelectionComponent {
 
+  saveName = 'Test';
+  subscription;
+
   constructor(
     @Inject(OptionsService) public optionsService: OptionsService,
     @Inject(MessageService) private messageService: MessageService,
     @Inject(EngineService) private engineService: EngineService,
     @Inject(StorageService) private storageService: StorageService
-  ) {}
+  ) {
+    this.subscription = messageService.messageAnnounced$.subscribe(
+      message => {
+        if (message === 'scene change') {
+          this.saveName = this.optionsService.newBaseOptions.visual[this.optionsService.currentVisual].label;
+        }
+      });
+  }
 
 
   spsChange(e: MouseEvent): void {
@@ -37,6 +47,8 @@ export class VisualSelectionComponent {
 
   }
 
+
+
   radioChange(e: MouseEvent): void {
 
     this.optionsService.newBaseOptions.visual.forEach(v => {
@@ -45,6 +57,8 @@ export class VisualSelectionComponent {
 
     this.optionsService.updateState('currentVisual', (e.target as HTMLInputElement).value);
     this.optionsService.newBaseOptions.currentVisual = Number((e.target as HTMLInputElement).value);
+
+    this.saveName = this.optionsService.newBaseOptions.visual[this.optionsService.currentVisual].label;
 
     this.messageService.announceMessage('scene change');
     this.messageService.announceMessage('set lights');
@@ -81,11 +95,10 @@ export class VisualSelectionComponent {
     
     this.optionsService.favorites.push(
       {
-        // label: 'Favorite ' + timeString,
-        label: this.optionsService.newBaseOptions.visual[this.optionsService.currentVisual].label,
+        // label: this.optionsService.newBaseOptions.visual[this.optionsService.currentVisual].label,
+        label: this.saveName,
         value: this.optionsService.favorites.length,
-        // name: 'Favorite ' + timeString,
-        name: this.optionsService.newBaseOptions.visual[this.optionsService.currentVisual].label + ' - ' + timeString,
+        name: this.saveName + ' - ' + timeString,
         checked: false,
         options:  t,
         state:    JSON.parse(JSON.stringify(this.optionsService.state))
