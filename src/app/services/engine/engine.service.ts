@@ -845,7 +845,8 @@ export class EngineService {
 
     this.hexSPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
     this.hexSPS.updateParticle = (particle) => {
-      let yy = this.audioService.sample1[555 - particle.idx];
+      // let yy = this.audioService.sample1[555 - particle.idx];
+      let yy = this.audioService.sample2[228 - particle.idx];
       yy = (yy / 255 * yy / 255) * 255;
 
       particle.color.r = this.colorsService.colors(yy).r / 255;
@@ -866,8 +867,9 @@ export class EngineService {
           x2 = x - .5;
         }
         const d = Math.sqrt((x2 * x2) + (z * z));
-        if (d <= 13.3) {
-          this.hexSPS.addShape(hex, 1, { positionFunction: innerPositionFunction });
+        // if (d <= 13.3) {
+          if (d <= 8.5) {
+            this.hexSPS.addShape(hex, 1, { positionFunction: innerPositionFunction });
         }
       }
     }
@@ -884,13 +886,13 @@ export class EngineService {
 
     this.hexMesh.parent = this.hexParent;
     
-    
+    console.log('SPS.nbParticles', this.hexSPS.nbParticles);
     
     // create honeycomb ground mesh
 
     const spsCSG = BABYLON.CSG.FromMesh(this.hexMesh);
 
-    const groundBox = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 880, tessellation: 6, height: 48 }, this.scene);
+    const groundBox = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 600, tessellation: 6, height: 48 }, this.scene);
     groundBox.position.y = -24;
 
     const groundCSG = BABYLON.CSG.FromMesh(groundBox);
@@ -931,7 +933,7 @@ export class EngineService {
         path.push(new BABYLON.Vector3(xx, yy, zz));
       }
 
-      this.groundCover = BABYLON.Mesh.CreateTube('tube', path, 441, numSides, null, 0, this.scene);
+      this.groundCover = BABYLON.Mesh.CreateTube('tube', path, 301, numSides, null, 0, this.scene);
       this.groundCover.rotation.z = Math.PI / 2;
       this.groundCover.rotation.y = Math.PI / 6;
 
@@ -953,14 +955,14 @@ export class EngineService {
       this.tubeMat.bumpTexture = new BABYLON.Texture('../../assets/mats/normal3.jpg', this.scene);
       (this.tubeMat.diffuseTexture as BABYLON.Texture).uScale = 50;
 
-      this.tube1 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 880, thickness: 13, tessellation: 6 }, this.scene);
+      this.tube1 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 600, thickness: 13, tessellation: 6 }, this.scene);
       this.tube1.position.y = 7.5;
       this.tube1.parent = this.hexParent;
       this.tube1.scaling.y = .5;
       this.tube1.material = this.tubeMat;
       this.tube1.rotation.y = Math.PI / 6;
 
-      this.tube2 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 880, thickness: 13, tessellation: 6 }, this.scene);
+      this.tube2 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 600, thickness: 13, tessellation: 6 }, this.scene);
       this.tube2.position.y = -48;
       this.tube2.parent = this.hexParent;
       this.tube2.material = this.tubeMat;
