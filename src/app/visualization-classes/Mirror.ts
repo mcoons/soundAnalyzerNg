@@ -114,12 +114,12 @@ export class Mirror implements OnDestroy {
             rp.forEach( (p,ii) => {
                 p = trp[ii];
             });
+            this.ribbonArray[i] = BABYLON.MeshBuilder.CreateRibbon("ribbon", {pathArray: this.ribbonPaths, instance: this.ribbonArray[0]});
         });
 
         // console.log('this.ribbonPaths[0].length');
         // console.log(this.ribbonPaths[0].length);
 
-        this.ribbonArray[0] = BABYLON.MeshBuilder.CreateRibbon("ribbon", {pathArray: this.ribbonPaths, instance: this.ribbonArray[0]});
 
     }
 

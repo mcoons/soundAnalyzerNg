@@ -30,23 +30,18 @@ export class Morph implements OnDestroy {
     mat;
     mesh1;
 
-    // private SPS;
-
     radiusArray = [200, 175, 150, 125, 100, 75, 50]
     indexDeltaArray = [0, 32, 64, 96, 112, 128, 160];
-    // zOffsetArray = [25, 45, 65, 85, 105];
     pointsArray = [[], [], [], [], [], [], []];
     tubeArray = [null, null, null, null, null, null, null];
     tubeMaterialArray = [null, null, null, null, null, null, null];
-    // ballsGroupArray = [[], [], [], [], [], []];
-    // duplicatesArray = [[], [], [], [], []];
     newPathArray = [[], [], [], [], [], [], []];
     catmullRomArray = [null, null, null, null, null, null, null];
 
 
     scaleValuesArray = [
         {}
-    ]
+    ];
 
     myPathArray = [
         [
@@ -181,12 +176,12 @@ export class Morph implements OnDestroy {
         this.colorsService = colorsService;
         this.optionsService = optionsService;
 
-        this.scene.registerBeforeRender(this.beforeRender);
+        // this.scene.registerBeforeRender(this.beforeRender);
     }
 
-    beforeRender = (): void => {
-        // this.SPS.setParticles();
-    }
+    // beforeRender = (): void => {
+    //     // this.SPS.setParticles();
+    // }
 
     ngOnDestroy = (): void => {
         this.remove();
@@ -199,43 +194,12 @@ export class Morph implements OnDestroy {
         mat.diffuseColor = BABYLON.Color3.FromHexString('#ffffff');
         mat.emissiveColor = BABYLON.Color3.FromHexString('#000000');
 
-        // this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
-
-        // const innerPositionFunction = (particle, i, s): void => {
-        //     null;
-        // };
-
-        // this.SPS.updateParticle = (particle): void => {
-        //     null;
-        // };
-
-        // for (let count = 0; count < 2123; count++) {
-        //     this.tmpMesh = BABYLON.MeshBuilder.CreateSphere('balls1-' + count, { diameter: 4, segments: 16, updatable: true }, this.scene);
-        //     this.tmpMesh.material = mat;
-
-        //     this.tmpMesh.setParent(this.masterParent);
-        //     // this.ballsGroupArray[0].push(this.tmpMesh);
-        //     this.engineService.renderTargetTexture.renderList.push(this.tmpMesh);
-
-        //     this.SPS.addShape(this.tmpMesh, 1, { positionFunction: innerPositionFunction});
-        // }
-
         const colorArray = ['#ffffff', '#dddddd', '#bbbbbb', '#999999', '#777777', '#555555', '#ffffff'];
 
         this.tubeMaterialArray.forEach((m, i) => {
             this.tubeMaterialArray[i] = new BABYLON.StandardMaterial('tubeMat' + i, this.scene);
             this.tubeMaterialArray[i].maxSimultaneousLights = 8;
             this.tubeMaterialArray[i].diffuseColor = BABYLON.Color3.FromHexString(colorArray[i]);
-            // this.tubeMaterialArray[i].bumpTexture = new BABYLON.Texture('../../assets/mats/normal1.jpg', this.scene);
-            // this.tubeMaterialArray[i].bumpTexture.uScale = i*2;
-            // this.tubeMaterialArray[i].bumpTexture.vScale = i*2;   
-            // this.tubeMaterialArray[i].diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse1.jpg', this.scene);
-            // this.tubeMaterialArray[i].diffuseTexture.uScale = i*2;
-            // this.tubeMaterialArray[i].diffuseTexture.vScale = i*2;   
-            // this.tubeMaterialArray[i].emissiveTexture = new BABYLON.Texture('../../assets/mats/normal.jpg', this.scene);
-            // this.tubeMaterialArray[i].emissiveTexture.uScale = i*2;
-            // this.tubeMaterialArray[i].emissiveTexture.vScale = i*2;   
-
         });
 
         this.material = new BABYLON.StandardMaterial('ballMat', this.scene);
@@ -257,7 +221,6 @@ export class Morph implements OnDestroy {
         const oldpoints = [];
 
         // LOOP 192    64 * 3   64 * this.nbPoints + 1
-        // for (let i = 0; i < 193; i++) {
         for (let i = 0; i < 64 * this.nbPoints + 1; i++) {
             oldpoints.push(new BABYLON.Vector3(0, 0, 0));
         }
@@ -278,9 +241,7 @@ export class Morph implements OnDestroy {
         this.engineService.lightParent.rotation.z += .003;
 
         if (this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value) {
-            // this.masterParent.rotation.x += .03;
             this.masterParent.rotation.y += .01;
-            // this.masterParent.rotation.z += .01;
         }
 
         this.index = 0;
@@ -308,32 +269,25 @@ export class Morph implements OnDestroy {
             this.newPathArray[i] = this.catmullRomArray[i].getPoints();
             this.tubeArray[i] = BABYLON.MeshBuilder.ExtrudeShapeCustom('tube' + i, { shape: this.newPathArray[i], path: this.myPathArray[i], instance: this.tubeArray[i], scaleFunction: this.scaleFnArray[i] });
         }
-
-
     }
 
     remove(): void {
-
-        // this.SPS.mesh.dispose();
-        // this.mesh1.dispose();
-        // this.SPS.dispose();
-        // this.SPS = null; // tells the GC the reference can be cleaned up also
-
         this.engineService.lightParent.rotation.x = 0;
         this.engineService.lightParent.rotation.y = 0;
         this.engineService.lightParent.rotation.z = 0;
 
         this.engineService.scene.activeCamera = this.engineService.camera1;
 
-        this.tubeArray[0].dispose();
-        this.tubeArray[1].dispose();
-        this.tubeArray[2].dispose();
-        this.tubeArray[3].dispose();
-        this.tubeArray[4].dispose();
-        this.tubeArray[5].dispose();
-        this.tubeArray[6].dispose();
+        this.tubeArray.forEach( ta => ta.dispose());
+        // this.tubeArray[0].dispose();
+        // this.tubeArray[1].dispose();
+        // this.tubeArray[2].dispose();
+        // this.tubeArray[3].dispose();
+        // this.tubeArray[4].dispose();
+        // this.tubeArray[5].dispose();
+        // this.tubeArray[6].dispose();
 
-        this.scene.unregisterBeforeRender(this.beforeRender);
+        // this.scene.unregisterBeforeRender(this.beforeRender);
 
         this.audioService = null;
         this.engineService = null;

@@ -25,7 +25,20 @@ export class Notes implements OnDestroy {
     mat;
     mesh1;
 
+
+
+
+
     private SPS;
+    nbPoints = 8;                     // the number of points between each Vector3 control points
+    audioValues;
+    pointsArray = [];
+    curveArray;
+    catmullRomArray;
+    SPSMesh;
+    y;
+
+
 
     constructor(scene: BABYLON.Scene, audioService: AudioService, optionsService: OptionsService, messageService: MessageService, engineService: EngineService, colorsService: ColorsService) {
 
@@ -43,7 +56,7 @@ export class Notes implements OnDestroy {
     }
 
     beforeRender = (): void => {
-        // this.SPS.setParticles();
+        this.SPS.setParticles();
     }
 
     ngOnDestroy = (): void => {
@@ -97,7 +110,39 @@ export class Notes implements OnDestroy {
 
         });
 
+
+
+        this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
+
+        for (let i = 0; i < 64 * this.nbPoints + 1; i++) {
+            this.pointsArray.push(new BABYLON.Vector3(0, 0, 0));
+        }
+
+        const innerPositionFunction = (particle, i) => {
+
+            particle.position.x = (i % 32 ) * 50 - 16 * 50;
+            particle.position.z = Math.floor( i / 32 ) * 50 - 8 * this.nbPoints * 25;
+            particle.position.y = 0;
+        };
+
+        const sphere = BABYLON.MeshBuilder.CreateSphere('s', { diameter: 2, segments: 2, updatable: true }, this.scene);
+
+
+        this.SPS.addShape(sphere, 4096, { positionFunction: innerPositionFunction });
+
+        sphere.dispose();
+
+        this.SPSMesh = this.SPS.buildMesh();
+        
+        this.SPS.updateParticle = (particle) => {
+            this.y = this.curveArray[particle.idx].y;
+            this.y = (this.y / 200 * this.y / 200) * 255;
+            // console.log(this.y);
+            particle.position.y = this.y/5 - 100;
+        };
+
     }
+    
 
     update(): void {
 
@@ -120,12 +165,23 @@ export class Notes implements OnDestroy {
 
         });
 
+        this.pointsArray.forEach( (p,i) => p.y = this.audioService.sample2[i]);
+
+
+        this.catmullRomArray = BABYLON.Curve3.CreateCatmullRomSpline(this.pointsArray, this.nbPoints, false);
+        this.curveArray = this.catmullRomArray.getPoints();
+        // console.log(this.curveArray[500]);
     }
 
     remove(): void {
         this.engineService.scene.activeCamera = this.engineService.camera1;
 
         this.notes.forEach(n => n.dispose());
+
+        this.SPS.mesh.dispose();
+        this.SPSMesh.dispose();
+        this.SPS.dispose();
+        this.SPS = null; // tells the GC the reference can be cleaned up also
 
         this.scene.unregisterBeforeRender(this.beforeRender);
 

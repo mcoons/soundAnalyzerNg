@@ -155,14 +155,14 @@ export class EngineService {
 
   }
 
-  public setCamera() {
+  public setCamera(): void {
     this.camera1.alpha = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].calpha;
     this.camera1.beta = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cbeta;
     this.camera1.radius = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cradius;
   }
 
 
-  public setGlowLayer = (intensity) => {
+  public setGlowLayer = (intensity: number): void => {
 
     // var gl = new BABYLON.GlowLayer("glow", this.scene, {
     //   mainTextureFixedSize: 1024,
@@ -736,7 +736,7 @@ export class EngineService {
     this.tmpCanvas.setAttribute('height', (style3.height() * dpi).toString());
   }
 
-  makeTextPlane = (text: string, color: string, textSize: number) => {
+  makeTextPlane = (text: string, color: string, textSize: number): BABYLON.Mesh => {
     const dynamicTexture = new BABYLON.DynamicTexture('DynamicTexture', 50, this.scene, true);
     dynamicTexture.hasAlpha = true;
     dynamicTexture.drawText(text, 5, 40, 'bold 36px Arial', color, 'transparent', true);
@@ -835,7 +835,7 @@ export class EngineService {
     const hex = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 38, tessellation: 6, height: 50 }, this.scene);
     hex.convertToFlatShadedMesh();
 
-    const innerPositionFunction = (particle, i, s) => {
+    const innerPositionFunction = (particle) => {
       particle.position.x = (x2) * 35.5;
       particle.position.y = -24.5;
       particle.position.z = (z) * 31;
@@ -886,7 +886,7 @@ export class EngineService {
 
     this.hexMesh.parent = this.hexParent;
     
-    console.log('SPS.nbParticles', this.hexSPS.nbParticles);
+    // console.log('SPS.nbParticles', this.hexSPS.nbParticles);
     
     // create honeycomb ground mesh
 
@@ -1049,7 +1049,7 @@ export class EngineService {
     // this.titleSPS.setParticles();
   }
 
-  create3DText(displayText, scale, depth, xPos, yPos, zPos, color) {
+  create3DText(displayText: string, scale: number, depth: number, xPos: number, yPos: number, zPos: number, color: BABYLON.Color3): BABYLON.Mesh {
     // var  MeshWriter, text1, text2, C1, C2;
 
     const Writer = new MESHWRITER(this.scene, { scale });

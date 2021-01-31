@@ -92,7 +92,7 @@ export class SingleSPSTriangle implements OnDestroy {
             };
 
             // z = 0;
-            for (let index = 0; index < 576; index++) {
+            for (let index = 0; index < 255; index++) {
                 this.SPS.addShape(extrusion, 1, { positionFunction: innerPositionFunction });
                 // z += 1 / 32;
             }
@@ -120,7 +120,7 @@ export class SingleSPSTriangle implements OnDestroy {
 
             particle.rotation.z = (index - startingRowIndex) % 2 ? Math.PI : 0;
 
-            const y = this.audioService.sample1[particle.idx];
+            const y = this.audioService.sample2[particle.idx];
 
             particle.scaling.z = -y / 180;
 
@@ -137,7 +137,7 @@ export class SingleSPSTriangle implements OnDestroy {
         this.SPS.mesh.material = this.material;
         this.SPS.material = this.material;
 
-        this.SPS.mesh.position.z = 400;
+        this.SPS.mesh.position.z = 300;
 
         this.SPS.mesh.scaling.x = 20;
         this.SPS.mesh.scaling.y = 20;

@@ -1,3 +1,18 @@
+Shapes created with Constructive Solid Geometry (CSG)
+Dynamic Solid Particle Systems 
+Dynamic path based Tubes
+Dynamic Extruded shapes.
+Dynamic vertex manipulation.
+Dynamic path based Ribbons.
+
+
+
+
+
+
+
+
+
 
 https://dashboard.heroku.com/apps/soundanalyzerng
 https://soundanalyzerng.herokuapp.com/
@@ -10,6 +25,25 @@ https://www.babylonjs-playground.com/#1HSC2O#242
 
 FFT Info
 https://www.rationalacoustics.com/files/FFT_Fundamentals.pdf
+
+
+
+
+leonell-cassio-ft-anne-lan.mp3
+Memories by Leonell Cassio ft. Anne Lan | https://soundcloud.com/leonellcassio
+Music promoted by https://www.free-stock-music.com
+Creative Commons Attribution-ShareAlike 3.0 Unported
+https://creativecommons.org/licenses/by-sa/3.0/deed.en_US
+
+
+
+
+
+
+Mixkit Stock Music Free License
+
+
+
 
 
 
