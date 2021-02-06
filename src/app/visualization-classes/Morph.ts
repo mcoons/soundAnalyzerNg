@@ -200,6 +200,7 @@ export class Morph implements OnDestroy {
             this.tubeMaterialArray[i] = new BABYLON.StandardMaterial('tubeMat' + i, this.scene);
             this.tubeMaterialArray[i].maxSimultaneousLights = 8;
             this.tubeMaterialArray[i].diffuseColor = BABYLON.Color3.FromHexString(colorArray[i]);
+            this.tubeMaterialArray[i].freeze();
         });
 
         this.material = new BABYLON.StandardMaterial('ballMat', this.scene);

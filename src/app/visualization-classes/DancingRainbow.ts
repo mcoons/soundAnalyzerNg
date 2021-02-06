@@ -152,10 +152,17 @@ export class DancingRainbow implements OnDestroy {
         this.tube6Material.maxSimultaneousLights = 8;
         this.tube6Material.diffuseColor = BABYLON.Color3.FromHexString('#3A2D61');
 
-
         this.tube7Material = new BABYLON.StandardMaterial('tubeMat', this.scene);
         this.tube7Material.maxSimultaneousLights = 8;
         this.tube7Material.diffuseColor = BABYLON.Color3.FromHexString('#9B4BD9');
+
+        this.tubeMaterial.freeze();
+        this.tube2Material.freeze();
+        this.tube3Material.freeze();
+        this.tube4Material.freeze();
+        this.tube5Material.freeze();
+        this.tube6Material.freeze();
+        this.tube7Material.freeze();
 
         this.material = new BABYLON.StandardMaterial('ballMat', this.scene);
         this.material.diffuseColor = new BABYLON.Color3(1, 0, 0);

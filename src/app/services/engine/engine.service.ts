@@ -830,6 +830,8 @@ export class EngineService {
     (groundMat.bumpTexture as BABYLON.Texture).uScale = 10;
     (groundMat.bumpTexture as BABYLON.Texture).vScale = 10;
 
+    groundMat.freeze();
+
     // BUILD SPS ////////////////////////////////
 
     const hex = BABYLON.MeshBuilder.CreateCylinder('s', { diameter: 38, tessellation: 6, height: 50 }, this.scene);
@@ -922,6 +924,8 @@ export class EngineService {
       (this.groundMatCover.diffuseTexture as BABYLON.Texture).uScale = 100;
       (this.groundMatCover.bumpTexture as BABYLON.Texture).uScale = 100;
 
+      this.groundMatCover.freeze();
+
       const path = [];
       const segLength = 100;
       const numSides = 6;
@@ -954,6 +958,8 @@ export class EngineService {
       this.tubeMat.diffuseTexture = new BABYLON.Texture('../../assets/mats/diffuse3.jpg', this.scene);
       this.tubeMat.bumpTexture = new BABYLON.Texture('../../assets/mats/normal3.jpg', this.scene);
       (this.tubeMat.diffuseTexture as BABYLON.Texture).uScale = 50;
+
+      this.tubeMat.freeze();
 
       this.tube1 = BABYLON.MeshBuilder.CreateTorus('torus', { diameter: 600, thickness: 13, tessellation: 6 }, this.scene);
       this.tube1.position.y = 7.5;

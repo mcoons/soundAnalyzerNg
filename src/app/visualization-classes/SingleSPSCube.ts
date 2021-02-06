@@ -798,7 +798,12 @@ export class SingleSPSCube implements OnDestroy {
     }
 
     beforeRender = (): void => {
+        this.scene.blockMaterialDirtyMechanism = true;
+
         this.SPS.setParticles();
+
+        this.scene.blockMaterialDirtyMechanism = false;
+
     }
 
     setDefaults = (): void => {

@@ -41,7 +41,12 @@ export class Hex {
     // }
 
     beforeRender = (): void => {
+        this.scene.blockMaterialDirtyMechanism = true;
+
         this.engineService.hexSPS.setParticles();
+
+        this.scene.blockMaterialDirtyMechanism = false;
+
 
         if (this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value) {
             this.rotation += Math.PI / 500;

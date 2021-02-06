@@ -56,7 +56,12 @@ export class SpherePlaneManagerSPS {
 
     beforeRender = (): void => {
 
+        this.scene.blockMaterialDirtyMechanism = true;
+
         this.SPS.setParticles();
+
+        this.scene.blockMaterialDirtyMechanism = false;
+
 
         if (this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value) {
             this.rotation += Math.PI / 500;

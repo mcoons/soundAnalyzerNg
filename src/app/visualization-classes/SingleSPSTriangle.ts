@@ -42,7 +42,12 @@ export class SingleSPSTriangle implements OnDestroy {
     }
 
     beforeRender = (): void => {
+        this.scene.blockMaterialDirtyMechanism = true;
+
         this.SPS.setParticles();
+
+        this.scene.blockMaterialDirtyMechanism = false;
+
     }
 
     create = (): void => {
