@@ -287,6 +287,7 @@ export class AudioService {
 
     const historyPeek = 5;
 
+    
 
     this.noteIndex.forEach((n, i) => {
 
