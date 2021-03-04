@@ -10,10 +10,6 @@ export class Spectrograph {
 
     private scene: BABYLON.Scene;
     private audioService: AudioService;
-    private optionsService: OptionsService;
-    private messageService: MessageService;
-    private engineService: EngineService;
-    private colorsService: ColorsService;
 
     private ground;
     private groundVertices;
@@ -23,10 +19,6 @@ export class Spectrograph {
 
         this.scene = scene;
         this.audioService = audioService;
-        this.optionsService = optionsService;
-        this.messageService = messageService;
-        this.engineService = engineService;
-        this.colorsService = colorsService;
 
     }
 
@@ -91,12 +83,7 @@ export class Spectrograph {
 
     remove(): void {
         this.ground.dispose();
-
         this.audioService = null;
-        this.optionsService = null;
-        this.messageService = null;
-        this.engineService = null;
-        this.colorsService = null;
         this.scene = null;
     }
 }

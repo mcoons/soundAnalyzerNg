@@ -66,16 +66,16 @@ export class AppComponent {
     @Inject(OptionsService) public optionsService: OptionsService
   ) { }
 
-  get title() {
+  get title(): string {
     return this._title;
   }
 
-  togglePanel() {
+  togglePanel(): void {
     this.optionsService.toggleState('showPanel');
   }
 
 
-  toggleFavorites() {
+  toggleFavorites(): void {
     this.optionsService.toggleState('showFavorites');
   }
 

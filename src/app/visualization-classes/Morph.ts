@@ -237,6 +237,9 @@ export class Morph implements OnDestroy {
     }
 
     update(): void {
+        if (!this.optionsService.playing){
+            return;
+        }
         this.engineService.lightParent.rotation.x += .001;
         this.engineService.lightParent.rotation.y -= .002;
         this.engineService.lightParent.rotation.z += .003;

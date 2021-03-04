@@ -516,7 +516,11 @@ export class EngineService {
     // because it could trigger heavy changeDetection cycles.
     this.ngZone.runOutsideAngular(() => {
       const rendererLoopCallback = () => {
-        if (this.audioService.audio != null) {
+// if (!this.optionsService.playing){
+//   return;
+// }
+
+        if (this.audioService.audio != null && this.optionsService.playing) {
           this.audioService.analyzeData();
         }
         this.fixDpi();
@@ -524,6 +528,7 @@ export class EngineService {
         this.setCameraLightVectors();
 
         this.currentVisual.update();
+
         this.scene.render();
 
 
@@ -847,6 +852,9 @@ export class EngineService {
 
     this.hexSPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
     this.hexSPS.updateParticle = (particle) => {
+      if (!this.optionsService.playing){
+        return;
+    }
       // let yy = this.audioService.sample1[555 - particle.idx];
       let yy = this.audioService.sample2[228 - particle.idx];
       yy = (yy / 255 * yy / 255) * 255;

@@ -14,6 +14,7 @@ export class DancingRainbow implements OnDestroy {
     private audioService: AudioService;
     private engineService: EngineService;
     private colorsService: ColorsService;
+    private optionsService: OptionsService;
 
     // pointListArray = [];
 
@@ -62,6 +63,7 @@ export class DancingRainbow implements OnDestroy {
         this.audioService = audioService;
         this.engineService = engineService;
         this.colorsService = colorsService;
+        this.optionsService = optionsService;
 
         // this.material = new BABYLON.StandardMaterial('ballMat', this.scene);
         // this.material.diffuseColor = new BABYLON.Color3(1, 0, 0);
@@ -208,6 +210,9 @@ export class DancingRainbow implements OnDestroy {
         // console.log(counter);
 
         this.SPS.updateParticle = (particle) => {
+            if (!this.optionsService.playing){
+                return;
+            }
             y = this.audioService.sample2[particle.idx];
             y = (y / 200 * y / 200) * 255;
 
@@ -308,6 +313,9 @@ export class DancingRainbow implements OnDestroy {
     }
 
     update(): void {
+        if (!this.optionsService.playing){
+            return;
+        }
 
         const radius = 950;
         const radius2 = 850;

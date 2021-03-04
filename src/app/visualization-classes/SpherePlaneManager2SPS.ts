@@ -11,9 +11,9 @@ export class SpherePlaneManager2SPS {
     private scene: BABYLON.Scene;
     private audioService: AudioService;
     private optionsService: OptionsService;
-    private messageService: MessageService;
+    // private messageService: MessageService;
     private colorsService: ColorsService;
-    private engineService: EngineService;
+    // private engineService: EngineService;
 
     private SPS;
     private mat;
@@ -29,9 +29,9 @@ export class SpherePlaneManager2SPS {
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
-        this.messageService = messageService;
+        // this.messageService = messageService;
         this.colorsService = colorsService;
-        this.engineService = engineService;
+        // this.engineService = engineService;
 
         this.scene.registerBeforeRender(this.beforeRender);
 
@@ -127,8 +127,6 @@ export class SpherePlaneManager2SPS {
 
 
         const build1 = () => {
-
-
             const innerPositionFunction = (particle, i) => {
                 particle.position.x = (radius + 12 * y) * Math.cos(theta) * 1.5;
                 particle.position.y = ((i % 16) - 8) * 35;
@@ -145,8 +143,6 @@ export class SpherePlaneManager2SPS {
 
 
         const build2 = () => {
-
-
             const innerPositionFunction = (particle, i: number) => {
                 particle.position.x = (radius + 20 * y) * Math.cos(theta) * 1.5;
                 particle.position.y = ((i % 16) - 8) * 35;
@@ -206,6 +202,9 @@ export class SpherePlaneManager2SPS {
         sphere.dispose();
 
         this.SPS.updateParticle = (particle) => {
+            if (!this.optionsService.playing){
+                return;
+            }
             this.y = this.audioService.sample1[particle.idx];
             this.y = (this.y / 200 * this.y / 200) * 255;
 
@@ -239,8 +238,8 @@ export class SpherePlaneManager2SPS {
 
         this.audioService = null;
         this.optionsService = null;
-        this.messageService = null;
-        this.engineService = null;
+        // this.messageService = null;
+        // this.engineService = null;
         this.colorsService = null;
         this.scene = null;
     }
