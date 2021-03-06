@@ -202,7 +202,7 @@ export class SpherePlaneManager2SPS {
         sphere.dispose();
 
         this.SPS.updateParticle = (particle) => {
-            if (!this.optionsService.playing){
+            if (!this.optionsService.playing && !this.optionsService.microphone){
                 return;
             }
             this.y = this.audioService.sample1[particle.idx];

@@ -7,6 +7,7 @@ import { OptionsService } from '../options/options.service';
 import { MessageService } from '../message/message.service';
 
 import { WindowRefService } from '../window-ref/window-ref.service';
+// import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 @Injectable({
   providedIn: 'root'
@@ -68,7 +69,7 @@ export class AudioService {
   tdMaxHistory = [];
 
   sample1: Uint8Array = new Uint8Array(576);
-  // sample1BufferHistory = [];
+  sample1BufferHistory = [];
   sample2BufferHistory = [];
   sample1Topper = [];
 
@@ -88,7 +89,8 @@ export class AudioService {
   analyzersArray: any;
 
   // freq sample1 bucket index per note  +/- 64 for octives
-  private noteIndex = [137, 141, 146, 151, 156, 161, 167, 173, 180, 186, 129, 133];
+  // private noteIndex = [137, 141, 146, 151, 156, 161, 167, 173, 180, 186, 129, 133];
+  private noteIndex = [73, 77, 82, 87, 92, 33, 39, 45, 52, 58, 65, 69];
 
   noteAvgs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
@@ -311,9 +313,15 @@ export class AudioService {
       this.noteAvgs[i] = this.noteAvgs[i] - 1 / historyPeek * temp;
       this.noteAvgs[i] = this.noteAvgs[i] + 1 / historyPeek * temp2;
 
+      // console.log(this.noteAvgs[i]);
+      // console.log(temp);   // Shows NaN
+      // console.log("temp2: " + temp2);    // Shows NaN   
+
     });
 
-    // console.log(this.noteAvgs);
+    // console.log("hp: " + historyPeek);   // shows 5
+    // console.log(this.noteAvgs);          // Shows array of NaNs
+    // console.log(this.sample2BufferHistory[3]);
 
   }
 
@@ -385,6 +393,7 @@ export class AudioService {
     this.optionsService.playing = false;
 
     const constraints = { audio: true };
+    // const constraints = { audio: {deviceId: "cf09e6bc32d16a4bee10845773ca85c3997f1d262867c84b212ea035d3923827"} };
 
     navigator.mediaDevices.getUserMedia(constraints)
       .then((streams) => {

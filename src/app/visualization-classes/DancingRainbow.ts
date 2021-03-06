@@ -210,7 +210,7 @@ export class DancingRainbow implements OnDestroy {
         // console.log(counter);
 
         this.SPS.updateParticle = (particle) => {
-            if (!this.optionsService.playing){
+            if (!this.optionsService.playing && !this.optionsService.microphone){
                 return;
             }
             y = this.audioService.sample2[particle.idx];
@@ -313,7 +313,7 @@ export class DancingRainbow implements OnDestroy {
     }
 
     update(): void {
-        if (!this.optionsService.playing){
+        if (!this.optionsService.playing && !this.optionsService.microphone){
             return;
         }
 

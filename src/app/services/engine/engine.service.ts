@@ -520,7 +520,7 @@ export class EngineService {
 //   return;
 // }
 
-        if (this.audioService.audio != null && this.optionsService.playing) {
+        if (this.audioService.audio != null && (this.optionsService.playing || this.optionsService.microphone)) {
           this.audioService.analyzeData();
         }
         this.fixDpi();
@@ -852,7 +852,7 @@ export class EngineService {
 
     this.hexSPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
     this.hexSPS.updateParticle = (particle) => {
-      if (!this.optionsService.playing){
+      if (!this.optionsService.playing && !this.optionsService.microphone){
         return;
     }
       // let yy = this.audioService.sample1[555 - particle.idx];
