@@ -224,7 +224,8 @@ export class MyPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onSliderChangeVolume(e): void {
-    this.audio.nativeElement.volume = this.optionsService.volume / 10;
+    // this.audio.nativeElement.volume = this.optionsService.volume / 10;
+    this.audio.nativeElement.volume = this.optionsService.volume * .1;
   }
 
   onSliderChangeTime(e): void {

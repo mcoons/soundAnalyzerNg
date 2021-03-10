@@ -64,7 +64,8 @@ export class SpherePlaneManagerSPS {
 
 
         if (this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value) {
-            this.rotation += Math.PI / 500;
+            // this.rotation += Math.PI / 500;
+            this.rotation += Math.PI * .002;
             if (this.rotation >= Math.PI * 2) {
                 this.rotation = 0;
             }
@@ -140,15 +141,20 @@ export class SpherePlaneManagerSPS {
                 return;
             }
             this.y = this.audioSample[particle.idx];
-            this.y = (this.y / 200 * this.y / 200) * 255;
+            // this.y = (this.y / 200 * this.y / 200) * 255;
+            this.y = this.y * this.y * 0.006375;
 
             this.c = this.colorsService.colors(this.y);
 
-            particle.color.r = this.c.r / 255;
-            particle.color.g = this.c.g / 255;
-            particle.color.b = this.c.b / 255;
+            // particle.color.r = this.c.r / 255;
+            // particle.color.g = this.c.g / 255;
+            // particle.color.b = this.c.b / 255;
+            particle.color.r = this.c.r * .00392;
+            particle.color.g = this.c.g * .00392;
+            particle.color.b = this.c.b * .00392;
 
-            this.s = this.y / 30 + .5;
+            // this.s = this.y / 30 + .5;
+            this.s = this.y * .03333 + .5;
 
             particle.scale.x = this.s;
             particle.scale.y = this.s;

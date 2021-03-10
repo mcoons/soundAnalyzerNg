@@ -56,7 +56,6 @@ _______________________________________________________________________
 
 Fix/remove mirror on Rings
 
-Fix the slight Y offset issue that happens during explosion - if only 1 selected then dont explode
 Fix playlist selection button highlight when canceling coming from mic
 
 

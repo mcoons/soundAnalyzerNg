@@ -539,14 +539,16 @@ export class AudioService {
     messageService.messageAnnounced$.subscribe(
       message => {
         if (this.audio != null && message === 'volume change') {
-          this.audio.volume = (this.optionsService.volume) / 10;
+          // this.audio.volume = (this.optionsService.volume) / 10;
+          this.audio.volume = (this.optionsService.volume) * .1;
         }
         if (this.audio != null && message === 'Visual Effect Strength') {
           this.setGain();
         }
         if (this.audio != null && message === 'Smoothing Constant') {
           // tslint:disable-next-line: max-line-length
-          this.smoothingConstant = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value / 10;
+          // this.smoothingConstant = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value / 10;
+          this.smoothingConstant = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value * .1;
           this.setSmoothingConstant();
         }
       });
@@ -562,7 +564,8 @@ export class AudioService {
     }
 
     this.audio = audio;
-    this.audio.volume = (this.optionsService.volume) / 10;
+    // this.audio.volume = (this.optionsService.volume) / 10;
+    this.audio.volume = (this.optionsService.volume) * .1;
 
     this.audioCtx = new AudioContext();
     this.audioSrc = this.audioCtx.createMediaElementSource(this.audio); /* <<<<<<<<<<<<<<<<<<< */
@@ -797,7 +800,7 @@ export class AudioService {
         this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 192] // +
         // this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 256] //+
         // this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 320]
-        ) / 3;
+        ) * .3333;
 
 
       const temp2 = ( // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n] +
@@ -806,7 +809,7 @@ export class AudioService {
         this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 192] // +
         // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 256] //+
         // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 320]
-        ) / 3;
+        ) * .3333;
 
       this.noteAvgs[i] = this.noteAvgs[i] - 1 / historyPeek * temp;
       this.noteAvgs[i] = this.noteAvgs[i] + 1 / historyPeek * temp2;
@@ -855,7 +858,7 @@ export class AudioService {
 
     this.optionsService.microphone = false;
     this.optionsService.volume = this.lastVolume;
-    this.audio.volume = this.lastVolume / 10;
+    this.audio.volume = this.lastVolume * .1;
 
     this.optionsService.renderPlayer = true;
     this.splitter.connect(this.audioCtx.destination, 1);

@@ -206,15 +206,22 @@ export class SpherePlaneManager2SPS {
                 return;
             }
             this.y = this.audioService.sample1[particle.idx];
-            this.y = (this.y / 200 * this.y / 200) * 255;
+            // this.y = (this.y / 200 * this.y / 200) * 255;
+            this.y = this.y * this.y * 0.006375;
+
 
             this.c = this.colorsService.colors(this.y);
 
-            particle.color.r = this.c.r / 255;
-            particle.color.g = this.c.g / 255;
-            particle.color.b = this.c.b / 255;
+            // particle.color.r = this.c.r / 255;
+            // particle.color.g = this.c.g / 255;
+            // particle.color.b = this.c.b / 255;
 
-            this.s = this.y / 40 + .5;
+            particle.color.r = this.c.r * .00392;
+            particle.color.g = this.c.g * .00392;
+            particle.color.b = this.c.b * .00392;
+
+            // this.s = this.y / 40 + .5;
+            this.s = this.y * .025 + .5;
 
             particle.scale.x = this.s;
             particle.scale.y = this.s;

@@ -53,10 +53,14 @@ export class SingleSPSTriangle implements OnDestroy {
     create = (): void => {
 
         const myShape = [
-            new BABYLON.Vector3(-1, -1.732 / 2, 0),
-            new BABYLON.Vector3(1, -1.732 / 2, 0),
-            new BABYLON.Vector3(0, 1.732 / 2, 0),
-            new BABYLON.Vector3(-1, -1.732 / 2, 0)
+            // new BABYLON.Vector3(-1, -1.732 / 2, 0),
+            // new BABYLON.Vector3(1, -1.732 / 2, 0),
+            // new BABYLON.Vector3(0, 1.732 / 2, 0),
+            // new BABYLON.Vector3(-1, -1.732 / 2, 0)
+            new BABYLON.Vector3(-1, -0.866, 0),
+            new BABYLON.Vector3(1, -0.866, 0),
+            new BABYLON.Vector3(0, 0.866, 0),
+            new BABYLON.Vector3(-1, -0.866, 0)
         ];
 
         // myShape.push(myShape[0]);  // close profile
@@ -70,7 +74,8 @@ export class SingleSPSTriangle implements OnDestroy {
 
         extrusion.setPivotMatrix(BABYLON.Matrix.Identity());
         extrusion.convertToFlatShadedMesh();
-        extrusion.rotation.x = -Math.PI / 2;
+        // extrusion.rotation.x = -Math.PI / 2;
+        extrusion.rotation.x = -Math.PI * .5;
 
         this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
 
@@ -92,7 +97,8 @@ export class SingleSPSTriangle implements OnDestroy {
                 particle.position.x = x;
                 particle.position.z = y;
                 particle.position.y = 0;
-                particle.rotation.x = Math.PI / 2;
+                // particle.rotation.x = Math.PI / 2;
+                particle.rotation.x = Math.PI * .5;
                 particle.rotation.z = i % 2 ? Math.PI : 0;
             };
 
@@ -127,13 +133,18 @@ export class SingleSPSTriangle implements OnDestroy {
 
             const y = this.audioService.sample2[particle.idx];
 
-            particle.scaling.z = -y / 180;
+            // particle.scaling.z = -y / 180;
+            particle.scaling.z = -y * .0055556;
 
             const c = this.colorsService.colors(y);
 
-            particle.color.r = c.r / 255;
-            particle.color.g = c.g / 255;
-            particle.color.b = c.b / 255;
+            // particle.color.r = c.r / 255;
+            // particle.color.g = c.g / 255;
+            // particle.color.b = c.b / 255;
+
+            particle.color.r = c.r * .00392;
+            particle.color.g = c.g * .00392;
+            particle.color.b = c.b * .00392;
 
         }
 

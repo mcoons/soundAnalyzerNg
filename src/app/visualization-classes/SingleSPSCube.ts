@@ -67,6 +67,10 @@ export class SingleSPSCube implements OnDestroy {
     private conTimeout = null;
     private initialTimeout = null;
 
+    private rx;
+    private ry;
+    private rz;
+
     private theta: number;
     ptsOnSphere = [];
 
@@ -158,22 +162,26 @@ export class SingleSPSCube implements OnDestroy {
         {
             name: 'blockPlane',
             position: (particle, yy: number): BABYLON.Vector3 => {
-                const row = 9 - Math.floor(particle.idx / 64);
+                // const row = 9 - Math.floor(particle.idx / 64);
+                const row = 9 - Math.floor(particle.idx * 0.015625);
                 const column = particle.idx % 64;
                 this.x = (column - 31.5) * 3;
                 this.z = (row - 5) * 10;
-                this.y = particle.scaling.y / 2;
+                // this.y = particle.scaling.y / 2;
+                this.y = particle.scaling.y * .5;
                 return new BABYLON.Vector3(this.x, this.y, this.z);
             },
             scaling: (particle, yy: number): BABYLON.Vector3 => {
-                return new BABYLON.Vector3(2.5, 15 * yy / 255 + .5, 9);
+                // return new BABYLON.Vector3(2.5, 15 * yy / 255 + .5, 9);
+                return new BABYLON.Vector3(2.5, 15 * yy * .00392 + .5, 9);
             },
             rotation: (particle, yy: number): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, 0, 0);
             },
             color: (particle, yy: number): BABYLON.Color4 => {
                 this.c = this.colorsService.colors(yy);
-                return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
+                // return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
+                return new BABYLON.Color4(this.c.r * .00392, this.c.g * .00392, this.c.b * .00392, 1);
             },
             spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, -this.PI, 0);
@@ -207,11 +215,13 @@ export class SingleSPSCube implements OnDestroy {
                 const radius = 30 + .12 * (576 - particle.idx);
                 this.x = radius * Math.cos(gtheta);
                 this.z = radius * Math.sin(gtheta) * Math.cos(gtheta);
-                this.y = (particle.scaling.y / 2 - (576 - particle.idx) / 10) + 20;
+                // this.y = (particle.scaling.y / 2 - (576 - particle.idx) / 10) + 20;
+                this.y = (particle.scaling.y * .5 - (576 - particle.idx) * .1) + 20;
                 return new BABYLON.Vector3(this.x, this.y, this.z);
             },
             scaling: (particle, yy: number): BABYLON.Vector3 => {
-                return new BABYLON.Vector3(.5 + yy / 50, 1, .5 + yy / 50);
+                // return new BABYLON.Vector3(.5 + yy / 50, 1, .5 + yy / 50);
+                return new BABYLON.Vector3(.5 + yy * .02, 1, .5 + yy * .02);
             },
             rotation: (particle, yy: number): BABYLON.Vector3 => {
                 // return new BABYLON.Vector3(0, 0, 0);
@@ -220,7 +230,8 @@ export class SingleSPSCube implements OnDestroy {
             },
             color: (particle, yy: number): BABYLON.Color4 => {
                 this.c = this.colorsService.colors(yy);
-                return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
+                // return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
+                return new BABYLON.Color4(this.c.r * .00392, this.c.g * .00392, this.c.b * .00392, 1);
             },
             spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, this.backwardRotation, 0);
@@ -248,12 +259,15 @@ export class SingleSPSCube implements OnDestroy {
                 const radius = 20 + .12 * particle.idx;
                 this.x = radius * Math.cos(gtheta);
                 this.z = radius * Math.sin(gtheta);
-                this.y = (particle.scaling.y / 2 - particle.idx / 16) + 20;
+                // this.y = (particle.scaling.y / 2 - particle.idx / 16) + 20;
+                this.y = (particle.scaling.y * .5 - particle.idx * .0625) + 20;
                 return new BABYLON.Vector3(this.x, this.y, this.z);
             },
             scaling: (particle, yy: number): BABYLON.Vector3 => {
                 const radius = 20 + .12 * particle.idx;
                 this.x = 6;
+                // this.y = 20 * yy / 255 + .1;
+                // this.z = radius / 12;
                 this.y = 20 * yy / 255 + .1;
                 this.z = radius / 12;
                 return new BABYLON.Vector3(this.x, this.y, this.z);
@@ -264,7 +278,9 @@ export class SingleSPSCube implements OnDestroy {
             },
             color: (particle, yy: number): BABYLON.Color4 => {
                 this.c = this.colorsService.colors(yy);
-                return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
+                // return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
+                return new BABYLON.Color4(this.c.r * .00392, this.c.g * .00392, this.c.b * .00392, 1);
+
             },
             spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, this.forwardRotation, 0);
@@ -310,7 +326,9 @@ export class SingleSPSCube implements OnDestroy {
             },
             color: (particle, yy: number): BABYLON.Color4 => {
                 this.c = this.colorsService.colors(yy);
-                return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
+                // return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
+                return new BABYLON.Color4(this.c.r * .00392, this.c.g * .00392, this.c.b * .00392, 1);
+
             },
             spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, this.forwardRotation, 0);
@@ -333,7 +351,8 @@ export class SingleSPSCube implements OnDestroy {
         {
             name: 'equation',
             position: (particle): BABYLON.Vector3 => {
-                const ring = Math.floor(particle.idx / 64);
+                // const ring = Math.floor(particle.idx / 64);
+                const ring = Math.floor(particle.idx * 0.015625);
                 const ringIndex = particle.idx % 64;
                 // const theta = ringIndex * Math.PI / 32;
                 const theta = ringIndex * this.PId32;
@@ -345,7 +364,8 @@ export class SingleSPSCube implements OnDestroy {
                 return new BABYLON.Vector3(this.x, this.y, this.z);
             },
             scaling: (particle, yy: number): BABYLON.Vector3 => {
-                return new BABYLON.Vector3(5, 20 * yy / 255 + 1, 5);
+                // return new BABYLON.Vector3(5, 20 * yy / 255 + 1, 5);
+                return new BABYLON.Vector3(5, 20 * yy * .00392 + 1, 5);
             },
             rotation: (particle, yy: number): BABYLON.Vector3 => {
                 // return new BABYLON.Vector3(0, 0, 0);
@@ -354,7 +374,9 @@ export class SingleSPSCube implements OnDestroy {
             },
             color: (particle, yy: number): BABYLON.Color4 => {
                 this.c = this.colorsService.colors(yy);
-                return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
+                // return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
+                return new BABYLON.Color4(this.c.r * .00392, this.c.g * .00392, this.c.b * .00392, 1);
+
             },
             spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, this.forwardRotation, 0);
@@ -410,8 +432,10 @@ export class SingleSPSCube implements OnDestroy {
 
             },
             color: (particle, yy: number): BABYLON.Color4 => {
-                const c = this.colorsService.colors(yy);
-                return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
+                this.c = this.colorsService.colors(yy);
+                // return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
+                return new BABYLON.Color4(this.c.r * .00392, this.c.g * .00392, this.c.b * .00392, 1);
+
             },
             spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, -this.forwardRotation, 0);
@@ -447,10 +471,15 @@ export class SingleSPSCube implements OnDestroy {
                 return new BABYLON.Vector3(0, 0, 0);
             },
             color: (particle, yy: number): BABYLON.Color4 => {
-                const r = yy * map(particle.position.x, -80, 80, 0, 1) / 255 + .1;
-                const g = yy * map(particle.position.y, -70, 70, 0, 1) / 255 + .1;
-                const b = yy * map(particle.position.z, -70, 70, 0, 1) / 255 + .1;
-                const a = 1 - ((yy / 255) * (yy / 255)) + .1;
+                // const r = yy * map(particle.position.x, -80, 80, 0, 1) / 255 + .1;
+                // const g = yy * map(particle.position.y, -70, 70, 0, 1) / 255 + .1;
+                // const b = yy * map(particle.position.z, -70, 70, 0, 1) / 255 + .1;
+                // const a = 1 - ((yy / 255) * (yy / 255)) + .1;
+                const r = yy * map(particle.position.x, -80, 80, 0, 1) * .00392 + .1;
+                const g = yy * map(particle.position.y, -70, 70, 0, 1) * .00392 + .1;
+                const b = yy * map(particle.position.z, -70, 70, 0, 1) * .00392 + .1;
+                // const a = 1 - ((yy * .00392) * (yy * .00392)) + .1;
+                const a = 1.1 - (yy * yy * 0.0000154);
                 return new BABYLON.Color4(r, g, b, a);
             },
             spsRotation: (): BABYLON.Vector3 => {
@@ -479,14 +508,17 @@ export class SingleSPSCube implements OnDestroy {
                 return this.ptsOnSphere[particle.idx].position;
             },
             scaling: (particle, yy: number): BABYLON.Vector3 => {
-                return new BABYLON.Vector3(.5 + yy / 60, .5 + yy / 60, .5 + yy / 30);
+                // return new BABYLON.Vector3(.5 + yy / 60, .5 + yy / 60, .5 + yy / 30);
+                return new BABYLON.Vector3(.5 + yy * .016667, .5 + yy * .016667, .5 + yy * .03333);
             },
             rotation: (particle, yy: number): BABYLON.Vector3 => {
                 return this.ptsOnSphere[particle.idx].rotation;
             },
             color: (particle, yy: number): BABYLON.Color4 => {
                 this.c = this.colorsService.colors(yy);
-                return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
+                // return new BABYLON.Color4(this.c.r / 255, this.c.g / 255, this.c.b / 255, 1);
+                return new BABYLON.Color4(this.c.r * .00392, this.c.g * .00392, this.c.b * .00392, 1);
+
             },
             spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(this.PId2, this.forwardRotation, 0);
@@ -511,20 +543,26 @@ export class SingleSPSCube implements OnDestroy {
             name: 'pole',
             position: (particle): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(
-                    Math.sin((particle.idx / 576) * this.FourPI) * 40,
-                    (particle.idx - 288) / 3,
-                    Math.cos((particle.idx / 576) * this.FourPI) * 40
+                    // Math.sin((particle.idx / 576) * this.FourPI) * 40,
+                    // (particle.idx - 288) / 3,
+                    // Math.cos((particle.idx / 576) * this.FourPI) * 40
+                    Math.sin((particle.idx * .001736) * this.FourPI) * 40,
+                    (particle.idx - 288) * .33333,
+                    Math.cos((particle.idx  * .001736) * this.FourPI) * 40
                 );
             },
             scaling: (particle, yy: number): BABYLON.Vector3 => {
-                return new BABYLON.Vector3(yy / 10 + 1, .2, yy / 10 + 1);
+                // return new BABYLON.Vector3(yy / 10 + 1, .2, yy / 10 + 1);
+                return new BABYLON.Vector3(yy * .1 + 1, .2, yy * .1 + 1);
             },
             rotation: (particle, yy: number): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, (Math.sin((particle.idx / 576) * this.FourPI)) % this.TwoPI, 0);
             },
             color: (particle, yy: number): BABYLON.Color4 => {
-                const c = this.colorsService.colors(yy);
-                return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
+                this.c = this.colorsService.colors(yy);
+                // return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
+                return new BABYLON.Color4(this.c.r * .00392, this.c.g * .00392, this.c.b * .00392, 1);
+
             },
             spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, this.forwardRotation, 0);
@@ -585,15 +623,18 @@ export class SingleSPSCube implements OnDestroy {
                 return new BABYLON.Vector3(x, y, z);
             },
             scaling: (particle, yy: number): BABYLON.Vector3 => {
-                return new BABYLON.Vector3(1 + yy / 50, 1 + yy / 50, 1 + yy / 50);
+                // return new BABYLON.Vector3(1 + yy / 50, 1 + yy / 50, 1 + yy / 50);
+                return new BABYLON.Vector3(1 + yy * .02, 1 + yy * .02, 1 + yy * .02);
             },
             rotation: (particle, yy: number): BABYLON.Vector3 => {
                 // return new BABYLON.Vector3(0, 0, 0);
                 return this.getLookatOriginRotation(particle);
             },
             color: (particle, yy: number): BABYLON.Color4 => {
-                const c = this.colorsService.colors(yy);
-                return new BABYLON.Color4(.2 + c.r / 255, .2 + c.g / 255, .2 + c.b / 255, 1);
+                this.c = this.colorsService.colors(yy);
+                // return new BABYLON.Color4(.2 + c.r / 255, .2 + c.g / 255, .2 + c.b / 255, 1);
+                return new BABYLON.Color4(this.c.r * .00392, this.c.g * .00392, this.c.b * .00392, 1);
+
             },
             spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, this.forwardRotation, 0);
@@ -620,36 +661,44 @@ export class SingleSPSCube implements OnDestroy {
             position: (particle): BABYLON.Vector3 => {
                 const radius = 15;
                 // const loop = particle.idx % 2 + 1;
-                const loop = Math.trunc(particle.idx / 72) + 1;
+                // const loop = Math.trunc(particle.idx / 72) + 1;
+                const loop = Math.trunc(particle.idx * .013889) + 1;
                 // const x;
                 // const z;
                 // const y;
                 // const gtheta = this.TwoPId576 * particle.idx * 8;
                 const gtheta = this.SixteenPId576 * particle.idx;
 
-                const x = loop * radius * Math.cos(gtheta - loop / 40);
-                const z = loop * radius * Math.sin(gtheta - loop / 40);
+                // const x = loop * radius * Math.cos(gtheta - loop / 40);
+                // const z = loop * radius * Math.sin(gtheta - loop / 40);
+                const x = loop * radius * Math.cos(gtheta - loop * .025);
+                const z = loop * radius * Math.sin(gtheta - loop * .025);
                 // const y = .6 * loop * Math.sin(map(particle.idx % 72, 0, 72, 0, 10 * this.TwoPI));
                 const y = .6 * loop * Math.sin(map(particle.idx % 72, 0, 72, 0, this.TwentyPI));
 
                 return new BABYLON.Vector3(x, y, z);
             },
             scaling: (particle, yy: number): BABYLON.Vector3 => {
-                const loop = Math.trunc(particle.idx / 72) + 1;
+                // const loop = Math.trunc(particle.idx / 72) + 1;
+                const loop = Math.trunc(particle.idx * .013889) + 1;
                 yy = yy + 20;
 
-                return new BABYLON.Vector3(loop * yy / 30, yy / 65, yy / 65);
+                // return new BABYLON.Vector3(loop * yy / 30, yy / 65, yy / 65);
+                return new BABYLON.Vector3(loop * yy * .03333, yy * .01538, yy * .01538);
             },
             rotation: (particle, yy: number): BABYLON.Vector3 => {
                 // const radian = 2 * Math.PI / 72;
                 const radian = this.TwoPId72;
                 const gtheta = (radian * particle.idx) % this.TwoPI;
 
-                return new BABYLON.Vector3(Math.PI / 8, -gtheta % this.TwoPI, 0);
+                // return new BABYLON.Vector3(Math.PI / 8, -gtheta % this.TwoPI, 0);
+                return new BABYLON.Vector3(Math.PI * .125, -gtheta % this.TwoPI, 0);
             },
             color: (particle, yy: number): BABYLON.Color4 => {
-                const c = this.colorsService.colors(yy);
-                return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
+                this.c = this.colorsService.colors(yy);
+                // return new BABYLON.Color4(c.r / 255, c.g / 255, c.b / 255, 1);
+                return new BABYLON.Color4(this.c.r * .00392, this.c.g * .00392, this.c.b * .00392, 1);
+
             },
             spsRotation: (): BABYLON.Vector3 => {
                 return new BABYLON.Vector3(0, this.forwardRotation, 0);
@@ -658,7 +707,8 @@ export class SingleSPSCube implements OnDestroy {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: .01, radius: 1200 },
                     { alpha: -this.PId2, beta: this.PId32, radius: 1200 },
-                    { alpha: -this.PId2, beta: this.PI / 8, radius: 1200 }
+                    // { alpha: -this.PId2, beta: this.PI / 8, radius: 1200 }
+                    { alpha: -this.PId2, beta: this.PI * .125, radius: 1200 }
                 ];
 
                 return cameraPositions[cIndex];
@@ -685,7 +735,7 @@ export class SingleSPSCube implements OnDestroy {
 
     private startExpanding = (): void => {
 
-        // console.log('start expansion');
+        console.log('start expansion');
 
         clearTimeout(this.initialTimeout);
         clearInterval(this.conInterval);
@@ -699,18 +749,22 @@ export class SingleSPSCube implements OnDestroy {
         //     return;
         // }
 
-        this.theta = -Math.PI / 2;
+        // this.theta = -Math.PI / 2;
+        this.theta = -1.57;
         this.expanding = true;
         this.contracting = false;
         this.expTimer = 0;
 
         this.expInterval = setInterval(() => {
-            this.theta += Math.PI / 100;
-            this.expTimer = (Math.sin(this.theta) / 2 + .5);
-
+            // this.theta += Math.PI / 100;
+            // this.expTimer = (Math.sin(this.theta) / 2 + .5);
+            this.theta += Math.PI * .01;
+            this.expTimer = (Math.sin(this.theta) * .5 + .5);
         }, 20);
 
         this.expTimeout = setTimeout(() => {
+
+            console.log("Stopping expansion");
 
             clearTimeout(this.initialTimeout);
             clearInterval(this.conInterval);
@@ -724,7 +778,7 @@ export class SingleSPSCube implements OnDestroy {
 
     private startContracting = (): void => {
 
-        // console.log('start contraction');
+        console.log('start contraction');
 
         clearTimeout(this.initialTimeout);
         clearInterval(this.conInterval);
@@ -732,18 +786,22 @@ export class SingleSPSCube implements OnDestroy {
         clearInterval(this.expInterval);
         clearTimeout(this.expTimeout);
 
-        this.theta = -Math.PI / 2;
+        // this.theta = -Math.PI / 2;
+        this.theta = -1.57;
         this.expanding = false;
         this.contracting = true;
         this.conTimer = 0;
 
         this.conInterval = setInterval(() => {
-            this.theta += Math.PI / 100;
-            this.conTimer = (Math.sin(this.theta) / 2 + .5);
-
+            // this.theta += Math.PI / 100;
+            // this.conTimer = (Math.sin(this.theta) / 2 + .5);
+            this.theta += Math.PI * .01;
+            this.conTimer = (Math.sin(this.theta) * .5 + .5);
         }, 50);
 
         this.conTimeout = setTimeout(() => {
+
+            console.log("Stopping contraction");
 
             clearTimeout(this.initialTimeout);
             clearInterval(this.conInterval);
@@ -865,30 +923,44 @@ export class SingleSPSCube implements OnDestroy {
 
         this.SPS.updateParticle = (particle) => {
             let y = this.audioService.sample1[particle.idx];
-            y = (y * y) / 255;
+            // y = (y * y) / 255;
+            y = (y * y) * .00392;
 
             if (this.expanding) {
                 if (!('expLoc' in particle)) {
-                    const rx = BABYLON.Scalar.RandomRange(particle.position.x - this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value,
-                        particle.position.x + this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value);
-                    const ry = BABYLON.Scalar.RandomRange(particle.position.y - this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value,
-                        particle.position.y + this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value);
-                    const rz = BABYLON.Scalar.RandomRange(particle.position.z - this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value,
-                        particle.position.z + this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value);
-                    particle.expLoc = new BABYLON.Vector3(rx, ry, rz);
+                    if (this.optionsService.getSelectedCubeSPSCount() === 1) {
+                        this.rx = particle.position.x;
+                        this.ry = particle.position.y;
+                        this.rz = particle.position.z;
+                    } else {
+
+                        this.rx = BABYLON.Scalar.RandomRange(particle.position.x - this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value,
+                            particle.position.x + this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value);
+                        this.ry = BABYLON.Scalar.RandomRange(particle.position.y - this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value,
+                            particle.position.y + this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value);
+                        this.rz = BABYLON.Scalar.RandomRange(particle.position.z - this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value,
+                            particle.position.z + this.optionsService.newBaseOptions.visual[0].singleSPSExplosionSize.value);
+                    }
+                    particle.expLoc = new BABYLON.Vector3(this.rx, this.ry, this.rz);
                 }
 
-                particle.scaling = BABYLON.Vector3.Lerp(
+                particle.scaling = (this.optionsService.getSelectedCubeSPSCount() === 1) ?
+                this.SPSFunctions[this.currentSPS].scaling(particle, y):
+                BABYLON.Vector3.Lerp(
                     this.SPSFunctions[this.currentSPS].scaling(particle, y),
                     this.SPSFunctions[this.nextSPS].scaling(particle, y),
                     this.expTimer);
 
-                particle.position = BABYLON.Vector3.Lerp(
+                particle.position = (this.optionsService.getSelectedCubeSPSCount() === 1) ?
+                this.SPSFunctions[this.currentSPS].position(particle, y):
+                BABYLON.Vector3.Lerp(
                     this.SPSFunctions[this.currentSPS].position(particle, y),
                     new BABYLON.Vector3(particle.expLoc.x, particle.expLoc.y, particle.expLoc.z),
                     this.expTimer);
 
-                particle.rotation = BABYLON.Vector3.Lerp(
+                particle.rotation = (this.optionsService.getSelectedCubeSPSCount() === 1) ?
+                this.SPSFunctions[this.currentSPS].rotation(particle, y):
+                BABYLON.Vector3.Lerp(
                     this.SPSFunctions[this.currentSPS].rotation(particle, y),
                     this.SPSFunctions[this.nextSPS].rotation(particle, y),
                     this.expTimer);
@@ -917,7 +989,9 @@ export class SingleSPSCube implements OnDestroy {
                     particle.scaling = this.SPSFunctions[this.nextSPS].scaling(particle, y);
 
                     try {
-                        particle.position = BABYLON.Vector3.Lerp(
+                        particle.position = (this.optionsService.getSelectedCubeSPSCount() === 1) ?
+                        this.SPSFunctions[this.currentSPS].position(particle, y):
+                        BABYLON.Vector3.Lerp(
                             new BABYLON.Vector3(particle.expLoc.x, particle.expLoc.y, particle.expLoc.z),
                             this.SPSFunctions[this.nextSPS].position(particle, y),
                             this.conTimer);

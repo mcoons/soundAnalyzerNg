@@ -189,7 +189,9 @@ export class EngineService {
 
         let yy = this.audioService.sample2[index];
 
-        const columnGroup = Math.trunc(index / 32);
+        // const columnGroup = Math.trunc(index / 32);
+        const columnGroup = Math.trunc(index * 0.03125);
+
         // const row = index % 32;
 
         switch (series) {
@@ -198,6 +200,7 @@ export class EngineService {
             yy = this.audioService.sample2[index];
 
             yy = (yy / 255 * yy / 255 * yy / 255 * yy / 255 * yy / 255) * 245 * (columnGroup + 1);
+            // yy = yy * yy * yy * yy * yy * 0.00000000022723 * (columnGroup + 1);
             result.set(yy, yy, yy, 1);
             break;
 
@@ -257,7 +260,8 @@ export class EngineService {
 
     this.cameraTarget.position = new BABYLON.Vector3(0, 0, 0);
 
-    this.camera1 = new BABYLON.ArcRotateCamera('ArcRotateCam', Math.PI / 2, Math.PI / 2, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
+    // this.camera1 = new BABYLON.ArcRotateCamera('ArcRotateCam', Math.PI / 2, Math.PI / 2, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
+    this.camera1 = new BABYLON.ArcRotateCamera('ArcRotateCam', Math.PI * .5, Math.PI * .5, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
     this.camera1.upperRadiusLimit = 9400;
     this.camera1.lowerRadiusLimit = 10;
     this.camera1.attachControl(this.canvas, true);
@@ -271,7 +275,8 @@ export class EngineService {
     //// this.camera2Material;
     //// this.renderTargetTexture
 
-    this.camera2 = new BABYLON.ArcRotateCamera('ArcRotateCam2', Math.PI / 2, Math.PI / 2, 1000, new BABYLON.Vector3(0, 0, 0), this.scene);
+    // this.camera2 = new BABYLON.ArcRotateCamera('ArcRotateCam2', Math.PI / 2, Math.PI / 2, 1000, new BABYLON.Vector3(0, 0, 0), this.scene);
+    this.camera2 = new BABYLON.ArcRotateCamera('ArcRotateCam2', Math.PI * .5, Math.PI * .5, 1000, new BABYLON.Vector3(0, 0, 0), this.scene);
 
     this.renderTargetTexture = new BABYLON.RenderTargetTexture(
       'render to texture', // name 
@@ -501,7 +506,7 @@ export class EngineService {
   public setLights(): void {
 
     for (let index = 0; index < 8; index++) {
-      this.scene.lights[index].intensity = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].intensity.value / 100;
+      this.scene.lights[index].intensity = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].intensity.value * .01;
       this.scene.lights[index].diffuse = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].color.value);
       this.scene.lights[index].specular = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].specular.value);
       (this.scene.lights[index] as BABYLON.HemisphericLight).groundColor = BABYLON.Color3.FromHexString(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].light[index].groundColor.value);
@@ -516,9 +521,9 @@ export class EngineService {
     // because it could trigger heavy changeDetection cycles.
     this.ngZone.runOutsideAngular(() => {
       const rendererLoopCallback = () => {
-// if (!this.optionsService.playing){
-//   return;
-// }
+        // if (!this.optionsService.playing){
+        //   return;
+        // }
 
         if (this.audioService.audio != null && (this.optionsService.playing || this.optionsService.microphone)) {
           this.audioService.analyzeData();
@@ -694,7 +699,7 @@ export class EngineService {
 
   }
 
-  fixDpi = ():void => {
+  fixDpi = (): void => {
     // console.log('in fixdpi');
     // create a style object that returns width and height
     const dpi = window.devicePixelRatio;
@@ -808,7 +813,7 @@ export class EngineService {
     this.axisParent.setEnabled(false);
   }
 
-  createHexObj():void {
+  createHexObj(): void {
 
     this.hexParent = new BABYLON.TransformNode('root');
 
@@ -852,9 +857,9 @@ export class EngineService {
 
     this.hexSPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
     this.hexSPS.updateParticle = (particle) => {
-      if (!this.optionsService.playing && !this.optionsService.microphone){
+      if (!this.optionsService.playing && !this.optionsService.microphone) {
         return;
-    }
+      }
       // let yy = this.audioService.sample1[555 - particle.idx];
       let yy = this.audioService.sample2[228 - particle.idx];
       yy = (yy / 255 * yy / 255) * 255;
@@ -863,7 +868,8 @@ export class EngineService {
       particle.color.g = this.colorsService.colors(yy).g / 255;
       particle.color.b = this.colorsService.colors(yy).b / 255;
 
-      particle.position.y = -24.5 + yy / 3;
+      // particle.position.y = -24.5 + yy / 3;
+      particle.position.y = -24.5 + yy * .3333;
       particle.scaling.x = .9;
       particle.scaling.z = .9;
     };
@@ -878,8 +884,8 @@ export class EngineService {
         }
         const d = Math.sqrt((x2 * x2) + (z * z));
         // if (d <= 13.3) {
-          if (d <= 8.5) {
-            this.hexSPS.addShape(hex, 1, { positionFunction: innerPositionFunction });
+        if (d <= 8.5) {
+          this.hexSPS.addShape(hex, 1, { positionFunction: innerPositionFunction });
         }
       }
     }
@@ -887,7 +893,7 @@ export class EngineService {
     hex.dispose();
 
     this.hexMesh = this.hexSPS.buildMesh();
-    
+
     this.hexMesh.material = this.hexMat;
 
     this.hexMesh.scaling.x = .8;
@@ -895,9 +901,9 @@ export class EngineService {
     this.hexMesh.scaling.z = .8;
 
     this.hexMesh.parent = this.hexParent;
-    
+
     // console.log('SPS.nbParticles', this.hexSPS.nbParticles);
-    
+
     // create honeycomb ground mesh
 
     const spsCSG = BABYLON.CSG.FromMesh(this.hexMesh);
@@ -983,9 +989,9 @@ export class EngineService {
       this.tube2.rotation.y = Math.PI / 6;
 
       this.hexParent.rotation.y = Math.PI;
-      
+
     })();
-    
+
     this.hexParent.setEnabled(false);
 
 
