@@ -42,16 +42,25 @@ export class SingleSPSTriangle implements OnDestroy {
     }
 
     beforeRender = (): void => {
+        this.scene.blockMaterialDirtyMechanism = true;
+
         this.SPS.setParticles();
+
+        this.scene.blockMaterialDirtyMechanism = false;
+
     }
 
     create = (): void => {
 
         const myShape = [
-            new BABYLON.Vector3(-1, -1.732 / 2, 0),
-            new BABYLON.Vector3(1, -1.732 / 2, 0),
-            new BABYLON.Vector3(0, 1.732 / 2, 0),
-            new BABYLON.Vector3(-1, -1.732 / 2, 0)
+            // new BABYLON.Vector3(-1, -1.732 / 2, 0),
+            // new BABYLON.Vector3(1, -1.732 / 2, 0),
+            // new BABYLON.Vector3(0, 1.732 / 2, 0),
+            // new BABYLON.Vector3(-1, -1.732 / 2, 0)
+            new BABYLON.Vector3(-1, -0.866, 0),
+            new BABYLON.Vector3(1, -0.866, 0),
+            new BABYLON.Vector3(0, 0.866, 0),
+            new BABYLON.Vector3(-1, -0.866, 0)
         ];
 
         // myShape.push(myShape[0]);  // close profile
@@ -65,7 +74,8 @@ export class SingleSPSTriangle implements OnDestroy {
 
         extrusion.setPivotMatrix(BABYLON.Matrix.Identity());
         extrusion.convertToFlatShadedMesh();
-        extrusion.rotation.x = -Math.PI / 2;
+        // extrusion.rotation.x = -Math.PI / 2;
+        extrusion.rotation.x = -Math.PI * .5;
 
         this.SPS = new BABYLON.SolidParticleSystem('SPS', this.scene, { updatable: true });
 
@@ -87,12 +97,13 @@ export class SingleSPSTriangle implements OnDestroy {
                 particle.position.x = x;
                 particle.position.z = y;
                 particle.position.y = 0;
-                particle.rotation.x = Math.PI / 2;
+                // particle.rotation.x = Math.PI / 2;
+                particle.rotation.x = Math.PI * .5;
                 particle.rotation.z = i % 2 ? Math.PI : 0;
             };
 
             // z = 0;
-            for (let index = 0; index < 576; index++) {
+            for (let index = 0; index < 255; index++) {
                 this.SPS.addShape(extrusion, 1, { positionFunction: innerPositionFunction });
                 // z += 1 / 32;
             }
@@ -120,15 +131,20 @@ export class SingleSPSTriangle implements OnDestroy {
 
             particle.rotation.z = (index - startingRowIndex) % 2 ? Math.PI : 0;
 
-            const y = this.audioService.sample1[particle.idx];
+            const y = this.audioService.sample2[particle.idx];
 
-            particle.scaling.z = -y / 180;
+            // particle.scaling.z = -y / 180;
+            particle.scaling.z = -y * .0055556;
 
             const c = this.colorsService.colors(y);
 
-            particle.color.r = c.r / 255;
-            particle.color.g = c.g / 255;
-            particle.color.b = c.b / 255;
+            // particle.color.r = c.r / 255;
+            // particle.color.g = c.g / 255;
+            // particle.color.b = c.b / 255;
+
+            particle.color.r = c.r * .00392;
+            particle.color.g = c.g * .00392;
+            particle.color.b = c.b * .00392;
 
         }
 
@@ -137,7 +153,7 @@ export class SingleSPSTriangle implements OnDestroy {
         this.SPS.mesh.material = this.material;
         this.SPS.material = this.material;
 
-        this.SPS.mesh.position.z = 400;
+        this.SPS.mesh.position.z = 300;
 
         this.SPS.mesh.scaling.x = 20;
         this.SPS.mesh.scaling.y = 20;

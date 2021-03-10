@@ -10,10 +10,6 @@ export class Spectrograph {
 
     private scene: BABYLON.Scene;
     private audioService: AudioService;
-    private optionsService: OptionsService;
-    private messageService: MessageService;
-    private engineService: EngineService;
-    private colorsService: ColorsService;
 
     private ground;
     private groundVertices;
@@ -23,10 +19,6 @@ export class Spectrograph {
 
         this.scene = scene;
         this.audioService = audioService;
-        this.optionsService = optionsService;
-        this.messageService = messageService;
-        this.engineService = engineService;
-        this.colorsService = colorsService;
 
     }
 
@@ -67,13 +59,20 @@ export class Spectrograph {
             const currentData = this.audioService.sample2BufferHistory[x];
             for (let y = 0; y < h; y++) {
 
-                const r = currentData[y] * 1.25;
-                const g = 100 * y / 224;
-                const b = 255 - 128 * y / 160;
+                // const r = currentData[y] * 1.25;
+                // const g = 100 * y / 224;
+                // const b = 255 - 128 * y / 160;
 
-                this.colorsBuffer[colorIndex] = r / 235;
-                this.colorsBuffer[colorIndex + 1] = g / 255;
-                this.colorsBuffer[colorIndex + 2] = b / 255;
+                const r = currentData[y] * 1.25;
+                const g = .4464 * y;
+                const b = 255 - .8 * y;
+
+                // this.colorsBuffer[colorIndex] = r / 235;
+                // this.colorsBuffer[colorIndex + 1] = g / 255;
+                // this.colorsBuffer[colorIndex + 2] = b / 255;
+                this.colorsBuffer[colorIndex] = r * .0042553;
+                this.colorsBuffer[colorIndex + 1] = g * .00392;
+                this.colorsBuffer[colorIndex + 2] = b * .00392;
                 this.colorsBuffer[colorIndex + 3] = 1;
 
                 // set y value of ground vertex data
@@ -91,12 +90,7 @@ export class Spectrograph {
 
     remove(): void {
         this.ground.dispose();
-
         this.audioService = null;
-        this.optionsService = null;
-        this.messageService = null;
-        this.engineService = null;
-        this.colorsService = null;
         this.scene = null;
     }
 }

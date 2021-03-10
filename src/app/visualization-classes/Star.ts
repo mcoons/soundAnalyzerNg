@@ -95,6 +95,7 @@ export class Star extends BaseObject {
             this.scene);
 
         this.mesh.material = this.material;
+        this.material.freeze();
 
         // this.mesh.doNotSyncBoundingInfo = true;
 
@@ -105,7 +106,7 @@ export class Star extends BaseObject {
         return this.mesh;
     }
 
-    update(zindex: number) {
+    update(zindex: number): string {
         const PI = Math.PI;
         const TwoPI = PI * 2;
         // const PId2 = PI / 2;

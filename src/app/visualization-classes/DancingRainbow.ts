@@ -14,6 +14,7 @@ export class DancingRainbow implements OnDestroy {
     private audioService: AudioService;
     private engineService: EngineService;
     private colorsService: ColorsService;
+    private optionsService: OptionsService;
 
     // pointListArray = [];
 
@@ -62,6 +63,7 @@ export class DancingRainbow implements OnDestroy {
         this.audioService = audioService;
         this.engineService = engineService;
         this.colorsService = colorsService;
+        this.optionsService = optionsService;
 
         // this.material = new BABYLON.StandardMaterial('ballMat', this.scene);
         // this.material.diffuseColor = new BABYLON.Color3(1, 0, 0);
@@ -152,10 +154,17 @@ export class DancingRainbow implements OnDestroy {
         this.tube6Material.maxSimultaneousLights = 8;
         this.tube6Material.diffuseColor = BABYLON.Color3.FromHexString('#3A2D61');
 
-
         this.tube7Material = new BABYLON.StandardMaterial('tubeMat', this.scene);
         this.tube7Material.maxSimultaneousLights = 8;
         this.tube7Material.diffuseColor = BABYLON.Color3.FromHexString('#9B4BD9');
+
+        this.tubeMaterial.freeze();
+        this.tube2Material.freeze();
+        this.tube3Material.freeze();
+        this.tube4Material.freeze();
+        this.tube5Material.freeze();
+        this.tube6Material.freeze();
+        this.tube7Material.freeze();
 
         this.material = new BABYLON.StandardMaterial('ballMat', this.scene);
         this.material.diffuseColor = new BABYLON.Color3(1, 0, 0);
@@ -201,6 +210,9 @@ export class DancingRainbow implements OnDestroy {
         // console.log(counter);
 
         this.SPS.updateParticle = (particle) => {
+            if (!this.optionsService.playing && !this.optionsService.microphone){
+                return;
+            }
             y = this.audioService.sample2[particle.idx];
             y = (y / 200 * y / 200) * 255;
 
@@ -301,6 +313,9 @@ export class DancingRainbow implements OnDestroy {
     }
 
     update(): void {
+        if (!this.optionsService.playing && !this.optionsService.microphone){
+            return;
+        }
 
         const radius = 950;
         const radius2 = 850;

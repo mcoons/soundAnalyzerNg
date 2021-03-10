@@ -11,9 +11,9 @@ export class SpherePlaneManager2SPS {
     private scene: BABYLON.Scene;
     private audioService: AudioService;
     private optionsService: OptionsService;
-    private messageService: MessageService;
+    // private messageService: MessageService;
     private colorsService: ColorsService;
-    private engineService: EngineService;
+    // private engineService: EngineService;
 
     private SPS;
     private mat;
@@ -29,9 +29,9 @@ export class SpherePlaneManager2SPS {
         this.scene = scene;
         this.audioService = audioService;
         this.optionsService = optionsService;
-        this.messageService = messageService;
+        // this.messageService = messageService;
         this.colorsService = colorsService;
-        this.engineService = engineService;
+        // this.engineService = engineService;
 
         this.scene.registerBeforeRender(this.beforeRender);
 
@@ -49,8 +49,12 @@ export class SpherePlaneManager2SPS {
     }
 
     beforeRender = (): void => {
+        this.scene.blockMaterialDirtyMechanism = true;
 
         this.SPS.setParticles();
+
+        this.scene.blockMaterialDirtyMechanism = false;
+
 
         if (this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].autoRotate.value) {
             this.rotation += Math.PI / 500;
@@ -123,8 +127,6 @@ export class SpherePlaneManager2SPS {
 
 
         const build1 = () => {
-
-
             const innerPositionFunction = (particle, i) => {
                 particle.position.x = (radius + 12 * y) * Math.cos(theta) * 1.5;
                 particle.position.y = ((i % 16) - 8) * 35;
@@ -141,8 +143,6 @@ export class SpherePlaneManager2SPS {
 
 
         const build2 = () => {
-
-
             const innerPositionFunction = (particle, i: number) => {
                 particle.position.x = (radius + 20 * y) * Math.cos(theta) * 1.5;
                 particle.position.y = ((i % 16) - 8) * 35;
@@ -202,16 +202,26 @@ export class SpherePlaneManager2SPS {
         sphere.dispose();
 
         this.SPS.updateParticle = (particle) => {
+            if (!this.optionsService.playing && !this.optionsService.microphone){
+                return;
+            }
             this.y = this.audioService.sample1[particle.idx];
-            this.y = (this.y / 200 * this.y / 200) * 255;
+            // this.y = (this.y / 200 * this.y / 200) * 255;
+            this.y = this.y * this.y * 0.006375;
+
 
             this.c = this.colorsService.colors(this.y);
 
-            particle.color.r = this.c.r / 255;
-            particle.color.g = this.c.g / 255;
-            particle.color.b = this.c.b / 255;
+            // particle.color.r = this.c.r / 255;
+            // particle.color.g = this.c.g / 255;
+            // particle.color.b = this.c.b / 255;
 
-            this.s = this.y / 40 + .5;
+            particle.color.r = this.c.r * .00392;
+            particle.color.g = this.c.g * .00392;
+            particle.color.b = this.c.b * .00392;
+
+            // this.s = this.y / 40 + .5;
+            this.s = this.y * .025 + .5;
 
             particle.scale.x = this.s;
             particle.scale.y = this.s;
@@ -235,8 +245,8 @@ export class SpherePlaneManager2SPS {
 
         this.audioService = null;
         this.optionsService = null;
-        this.messageService = null;
-        this.engineService = null;
+        // this.messageService = null;
+        // this.engineService = null;
         this.colorsService = null;
         this.scene = null;
     }

@@ -22,7 +22,8 @@
   height: 100%;
   z-index: 0;
   /* border: 4px solid blue; */
-  touch-action: none;
+  -ms-touch-action: none;
+      touch-action: none;
   pointer-events: none;
   background: transparent;
   /* background-color: white; */
@@ -37,7 +38,8 @@
   top: 5000;
   left: 5000;
   z-index: 0;
-  touch-action: none;
+  -ms-touch-action: none;
+      touch-action: none;
   pointer-events: none;
   /* filter: grayscale(95%); */
   /* filter: hue-rotate(180deg); */

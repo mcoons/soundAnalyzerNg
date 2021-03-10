@@ -347,15 +347,22 @@ export class Lights implements OnDestroy {
 
         this.particles.forEach((p, i) => {
 
-            this.columnGroup = Math.trunc(i / 32);
+            // this.columnGroup = Math.trunc(i / 32);
+            this.columnGroup = Math.trunc(i * 0.03125);
+
             // this.row = i % 32;
 
             this.y = this.audioService.sample2[i];
             this.y = (this.y / 255 * this.y / 255 * this.y / 255 * this.y / 255 * this.y / 255) * 255 * 4 * (this.columnGroup + 1);
+            // this.y = this.y * this.y * this.y * this.y * this.y * 19.992 * (this.columnGroup + 1);
 
-            p.material.emissiveColor.r = this.y / 250;
-            p.material.emissiveColor.g = this.y / 250;
-            p.material.emissiveColor.b = this.y / 250;
+            // p.material.emissiveColor.r = this.y / 250;
+            // p.material.emissiveColor.g = this.y / 250;
+            // p.material.emissiveColor.b = this.y / 250;
+
+            p.material.emissiveColor.r = this.y * .004;
+            p.material.emissiveColor.g = this.y * .004;
+            p.material.emissiveColor.b = this.y * .004;
         });
 
     }

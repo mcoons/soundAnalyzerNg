@@ -86,10 +86,15 @@ export class Rings {
     }
 
     beforeRender = (): void => {
+        this.scene.blockMaterialDirtyMechanism = true;
+
         this.ring1SPS.setParticles();
         this.ring3SPS.setParticles();
         this.ring5SPS.setParticles();
         // this.textSPS.setParticles();
+
+        this.scene.blockMaterialDirtyMechanism = false;
+
     }
 
     create(): void {
