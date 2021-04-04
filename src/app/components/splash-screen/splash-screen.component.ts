@@ -19,7 +19,7 @@ export class SplashScreenComponent {
     @Inject(MessageService) public messageService: MessageService
   ) { }
 
-  splashScreenOK = () => {
+  onSplashScreenOK = () => {
     this.optionsService.toggleState('showPlayer');
     this.optionsService.toggleState('showSplash');
     this.optionsService.currentVisual = 0;
@@ -30,7 +30,7 @@ export class SplashScreenComponent {
     this.messageService.announceMessage('set camera');
 
     setTimeout(() => {
-      this.optionsService.toggleState('showPanel');
+      // this.optionsService.toggleState('showPanel');
       this.optionsService.toggleState('showFavorites');
       this.optionsService.toggleState('renderPlayer');
     }, 5);

@@ -1012,96 +1012,96 @@ export class EngineService {
 
   }
 
-  createTitleText(text: string): void {
-    const scale = 10;
-    const depth = .75;
+  // createTitleText(text: string): void {
+  //   const scale = 10;
+  //   const depth = .75;
 
-    // this.titleSPS.mesh.dispose();
-    // this.titleSPS.dispose();
-    // this.titleText.dispose();
-    // this.titleSPS = null;
-    // this.titleText = null;
+  //   // this.titleSPS.mesh.dispose();
+  //   // this.titleSPS.dispose();
+  //   // this.titleText.dispose();
+  //   // this.titleSPS = null;
+  //   // this.titleText = null;
 
-    this.titleText = new this.Writer(
-      text,
-      {
-        anchor: 'center',
-        'letter-height': scale,
-        'letter-thickness': depth,
-        color: '#ff0000',
-        position: {
-          x: 0,
-          y: 90, // 90,
-          z: 300, // 300
-        }
-      }
-    );
+  //   this.titleText = new this.Writer(
+  //     text,
+  //     {
+  //       anchor: 'center',
+  //       'letter-height': scale,
+  //       'letter-thickness': depth,
+  //       color: '#ff0000',
+  //       position: {
+  //         x: 0,
+  //         y: 90, // 90,
+  //         z: 300, // 300
+  //       }
+  //     }
+  //   );
 
-    this.titleText.getMesh().setPivotPoint(this.titleText.getMesh().getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
+  //   this.titleText.getMesh().setPivotPoint(this.titleText.getMesh().getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
 
-    this.titleText.getMesh().rotation.x = -Math.PI / 2;
-    this.titleText.getMesh().material = this.titleMat;
+  //   this.titleText.getMesh().rotation.x = -Math.PI / 2;
+  //   this.titleText.getMesh().material = this.titleMat;
 
-    // this.titleSPS = this.titleText.getSPS() as BABYLON.SolidParticleSystem;
-    this.titleSPS = this.titleText.getSPS();
+  //   // this.titleSPS = this.titleText.getSPS() as BABYLON.SolidParticleSystem;
+  //   this.titleSPS = this.titleText.getSPS();
 
-    this.titleSPS.updateParticle = (particle) => {
-      const py = this.audioService.sample1[(particle.idx + 1) * 5 + 192];
-      particle.position.z = py / 5;
-      const pc = this.colorsService.colors(py);
-      particle.color.r = pc.r / 255;
-      particle.color.g = pc.g / 255;
-      particle.color.b = pc.b / 255;
-    };
+  //   this.titleSPS.updateParticle = (particle) => {
+  //     const py = this.audioService.sample1[(particle.idx + 1) * 5 + 192];
+  //     particle.position.z = py / 5;
+  //     const pc = this.colorsService.colors(py);
+  //     particle.color.r = pc.r / 255;
+  //     particle.color.g = pc.g / 255;
+  //     particle.color.b = pc.b / 255;
+  //   };
 
 
-    // console.log('this.titleSPS');
-    // console.log(this.titleSPS);
-    // console.log('this.titleText');
-    // console.log(this.titleText);
+  //   // console.log('this.titleSPS');
+  //   // console.log(this.titleSPS);
+  //   // console.log('this.titleText');
+  //   // console.log(this.titleText);
 
-    this.titleText.getMesh().parent = this.camera1;
-    // this.titleSPS.parent = this.camera1;
+  //   this.titleText.getMesh().parent = this.camera1;
+  //   // this.titleSPS.parent = this.camera1;
 
-  }
+  // }
 
   beforeRender = (): void => {
     // this.titleSPS.setParticles();
   }
 
-  create3DText(displayText: string, scale: number, depth: number, xPos: number, yPos: number, zPos: number, color: BABYLON.Color3): BABYLON.Mesh {
-    // var  MeshWriter, text1, text2, C1, C2;
+  // create3DText(displayText: string, scale: number, depth: number, xPos: number, yPos: number, zPos: number, color: BABYLON.Color3): BABYLON.Mesh {
+  //   // var  MeshWriter, text1, text2, C1, C2;
 
-    const Writer = new MESHWRITER(this.scene, { scale });
-    const text1 = new Writer(
-      displayText,
-      {
-        anchor: 'center',
-        'letter-height': scale,
-        'letter-thickness': depth,
-        color: '#ff0000',
-        position: {
-          x: xPos,
-          y: yPos,
-          z: zPos
-        }
-      }
-    );
+  //   const Writer = new MESHWRITER(this.scene, { scale });
+  //   const text1 = new Writer(
+  //     displayText,
+  //     {
+  //       anchor: 'center',
+  //       'letter-height': scale,
+  //       'letter-thickness': depth,
+  //       color: '#ff0000',
+  //       position: {
+  //         x: xPos,
+  //         y: yPos,
+  //         z: zPos
+  //       }
+  //     }
+  //   );
 
-    text1.getMesh().setPivotPoint(text1.getMesh().getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
+  //   text1.getMesh().setPivotPoint(text1.getMesh().getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
 
-    text1.getMesh().rotation.x = -Math.PI / 2;
-    text1.getMesh().material = color;
+  //   text1.getMesh().rotation.x = -Math.PI / 2;
+  //   text1.getMesh().material = color;
 
-    const textSPS = text1.getSPS();
-    // console.log('textSPS');
-    // console.log(textSPS);
-    textSPS.particles[1].position.y = 500;
+  //   const textSPS = text1.getSPS();
+  //   // console.log('textSPS');
+  //   // console.log(textSPS);
+  //   textSPS.particles[1].position.y = 500;
 
-    // console.log('text1');
-    // console.log(text1);
+  //   // console.log('text1');
+  //   // console.log(text1);
 
-    return text1;
-  }
+  //   return text1;
+  // }
 
 }

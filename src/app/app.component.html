@@ -6,7 +6,9 @@
 
   <div id="favoritesContainer" class="fixed"
     [@favoritesPanelOpenClose]="this.optionsService.showFavorites == true ? 'favoritesPanelOpen' : 'favoritesPanelClosed'"
-    *ngIf="this.optionsService.showSplash == false">
+    *ngIf="this.optionsService.showSplash == false"
+    (@favoritesPanelOpenClose.start)="onAnimationEvent($event)"
+    >
 
     <app-panel-left> </app-panel-left>
 
@@ -33,7 +35,9 @@
 
   <div id="optionsContainer" class="fixed"
     [@optionsPanelOpenClose]="this.optionsService.showPanel == true ? 'optionsPanelOpen' : 'optionsPanelClosed'"
-    *ngIf="this.optionsService.showSplash == false">
+    *ngIf="this.optionsService.showSplash == false"
+    (@optionsPanelOpenClose.start)="onAnimationEvent($event)"
+    >
 
     <app-panel-right> </app-panel-right>
     

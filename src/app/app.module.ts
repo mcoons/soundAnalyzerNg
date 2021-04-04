@@ -5,6 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { RouterModule } from '@angular/router';
+import { APP_BASE_HREF } from '@angular/common';
 
 import { WindowRefService } from './services/window-ref/window-ref.service';
 import { AudioModule } from './audio/audio.module';
@@ -42,11 +44,12 @@ import { VisualSelectionComponent } from './components/visual-selection/visual-s
       BrowserAnimationsModule,
       FormsModule,
       MatExpansionModule,
-      AudioModule
+      AudioModule,
+      RouterModule.forRoot([]),
    ],
    providers: [
       WindowRefService,
-
+      {provide: APP_BASE_HREF, useValue: window.document.location.href}
    ],
    bootstrap: [
       AppComponent
