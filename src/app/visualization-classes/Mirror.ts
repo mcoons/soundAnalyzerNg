@@ -23,7 +23,7 @@ export class Mirror implements OnDestroy {
     closed = false;                     // closes the curve when true
     yy = 0;
 
-    ribbonArray = []; // holds a list of objects made from arrays
+    ribbonArray = []; // holds a list of ribbon objects made from arrays
     ribbonMaterialArray = [null, null, null];
 
     ribbonPaths = [];
@@ -112,7 +112,8 @@ export class Mirror implements OnDestroy {
             const cSpine = BABYLON.Curve3.CreateCatmullRomSpline(this.audioPaths[i], this.nbPoints, this.closed);
             const trp = cSpine.getPoints(); 
             rp.forEach( (p,ii) => {
-                p = trp[ii];
+                // p = trp[ii];
+                this.ribbonPaths[i][ii] = trp[ii];
             });
             this.ribbonArray[i] = BABYLON.MeshBuilder.CreateRibbon("ribbon", {pathArray: this.ribbonPaths, instance: this.ribbonArray[i]});
         });

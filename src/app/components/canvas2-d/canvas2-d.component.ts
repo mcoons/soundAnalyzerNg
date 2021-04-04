@@ -69,6 +69,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       };
 
       render2DFrame();
+
     });
   }
 

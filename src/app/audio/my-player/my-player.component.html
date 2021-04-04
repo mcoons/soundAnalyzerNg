@@ -15,16 +15,16 @@
     </div>
 
     <div>
-      <i id="downicon" class="material-icons md-18">volume_mute</i>
+      <!-- <i id="downicon" class="material-icons md-18">volume_mute</i> -->
 
       <input type="range" class="volume-slider" [min]="this.optionsService.getState().volume.min"
         [max]="this.optionsService.getState().volume.max" [step]="this.optionsService.getState().volume.step"
         [(ngModel)]="this.optionsService.volume" ng-model-options="{ getterSetter: true }"
         (input)="onSliderChangeVolume($event)" (change)="onSliderChangeVolume($event)">
+      </div>
       <i id="upicon" class="material-icons md-18">volume_up</i>
-    </div>
 
-    <div *ngIf="this.optionsService.showTrackTitle">
+    <!-- <div *ngIf="this.optionsService.showTrackTitle">
       {{this.playList[this.optionsService.currentTrack]?.title || ""}}
     </div>
 
@@ -35,7 +35,7 @@
           (input)="onSliderChangeTime($event)">
         &nbsp;{{ this.formatTime(this.duration) }}
       </div>
-    </div>
+    </div> -->
 
   </div>
   <div id="originalFileInputWrapper">

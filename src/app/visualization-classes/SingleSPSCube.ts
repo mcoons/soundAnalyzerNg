@@ -189,7 +189,7 @@ export class SingleSPSCube implements OnDestroy {
             cameraDefault: (cIndex: number): Record<string, unknown> => {
                 const cameraPositions = [
                     { alpha: -1 * this.PId2, beta: 1.05, radius: 830 },
-                    { alpha: -1 * this.PId2, beta: .01, radius: 350 },
+                    { alpha: -1 * this.PId2, beta: .01, radius: 550 },
                     { alpha: -1 * this.PId2, beta: .01, radius: 830 }
                 ];
                 return cameraPositions[cIndex];
@@ -240,7 +240,7 @@ export class SingleSPSCube implements OnDestroy {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: .01, radius: 900 },
                     { alpha: -this.PId2, beta: 1.05, radius: 900 },
-                    { alpha: -this.PId2, beta: this.PI, radius: 400 }
+                    { alpha: -this.PId2, beta: this.PI, radius: 600 }
                 ];
                 return cameraPositions[cIndex];
 
@@ -289,7 +289,7 @@ export class SingleSPSCube implements OnDestroy {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: 1.05, radius: 950 },
                     { alpha: -this.PId2, beta: this.PI, radius: 900 },
-                    { alpha: -this.PId2, beta: .01, radius: 500 },
+                    { alpha: -this.PId2, beta: .01, radius: 700 },
                 ];
                 return cameraPositions[cIndex];
             },
@@ -337,7 +337,7 @@ export class SingleSPSCube implements OnDestroy {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: .01, radius: 1200 },
                     { alpha: -this.PId2, beta: 1.05, radius: 1200 },
-                    { alpha: -this.PId2, beta: 1.05, radius: 600 }
+                    { alpha: -this.PId2, beta: 1.05, radius: 800 }
                 ];
                 return cameraPositions[cIndex];
             },
@@ -384,7 +384,7 @@ export class SingleSPSCube implements OnDestroy {
             cameraDefault: (cIndex: number) => {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: 1.05, radius: 1100 },
-                    { alpha: -this.PId2, beta: 1.05, radius: 800 },
+                    { alpha: -this.PId2, beta: 1.05, radius: 900 },
                     { alpha: -this.PId2, beta: .01, radius: 1100 }
                 ];
 
@@ -444,7 +444,7 @@ export class SingleSPSCube implements OnDestroy {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: 1.05, radius: 1200 },
                     { alpha: -this.PId2, beta: .01, radius: 1200 },
-                    { alpha: -this.PId2, beta: 1.52, radius: 100 }
+                    { alpha: -this.PId2, beta: 1.52, radius: 600 }
                 ];
 
                 return cameraPositions[cIndex];
@@ -527,7 +527,7 @@ export class SingleSPSCube implements OnDestroy {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: this.PId2, radius: 1200 },
                     { alpha: -this.PId2, beta: .01, radius: 800 },
-                    { alpha: -this.PId2, beta: .01, radius: 300 }
+                    { alpha: -this.PId2, beta: .01, radius: 600 }
                 ];
 
                 return cameraPositions[cIndex];
@@ -569,7 +569,7 @@ export class SingleSPSCube implements OnDestroy {
             },
             cameraDefault: (cIndex: number) => {
                 const cameraPositions = [
-                    { alpha: -this.PId2, beta: this.PId2, radius: 400 },
+                    { alpha: -this.PId2, beta: this.PId2, radius: 600 },
                     { alpha: -this.PId2, beta: this.PId2, radius: 1200 },
                     { alpha: -this.PId2, beta: .01, radius: 1200 }
                 ];
@@ -735,7 +735,7 @@ export class SingleSPSCube implements OnDestroy {
 
     private startExpanding = (): void => {
 
-        console.log('start expansion');
+        // console.log('start expansion');
 
         clearTimeout(this.initialTimeout);
         clearInterval(this.conInterval);
@@ -764,7 +764,7 @@ export class SingleSPSCube implements OnDestroy {
 
         this.expTimeout = setTimeout(() => {
 
-            console.log("Stopping expansion");
+            // console.log("Stopping expansion");
 
             clearTimeout(this.initialTimeout);
             clearInterval(this.conInterval);
@@ -778,7 +778,7 @@ export class SingleSPSCube implements OnDestroy {
 
     private startContracting = (): void => {
 
-        console.log('start contraction');
+        // console.log('start contraction');
 
         clearTimeout(this.initialTimeout);
         clearInterval(this.conInterval);
@@ -801,7 +801,7 @@ export class SingleSPSCube implements OnDestroy {
 
         this.conTimeout = setTimeout(() => {
 
-            console.log("Stopping contraction");
+            // console.log("Stopping contraction");
 
             clearTimeout(this.initialTimeout);
             clearInterval(this.conInterval);
