@@ -56,6 +56,7 @@ export class SingleSPSCube implements OnDestroy {
     private currentSPS: number;
     private nextSPS: number;
     // private moreThanOneSPS;
+    private isSingleSelection: boolean;
 
     private expanding = false;
     private contracting = false;
@@ -151,6 +152,8 @@ export class SingleSPSCube implements OnDestroy {
 
         this.master.isVisible = false;
 
+        this.isSingleSelection = (this.optionsService.getSelectedCubeSPSCount() === 1);
+
     }
 
 
@@ -238,9 +241,9 @@ export class SingleSPSCube implements OnDestroy {
             },
             cameraDefault: (cIndex: number) => {
                 const cameraPositions = [
-                    { alpha: -this.PId2, beta: .01, radius: 900 },
-                    { alpha: -this.PId2, beta: 1.05, radius: 900 },
-                    { alpha: -this.PId2, beta: this.PI, radius: 600 }
+                    { alpha: -this.PId2, beta: .01, radius: 1200 },
+                    { alpha: -this.PId2, beta: 1.05, radius: 1200 },
+                    { alpha: -this.PId2, beta: this.PI, radius: 1200 }
                 ];
                 return cameraPositions[cIndex];
 
@@ -287,9 +290,9 @@ export class SingleSPSCube implements OnDestroy {
             },
             cameraDefault: (cIndex: number) => {
                 const cameraPositions = [
-                    { alpha: -this.PId2, beta: 1.05, radius: 950 },
-                    { alpha: -this.PId2, beta: this.PI, radius: 900 },
-                    { alpha: -this.PId2, beta: .01, radius: 700 },
+                    { alpha: -this.PId2, beta: 1.05, radius: 1050 },
+                    { alpha: -this.PId2, beta: this.PI, radius: 1000 },
+                    { alpha: -this.PId2, beta: .01, radius: 1000 },
                 ];
                 return cameraPositions[cIndex];
             },
@@ -336,8 +339,8 @@ export class SingleSPSCube implements OnDestroy {
             cameraDefault: (cIndex: number) => {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: .01, radius: 1200 },
-                    { alpha: -this.PId2, beta: 1.05, radius: 1200 },
-                    { alpha: -this.PId2, beta: 1.05, radius: 800 }
+                    { alpha: -this.PId2, beta: 1.05, radius: 1000 },
+                    { alpha: -this.PId2, beta: 1.05, radius: 1000 }
                 ];
                 return cameraPositions[cIndex];
             },
@@ -385,7 +388,7 @@ export class SingleSPSCube implements OnDestroy {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: 1.05, radius: 1100 },
                     { alpha: -this.PId2, beta: 1.05, radius: 900 },
-                    { alpha: -this.PId2, beta: .01, radius: 1100 }
+                    { alpha: -this.PId2, beta: .01, radius: 1200 }
                 ];
 
                 return cameraPositions[cIndex];
@@ -443,8 +446,8 @@ export class SingleSPSCube implements OnDestroy {
             cameraDefault: (cIndex: number) => {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: 1.05, radius: 1200 },
-                    { alpha: -this.PId2, beta: .01, radius: 1200 },
-                    { alpha: -this.PId2, beta: 1.52, radius: 600 }
+                    { alpha: -this.PId2, beta: .01, radius: 1400 },
+                    { alpha: -this.PId2, beta: 1.52, radius: 900 }
                 ];
 
                 return cameraPositions[cIndex];
@@ -487,9 +490,9 @@ export class SingleSPSCube implements OnDestroy {
             },
             cameraDefault: (cIndex: number) => {
                 const cameraPositions = [
-                    { alpha: -this.PId2, beta: this.PId2, radius: 800 },
-                    { alpha: -0.7579, beta: 2.1719, radius: 800 },
-                    { alpha: -this.PId2, beta: .01, radius: 800 },
+                    { alpha: -this.PId2, beta: this.PId2, radius: 900 },
+                    { alpha: -0.7579, beta: 2.1719, radius: 900 },
+                    { alpha: -this.PId2, beta: .01, radius: 900 },
                 ];
 
                 return cameraPositions[cIndex];
@@ -527,7 +530,7 @@ export class SingleSPSCube implements OnDestroy {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: this.PId2, radius: 1200 },
                     { alpha: -this.PId2, beta: .01, radius: 800 },
-                    { alpha: -this.PId2, beta: .01, radius: 600 }
+                    { alpha: -this.PId2, beta: 1.05, radius: 800 }
                 ];
 
                 return cameraPositions[cIndex];
@@ -707,7 +710,6 @@ export class SingleSPSCube implements OnDestroy {
                 const cameraPositions = [
                     { alpha: -this.PId2, beta: .01, radius: 1200 },
                     { alpha: -this.PId2, beta: this.PId32, radius: 1200 },
-                    // { alpha: -this.PId2, beta: this.PI / 8, radius: 1200 }
                     { alpha: -this.PId2, beta: this.PI * .125, radius: 1200 }
                 ];
 
@@ -926,9 +928,13 @@ export class SingleSPSCube implements OnDestroy {
             // y = (y * y) / 255;
             y = (y * y) * .00392;
 
+            this.isSingleSelection = (this.optionsService.getSelectedCubeSPSCount() === 1);
+
+
             if (this.expanding) {
                 if (!('expLoc' in particle)) {
-                    if (this.optionsService.getSelectedCubeSPSCount() === 1) {
+                    // if (this.optionsService.getSelectedCubeSPSCount() === 1) {
+                    if (this.isSingleSelection) {
                         this.rx = particle.position.x;
                         this.ry = particle.position.y;
                         this.rz = particle.position.z;
@@ -944,21 +950,24 @@ export class SingleSPSCube implements OnDestroy {
                     particle.expLoc = new BABYLON.Vector3(this.rx, this.ry, this.rz);
                 }
 
-                particle.scaling = (this.optionsService.getSelectedCubeSPSCount() === 1) ?
+                // particle.scaling = (this.optionsService.getSelectedCubeSPSCount() === 1) ?
+                particle.scaling = (this.isSingleSelection) ?
                 this.SPSFunctions[this.currentSPS].scaling(particle, y):
                 BABYLON.Vector3.Lerp(
                     this.SPSFunctions[this.currentSPS].scaling(particle, y),
                     this.SPSFunctions[this.nextSPS].scaling(particle, y),
                     this.expTimer);
 
-                particle.position = (this.optionsService.getSelectedCubeSPSCount() === 1) ?
+                // particle.position = (this.optionsService.getSelectedCubeSPSCount() === 1) ?
+                particle.position = (this.isSingleSelection) ?
                 this.SPSFunctions[this.currentSPS].position(particle, y):
                 BABYLON.Vector3.Lerp(
                     this.SPSFunctions[this.currentSPS].position(particle, y),
                     new BABYLON.Vector3(particle.expLoc.x, particle.expLoc.y, particle.expLoc.z),
                     this.expTimer);
 
-                particle.rotation = (this.optionsService.getSelectedCubeSPSCount() === 1) ?
+                // particle.rotation = (this.optionsService.getSelectedCubeSPSCount() === 1) ?
+                particle.rotation = (this.isSingleSelection) ?
                 this.SPSFunctions[this.currentSPS].rotation(particle, y):
                 BABYLON.Vector3.Lerp(
                     this.SPSFunctions[this.currentSPS].rotation(particle, y),
@@ -989,7 +998,8 @@ export class SingleSPSCube implements OnDestroy {
                     particle.scaling = this.SPSFunctions[this.nextSPS].scaling(particle, y);
 
                     try {
-                        particle.position = (this.optionsService.getSelectedCubeSPSCount() === 1) ?
+                        // particle.position = (this.optionsService.getSelectedCubeSPSCount() === 1) ?
+                        particle.position = (this.isSingleSelection) ?
                         this.SPSFunctions[this.currentSPS].position(particle, y):
                         BABYLON.Vector3.Lerp(
                             new BABYLON.Vector3(particle.expLoc.x, particle.expLoc.y, particle.expLoc.z),

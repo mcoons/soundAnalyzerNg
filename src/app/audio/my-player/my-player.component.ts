@@ -27,7 +27,7 @@ import { MessageService } from '../../services/message/message.service';
         })),
       state('playerClosed',
         style({
-          bottom: '-100px'
+          bottom: '-130px'
         })),
       transition('playerOpen => playerClosed', [
         animate('1s')

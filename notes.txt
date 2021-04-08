@@ -206,7 +206,7 @@ Audio Node Mapping
              /      \
        gainNode     destination
            |
-       analysers           
+       fdAnalysers           
 
 
 AudioNode.connect(destination)
