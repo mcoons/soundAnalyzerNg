@@ -20,7 +20,7 @@ import { SpherePlaneManager2SPS } from '../../visualization-classes/SpherePlaneM
 import { SpherePlaneManagerSPS } from '../../visualization-classes/SpherePlaneManagerSPS';
 
 import { StarManager } from '../../visualization-classes/StarManager';
-import { Spectrograph } from '../../visualization-classes/Spectrograph';
+import { Spectrogram } from '../../visualization-classes/Spectrogram';
 import { Rings } from '../../visualization-classes/Rings';
 import { Hex } from '../../visualization-classes/Hex';
 import { Notes } from '../../visualization-classes/Notes';
@@ -30,8 +30,6 @@ import { Lights } from '../../visualization-classes/Lights';
 import { Mirror } from '../../visualization-classes/Mirror';
 import { SingleSPSCube } from '../../visualization-classes/SingleSPSCube';
 import { SingleSPSTriangle } from '../../visualization-classes/SingleSPSTriangle';
-// import { SingleSPSRibbon } from '../../visualization-classes/SingleSPSRibbon';
-
 
 @Injectable({ providedIn: 'root' })
 export class EngineService {
@@ -134,13 +132,11 @@ export class EngineService {
       });
 
     this.visualClassIndex = this.optionsService.newBaseOptions.currentVisual;
-    // console.log(this.optionsService.newBaseOptions.visual.map(element => element.label));
 
     this.visualClasses = [
       SingleSPSCube,
-      // SingleSPSRibbon,
       StarManager,
-      Spectrograph,
+      Spectrogram,
       SpherePlaneManagerSPS,
       SpherePlaneManager2SPS,
       Rings,
@@ -227,7 +223,6 @@ export class EngineService {
     this.engine = new BABYLON.Engine(this.canvas, true, { stencil: true });
 
     this.scene = new BABYLON.Scene(this.engine);
-    this.scene.registerBeforeRender(this.beforeRender);
 
     this.setGlowLayer(1.0);
     this.glowLayer.isEnabled = false;
@@ -682,11 +677,8 @@ export class EngineService {
   }
 
   selectVisual(index: number): void {
-    // console.log('in selectVisual');
-    // this.saveCamera();
 
     this.currentVisual.remove();
-
     this.currentVisual = null;
 
     this.visualClassIndex = index;
@@ -695,12 +687,9 @@ export class EngineService {
     this.currentVisual.create();
     this.setLights();
 
-
-
   }
 
   fixDpi = (): void => {
-    // console.log('in fixdpi');
     // create a style object that returns width and height
     const dpi = window.devicePixelRatio;
 
@@ -717,7 +706,6 @@ export class EngineService {
     this.canvas.setAttribute('width', (style.width() * dpi).toString());
     this.canvas.setAttribute('height', (style.height() * dpi).toString());
 
-
     const styles2 = window.getComputedStyle(this.effectsCanvas);
     const style2 = {
       height() {
@@ -730,7 +718,6 @@ export class EngineService {
 
     this.effectsCanvas.setAttribute('width', (style2.width() * dpi).toString());
     this.effectsCanvas.setAttribute('height', (style2.height() * dpi).toString());
-
 
     const styles3 = window.getComputedStyle(this.tmpCanvas);
     const style3 = {
@@ -750,13 +737,15 @@ export class EngineService {
     const dynamicTexture = new BABYLON.DynamicTexture('DynamicTexture', 50, this.scene, true);
     dynamicTexture.hasAlpha = true;
     dynamicTexture.drawText(text, 5, 40, 'bold 36px Arial', color, 'transparent', true);
-    // @todo fix <any> - actual a hack for @types Error...
+
     const plane = BABYLON.Mesh.CreatePlane('TextPlane', textSize, this.scene, true);
     const material = new BABYLON.StandardMaterial('TextPlaneMaterial', this.scene);
+
     plane.material = material;
     material.backFaceCulling = false;
     material.specularColor = new BABYLON.Color3(0, 0, 0);
     material.diffuseTexture = dynamicTexture;
+
     return plane;
   };
 
@@ -994,114 +983,6 @@ export class EngineService {
 
     this.hexParent.setEnabled(false);
 
-
-
-    // this.Writer = MeshWriter(this.scene, { scale: 1 });
-    // this.Writer = new MESHWRITER(this.scene, { scale: 1 });
-    // this.text1 = this.Writer(
-    // 'ABC',
-    // {
-    //   'anchor': 'center',
-    //   'letter - height': 50,
-    //   'color': '#1C3870',
-    //   'position': {
-    //     'z': -2
-    //   }
-    // }
-    // )
-
   }
-
-  // createTitleText(text: string): void {
-  //   const scale = 10;
-  //   const depth = .75;
-
-  //   // this.titleSPS.mesh.dispose();
-  //   // this.titleSPS.dispose();
-  //   // this.titleText.dispose();
-  //   // this.titleSPS = null;
-  //   // this.titleText = null;
-
-  //   this.titleText = new this.Writer(
-  //     text,
-  //     {
-  //       anchor: 'center',
-  //       'letter-height': scale,
-  //       'letter-thickness': depth,
-  //       color: '#ff0000',
-  //       position: {
-  //         x: 0,
-  //         y: 90, // 90,
-  //         z: 300, // 300
-  //       }
-  //     }
-  //   );
-
-  //   this.titleText.getMesh().setPivotPoint(this.titleText.getMesh().getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
-
-  //   this.titleText.getMesh().rotation.x = -Math.PI / 2;
-  //   this.titleText.getMesh().material = this.titleMat;
-
-  //   // this.titleSPS = this.titleText.getSPS() as BABYLON.SolidParticleSystem;
-  //   this.titleSPS = this.titleText.getSPS();
-
-  //   this.titleSPS.updateParticle = (particle) => {
-  //     const py = this.audioService.sample1[(particle.idx + 1) * 5 + 192];
-  //     particle.position.z = py / 5;
-  //     const pc = this.colorsService.colors(py);
-  //     particle.color.r = pc.r / 255;
-  //     particle.color.g = pc.g / 255;
-  //     particle.color.b = pc.b / 255;
-  //   };
-
-
-  //   // console.log('this.titleSPS');
-  //   // console.log(this.titleSPS);
-  //   // console.log('this.titleText');
-  //   // console.log(this.titleText);
-
-  //   this.titleText.getMesh().parent = this.camera1;
-  //   // this.titleSPS.parent = this.camera1;
-
-  // }
-
-  beforeRender = (): void => {
-    // this.titleSPS.setParticles();
-  }
-
-  // create3DText(displayText: string, scale: number, depth: number, xPos: number, yPos: number, zPos: number, color: BABYLON.Color3): BABYLON.Mesh {
-  //   // var  MeshWriter, text1, text2, C1, C2;
-
-  //   const Writer = new MESHWRITER(this.scene, { scale });
-  //   const text1 = new Writer(
-  //     displayText,
-  //     {
-  //       anchor: 'center',
-  //       'letter-height': scale,
-  //       'letter-thickness': depth,
-  //       color: '#ff0000',
-  //       position: {
-  //         x: xPos,
-  //         y: yPos,
-  //         z: zPos
-  //       }
-  //     }
-  //   );
-
-  //   text1.getMesh().setPivotPoint(text1.getMesh().getBoundingInfo().boundingBox.centerWorld, BABYLON.Space.WORLD);
-
-  //   text1.getMesh().rotation.x = -Math.PI / 2;
-  //   text1.getMesh().material = color;
-
-  //   const textSPS = text1.getSPS();
-  //   // console.log('textSPS');
-  //   // console.log(textSPS);
-  //   textSPS.particles[1].position.y = 500;
-
-  //   // console.log('text1');
-  //   // console.log(text1);
-
-  //   return text1;
-  // }
 
 }

@@ -714,12 +714,13 @@ export class OptionsService {
         ]
       },
 
-      // spectrograph:
+      // Spectrogram:
       {
-        label: 'Spectrograph',
+        label: 'Spectrogram',
         value: 2,
         checked: false,
 
+        
         colorOptions: false,
         cameraOptions: false,
 
@@ -3165,7 +3166,7 @@ export class OptionsService {
   public visuals = [
     'singleSPSCube',
     'starManager',
-    'spectrograph',
+    'spectrogram',
     'spherePlaneManagerSPS',
     'spherePlaneManager2SPS',
     'rings',

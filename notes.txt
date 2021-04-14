@@ -407,7 +407,7 @@ SPS CUBE
         // this.mat.reflectionTexture = new BABYLON.CubeTexture('../../assets/images/skybox/TropicalSunnyDay', this.scene);
         // this.mat.reflectionTexture.coordinatesMode = BABYLON.Texture.PLANAR_MODE;
 
-SPECTROGRAPH
+Spectrogram
         this.ground.material = new BABYLON.StandardMaterial('gmat', this.scene);
         this.ground.material.backFaceCulling = false;
         this.ground.material.specularColor = new BABYLON.Color3(0, 0, 0); // black is no shine

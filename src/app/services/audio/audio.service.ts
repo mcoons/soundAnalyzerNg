@@ -2,12 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Injectable } from '@angular/core';
-// import { Subscription } from 'rxjs';
+import { WindowRefService } from '../window-ref/window-ref.service';
 
 import { OptionsService } from '../options/options.service';
 import { MessageService } from '../message/message.service';
-
-import { WindowRefService } from '../window-ref/window-ref.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +19,6 @@ export class AudioService {
   micSrc;
   streams;
   lastVolume;
-
-  // minDecibels = -100;
-  // maxDecibels = -30; 
 
   minDecibels = -90;
   maxDecibels = -10;
@@ -94,9 +89,6 @@ export class AudioService {
   ];
   analyzersArray: any;
 
-  // private noteStr = ['G ', 'G#', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#'];
-  // private noteIndex = [73, 77, 82, 87, 92, 33, 39, 45, 52, 58, 65, 69];
-
   // freq sample1 bucket index per note  +/- 64 for octives
   private noteIndex = [137, 141, 146, 151, 156, 161, 167, 173, 180, 186, 129, 133];
 
@@ -111,7 +103,6 @@ export class AudioService {
     messageService.messageAnnounced$.subscribe(
       message => {
         if (this.audio != null && message === 'volume change') {
-          // this.audio.volume = (this.optionsService.volume) / 10;
           this.audio.volume = (this.optionsService.volume) * .1;
         }
         if (this.audio != null && message === 'Visual Effect Strength') {
@@ -119,7 +110,6 @@ export class AudioService {
         }
         if (this.audio != null && message === 'Smoothing Constant') {
           // tslint:disable-next-line: max-line-length
-          // this.smoothingConstant = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value / 10;
           this.smoothingConstant = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].smoothingConstant.value * .1;
           this.setSmoothingConstant();
         }
@@ -136,7 +126,6 @@ export class AudioService {
     }
 
     this.audio = audio;
-    // this.audio.volume = (this.optionsService.volume) / 10;
     this.audio.volume = (this.optionsService.volume) * .1;
 
     this.audioCtx = new AudioContext();
@@ -263,8 +252,6 @@ export class AudioService {
     this.fr16Analyser.getByteFrequencyData(this.fr16DataArray);
     this.fr32Analyser.getByteFrequencyData(this.fr32DataArray);
 
-
-
     // combine for sample set
     // Rings, SingleSPSCube, SpherePlaneManager2SPS, Notes
     // this.optionsService.newBaseOptions.general.showBars.value
@@ -301,30 +288,6 @@ export class AudioService {
         }
       }
     }
-    // this.soundArrays = [
-    //   this.fr64DataArray,  // 0
-    //   this.fr128DataArray, // 1
-    //   this.fr256DataArray,
-    //   this.fr512DataArray,
-    //   this.fr1024DataArray,
-    //   this.fr2048DataArray,  // 5
-    //   this.fr4096DataArray,
-    //   this.fr8192DataArray,
-    //   this.fr16384DataArray // 8
-    // ];
-
-
-    // // combine for sample2 set
-    // for (let index = 0; index < 32; index++) { //  32*7 = 224
-    //   this.sample2[index + 0] = (this.soundArrays[5])[index + 0];          
-    //   this.sample2[index + 32] = (this.soundArrays[5])[index + 32];    
-    //   this.sample2[index + 64] = (this.soundArrays[4])[index + 32];   
-    //   this.sample2[index + 96] = (this.soundArrays[3])[index + 32];  
-    //   this.sample2[index + 128] = (this.soundArrays[2])[index + 32];  
-    //   this.sample2[index + 160] = (this.soundArrays[1])[index + 32];  
-    //   this.sample2[index + 192] = (this.soundArrays[0])[index + 32];  
-    // }
-
 
     // combine for sample2 set
     if (this.optionsService.currentVisual == 2 ||
@@ -382,32 +345,25 @@ export class AudioService {
         this.tdMaxHistory.shift();
       }
     }
-    // private noteStr = ['G ', 'G#', 'A ', 'A#', 'B ', 'C ', 'C#', 'D ', 'D#', 'E ', 'F ', 'F#'];
-    // private noteIndex = [73, 77, 82, 87, 92, 33, 39, 45, 52, 58, 65, 69];
 
     const historyPeek = 5;
-
 
     // Notes
     if (this.optionsService.currentVisual == 9) {
 
       this.noteIndex.forEach((n, i) => {
 
-        const temp = ( // this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n] +
+        const temp = ( 
           this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 64] +
           this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 128] +
-          this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 192] // +
-          // this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 256] //+
-          // this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 320]
+          this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 192] 
         ) * .3333;
 
 
-        const temp2 = ( // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n] +
+        const temp2 = ( 
           this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 64] +
           this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 128] +
-          this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 192] // +
-          // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 256] //+
-          // this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 320]
+          this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 192] 
         ) * .3333;
 
         this.noteAvgs[i] = this.noteAvgs[i] - 1 / historyPeek * temp;
@@ -428,7 +384,6 @@ export class AudioService {
   setGain(): void {
     // tslint:disable-next-line: max-line-length
     this.gainNode.gain.setValueAtTime(this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value, this.audioCtx.currentTime);
-    // console.log('Setting gain: ' +  this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].sampleGain.value);    
   }
 
   setSmoothingConstant(): void {
