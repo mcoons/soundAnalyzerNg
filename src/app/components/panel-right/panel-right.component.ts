@@ -5,6 +5,8 @@ import { MessageService } from '../../services/message/message.service';
 // import { AudioService } from '../../services/audio/audio.service';
 import { EngineService } from '../../services/engine/engine.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { environment } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-panel-right',
@@ -13,13 +15,18 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 })
 export class PanelRightComponent implements OnInit, OnDestroy  {
 
+  public _environment = environment;
 
   constructor(
     @Inject(OptionsService) public optionsService: OptionsService,
     @Inject(MessageService) private messageService: MessageService,
     @Inject(StorageService) private storageService: StorageService,
     @Inject(EngineService) private engineService: EngineService
-  ) { }
+  ) { 
+
+    console.log("In right panel.  Environment.production :");
+    console.log(this._environment.production);
+  }
 
   ngOnInit(): void {
     null;
