@@ -3,7 +3,7 @@
     <mat-accordion multi="true">
 
 
-      <mat-expansion-panel expanded="false">
+      <mat-expansion-panel expanded="false" *ngIf="this._environment.production === false">
         <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
           Development Tools
         </mat-expansion-panel-header>
