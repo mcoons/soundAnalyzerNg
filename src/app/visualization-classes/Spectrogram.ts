@@ -6,7 +6,7 @@ import { MessageService } from '../services/message/message.service';
 import { EngineService } from '../services/engine/engine.service';
 import { ColorsService } from '../services/colors/colors.service';
 
-export class Spectrograph {
+export class Spectrogram {
 
     private scene: BABYLON.Scene;
     private audioService: AudioService;

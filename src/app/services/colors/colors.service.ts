@@ -2,7 +2,6 @@ import { Injectable, Inject, OnDestroy } from '@angular/core';
 
 import { OptionsService } from '../options/options.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -44,13 +43,12 @@ export class ColorsService implements OnDestroy {
         this.endingColorSet = this.randnum;
       }
 
-    }, 500);  // 128
+    }, 500); 
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     clearInterval(this.interval);
   }
-
 
   colors(yy) {
     let r;
