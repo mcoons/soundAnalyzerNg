@@ -167,15 +167,15 @@ export class AudioService {
     });
 
 
-    this.fr16Analyser.fftSize = 32;
-    this.fr16Analyser.minDecibels = this.minDecibels;
-    this.fr16Analyser.maxDecibels = this.maxDecibels;
-    this.fr16Analyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.fr16Analyser.fftSize = 32;
+    // this.fr16Analyser.minDecibels = this.minDecibels;
+    // this.fr16Analyser.maxDecibels = this.maxDecibels;
+    // this.fr16Analyser.smoothingTimeConstant = this.smoothingConstant;
 
-    this.fr32Analyser.fftSize = 64;
-    this.fr32Analyser.minDecibels = this.minDecibels;
-    this.fr32Analyser.maxDecibels = this.maxDecibels;
-    this.fr32Analyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.fr32Analyser.fftSize = 64;
+    // this.fr32Analyser.minDecibels = this.minDecibels;
+    // this.fr32Analyser.maxDecibels = this.maxDecibels;
+    // this.fr32Analyser.smoothingTimeConstant = this.smoothingConstant;
 
     this.tdAnalyser = this.audioCtx.createAnalyser();
     this.tdAnalyser.fftSize = 1024;
@@ -249,8 +249,8 @@ export class AudioService {
       element.getByteFrequencyData(this.soundArrays[i]);
     });
 
-    this.fr16Analyser.getByteFrequencyData(this.fr16DataArray);
-    this.fr32Analyser.getByteFrequencyData(this.fr32DataArray);
+    // this.fr16Analyser.getByteFrequencyData(this.fr16DataArray);
+    // this.fr32Analyser.getByteFrequencyData(this.fr32DataArray);
 
     // combine for sample set
     // Rings, SingleSPSCube, SpherePlaneManager2SPS, Notes
@@ -317,6 +317,7 @@ export class AudioService {
         this.sample2BufferHistory.pop();
         this.sample2BufferHistory.reverse();
       }
+      
 
     }
     //////////////////////////////////////
