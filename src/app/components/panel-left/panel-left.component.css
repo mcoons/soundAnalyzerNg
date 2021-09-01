@@ -193,3 +193,7 @@ input[type="color" i] {
   height: 20px;
 
 }
+
+.instructionsContainer {
+  padding: 10px;
+}
