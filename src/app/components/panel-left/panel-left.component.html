@@ -22,6 +22,31 @@
       Alpha:  {{this.engineService.scene.cameras[0] as BABYLON.ArcRotateCamera.alpha}}<br>
       Beta:   {{this.engineService.scene.cameras[0].beta}}<br>
       Radius: {{this.engineService.scene.cameras[0].radius}}</p> -->
+
+      <mat-expansion-panel expanded="true">
+
+        <mat-expansion-panel-header [@.disabled]="true" expandedHeight="30px" collapsedHeight="30px">
+          Instructions
+        </mat-expansion-panel-header>
+        <div class="instructionsContainer">
+          <p>The left panel is primarily the player. It is here where you will select general options and your
+            customized Favorites. This is also where you can select your input and manage your playlist.</p>
+          <p>The right panel is where you can customize visuals and save them as Favorites. Expand it by selecting the
+            three elispes at the right of the screen.</p>
+          <p>By using your mouse or arrow keys you can interact with the 3D visuals to select your own unique view by
+            rotating and zooming in on the visual.  You will need to turn off 'Auto Rotate' in the right panel to interact with some visuals without conflict.</p>
+        </div>
+        <!-- <div class="optionsContainer" style="height: 24px;" *ngFor="let favorite of this.optionsService.favorites">
+          <input type="radio" [id]="favorite.value" name="favorites" [value]="favorite.value"
+            (click)="favoriteChange($event)" [checked]="favorite.checked">
+          <label [for]="favorite.value">{{favorite.label}}</label>
+          <i
+          (click)="favoriteDelete($event)" [id]="favorite.value" class="material-icons"
+            style="cursor: no-drop; vertical-align: middle; float: right;">delete_forever</i>
+        </div> -->
+
+      </mat-expansion-panel>
+
       <!-- General Options -->
       <app-general-options></app-general-options>
 
@@ -38,13 +63,12 @@
           <input type="radio" [id]="favorite.value" name="favorites" [value]="favorite.value"
             (click)="favoriteChange($event)" [checked]="favorite.checked">
           <label [for]="favorite.value">{{favorite.label}}</label>
-          <i 
-          (click)="favoriteDelete($event)" [id]="favorite.value" class="material-icons"
+          <i (click)="favoriteDelete($event)" [id]="favorite.value" class="material-icons"
             style="cursor: no-drop; vertical-align: middle; float: right;">delete_forever</i>
         </div>
 
       </mat-expansion-panel>
-      
+
       <!-- Play List -->
       <mat-expansion-panel expanded="true">
 
@@ -80,22 +104,29 @@
 
         <div id="listBtnContainer">
           <div class="btnContainer">
-            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'site'}" (click)="siteListSelection()">
-              <i id="gdownicon" class="material-icons md-18" style="cursor: no-drop; vertical-align: middle; float: left;">queue_music</i> 
+            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'site'}"
+              (click)="siteListSelection()">
+              <i id="gdownicon" class="material-icons md-18"
+                style="cursor: no-drop; vertical-align: middle; float: left;">queue_music</i>
               Site Music
             </button>
-            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'local'}" (click)="localListSelection()">
-              <i id="gdownicon" class="material-icons md-18" style="cursor: no-drop; vertical-align: middle; float: left;">queue_music</i> 
+            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'local'}"
+              (click)="localListSelection()">
+              <i id="gdownicon" class="material-icons md-18"
+                style="cursor: no-drop; vertical-align: middle; float: left;">queue_music</i>
               Local Music
             </button>
           </div>
           <div class="btnContainer">
-            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'mic'}" (click)="this.audioService.enableMic()">
-              <i id="gdownicon" class="material-icons md-18" style="cursor: no-drop; vertical-align: middle; float: left;">mic</i> 
+            <button class="playlistButton" [ngClass]="{'active' : this.optionsService.input === 'mic'}"
+              (click)="this.audioService.enableMic()">
+              <i id="gdownicon" class="material-icons md-18"
+                style="cursor: no-drop; vertical-align: middle; float: left;">mic</i>
               Microphone
             </button>
             <button class="playlistButton" (click)="randomizeList()">
-              <i id="gdownicon" class="material-icons md-18" style="cursor: no-drop; vertical-align: middle; float: left;">shuffle</i> 
+              <i id="gdownicon" class="material-icons md-18"
+                style="cursor: no-drop; vertical-align: middle; float: left;">shuffle</i>
               Randomize
             </button>
           </div>
