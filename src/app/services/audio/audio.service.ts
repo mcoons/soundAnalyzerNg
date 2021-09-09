@@ -25,12 +25,6 @@ export class AudioService {
 
   smoothingConstant = .9;
 
-  fr16Analyser: any;
-  fr16DataArray: Uint8Array = new Uint8Array(16);
-
-  fr32Analyser: any;
-  fr32DataArray: Uint8Array = new Uint8Array(32);
-
   fr64Analyser: any;
   fr64DataArray: Uint8Array = new Uint8Array(64);
 
@@ -73,6 +67,7 @@ export class AudioService {
   sample1BufferHistory = [];
   sample2BufferHistory = [];
   sample1Topper = [];
+  sample2Topper = [];
 
   sample2: Uint8Array = new Uint8Array(256);
 
@@ -115,7 +110,7 @@ export class AudioService {
         }
       });
 
-    this.clearSampleArrays();
+    // this.clearSampleArrays();
 
   }
 
@@ -135,8 +130,6 @@ export class AudioService {
     this.splitter = this.audioCtx.createChannelSplitter(2);
     this.splitter2 = this.audioCtx.createChannelSplitter(11);
 
-    this.fr16Analyser = this.audioCtx.createAnalyser();
-    this.fr32Analyser = this.audioCtx.createAnalyser();
     this.fr64Analyser = this.audioCtx.createAnalyser();
     this.fr128Analyser = this.audioCtx.createAnalyser();
     this.fr256Analyser = this.audioCtx.createAnalyser();
@@ -167,21 +160,10 @@ export class AudioService {
     });
 
 
-    // this.fr16Analyser.fftSize = 32;
-    // this.fr16Analyser.minDecibels = this.minDecibels;
-    // this.fr16Analyser.maxDecibels = this.maxDecibels;
-    // this.fr16Analyser.smoothingTimeConstant = this.smoothingConstant;
-
-    // this.fr32Analyser.fftSize = 64;
-    // this.fr32Analyser.minDecibels = this.minDecibels;
-    // this.fr32Analyser.maxDecibels = this.maxDecibels;
-    // this.fr32Analyser.smoothingTimeConstant = this.smoothingConstant;
-
     this.tdAnalyser = this.audioCtx.createAnalyser();
-    this.tdAnalyser.fftSize = 1024;
-    // this.tdAnalyser.minDecibels = this.minDecibels;
-    // this.tdAnalyser.maxDecibels = this.maxDecibels;
-    // this.tdAnalyser.smoothingTimeConstant = this.smoothingConstant;
+    // this.tdAnalyser.fftSize = 1024;
+    this.tdAnalyser.fftSize = 512;
+
     this.tdBufferLength = this.tdAnalyser.frequencyBinCount;
     this.tdDataArray = new Uint8Array(this.tdBufferLength);
 
@@ -204,8 +186,6 @@ export class AudioService {
     this.splitter2.connect(this.fr256Analyser);
     this.splitter2.connect(this.fr128Analyser);
     this.splitter2.connect(this.fr64Analyser);
-    this.splitter2.connect(this.fr32Analyser);
-    this.splitter2.connect(this.fr16Analyser);
 
 
     for (let index = 0; index < 151; index++) {
@@ -225,8 +205,15 @@ export class AudioService {
 
 
     for (let index = 0; index < 576; index++) {
-      // this.sample1Topper[index] = 0;
       this.sample1Topper[index] = {
+        value: 0,
+        age: 0
+      };
+    }
+
+
+    for (let index = 0; index < 256; index++) {
+      this.sample2Topper[index] = {
         value: 0,
         age: 0
       };
@@ -248,9 +235,6 @@ export class AudioService {
     this.analyzersArray.forEach((element, i) => {
       element.getByteFrequencyData(this.soundArrays[i]);
     });
-
-    // this.fr16Analyser.getByteFrequencyData(this.fr16DataArray);
-    // this.fr32Analyser.getByteFrequencyData(this.fr32DataArray);
 
     // combine for sample set
     // Rings, SingleSPSCube, SpherePlaneManager2SPS, Notes
@@ -317,7 +301,7 @@ export class AudioService {
         this.sample2BufferHistory.pop();
         this.sample2BufferHistory.reverse();
       }
-      
+
 
     }
     //////////////////////////////////////
@@ -354,17 +338,17 @@ export class AudioService {
 
       this.noteIndex.forEach((n, i) => {
 
-        const temp = ( 
+        const temp = (
           this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 64] +
           this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 128] +
-          this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 192] 
+          this.sample1BufferHistory[this.sample1BufferHistory.length - historyPeek + 1][n + 192]
         ) * .3333;
 
 
-        const temp2 = ( 
+        const temp2 = (
           this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 64] +
           this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 128] +
-          this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 192] 
+          this.sample1BufferHistory[this.sample1BufferHistory.length - 1][n + 192]
         ) * .3333;
 
         this.noteAvgs[i] = this.noteAvgs[i] - 1 / historyPeek * temp;
@@ -376,11 +360,11 @@ export class AudioService {
 
   }
 
-  clearSampleArrays(): void {
-    for (let index = 0; index < 576; index++) {
-      this.sample1[index] = 0;
-    }
-  }
+  // clearSampleArrays(): void {
+  //   for (let index = 0; index < 576; index++) {
+  //     this.sample1[index] = 0;
+  //   }
+  // }
 
   setGain(): void {
     // tslint:disable-next-line: max-line-length
@@ -392,9 +376,6 @@ export class AudioService {
     this.analyzersArray.forEach(element => {
       element.smoothingTimeConstant = this.smoothingConstant;
     });
-
-    this.fr16Analyser.smoothingTimeConstant = this.smoothingConstant;
-    this.fr32Analyser.smoothingTimeConstant = this.smoothingConstant;
 
   }
 

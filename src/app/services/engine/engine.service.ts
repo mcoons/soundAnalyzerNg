@@ -40,7 +40,6 @@ export class EngineService {
 
   private tmpCtx;
   private effectsCtx;
-  // private canvasCtx;
 
   public engine: BABYLON.Engine;
   public camera1: BABYLON.ArcRotateCamera;
@@ -160,17 +159,11 @@ export class EngineService {
 
   public setGlowLayer = (intensity: number): void => {
 
-    // var gl = new BABYLON.GlowLayer("glow", this.scene, {
-    //   mainTextureFixedSize: 1024,
-    //   blurKernelSize: 64
-    // });
-
     if (this.glowLayer) {
       this.glowLayer.intensity = intensity;
     } else {
       this.glowLayer = new BABYLON.GlowLayer('glow', this.scene
         , {
-          // mainTextureFixedSize: 128,
           mainTextureRatio: 1,
           blurKernelSize: 360
         }
@@ -185,10 +178,8 @@ export class EngineService {
 
         let yy = this.audioService.sample2[index];
 
-        // const columnGroup = Math.trunc(index / 32);
         const columnGroup = Math.trunc(index * 0.03125);
 
-        // const row = index % 32;
 
         switch (series) {
 
@@ -196,7 +187,6 @@ export class EngineService {
             yy = this.audioService.sample2[index];
 
             yy = (yy / 255 * yy / 255 * yy / 255 * yy / 255 * yy / 255) * 245 * (columnGroup + 1);
-            // yy = yy * yy * yy * yy * yy * 0.00000000022723 * (columnGroup + 1);
             result.set(yy, yy, yy, 1);
             break;
 
@@ -251,30 +241,24 @@ export class EngineService {
     //////    CAMERAS    //////
 
     this.cameraTarget = new BABYLON.TransformNode('cameraTarget', this.scene);
-    // this.cameraTarget = BABYLON.MeshBuilder.CreateSphere('cameraTarget', { diameter: 1, segments: 16, updatable: true }, this.scene);
 
     this.cameraTarget.position = new BABYLON.Vector3(0, 0, 0);
 
-    // this.camera1 = new BABYLON.ArcRotateCamera('ArcRotateCam', Math.PI / 2, Math.PI / 2, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
     this.camera1 = new BABYLON.ArcRotateCamera('ArcRotateCam', Math.PI * .5, Math.PI * .5, 1600, new BABYLON.Vector3(0, 0, 0), this.scene);
     this.camera1.upperRadiusLimit = 9400;
     this.camera1.lowerRadiusLimit = 10;
     this.camera1.attachControl(this.canvas, true);
     this.camera1.fovMode = BABYLON.Camera.FOVMODE_HORIZONTAL_FIXED;
-    // this.camera1.fovMode = BABYLON.Camera.FOVMODE_VERTICAL_FIXED;
     this.scene.activeCamera = this.camera1;
 
     this.camera1.speed = 1;
 
-    ////// CAMERA 2 is rendered to a target texture 
-    //// this.camera2Material;
-    //// this.renderTargetTexture
+    ////// CAMERA 2 is rendered to a target texture
 
-    // this.camera2 = new BABYLON.ArcRotateCamera('ArcRotateCam2', Math.PI / 2, Math.PI / 2, 1000, new BABYLON.Vector3(0, 0, 0), this.scene);
     this.camera2 = new BABYLON.ArcRotateCamera('ArcRotateCam2', Math.PI * .5, Math.PI * .5, 1000, new BABYLON.Vector3(0, 0, 0), this.scene);
 
     this.renderTargetTexture = new BABYLON.RenderTargetTexture(
-      'render to texture', // name 
+      'render to texture', // name
       4096, // texture size
       this.scene // the scene
     );
@@ -285,31 +269,6 @@ export class EngineService {
 
     this.camera2Material = new BABYLON.StandardMaterial('mat', this.scene);
     this.camera2Material.diffuseTexture = this.renderTargetTexture;
-
-    // var txplane = BABYLON.Mesh.CreatePlane("txplane", 1, this.scene);
-    // txplane.position.z = 3;
-    // txplane.position.y = -0.7;
-    // txplane.parent = this.camera1;
-    // txplane.material = this.camera2Material;
-
-
-    // var parameters = {
-    //   chromatic_aberration: 0.0,  //1.0,
-    //   edge_blur: 0, // 1.0,
-    //   distortion: .5, // 1.0,
-    //   grain_amount: 0.5,
-    //   dof_focus_distance: 100,  // 2000,
-    //   dof_aperture: 10, // 1,
-    //   dof_darken: .1, // 0,
-    //   dof_pentagon: true,
-    //   dof_gain: 1,
-    //   dof_threshold: 1,
-    //   blur_noise: true
-    //   // etc.
-    // };
-
-    // var lensEffect = new BABYLON.LensRenderingPipeline('lensEffects', parameters, this.scene, 1.0, this.scene.cameras);
-
 
     //////   LIGHTING   //////
 
@@ -405,9 +364,6 @@ export class EngineService {
 
     //////    SCENE INITIALIZATIONS    //////
 
-    // this.scene.createDefaultEnvironment();
-
-
     // tslint:disable-next-line: max-line-length
     this.currentVisual = new this.visualClasses[this.visualClassIndex](this.scene, this.audioService, this.optionsService, this.messageService, this, this.colorsService);
     this.currentVisual.create();
@@ -415,41 +371,6 @@ export class EngineService {
     this.createHexObj();
 
     this.Writer = new MESHWRITER(this.scene, { scale: 10 });
-
-    // console.log('in create scene');
-    // console.log('this.visualClassIndex');
-    // console.log(this.visualClassIndex);
-
-
-    // const sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 100}, this.scene);
-    // sphere.position.y = 50;
-
-    // let testMat = new BABYLON.StandardMaterial("test",this.scene);
-    // testMat.maxSimultaneousLights = 8;
-
-    // sphere.material = testMat;
-
-
-    // this.titleMat = new BABYLON.StandardMaterial('titleMat', this.scene);
-    // this.titleMat.alpha = 1;
-    // this.titleMat.specularColor = new BABYLON.Color3(0, 0, 0);
-    // this.titleMat.emissiveColor = new BABYLON.Color3(0, 0, 0);
-    // this.titleMat.diffuseColor = new BABYLON.Color3(1, 1, 1);
-
-    // this.createTitleText('Have Yourself a Merry Little Christmas');
-
-    // console.log(this.scene.cameras[0].alpha);
-
-    // this.effectsCtx = this.effectsCanvas.getContext("2d");
-    // this.tmpCtx = this.tmpCanvas.getContext("2d");
-    // this.tmpCtx.globalAlpha = .99;
-    // this.effectsCtx.globalAlpha = .99;
-
-    // this.effectsCtx.translate(-this.effectsCanvas.width * .11/2, -this.effectsCanvas.height *.11/2);
-    // this.effectsCtx.scale(1.11, 1.11);
-
-    //  this.effectsCtx.fillStyle = "red";
-    //  this.effectsCtx.fillRect(10, 10, 500, 500);
 
   }
 
@@ -516,153 +437,16 @@ export class EngineService {
     // because it could trigger heavy changeDetection cycles.
     this.ngZone.runOutsideAngular(() => {
       const rendererLoopCallback = () => {
-        // if (!this.optionsService.playing){
-        //   return;
-        // }
 
         if (this.audioService.audio != null && (this.optionsService.playing || this.optionsService.microphone)) {
           this.audioService.analyzeData();
         }
         this.fixDpi();
-        // this.lightParent.rotation.y += .03;
         this.setCameraLightVectors();
 
         this.currentVisual.update();
 
         this.scene.render();
-
-
-        // var effectsCtx = this.effectsCanvas.getContext("2d");
-        // var tmpCtx = this.tmpCanvas.getContext("2d");
-
-        // tmpCtx.save();
-        // effectsCtx.save();
-
-        // // clear Tmp
-        // tmpCtx.clearRect(0,0,5000,5000);
-
-        // // Effects to Tmp
-        // tmpCtx.drawImage(this.effectsCanvas, 0, 0);
-
-        // // clear effects
-        // effectsCtx.clearRect(0,0,5000,5000);
-
-        // effectsCtx.translate(-this.effectsCanvas.width * .1/2, -this.effectsCanvas.height *.1/2);
-        // effectsCtx.scale(1.1, 1.1);
-
-        // //  tmp to effects
-        // effectsCtx.drawImage(this.tmpCanvas, 0, 0);
-
-        // effectsCtx.drawImage(this.canvas, 0, 0);
-        // effectsCtx.restore();
-
-        // tmpCtx.restore();
-
-        // this.effectsCtx.fillStyle = "red";
-        // this.effectsCtx.fillRect(10, 10, 500, 500);
-
-
-
-
-        /////////////////
-
-        // let imageData = this.effectsCtx.getImageData(0, 0, this.effectsCanvas.width, this.effectsCanvas.height);
-
-        // // this.tmpCtx.save();
-        // // this.effectsCtx.save();
-        // // this.effectsCtx.clearRect(0,0,5000,5000);
-        // this.effectsCtx.translate(-this.effectsCanvas.width * .1/2, -this.effectsCanvas.height *.1/2);
-        // // this.effectsCtx.scale(1.2, 1.2);
-        // // clear Tmp
-        // // this.tmpCtx.clearRect(0,0,5000,5000);
-        // // this.tmpCtx.globalAlpha = .98;
-        // // Effects to Tmp
-        // // this.effectsCtx.putImageData(imageData, 0, 0);
-        // this.effectsCtx.scale(1.1, 1.1);
-
-        // // clear effects
-        // // this.effectsCtx.rotate(.05);  // increasing lowers termination point and adds more loops
-        // // this.effectsCtx.translate(0, -80);   // increasing y lowers termination point 
-        // //  tmp to effects
-        // // this.effectsCtx.drawImage(this.tmpCanvas, 0, 0);
-        // this.effectsCtx.drawImage(this.canvas, 0, 0);
-        // // this.effectsCtx.restore();
-        // // this.effectsCtx.translate(this.effectsCanvas.width / 2, -this.effectsCanvas.height / 2);
-        // // this.tmpCtx.restore();
-
-        // this.effectsCtx.translate(-this.effectsCanvas.width * .2/2, -this.effectsCanvas.height *.2/2);
-
-        // this.effectsCtx.scale(1.2, 1.2);
-        // this.effectsCtx.drawImage(this.canvas, 0, 0);
-
-
-        ////////////////////
-
-
-
-
-        // // this.tmpCtx.save();
-        // this.effectsCtx.save();
-
-        // this.tmpCtx.clearRect(0,0,5000,5000);
-        // this.tmpCtx.globalAlpha = .98;
-        // this.tmpCtx.drawImage(this.effectsCanvas, 0, 0);
-
-        // this.effectsCtx.clearRect(0,0,5000,5000);
-        // this.effectsCtx.translate(-this.effectsCanvas.width / 2, this.effectsCanvas.height / 2);
-        // this.effectsCtx.rotate(.05);  // increasing lowers termination point and adds more loops
-        // this.effectsCtx.translate(this.effectsCanvas.width / 2, -this.effectsCanvas.height / 2);
-        // this.effectsCtx.scale(.95, .95);
-        // this.effectsCtx.translate(10, -80);   // increasing y lowers termination point 
-
-        // this.effectsCtx.drawImage(this.tmpCanvas, 0, 0);
-        // this.effectsCtx.restore();
-        // this.effectsCtx.drawImage(this.canvas, 0, 0);
-        // // this.tmpCtx.restore();
-
-
-
-
-        // this.tmpCtx.globalAlpha = .99;
-        // this.effectsCtx.globalAlpha = .99;
-        // this.effectsCtx.translate(-this.effectsCanvas.width * .11/2, -this.effectsCanvas.height *.11/2);
-        // this.effectsCtx.scale(1.11, 1.11);
-
-        // this.tmpCtx.save();
-        // this.effectsCtx.save();
-
-
-        // clear Tmp
-        // this.tmpCtx.clearRect(0,0,5000,5000);
-
-        // let data;
-        // // Set translation and scale
-        // this.tmpCtx.translate(-this.effectsCanvas.width * .11/2, -this.effectsCanvas.height *.11/2);
-        // this.tmpCtx.scale(1.11, 1.11);
-
-        // // Old historical Effects to Tmp w/ a scaling
-        // this.tmpCtx.drawImage(this.effectsCanvas, 0, 0);        
-        // this.effectsCtx.drawImage(this.tmpCanvas, 0, 0);
-        // this.effectsCtx.drawImage(this.canvas, 0, 0);
-
-
-        // 3d Canvas image to Tmp
-
-        // effectsCtx.clearRect(0,0,5000,5000);
-
-
-
-        // this.tmpCtx.globalAlpha = .98;
-        // clear effects
-        // effectsCtx.rotate(.05);  // increasing lowers termination point and adds more loops
-        // effectsCtx.translate(10, -80);   // increasing y lowers termination point 
-        //  tmp to effects
-        // effectsCtx.drawImage(this.canvas, 0, 0);
-        // effectsCtx.restore();
-        // effectsCtx.translate(this.effectsCanvas.width / 2, -this.effectsCanvas.height / 2);
-        // this.tmpCtx.restore();
-
-
 
       };
 
@@ -913,7 +697,7 @@ export class EngineService {
 
 
 
-    //  Create a sheath cover for easier material mapping 
+    //  Create a sheath cover for easier material mapping
 
     (() => {
 

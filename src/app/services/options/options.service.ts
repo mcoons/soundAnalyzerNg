@@ -720,7 +720,7 @@ export class OptionsService {
         value: 2,
         checked: false,
 
-        
+
         colorOptions: false,
         cameraOptions: false,
 
@@ -3267,7 +3267,7 @@ export class OptionsService {
     // console.log(lFavorites);
     if (lFavorites.error === 'local storage error') {
       this.favorites = [];
-      console.log('leaving favs as', lFavorites);
+      console.log('leaving favs as null');
     } else {
       console.log('favs found in lFavorites');
 
@@ -3348,8 +3348,8 @@ export class OptionsService {
 
   // updateCustomOptions(visualIndex: number): void {
 
-    updateCustomOptions(): void {
-      setTimeout(() => {
+  updateCustomOptions(): void {
+    setTimeout(() => {
 
       this.messageService.announceMessage('set lights');
       this.messageService.announceMessage('set camera');
