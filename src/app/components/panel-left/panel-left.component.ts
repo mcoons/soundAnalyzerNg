@@ -27,7 +27,7 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.optionsService.favorites.length > 0) {
-      this.favoriteChange({target: {value: this.optionsService.favorites.length-1}}); 
+      this.favoriteChange({target: {value: this.optionsService.favorites.length-1}});
       this.optionsService.favorites[this.optionsService.favorites.length-1].checked = true;
     }
   }
@@ -57,7 +57,7 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
     this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cradius = this.engineService.camera1.radius;
 
     Object.assign(this.optionsService.newBaseOptions, JSON.parse(JSON.stringify(this.optionsService.favorites[e.target.value].options)));
-  
+
     this.optionsService.updateState('currentVisual', this.optionsService.favorites[ e.target.value ].state.currentVisual.value);
     this.messageService.announceMessage('scene change');
     this.messageService.announceMessage('set lights');
@@ -73,17 +73,6 @@ export class PanelLeftComponent implements OnInit, OnDestroy {
   updateItem(e): void {
     this.messageService.announceMessage(e.target.id);
   }
-
-  // radioChange(e) {
-  //   this.optionsService.toggleVisualRadio(e.target.id, e.target.value);
-  //   this.optionsService.updateState('currentVisual', e.target.value);
-  //   this.messageService.announceMessage('scene change');
-  // }
-
-  // radioNoteChange(e): void {
-  //   // this.optionsService.toggleNoteRadio(e.target.id, e.target.value);
-  //   // this.optionsService.setOption('currentNote', e.target.value);
-  // }
 
   trackChange(e): void {
     this.optionsService.updateState('currentTrack', e.target.value);
