@@ -1,4 +1,5 @@
-# SoundanalyzerNg
+
+# SoundAnalyzerNg
 
 An MP3 player with customizable 3D interactive visuals wrapped in Angular.
 [soundanalyzer.michaelcoons.tech](https://soundanalyzer.michaelcoons.tech/)
