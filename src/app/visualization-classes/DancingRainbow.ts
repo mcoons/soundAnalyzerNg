@@ -16,8 +16,6 @@ export class DancingRainbow implements OnDestroy {
     private colorsService: ColorsService;
     private optionsService: OptionsService;
 
-    // pointListArray = [];
-
     theta = 0;
     material;
     mat;
@@ -64,55 +62,6 @@ export class DancingRainbow implements OnDestroy {
         this.engineService = engineService;
         this.colorsService = colorsService;
         this.optionsService = optionsService;
-
-        // this.material = new BABYLON.StandardMaterial('ballMat', this.scene);
-        // this.material.diffuseColor = new BABYLON.Color3(1, 0, 0);
-        // this.material.maxSimultaneousLights = 8;
-
-        // for (let i = 0; i < 6; i++) {
-        //     let m = new BABYLON.StandardMaterial('tubeMat' + i, this.scene);
-        //     m.maxSimultaneousLights = 8;
-        //     m.diffuseColor = BABYLON.Color3.FromHexString(this.colors[i]);
-
-        //     this.pointListArray.push(
-        //         {
-        //             points: [],
-        //             tube: null,
-        //             material: m
-        //         }
-        //     )
-        // }
-
-
-        // this.tubeMaterial = new BABYLON.StandardMaterial('tubeMat', this.scene);
-        // this.tubeMaterial.maxSimultaneousLights = 8;
-        // this.tubeMaterial.diffuseColor = BABYLON.Color3.FromHexString('#ff0000');
-
-        // this.tube2Material = new BABYLON.StandardMaterial('tubeMat', this.scene);
-        // this.tube2Material.maxSimultaneousLights = 8;
-        // this.tube2Material.diffuseColor = BABYLON.Color3.FromHexString('#FF7F00');
-
-        // this.tube3Material = new BABYLON.StandardMaterial('tubeMat', this.scene);
-        // this.tube3Material.maxSimultaneousLights = 8;
-        // this.tube3Material.diffuseColor = BABYLON.Color3.FromHexString('#ffff00');
-
-        // this.tube4Material = new BABYLON.StandardMaterial('tubeMat', this.scene);
-        // this.tube4Material.maxSimultaneousLights = 8;
-        // this.tube4Material.diffuseColor = BABYLON.Color3.FromHexString('#00ff00');
-
-        // this.tube5Material = new BABYLON.StandardMaterial('tubeMat', this.scene);
-        // this.tube5Material.maxSimultaneousLights = 8;
-        // this.tube5Material.diffuseColor = BABYLON.Color3.FromHexString('#0000ff');
-
-        // this.tube6Material = new BABYLON.StandardMaterial('tubeMat', this.scene);
-        // this.tube6Material.maxSimultaneousLights = 8;
-        // this.tube6Material.diffuseColor = BABYLON.Color3.FromHexString('#3A2D61');
-
-
-        // this.tube7Material = new BABYLON.StandardMaterial('tubeMat', this.scene);
-        // this.tube7Material.maxSimultaneousLights = 8;
-        // this.tube7Material.diffuseColor = BABYLON.Color3.FromHexString('#9B4BD9');
-
 
         this.scene.registerBeforeRender(this.beforeRender);
 
@@ -197,7 +146,6 @@ export class DancingRainbow implements OnDestroy {
                 const d = Math.sqrt((x * x) + (z * z));
                 if (d <= 8.5) {
                     this.SPS.addShape(sphere, 1, { positionFunction: innerPositionFunction });
-                    // counter++;
                 }
             }
         }
@@ -206,8 +154,6 @@ export class DancingRainbow implements OnDestroy {
         this.mesh1.material = this.mat;
 
         sphere.dispose();
-
-        // console.log(counter);
 
         this.SPS.updateParticle = (particle) => {
             if (!this.optionsService.playing && !this.optionsService.microphone){
@@ -247,14 +193,6 @@ export class DancingRainbow implements OnDestroy {
             this.points7.push(new BABYLON.Vector3(radius * Math.cos(theta), 0, radius * Math.sin(theta)));
         }
 
-        // console.log(this.pointListArray);
-
-        // this.points.push(this.points[0]);
-        // this.points2.push(this.points2[0]);
-        // this.points3.push(this.points3[0]);
-        // this.points4.push(this.points4[0]);
-        // this.points5.push(this.points5[0]);
-
         const oldpoints = [];
         const oldpoints2 = [];
         const oldpoints3 = [];
@@ -264,7 +202,6 @@ export class DancingRainbow implements OnDestroy {
         const oldpoints7 = [];
 
         for (let i = 0; i < 193; i++) {
-            // for (let i = 0; i < 385; i++) {
             oldpoints.push(new BABYLON.Vector3(0, 0, 0));
             oldpoints2.push(new BABYLON.Vector3(0, 0, 0));
             oldpoints3.push(new BABYLON.Vector3(0, 0, 0));
@@ -273,16 +210,6 @@ export class DancingRainbow implements OnDestroy {
             oldpoints6.push(new BABYLON.Vector3(0, 0, 0));
             oldpoints7.push(new BABYLON.Vector3(0, 0, 0));
         }
-
-
-        // for (let i = 0; i < 6; i++) {
-        //     for (let theta = Math.PI / 2; theta <= 2 * Math.PI + Math.PI / 2; theta += Math.PI / 32) {
-        //         this.pointListArray[i].points.push(new BABYLON.Vector3(radius * Math.cos(theta), -120 + 20 * i, radius * Math.sin(theta)));
-        //         this.pointListArray[i].tube = BABYLON.MeshBuilder.CreateTube("tube", { path: oldpoints, radius: 10, tessellation: 32, updatable: true });
-        //         this.pointListArray[i].tube.material = this.pointListArray[i].material;
-        //     }
-        // }
-
 
         this.tube = BABYLON.MeshBuilder.CreateTube("tube", { path: oldpoints, radius: 10, tessellation: 32, updatable: true });
         this.tube.material = this.tubeMaterial;
@@ -307,9 +234,6 @@ export class DancingRainbow implements OnDestroy {
         this.tube7 = BABYLON.MeshBuilder.CreateTube("tube7", { path: oldpoints7, radius: 10, tessellation: 32, updatable: true });
         this.tube7.material = this.tube7Material;
 
-
-        // this.torus = BABYLON.MeshBuilder.CreateTorus("torus", {tessellation: 64, diameter: 700.5, thickness: 21.5}, this.scene);
-
     }
 
     update(): void {
@@ -324,14 +248,6 @@ export class DancingRainbow implements OnDestroy {
         const radius5 = 550;
         const radius6 = 450;
         const radius7 = 350;
-
-        // const radius = 500;
-        // const radius2 = 500;
-        // const radius3 = 500;
-        // const radius4 = 500;
-        // const radius5 = 500;
-        // const radius6 = 500;
-        // const radius7 = 500;
 
         let index = 0;
         let yy = 0;
@@ -418,7 +334,6 @@ export class DancingRainbow implements OnDestroy {
         const catmullRom6 = BABYLON.Curve3.CreateCatmullRomSpline(this.points6, nbPoints, closed);
         const catmullRom7 = BABYLON.Curve3.CreateCatmullRomSpline(this.points7, nbPoints, closed);
 
-        // var test = BABYLON.Curve3.CreateCatmullRomSpline(this.points7, 6, true);
 
         const newpath = catmullRom.getPoints();
         const newpath2 = catmullRom2.getPoints();
@@ -427,11 +342,6 @@ export class DancingRainbow implements OnDestroy {
         const newpath5 = catmullRom5.getPoints();
         const newpath6 = catmullRom6.getPoints();
         const newpath7 = catmullRom7.getPoints();
-
-        // var tp = test.getPoints();
-
-        // var l = catmullRom.length();
-        // var l = catmullRom.length();
 
         // console.log("tp.length");
         // console.log(tp.length);
@@ -467,8 +377,6 @@ export class DancingRainbow implements OnDestroy {
         this.scene.unregisterBeforeRender(this.beforeRender);
 
         this.audioService = null;
-        // this.optionsService = null;
-        // this.messageService = null;
         this.engineService = null;
         this.colorsService = null;
         this.scene = null;

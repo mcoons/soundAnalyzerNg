@@ -27,18 +27,7 @@ export class Hex {
 
         this.scene.registerBeforeRender(this.beforeRender);
 
-        // this.setDefaults();
     }
-
-    // setDefaults() {
-    //     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.x = 0;
-    //     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.y = -20;
-    //     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).target.z = 0;
-
-    //     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).alpha = 4.72; // 4.72
-    //     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).beta = .91; // 1
-    //     (this.scene.cameras[0] as BABYLON.ArcRotateCamera).radius = 1400;
-    // }
 
     beforeRender = (): void => {
         this.scene.blockMaterialDirtyMechanism = true;
@@ -61,7 +50,7 @@ export class Hex {
         this.engineService.hexParent.setEnabled(true);
     }
 
-    update(): void { 
+    update(): void {
         null;
     }
 
@@ -71,11 +60,9 @@ export class Hex {
 
         this.engineService.hexParent.setEnabled(false);
 
-        // this.audioService = null;
         this.optionsService = null;
-        // this.messageService = null;
         this.engineService = null;
-        // this.colorsService = null;
+
         this.scene = null;
     }
 

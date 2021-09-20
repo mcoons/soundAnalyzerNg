@@ -86,13 +86,13 @@ export class VisualSelectionComponent {
     this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].calpha = this.engineService.camera1.alpha;
     this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cbeta = this.engineService.camera1.beta;
     this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].cradius = this.engineService.camera1.radius;
-    
+
 
     const t = JSON.parse(JSON.stringify(this.optionsService.newBaseOptions));
     // this.removeProps(t, 'label');
     // this.removeProps(t, 'hertz');
     // this.removeProps(t, 'label');
-    
+
     this.optionsService.favorites.push(
       {
         // label: this.optionsService.newBaseOptions.visual[this.optionsService.currentVisual].label,
@@ -110,10 +110,10 @@ export class VisualSelectionComponent {
 
     this.optionsService.favorites[this.optionsService.favorites.length-1].checked = true;
 
-    
+
   }
 
-  removeProps(obj,keys): void{
+  removeProps(obj: any[],keys: string | string[]): void{
     if(obj instanceof Array){
       obj.forEach((item) =>{
         this.removeProps(item,keys)
