@@ -99,6 +99,13 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       this.ctx.moveTo(25, this.getTopOfPlayer() - this.audioService.sample1Topper[0].value - height - 42);
     }
 
+    // Clear on first 0 height element call only, Prepare to draw the topper
+    if (height === 200) {
+      // this.ctx.clearRect(0, 0, WIDTH, HEIGHT);
+      // this.ctx.beginPath();
+      this.ctx.moveTo(25, this.getTopOfPlayer() - this.audioService.sample2Topper[0].value - height - 42);
+    }
+
     let x = 0;
 
     this.ctx.strokeStyle = 'rgba(0, 247, 255,.7)';
@@ -116,7 +123,7 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       const b = 255 - .2327 * i;
 
       this.ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',.7)';
-      this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight - height - 40, barWidth, barHeight);
+      this.ctx.fillRect(x + 25, this.getTopOfPlayer() - barHeight - height - 40, barWidth-barWidth/2, barHeight);
 
       // calculate and draw topper and diff bar
       // only if for bar 0
@@ -131,10 +138,18 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
         }
 
         this.ctx.fillStyle = 'rgba(0, 247, 255,.7)';
-        this.ctx.fillRect(x + 25, this.getTopOfPlayer() - (diff <= 1 ? 1 : (diff)) * .5 - height - 190, barWidth, (diff <= 1 ? 1 : (diff)));
+        this.ctx.fillRect(x + 25, this.getTopOfPlayer() - (diff <= 1 ? 1 : (diff)) * .5 - height - 190, barWidth+barWidth/2, (diff <= 1 ? 1 : (diff)));
 
         // // draw topper
-        this.ctx.lineTo(x + 25, this.getTopOfPlayer() - this.audioService.sample1Topper[i].value - height - 42);
+        this.ctx.lineTo(x + 25+barWidth/2, this.getTopOfPlayer() - this.audioService.sample1Topper[i].value - height - 42);
+      }
+
+      if (height === 200) {
+
+        this.bumpTopper2(i, barHeight, x);
+
+        // // draw topper
+        this.ctx.lineTo(x + 25+barWidth/2, this.getTopOfPlayer() - this.audioService.sample2Topper[i].value - height - 42);
       }
 
       // draw key/freq designators
@@ -164,9 +179,9 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
       x += barWidth; // + 1;
     }  //  end loop
 
-    if (height === 0) {
+    // if (height === 0) {
       this.ctx.stroke();
-    }
+    // }
 
   }
 
@@ -184,6 +199,23 @@ export class Canvas2DComponent implements OnDestroy, AfterViewInit {
 
     this.ctx.lineTo(x + 25, this.getTopOfPlayer() - this.audioService.sample1Topper[i].value - 42);
   }
+
+
+  bumpTopper2(i:number, height:number, x:number): void {
+    if (this.audioService.sample2Topper[i].value <= height) {
+      this.audioService.sample2Topper[i].value = height;
+      this.audioService.sample2Topper[i].age = 0;
+    } else {
+      this.audioService.sample2Topper[i].value -= (this.audioService.sample2Topper[i].age++) * .1;
+    }
+
+    if (this.audioService.sample2Topper[i].value < 0) {
+      this.audioService.sample2Topper[i].value = 0;
+    }
+
+    this.ctx.lineTo(x + 25, this.getTopOfPlayer() - this.audioService.sample2Topper[i].value - 242);
+  }
+
 
   drawWaveform(): void {
     if (this.waveFormDataSource == null) {
