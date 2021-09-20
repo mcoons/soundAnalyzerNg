@@ -11,7 +11,7 @@ import { EngineService } from 'src/app/services/engine/engine.service';
 })
 export class VisualSelectionComponent {
 
-  saveName = 'Test';
+  saveName = 'Enter a Favorites name';
   subscription;
 
   constructor(
@@ -70,16 +70,13 @@ export class VisualSelectionComponent {
   addToFavorites(e: MouseEvent): void {
 
     const timestamp = new Date();
-    // const month = timestamp.getMonth() ;
     const month = ('0' + timestamp.getMonth()).slice (-2);
-    // const day = timestamp.getDate();
     const day = ('0' + timestamp.getDate()).slice (-2);
     const year = timestamp.getFullYear();
     const hours = ('0' + timestamp.getHours()).slice (-2);
     const minutes = ('0' + timestamp.getMinutes()).slice (-2);
     const seconds = ('0' + timestamp.getSeconds()).slice (-2);
 
-    // const timeString = this.optionsService.newBaseOptions.visual[this.optionsService.newBaseOptions.currentVisual].label + ` ${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
     const timeString = ` ${month}-${day}-${year} ${hours}:${minutes}:${seconds}`;
     // console.log(timeString);
 
@@ -89,13 +86,9 @@ export class VisualSelectionComponent {
 
 
     const t = JSON.parse(JSON.stringify(this.optionsService.newBaseOptions));
-    // this.removeProps(t, 'label');
-    // this.removeProps(t, 'hertz');
-    // this.removeProps(t, 'label');
 
     this.optionsService.favorites.push(
       {
-        // label: this.optionsService.newBaseOptions.visual[this.optionsService.currentVisual].label,
         label: this.saveName,
         value: this.optionsService.favorites.length,
         name: this.saveName + ' - ' + timeString,
@@ -104,7 +97,6 @@ export class VisualSelectionComponent {
         state:    JSON.parse(JSON.stringify(this.optionsService.state))
       });
 
-    // console.log(JSON.stringify(this.optionsService.newBaseOptions));
 
     this.storageService.saveFavorites(this.optionsService.favorites);
 

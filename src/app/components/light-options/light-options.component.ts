@@ -14,6 +14,7 @@ export class LightOptionsComponent implements OnInit {
     @Inject(MessageService) private messageService: MessageService) { }
 
   ngOnInit(): void {
+    null;
   }
 
   colorChange(e) {

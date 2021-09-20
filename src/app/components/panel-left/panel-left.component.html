@@ -1,27 +1,6 @@
 <div id="options">
   <div id="glowContainer">
     <mat-accordion multi="true">
-      <!-- <div id="listBtnContainer">
-        <div class="btnContainer">
-          <button class="playlistButton" (click)="logCurrentVisual($event)">Log Visual</button>
-
-          <button class="playlistButton" (click)="logScene($event)">Log Scene</button>
-        </div>
-        <div class="btnContainer">
-
-          <button class="playlistButton" (click)="logOptions($event)">Log Options</button>
-
-          <button class="playlistButton" (click)="logFavorites($event)">Log Favorites</button>
-        </div>
-      </div>
-      <br>
-      <input type="checkbox" id="Show Axis" name="Show Axis"
-        [(ngModel)]="this.optionsService.newBaseOptions.general.showAxis" (click)="axisChange($event)">
-      <label for="Show Axis"> Show Axis</label> -->
-      <!-- <p>
-      Alpha:  {{this.engineService.scene.cameras[0] as BABYLON.ArcRotateCamera.alpha}}<br>
-      Beta:   {{this.engineService.scene.cameras[0].beta}}<br>
-      Radius: {{this.engineService.scene.cameras[0].radius}}</p> -->
 
       <mat-expansion-panel expanded="true">
 
@@ -36,14 +15,6 @@
           <p>By using your mouse or arrow keys you can interact with the 3D visuals to select your own unique view by
             rotating and zooming in on the visual.  You will need to turn off 'Auto Rotate' in the right panel to interact with some visuals without conflict.</p>
         </div>
-        <!-- <div class="optionsContainer" style="height: 24px;" *ngFor="let favorite of this.optionsService.favorites">
-          <input type="radio" [id]="favorite.value" name="favorites" [value]="favorite.value"
-            (click)="favoriteChange($event)" [checked]="favorite.checked">
-          <label [for]="favorite.value">{{favorite.label}}</label>
-          <i
-          (click)="favoriteDelete($event)" [id]="favorite.value" class="material-icons"
-            style="cursor: no-drop; vertical-align: middle; float: right;">delete_forever</i>
-        </div> -->
 
       </mat-expansion-panel>
 
@@ -60,7 +31,6 @@
         <ng-container *ngIf="this.optionsService.favorites.length > 0">
 
           <div class="optionsContainer" style="height: 24px;" *ngFor="let favorite of this.optionsService.favorites">
-            <!-- {{favorite.name}} - {{favorite.options.version}} - -->
 
             <input type="radio" [id]="favorite.value" name="favorites" [value]="favorite.value"
               (click)="favoriteChange($event)" [checked]="favorite.checked">
