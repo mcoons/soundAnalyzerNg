@@ -229,7 +229,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 7,
+          value: 2,
         },
 
         customColors: {
@@ -524,7 +524,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 6,
+          value: 2,
         },
 
         customColors: {
@@ -743,7 +743,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 4,
+          value: 2,
         },
 
         customColors: {
@@ -960,7 +960,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 6,
+          value: 2,
         },
 
         customColors: {
@@ -1159,8 +1159,8 @@ export class OptionsService {
         cameraOptions: true,
 
         calpha: 4.72,
-        // cbeta: .01,
-        cbeta: Math.PI / 2,
+        cbeta: 1.01,
+        // cbeta: Math.PI / 2,
         cradius: 1780,
 
         autoRotate: {
@@ -1177,7 +1177,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 8,
+          value: 2,
         },
 
         customColors: {
@@ -1394,7 +1394,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 8,
+          value: 2,
         },
 
         customColors: {
@@ -1624,7 +1624,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 6,
+          value: 2,
         },
 
         customColors: {
@@ -1852,7 +1852,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 6,
+          value: 2,
         },
 
         customColors: {
@@ -2066,7 +2066,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 8,
+          value: 2,
         },
 
         customColors: {
@@ -2283,7 +2283,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 8,
+          value: 2,
         },
 
         customColors: {
@@ -2513,7 +2513,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 8,
+          value: 2,
         },
 
         customColors: {
@@ -2744,7 +2744,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 6,
+          value: 2,
         },
 
         customColors: {
@@ -2931,7 +2931,7 @@ export class OptionsService {
 
       },
 
-
+/*
       // mirrors:
       {
         // type: 'radio',
@@ -2972,7 +2972,7 @@ export class OptionsService {
 
         smoothingConstant: {
           label: 'Smoothing Constant',
-          value: 8,
+          value: 2,
         },
 
         customColors: {
@@ -3158,7 +3158,7 @@ export class OptionsService {
         ],
 
       },
-
+*/
     ]
 
   };
@@ -3176,7 +3176,7 @@ export class OptionsService {
     'notes',
     'singleSPSTriangle',
     'Lights',
-    'Mirrors'
+    // 'Mirrors'
   ];
 
   public CubeSPSs = [];

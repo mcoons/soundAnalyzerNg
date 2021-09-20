@@ -57,15 +57,21 @@
           Favorite Settings
         </mat-expansion-panel-header>
 
-        <div class="optionsContainer" style="height: 24px;" *ngFor="let favorite of this.optionsService.favorites">
-          <!-- {{favorite.name}} - {{favorite.options.version}} - -->
+        <ng-container *ngIf="this.optionsService.favorites.length > 0">
 
-          <input type="radio" [id]="favorite.value" name="favorites" [value]="favorite.value"
-            (click)="favoriteChange($event)" [checked]="favorite.checked">
-          <label [for]="favorite.value">{{favorite.label}}</label>
-          <i (click)="favoriteDelete($event)" [id]="favorite.value" class="material-icons"
-            style="cursor: no-drop; vertical-align: middle; float: right;">delete_forever</i>
-        </div>
+          <div class="optionsContainer" style="height: 24px;" *ngFor="let favorite of this.optionsService.favorites">
+            <!-- {{favorite.name}} - {{favorite.options.version}} - -->
+
+            <input type="radio" [id]="favorite.value" name="favorites" [value]="favorite.value"
+              (click)="favoriteChange($event)" [checked]="favorite.checked">
+            <label [for]="favorite.value">{{favorite.label}}</label>
+            <i (click)="favoriteDelete($event)" [id]="favorite.value" class="material-icons"
+              style="cursor: no-drop; vertical-align: middle; float: right;">delete_forever</i>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="this.optionsService.favorites.length === 0">
+          <div class="instructionsContainer">Favorite visual settings can be saved from the right panel.</div>
+        </ng-container>
 
       </mat-expansion-panel>
 
