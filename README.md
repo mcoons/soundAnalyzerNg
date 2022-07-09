@@ -20,7 +20,7 @@ I have an extensive MP3 collection dating back decades and repeated changes with
 
 ## Current Issues
 
-* The CPU/GPU power necessary makes it hard for most mobile devices so it is currently not very mobile friendly.
+* The CPU/GPU power currently necessary makes it hard for most mobile devices so it is currently not very mobile friendly.  Need to minimize calculations and sample a smaller dataset.
 
 ## Future Additions/Fixes when I get time
 
